@@ -1,0 +1,30 @@
+Package: metalite.sl
+Title: Subject-level Analysis Using 'metalite'
+Version: 0.1.0
+Authors@R:c(
+    person("Benjamin", "Wang", email = "benjamin.wang@merck.com", role = c("aut", "cre")),
+    person("Yujie", "Zhao", role = "aut"),
+    person("Hiroaki", "Fukuda", role = "aut"),
+    person("Jeetener", "Chauhan", role = "ctb"),
+    person("Merck Sharp & Dohme Corp", role = "cph")
+    )
+Description: Provide subject-level analysis.
+Depends: R (>= 4.1.0)
+License: GPL (>= 3)
+Imports:
+    r2rtf,
+    metalite,
+    metalite.ae,
+    reactable,
+    glue,
+    stringr
+Suggests:
+    dplyr,
+    testthat (>= 3.0.0),
+    tidyr,
+    knitr
+Encoding: UTF-8
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3
