@@ -1,6 +1,11 @@
-^LICENSE\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^.*\.groovy$
-^jenkins$
-^.merck\.yml$
+^data-raw$
+^_pkgdown\.yml$
+^pkgdown$
+^docs$
+^LICENSE$
+^LICENSES_THIRD_PARTY$
+^\.github$
+^codecov\.yml$
+^README\.Rmd$
