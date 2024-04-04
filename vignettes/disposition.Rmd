@@ -1,0 +1,142 @@
+---
+title: "Quick start"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 2
+    number_sections: true
+    highlight: "textmate"
+    css: "custom.css"
+# bibliography: "example.bib"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{What the Vignette Does (Title Case)}
+---
+
+```{r}
+library(metalite)
+library(metalite.sl)
+```
+
+# Build a metadata
+```{r}
+adsl <- r2rtf::r2rtf_adsl
+adsl$TRTA <- adsl$TRT01A
+adsl$TRTA <- factor(adsl$TRTA,
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
+)
+
+# Create a variable EOSSTT indicating the end of end of study status
+adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
+                      size = length(adsl$USUBJID), 
+                      prob = c(0.8, 0.2), replace = TRUE)
+# Create a variable EOTSTT1 indicating the end of treatment status part 1
+adsl$EOTSTT1 <- sample(x = c("Completed", "Discontinued"),
+                      size = length(adsl$USUBJID), 
+                      prob = c(0.85, 0.15), replace = TRUE)
+meta <- meta_adam(
+  population = adsl,
+  observation = adsl
+  ) |>
+  define_plan(plan = plan(
+    analysis = "base_char", population = "apat",
+    observation = "apat", parameter = "age;gender;race")
+  ) |>
+  define_plan(plan = plan(
+    analysis = "disp", population = "apat",
+    observation = "apat", parameter = "disposition;medical-disposition")
+  ) |>
+  define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = quote(SAFFL == "Y"),
+    var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1")
+  ) |>
+  define_observation(
+    name = "apat",
+    group = "TRTA",
+    subset = quote(SAFFL == "Y"),
+    var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
+  ) |>
+  define_parameter(
+    name = "age",
+    var = "AGE",
+    label = "Age (years)",
+    vargroup = "AGEGR1"
+  ) |>
+  define_parameter(
+    name = "gender",
+    var = "SEX",
+    label = "Gender"
+  ) |>
+  define_parameter(
+    name = "race",
+    var = "RACE",
+    label = "Race"
+  ) |>
+  define_parameter(
+    name = "disposition",
+    var = "EOSSTT",
+    label = "Trial Disposition"
+  ) |>
+  define_parameter(
+    name = "medical-disposition",
+    var = "EOTSTT1",
+    label = "Participant Study Medication Disposition"
+  ) |>
+  define_analysis(
+    name = "base_char",
+    title = "Participant Baseline Characteristics by Treatment Group",
+    label = "baseline characteristic table"
+  ) |>
+  define_analysis(
+    name = "disp",
+    title = "Disposition of Participant",
+    label = "disposition table"
+  ) |>
+  meta_build()
+```
+
+# Prepare the numbers
+```{r}
+outdata <- meta |>
+  prepare_disposition(
+    population = "apat",
+    observation = "apat",
+    analysis = "disp",
+    parameter = "disposition;medical-disposition"
+  )
+
+outdata
+#
+outdata$n
+outdata$char_n
+outdata$char_var
+outdata$char_prop
+```
+
+# Formate the numbers
+```{r, eval=FALSE}
+outdata <- outdata |> format_disposition(display_col = c("n", "prop", "total"), digits_prop = 2)
+
+outdata$tbl
+```
+
+```{r, eval=FALSE}
+outdata <- outdata |> format_disposition(display_col = c("n", "prop"), digits_prop = 3)
+
+outdata$tbl
+```
+
+# Output as rtf
+```{r, eval=FALSE}
+outdata |> rtf_base_char(
+  source = "Source: [CDISCpilot: adam-adsl]",
+  path_outdata = file.path(tempdir(), "base0char111.rtf"),
+  path_outtable = tempfile(fileext = ".Rdata")
+)
+```
+
+# References
