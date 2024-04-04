@@ -1,5 +1,5 @@
 ---
-title: "Quick start"
+title: "Disposition Table"
 output:
   rmarkdown::html_document:
     toc: true
