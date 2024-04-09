@@ -17,9 +17,11 @@ react_base_char(
 )
 }
 \arguments{
-\item{metadata_sl}{A metadata created by \link{metalite}, which builds the baseline characteristic table}
+\item{metadata_sl}{A metadata created by \link{metalite},
+which builds the baseline characteristic table}
 
-\item{metadata_ae}{A metadata created by \link{metalite}, which builds the AE subgroup specific table}
+\item{metadata_ae}{A metadata created by \link{metalite},
+which builds the AE subgroup specific table}
 
 \item{population}{A character value of population term name.
 The term name is used as key to link information.}
@@ -29,17 +31,20 @@ The term name is used as key to link information.}
 
 \item{display_total}{Display total column or not.}
 
-\item{sl_parameter}{A character value of parameter term name for  the baseline characteristic table.
+\item{sl_parameter}{A character value of parameter term name for
+the baseline characteristic table.
 The term name is used as key to link information.}
 
-\item{ae_subgroup}{A vector of strubf to specify the subgroups in the AE subgroup specific table}
+\item{ae_subgroup}{A vector of strubf to specify the subgroups
+in the AE subgroup specific table.}
 
-\item{ae_specific}{A string specifying the AE specific category}
+\item{ae_specific}{A string specifying the AE specific category.}
 
 \item{width}{A numeric value of width of the table in pixels.}
 }
 \value{
-An reactable combing both baseline characteristic table and AE subgroup specific tables
+An reactable combing both baseline characteristic table
+and AE subgroup specific tables.
 }
 \description{
 Display interactive baseline characteristic tables with AE subgroup analysis

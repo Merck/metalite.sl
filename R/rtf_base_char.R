@@ -46,16 +46,17 @@
 #'     path_outdata = tempfile(fileext = ".Rdata"),
 #'     path_outtable = tempfile(fileext = ".rtf")
 #'   )
-rtf_base_char <- function(outdata,
-                          source,
-                          col_rel_width = NULL,
-                          text_font_size = 9,
-                          orientation = "portrait",
-                          footnotes = NULL,
-                          title = NULL,
-                          path_outdata = NULL,
-                          path_outtable = NULL) {
-  # set default column width
+rtf_base_char <- function(
+    outdata,
+    source,
+    col_rel_width = NULL,
+    text_font_size = 9,
+    orientation = "portrait",
+    footnotes = NULL,
+    title = NULL,
+    path_outdata = NULL,
+    path_outtable = NULL) {
+  # Set default column width
   tbl <- outdata$tbl
   display_total <- "total" %in% outdata$display_col
   if (display_total == TRUE) {
@@ -78,7 +79,7 @@ rtf_base_char <- function(outdata,
     )
   }
 
-  # set default title
+  # Set default title
   if (is.null(title)) {
     title <- metalite::collect_title(outdata$meta,
       outdata$population,
@@ -88,7 +89,7 @@ rtf_base_char <- function(outdata,
     )
   }
 
-  # set default footnote
+  # Set default footnote
   footnotes_stat <- NULL
   if ("numeric" %in% outdata$var_type) {
     if ("sd" %in% tolower(outdata$display_stat)) {
@@ -112,13 +113,13 @@ rtf_base_char <- function(outdata,
     }
   }
 
-  # set column header
+  # Set column header
   colheader <- c(
     paste0(" | ", paste(group, collapse = " | ")),
     paste0(" | ", paste(rep("n | (%)", n_group), collapse = " | "))
   )
 
-  # set relative width
+  # Set relative width
   if (is.null(col_rel_width)) {
     rel_width_body <- c(3, rep(1, 2 * n_group), 1)
   } else {
@@ -133,7 +134,7 @@ rtf_base_char <- function(outdata,
     rel_width_head2[-(1:(n_group * 2 + 1))]
   )
 
-  # column boarder
+  # Column boarder
   border_top <- c("", rep("single", n_group * 2))
   border_top_body <- c(rep("", n_col - 1), "single")
   border_bottom <- c(rep("", n_col - 1), "single")
@@ -142,13 +143,13 @@ rtf_base_char <- function(outdata,
 
   text_format <- c(rep("", 1 + n_group * 2), "b")
 
-  # using order number to customize row format
+  # Using order number to customize row format
   text_justification <- c("l", rep("c", n_group * 2), "l")
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)
   text_indent[, 1] <- ifelse(FALSE, 0, 100)
   text_indent[1, 1] <- 0
 
-  # use r2rtf
+  # Use r2rtf
   outdata$rtf <- tbl |>
     r2rtf::rtf_page(orientation = orientation) |>
     r2rtf::rtf_title(title) |>
