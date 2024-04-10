@@ -38,17 +38,15 @@
 #' meta |>
 #'   prepare_base_char()
 prepare_base_char <- function(meta,
-                              population = "apat",
-                              observation = "wk12",
                               analysis = "base_char",
-                              parameter = paste(names(meta$parameter), collapse = ";")) {
+                              population = meta$plan[meta$plan$analysis==analysis,]$population,
+                              observation = meta$plan[meta$plan$analysis==analysis,]$observation,
+                              parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";"),
+                              display_total = TRUE) {
+  
   parameters <- unlist(strsplit(parameter, ";"))
 
-  # obtain variables
-  pop_var <- metalite::collect_adam_mapping(meta, population)$var
-  obs_var <- metalite::collect_adam_mapping(meta, observation)$var
-  par_var <- metalite::collect_adam_mapping(meta, parameter)$var
-
+  #obtain group and id
   pop_group <- metalite::collect_adam_mapping(meta, population)$group
   obs_group <- metalite::collect_adam_mapping(meta, observation)$group
 
@@ -56,8 +54,8 @@ prepare_base_char <- function(meta,
   obs_id <- metalite::collect_adam_mapping(meta, observation)$id
 
   # obtain data
-  pop <- metalite::collect_population_record(meta, population, var = pop_var)
-
+  pop <- metalite::collect_population_record(meta, population)
+  
   # obtain group names
   group <- unique(pop[[pop_group]])
 
@@ -67,35 +65,35 @@ prepare_base_char <- function(meta,
     c,
     lapply(
       factor(names(n_pop), levels = levels(pop[[pop_group]])) |> as.numeric(),
-      function(x) {
-        paste0("n_", x)
-      }
+      function(x) paste0("n_", x)
     )
   )
-  n_pop$n_9999 <- sum(n_pop[1, ])
-  n_pop$name <- "Participants in population"
-  n_pop <- n_pop[, c(length(group) + 2, 1:(length(group) + 1))]
-  n_pop$var_label <- "-----"
-
+  
+  if (display_total){
+    n_pop$n_9999 <- sum(n_pop[1, ])
+    n_pop$name <- "Participants in population"
+    n_pop <- n_pop[, c(length(group) + 2, 1:(length(group) + 1))]
+    n_pop$var_label <- "-----"
+  }
+  
   # get the baseline characteristics variables in adsl
-  # char_var <- collect_adam_mapping(meta, analysis)$var_name
   char_var <- do.call(c, lapply(parameters, function(x) {
     metalite::collect_adam_mapping(meta, x)$var
   }))
 
   # get the baseline characteristics counts
   char_n <- lapply(parameters, function(x) {
-    collect_baseline(meta, population, x)[[2]]
+    collect_baseline(meta, population, x, display_total = display_total)[[2]]
   })
 
   # get the baseline characteristics propositions
   char_prop <- lapply(parameters, function(x) {
-    collect_baseline(meta, population, x)[[3]]
+    collect_baseline(meta, population, x, display_total = display_total)[[3]]
   })
 
   # Get the variable date type
   var_type <- lapply(parameters, function(x) {
-    collect_baseline(meta, population, x)[[4]]
+    collect_baseline(meta, population, x, display_total = display_total)[[4]]
   })
 
   ans <- metalite::outdata(
