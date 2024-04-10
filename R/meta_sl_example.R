@@ -27,33 +27,41 @@
 #'
 #' @examples
 #' meta_sl_example()
-meta_sl_example <- function() {
+
+meta_sl_example <- function( type = c('char', 'comp')[1]) {
+  if (type=='char') return(meta_sl_example_char())
+  if (type=='comp') return(meta_sl_example_comp())
+}
+
+meta_sl_example_char <- function() {
   adsl <- r2rtf::r2rtf_adsl
   adsl$TRTA <- adsl$TRT01A
   adsl$TRTA <- factor(adsl$TRTA,
     levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
     labels = c("Placebo", "Low Dose", "High Dose")
   )
-
+  
   meta <- metalite::meta_adam(
     population = adsl,
     observation = adsl
   ) |>
     metalite::define_plan(plan = metalite::plan(
-      analysis = "base_char", population = "apat",
-      observation = "apat", parameter = "age;gender;race"
+      analysis = "base_char", 
+      population = "apr",
+      observation = "apr", 
+      parameter = "age;gender;race"
     )) |>
     metalite::define_population(
-      name = "apat",
+      name = "apr",
       group = "TRTA",
-      subset = quote(SAFFL == "Y"),
-      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
+      subset = quote(ITTFL == "Y"),
+      label = "All Participants Randomized"
     ) |>
     metalite::define_observation(
-      name = "apat",
+      name = "apr",
       group = "TRTA",
-      subset = quote(SAFFL == "Y"),
-      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
+      subset = quote(ITTFL == "Y"),
+      label = "All Participants Randomized"
     ) |>
     metalite::define_parameter(
       name = "age",
@@ -74,8 +82,57 @@ meta_sl_example <- function() {
     metalite::define_analysis(
       name = "base_char",
       title = "Participant Baseline Characteristics by Treatment Group",
-      label = "baseline characteristic table",
-      var_name = c("AGEGR1", "SEX")
+      label = "baseline characteristic table"
+      #var_name = c("AGEGR1", "SEX")
+    ) |>
+    metalite::meta_build()
+}
+
+meta_sl_example_comp <- function(){
+  adsl <- r2rtf::r2rtf_adsl
+  adsl$TRTA <- adsl$TRT01A
+  adsl$TRTA <- factor(adsl$TRTA,
+                      levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+                      labels = c("Placebo", "Low Dose", "High Dose")
+  )
+  
+  meta <- metalite::meta_adam(
+    population = adsl,
+    observation = adsl
+  ) |>
+    metalite::define_plan(plan = metalite::plan(
+      analysis = "trt_compliance", population = "apr",
+      observation = "apr", parameter = "comp8;comp16;comp24"
+    )) |>
+    metalite::define_population(
+      name = "apr",
+      group = "TRTA",
+      subset = quote(ITTFL == "Y")
+    ) |>
+    metalite::define_observation(
+      name = "apr",
+      group = "TRTA",
+      subset = quote(ITTFL == "Y")
+    ) |>
+    metalite::define_parameter(
+      name = "comp8",
+      var = "COMP8FL",
+      label = "Compliance (Week 8)",
+    ) |>
+    metalite::define_parameter(
+      name = "comp16",
+      var = "COMP16FL",
+      label = "Compliance (Week 16)",
+    ) |>
+    metalite::define_parameter(
+      name = "comp24",
+      var = "COMP24FL",
+      label = "Compliance (Week 24)",
+    ) |>
+    metalite::define_analysis(
+      name = "trt_compliance",
+      title = "Summary of Treatment Compliance",
+      label = "treatment compliance table"
     ) |>
     metalite::meta_build()
 }
