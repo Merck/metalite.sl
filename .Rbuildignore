@@ -1,11 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^data-raw$
+
 ^_pkgdown\.yml$
 ^pkgdown$
 ^docs$
-^LICENSE$
-^LICENSES_THIRD_PARTY$
+^LICENSE\.md$
+^LICENSE_THIRD_PARTY\.md$
 ^\.github$
-^codecov\.yml$
-^README\.Rmd$

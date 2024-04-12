@@ -14,12 +14,14 @@ format_base_char(
 \arguments{
 \item{outdata}{A metadata object created by \code{\link[=prepare_base_char]{prepare_base_char()}}.}
 
-\item{display_col}{Column wants to display on the table. Term could be selected from \code{c("n", "prop", "total")}.}
+\item{display_col}{Column wants to display on the table.
+The term could be selected from \code{c("n", "prop", "total")}.}
 
 \item{digits_prop}{Number of digits for proportion columns.}
 
 \item{display_stat}{A vector of statistics term name.
-The term name could be selected from c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max").}
+The term name could be selected from
+\code{c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max")}.}
 }
 \value{
 A list of analysis raw datasets.

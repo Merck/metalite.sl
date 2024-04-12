@@ -1,5 +1,5 @@
 ---
-title: "Quick start"
+title: "Getting Started with metalite.sl"
 output:
   rmarkdown::html_document:
     toc: true
@@ -8,10 +8,9 @@ output:
     number_sections: true
     highlight: "textmate"
     css: "custom.css"
-# bibliography: "example.bib"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{What the Vignette Does (Title Case)}
+  %\VignetteIndexEntry{Getting Started with metalite.sl}
 ---
 
 ```{r}
@@ -73,6 +72,7 @@ meta <- meta_adam(
 ```
 
 # Prepare the numbers
+
 ```{r}
 outdata <- meta |>
   prepare_base_char(
@@ -83,14 +83,15 @@ outdata <- meta |>
   )
 
 outdata
-#
+
 outdata$n
 outdata$char_n
 outdata$char_var
 outdata$char_prop
 ```
 
-# Formate the numbers
+# Format the numbers
+
 ```{r}
 outdata <- outdata |> format_base_char(display_col = c("n", "prop", "total"), digits_prop = 2)
 
@@ -103,7 +104,8 @@ outdata <- outdata |> format_base_char(display_col = c("n", "prop"), digits_prop
 outdata$tbl
 ```
 
-# Output as rtf
+# Output as RTF
+
 ```{r}
 outdata |> rtf_base_char(
   source = "Source: [CDISCpilot: adam-adsl]",
@@ -111,5 +113,3 @@ outdata |> rtf_base_char(
   path_outtable = tempfile(fileext = ".Rdata")
 )
 ```
-
-# References
