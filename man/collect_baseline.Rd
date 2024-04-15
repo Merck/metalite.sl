@@ -38,9 +38,8 @@ Count number of subjects
 }
 \examples{
 meta <- meta_sl_example()
-meta |>
-  collect_baseline(
-    population = "apat",
-    parameter = "age"
-  )
+meta |> collect_baseline(
+  population = "apat",
+  parameter = "age"
+)
 }

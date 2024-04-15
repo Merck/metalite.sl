@@ -12,19 +12,19 @@ Description: Provide subject-level analysis.
 Depends: R (>= 4.1.0)
 License: GPL (>= 3)
 Imports:
-    r2rtf,
+    glue,
     metalite,
     metalite.ae,
+    r2rtf,
     reactable,
-    glue,
     stringr
 Suggests:
     dplyr,
+    knitr,
     testthat (>= 3.0.0),
-    tidyr,
-    knitr
-Encoding: UTF-8
+    tidyr
 VignetteBuilder: knitr
+Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3

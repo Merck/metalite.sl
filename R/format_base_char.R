@@ -19,10 +19,12 @@
 #' Prepare data for baseline characteristic table
 #'
 #' @param outdata A metadata object created by [prepare_base_char()].
-#' @param display_col Column wants to display on the table. Term could be selected from `c("n", "prop", "total")`.
+#' @param display_col Column wants to display on the table.
+#'   The term could be selected from `c("n", "prop", "total")`.
 #' @param digits_prop Number of digits for proportion columns.
 #' @param display_stat A vector of statistics term name.
-#'   The term name could be selected from c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max").
+#'   The term name could be selected from
+#'   `c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max")`.
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -34,10 +36,11 @@
 #' meta |>
 #'   prepare_base_char(parameter = "age;gender") |>
 #'   format_base_char()
-format_base_char <- function(outdata,
-                             display_col = c("n", "prop", "total"),
-                             digits_prop = 1,
-                             display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")) {
+format_base_char <- function(
+    outdata,
+    display_col = c("n", "prop", "total"),
+    digits_prop = 1,
+    display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")) {
   n_group <- length(outdata$group_label)
 
   # Select statistics want to display
@@ -56,7 +59,7 @@ format_base_char <- function(outdata,
     }
   }
 
-  # create output
+  # Create output
   tbl <- list()
 
   if ("n" %in% display_col) {
@@ -109,10 +112,10 @@ format_base_char <- function(outdata,
     (1 + n_group + ifelse("total" %in% display_col, 1, 0) + 1)
   )]
 
-
   rownames(within_tbl) <- NULL
   outdata$tbl <- within_tbl
   outdata$display_col <- display_col
   outdata$display_stat <- display_stat
+
   return(outdata)
 }

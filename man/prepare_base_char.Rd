@@ -35,7 +35,5 @@ Prepare data for baseline characteristic table
 }
 \examples{
 meta <- meta_sl_example()
-
-meta |>
-  prepare_base_char()
+meta |> prepare_base_char()
 }
