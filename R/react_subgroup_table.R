@@ -18,15 +18,16 @@
 
 #' Create interactive table for a subgroup
 #'
-#' @param tbl Tibble to create reactable
-#' @param group Treatment group label
-#' @param subgroup_name Subgroup label
+#' @param tbl A tibble to create reactable.
+#' @param group Treatment group label.
+#' @param subgroup_name Subgroup label.
 #'
-#' @return A reactable combing both baseline characteristic table
-#' and AE subgroup specific tables for a subgroup
-react_subgroup_table <- function(tbl,
-                                 group,
-                                 subgroup_name) {
+#' @return A reactable combining both baseline characteristic table
+#'   and AE subgroup specific tables for a subgroup.
+react_subgroup_table <- function(
+    tbl,
+    group,
+    subgroup_name) {
   names(tbl) <- tolower(names(tbl))
   subgroup_name <- tolower(subgroup_name)
   race_columns <- grep(tolower(subgroup_name), tolower(names(tbl)), value = TRUE)
@@ -80,7 +81,7 @@ react_subgroup_table <- function(tbl,
   )
 }
 
-# Borrow from metalite.ae
+# Borrowed from metalite.ae
 #' Format AE specific analysis
 #'
 #' @inheritParams metalite.ae::format_ae_specific

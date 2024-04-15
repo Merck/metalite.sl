@@ -1,5 +1,5 @@
 ---
-title: "Build an interactive baseline characteristic table"
+title: "Build an Interactive Baseline Characteristic Table"
 output:
   rmarkdown::html_document:
     toc: true
@@ -9,10 +9,9 @@ output:
     code_fold: hide
     highlight: "textmate"
     css: "custom.css"
-# bibliography: "example.bib"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Build an interactive baseline characteristic table}
+  %\VignetteIndexEntry{Build an Interactive Baseline Characteristic Table}
 ---
 
 ```{r, message=FALSE}
@@ -22,15 +21,17 @@ library(metalite.ae)
 library(metalite.sl)
 ```
 
-There are 2 key metadata:
-+ a metadata for the baseline characteristic table
-+ a metadata for the AE subgroup specific table
+There are 2 key metadata types:
+
+- metadata for the baseline characteristic table
+- metadata for the AE subgroup specific table
 
 # Build metadata {.tabset}
 
-## Metadata for baseline characteristic table 
+## Metadata for baseline characteristic table
 
 The code below is the same as `meta_sl_example()`.
+
 ```{r}
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
@@ -86,6 +87,7 @@ meta <- meta_adam(
 ## A metadata of the AE subgroup specific analysis
 
 In this vignette, we will directly use the metadata built by `meta_ae_example()`.
+
 ```{r}
 meta_ae <- meta_ae_example()
 ```
@@ -93,6 +95,7 @@ meta_ae <- meta_ae_example()
 # Build a reactable {.tabset}
 
 ## Baseline characteristic table + Participants With Drug-Related AE
+
 ```{r, eval = FALSE}
 react_base_char(
   metadata_sl = meta,
@@ -103,8 +106,8 @@ react_base_char(
 )
 ```
 
-
 ## Baseline characteristic table + Participants With Serious AE
+
 ```{r, eval=FALSE}
 react_base_char(
   metadata_sl = meta,
