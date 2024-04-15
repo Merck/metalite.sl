@@ -18,6 +18,9 @@ prepare_disposition(
 \item{population}{A character value of population term name.
 The term name is used as key to link information.}
 
+\item{observation}{A character value of observation term name.
+The term name is used as key to link information.}
+
 \item{analysis}{A character value of analysis term name.
 The term name is used as key to link information.}
 
