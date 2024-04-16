@@ -44,27 +44,33 @@ prepare_base_char <- function(
     display_total = TRUE) {
 
   parameters <- unlist(strsplit(parameter, ";"))
-
-  #obtain group and id
+  
+  # obtain variables
+  pop_var <- metalite::collect_adam_mapping(meta, population)$var
+  obs_var <- metalite::collect_adam_mapping(meta, observation)$var
+  par_var <- metalite::collect_adam_mapping(meta, parameter)$var
+  
   pop_group <- metalite::collect_adam_mapping(meta, population)$group
   obs_group <- metalite::collect_adam_mapping(meta, observation)$group
-
+  
   pop_id <- metalite::collect_adam_mapping(meta, population)$id
   obs_id <- metalite::collect_adam_mapping(meta, observation)$id
-
+  
   # obtain data
-  pop <- metalite::collect_population_record(meta, population)
+  pop <- metalite::collect_population_record(meta, population, var = pop_var)
   
   # obtain group names
   group <- unique(pop[[pop_group]])
-
+  
   # count the number of subjects in each arms
   n_pop <- metalite::n_subject(id = pop[[pop_id]], group = pop[[pop_group]])
   names(n_pop) <- do.call(
     c,
     lapply(
       factor(names(n_pop), levels = levels(pop[[pop_group]])) |> as.numeric(),
-      function(x) paste0("n_", x)
+      function(x) {
+        paste0("n_", x)
+      }
     )
   )
   
