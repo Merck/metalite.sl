@@ -193,5 +193,5 @@ rtf_base_char <- function(
   }
 
   # Prepare output
-  metalite.ae:::rtf_output(outdata, path_outdata, path_outtable)
+  rtf_output(outdata, path_outdata, path_outtable)
 }
