@@ -27,6 +27,7 @@
 #'   The term name is used as key to link information.
 #' @param parameter A character value of parameter term name.
 #'   The term name is used as key to link information.
+#' @param display_total A logic value of displaying the total group.
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -34,9 +35,7 @@
 #'
 #' @examples
 #' meta <- meta_sl_example(type="comp")
-#'
-#' meta |>
-#'   prepare_trt_compliance()
+#' meta |> prepare_trt_compliance()
 prepare_trt_compliance <- function(meta,
                                    analysis = "trt_compliance",
                                    population = meta$plan[meta$plan$analysis==analysis,]$population,

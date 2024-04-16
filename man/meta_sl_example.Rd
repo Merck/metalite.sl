@@ -4,7 +4,12 @@
 \alias{meta_sl_example}
 \title{Create an example \code{meta_sl_example} object}
 \usage{
-meta_sl_example()
+meta_sl_example(type = c("char", "comp")[1])
+}
+\arguments{
+\item{type}{A character value of the type of the example.
+"char": meta for baseline characteristic table.
+"comp": meta for treatment compliance table.}
 }
 \value{
 A metadata object.

@@ -20,7 +20,11 @@
 #'
 #' This function is only for illustration purpose.
 #' r2rtf is required.
-#'
+#' 
+#' @param type A character value of the type of the example.
+#'   "char": meta for baseline characteristic table.
+#'   "comp": meta for treatment compliance table.
+#' 
 #' @return A metadata object.
 #'
 #' @export
@@ -113,18 +117,20 @@ meta_sl_example_comp <- function(){
     observation = adsl
   ) |>
     metalite::define_plan(plan = metalite::plan(
-      analysis = "trt_compliance", population = "apr",
-      observation = "apr", parameter = "comp8;comp16;comp24"
+      analysis = "trt_compliance", population = "apat",
+      observation = "apat", parameter = "comp8;comp16;comp24"
     )) |>
     metalite::define_population(
-      name = "apr",
+      name = "apat",
       group = "TRTA",
-      subset = quote(ITTFL == "Y")
+      subset = quote(SAFFL == "Y"),
+      label = "All Participants as Treated"
     ) |>
     metalite::define_observation(
-      name = "apr",
+      name = "apat",
       group = "TRTA",
-      subset = quote(ITTFL == "Y")
+      subset = quote(SAFFL == "Y"),
+      label = "All Participants as Treated"
     ) |>
     metalite::define_parameter(
       name = "comp8",

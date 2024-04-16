@@ -6,10 +6,11 @@
 \usage{
 prepare_base_char(
   meta,
-  population = "apat",
-  observation = "wk12",
+  population = "apr",
+  observation = "apr",
   analysis = "base_char",
-  parameter = paste(names(meta$parameter), collapse = ";")
+  parameter = paste(names(meta$parameter), collapse = ";"),
+  display_total = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ The term name is used as key to link information.}
 
 \item{parameter}{A character value of parameter term name.
 The term name is used as key to link information.}
+
+\item{display_total}{A logic value of displaying the total group.}
 }
 \value{
 A list of analysis raw datasets.

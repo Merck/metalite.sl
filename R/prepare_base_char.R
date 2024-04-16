@@ -27,6 +27,7 @@
 #'   The term name is used as key to link information.
 #' @param parameter A character value of parameter term name.
 #'   The term name is used as key to link information.
+#' @param display_total A logic value of displaying the total group.
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -38,7 +39,7 @@
 prepare_base_char <- function(
     meta,
     population = "apr",
-    observation = "wk12",
+    observation = "apr",
     analysis = "base_char",
     parameter = paste(names(meta$parameter), collapse = ";"),
     display_total = TRUE) {
