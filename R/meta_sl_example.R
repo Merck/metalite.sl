@@ -57,11 +57,23 @@ meta_sl_example_char <- function() {
       subset = quote(ITTFL == "Y"),
       label = "All Participants Randomized"
     ) |>
+    metalite::define_population(
+      name = "apat",
+      group = "TRTA",
+      subset = quote(SAFFL == "Y"),
+      label = "All Participants as Treated"
+    ) |>
     metalite::define_observation(
       name = "apr",
       group = "TRTA",
       subset = quote(ITTFL == "Y"),
       label = "All Participants Randomized"
+    ) |>
+    metalite::define_observation(
+      name = "apat",
+      group = "TRTA",
+      subset = quote(SAFFL == "Y"),
+      label = "All Participants as Treated"
     ) |>
     metalite::define_parameter(
       name = "age",
