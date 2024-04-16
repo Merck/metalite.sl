@@ -7,15 +7,15 @@
 react_subgroup_table(tbl, group, subgroup_name)
 }
 \arguments{
-\item{tbl}{Tibble to create reactable}
+\item{tbl}{A tibble to create reactable.}
 
-\item{group}{Treatment group label}
+\item{group}{Treatment group label.}
 
-\item{subgroup_name}{Subgroup label}
+\item{subgroup_name}{Subgroup label.}
 }
 \value{
-A reactable combing both baseline characteristic table
-and AE subgroup specific tables for a subgroup
+A reactable combining both baseline characteristic table
+and AE subgroup specific tables for a subgroup.
 }
 \description{
 Create interactive table for a subgroup

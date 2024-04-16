@@ -34,16 +34,15 @@
 #'
 #' @examples
 #' meta <- meta_sl_example()
-#'
-#' meta |>
-#'   prepare_base_char()
-prepare_base_char <- function(meta,
-                              analysis = "base_char",
-                              population = meta$plan[meta$plan$analysis==analysis,]$population,
-                              observation = meta$plan[meta$plan$analysis==analysis,]$observation,
-                              parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";"),
-                              display_total = TRUE) {
-  
+#' meta |> prepare_base_char()
+prepare_base_char <- function(
+    meta,
+    population = "apat",
+    observation = "wk12",
+    analysis = "base_char",
+    parameter = paste(names(meta$parameter), collapse = ";"),
+    display_total = TRUE) {
+
   parameters <- unlist(strsplit(parameter, ";"))
 
   #obtain group and id
@@ -77,16 +76,17 @@ prepare_base_char <- function(meta,
   }
   
   # get the baseline characteristics variables in adsl
+
   char_var <- do.call(c, lapply(parameters, function(x) {
     metalite::collect_adam_mapping(meta, x)$var
   }))
 
-  # get the baseline characteristics counts
+  # Get the baseline characteristics counts
   char_n <- lapply(parameters, function(x) {
     collect_baseline(meta, population, x, display_total = display_total)[[2]]
   })
 
-  # get the baseline characteristics propositions
+  # Get the baseline characteristics propositions
   char_prop <- lapply(parameters, function(x) {
     collect_baseline(meta, population, x, display_total = display_total)[[3]]
   })

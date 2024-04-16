@@ -33,17 +33,17 @@
 #'
 #' @examples
 #' meta <- meta_sl_example()
-#' meta |>
-#'   collect_baseline(
-#'     population = "apat",
-#'     parameter = "age"
-#'   )
-collect_baseline <- function(meta,
-                             population,
-                             parameter,
-                             type = "Subjects",
-                             use_na = c("ifany", "no", "always"),
-                             display_total = TRUE) {
+#' meta |> collect_baseline(
+#'   population = "apat",
+#'   parameter = "age"
+#' )
+collect_baseline <- function(
+    meta,
+    population,
+    parameter,
+    type = "Subjects",
+    use_na = c("ifany", "no", "always"),
+    display_total = TRUE) {
   use_na <- match.arg(use_na)
 
   title <- c(
