@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   interactive-baseline: interactive-baseline.html
   metalite-sl: metalite-sl.html
-last_built: 2024-04-12T18:01Z
+last_built: 2024-04-16T15:19Z
 urls:
   reference: https://merck.github.io/metalite.sl/reference
   article: https://merck.github.io/metalite.sl/articles
