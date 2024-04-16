@@ -37,7 +37,7 @@
 #' meta |> prepare_base_char()
 prepare_base_char <- function(
     meta,
-    population = "apat",
+    population = "apr",
     observation = "wk12",
     analysis = "base_char",
     parameter = paste(names(meta$parameter), collapse = ";"),
