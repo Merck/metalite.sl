@@ -21,7 +21,7 @@
 #' This function is only for illustration purpose.
 #' r2rtf is required.
 #' 
-#' @param type A character value of the type of the example.
+#' @param type A character value specifying the type of meta example.
 #'   "char": meta for baseline characteristic table.
 #'   "comp": meta for treatment compliance table.
 #' 

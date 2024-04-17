@@ -7,7 +7,7 @@
 meta_sl_example(type = c("char", "comp")[1])
 }
 \arguments{
-\item{type}{A character value of the type of the example.
+\item{type}{A character value specifying the type of meta example.
 "char": meta for baseline characteristic table.
 "comp": meta for treatment compliance table.}
 }
