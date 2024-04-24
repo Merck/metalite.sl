@@ -1,10 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.0.8
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   interactive-baseline: interactive-baseline.html
   metalite-sl: metalite-sl.html
-last_built: 2024-04-16T18:45Z
+last_built: 2024-04-24T15:19Z
 urls:
   reference: https://merck.github.io/metalite.sl/reference
   article: https://merck.github.io/metalite.sl/articles
