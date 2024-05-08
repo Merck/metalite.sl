@@ -96,7 +96,7 @@ meta_ae <- meta_ae_example()
 
 ## Baseline characteristic table + Participants With Drug-Related AE
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 react_base_char(
   metadata_sl = meta,
   metadata_ae = meta_ae,
@@ -108,7 +108,7 @@ react_base_char(
 
 ## Baseline characteristic table + Participants With Serious AE
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 react_base_char(
   metadata_sl = meta,
   metadata_ae = meta_ae,
