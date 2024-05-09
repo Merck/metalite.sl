@@ -75,7 +75,7 @@ meta <- meta_adam(
 
 ```{r}
 outdata <- meta |>
-  prepare_base_char(
+  prepare_sl_summary(
     population = "apat",
     observation = "wk12",
     analysis = "base_char",

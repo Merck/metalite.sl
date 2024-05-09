@@ -34,8 +34,8 @@
 #'
 #' @examples
 #' meta <- meta_sl_example()
-#' meta |> prepare_base_char()
-prepare_base_char <- function(
+#' meta |> prepare_sl_summary()
+prepare_sl_summary <- function(
     meta,
     population = "apat",
     observation = "wk12",

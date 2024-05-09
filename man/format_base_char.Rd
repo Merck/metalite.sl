@@ -12,7 +12,7 @@ format_base_char(
 )
 }
 \arguments{
-\item{outdata}{A metadata object created by \code{\link[=prepare_base_char]{prepare_base_char()}}.}
+\item{outdata}{A metadata object created by \code{\link[=prepare_sl_summary]{prepare_sl_summary()}}.}
 
 \item{display_col}{Column wants to display on the table.
 The term could be selected from \code{c("n", "prop", "total")}.}
@@ -33,6 +33,6 @@ Prepare data for baseline characteristic table
 meta <- meta_sl_example()
 
 meta |>
-  prepare_base_char(parameter = "age;gender") |>
+  prepare_sl_summary(parameter = "age;gender") |>
   format_base_char()
 }

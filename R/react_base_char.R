@@ -78,7 +78,7 @@ react_base_char <- function(
   #   prepare the baseline char table numbers #
   # ----------------------------------------- #
   x_sl <- metadata_sl |>
-    prepare_base_char(
+    prepare_sl_summary(
       population = population,
       observation = population,
       analysis = "base_char",

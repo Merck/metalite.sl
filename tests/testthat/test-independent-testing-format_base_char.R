@@ -61,7 +61,7 @@ test_meta_base_char <- meta_adam(
     title = "Participant Baseline Characteristics by Treatment Group",
     var_name = c("AGEGR1", "AGE", "RACE", "SEX")
   ) |>
-  prepare_base_char(
+  prepare_sl_summary(
     population = "apat",
     observation = "apat",
     analysis = "base_char",

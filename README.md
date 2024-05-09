@@ -16,7 +16,7 @@ inputs and outputs.
 The general workflow is:
 
 1. Define metadata information using metalite.
-2. `prepare_base_char()` prepares datasets for summary of baseline characteristics.
+2. `prepare_sl_summary()` prepares datasets for summary of baseline characteristics.
 3. `format_base_char()` formats output layout.
 4. `rtf_base_char()` creates TLFs.
 
@@ -26,7 +26,7 @@ Here is a quick example
 library("metalite.sl")
 
 meta_sl_example() |>
-  prepare_base_char(
+  prepare_sl_summary(
     population = "apat",
     observation = "apat",
     parameter = "age;gender"

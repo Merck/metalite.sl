@@ -17,7 +17,7 @@ rtf_base_char(
 )
 }
 \arguments{
-\item{outdata}{An \code{outdata} object created by \code{\link[=prepare_base_char]{prepare_base_char()}}.}
+\item{outdata}{An \code{outdata} object created by \code{\link[=prepare_sl_summary]{prepare_sl_summary()}}.}
 
 \item{source}{A character value of the data source.}
 
@@ -48,7 +48,7 @@ Baseline characteristic table
 meta <- meta_sl_example()
 
 meta |>
-  prepare_base_char(
+  prepare_sl_summary(
     population = "apat",
     observation = "apat",
     parameter = "age;gender"

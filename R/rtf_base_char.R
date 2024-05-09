@@ -18,7 +18,7 @@
 
 #' Baseline characteristic table
 #'
-#' @param outdata An `outdata` object created by [prepare_base_char()].
+#' @param outdata An `outdata` object created by [prepare_sl_summary()].
 #' @param source A character value of the data source.
 #' @inheritParams r2rtf::rtf_page
 #' @inheritParams r2rtf::rtf_body
@@ -35,7 +35,7 @@
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_base_char(
+#'   prepare_sl_summary(
 #'     population = "apat",
 #'     observation = "apat",
 #'     parameter = "age;gender"

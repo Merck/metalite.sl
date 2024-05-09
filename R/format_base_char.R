@@ -18,7 +18,7 @@
 
 #' Prepare data for baseline characteristic table
 #'
-#' @param outdata A metadata object created by [prepare_base_char()].
+#' @param outdata A metadata object created by [prepare_sl_summary()].
 #' @param display_col Column wants to display on the table.
 #'   The term could be selected from `c("n", "prop", "total")`.
 #' @param digits_prop Number of digits for proportion columns.
@@ -34,7 +34,7 @@
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_base_char(parameter = "age;gender") |>
+#'   prepare_sl_summary(parameter = "age;gender") |>
 #'   format_base_char()
 format_base_char <- function(
     outdata,
