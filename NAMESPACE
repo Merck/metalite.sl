@@ -3,6 +3,7 @@
 export(collect_baseline)
 export(defmt_pct)
 export(format_base_char)
+export(meta_sl)
 export(meta_sl_example)
 export(prepare_base_char)
 export(react_base_char)
