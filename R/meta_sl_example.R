@@ -34,20 +34,32 @@ meta_sl_example <- function() {
     levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
     labels = c("Placebo", "Low Dose", "High Dose")
   )
-
+  
+  plan <- metalite::plan(
+    analysis = "base_char", population = "apr",
+    observation = "apr", parameter = "age;gender;race"
+    ) |>
+    metalite::add_plan(
+      analysis = "trt_compliance", population = "apat",
+      observation = "apat", parameter = "comp8;comp16;comp24"
+    )
+    
   meta <- metalite::meta_adam(
     population = adsl,
     observation = adsl
   ) |>
-    metalite::define_plan(plan = metalite::plan(
-      analysis = "base_char", population = "apat",
-      observation = "apat", parameter = "age;gender;race"
-    )) |>
+    metalite::define_plan(plan) |>
     metalite::define_population(
       name = "apat",
       group = "TRTA",
       subset = quote(SAFFL == "Y"),
       var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
+    ) |>
+    metalite::define_population(
+      name = "apr",
+      group = "TRTA",
+      subset = quote(ITTFL == "Y"),
+      label = "All Participants Randomized"
     ) |>
     metalite::define_observation(
       name = "apat",
@@ -55,6 +67,13 @@ meta_sl_example <- function() {
       subset = quote(SAFFL == "Y"),
       var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
     ) |>
+    metalite::define_observation(
+      name = "apr",
+      group = "TRTA",
+      subset = quote(ITTFL == "Y"),
+      label = "All Participants Randomized"
+    ) |>
+    # For Baseline Characteristic
     metalite::define_parameter(
       name = "age",
       var = "AGE",
@@ -76,6 +95,27 @@ meta_sl_example <- function() {
       title = "Participant Baseline Characteristics by Treatment Group",
       label = "baseline characteristic table",
       var_name = c("AGEGR1", "SEX")
+    ) |>
+    # For compliance
+    metalite::define_parameter(
+      name = "comp8",
+      var = "COMP8FL",
+      label = "Compliance (Week 8)",
+    ) |>
+    metalite::define_parameter(
+      name = "comp16",
+      var = "COMP16FL",
+      label = "Compliance (Week 16)",
+    ) |>
+    metalite::define_parameter(
+      name = "comp24",
+      var = "COMP24FL",
+      label = "Compliance (Week 24)",
+    ) |>
+    metalite::define_analysis(
+      name = "trt_compliance",
+      title = "Summary of Treatment Compliance",
+      label = "treatment compliance table"
     ) |>
     metalite::meta_build()
 }
