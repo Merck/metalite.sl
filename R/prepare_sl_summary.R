@@ -21,8 +21,6 @@
 #' @param meta A metadata object created by metalite.
 #' @param population A character value of population term name.
 #'   The term name is used as key to link information.
-#' @param observation A character value of observation term name.
-#'   The term name is used as key to link information.
 #' @param analysis A character value of analysis term name.
 #'   The term name is used as key to link information.
 #' @param parameter A character value of parameter term name.
@@ -34,7 +32,7 @@
 #'
 #' @examples
 #' meta <- meta_sl_example()
-#' meta |> prepare_sl_summary()
+#' meta |> prepare_sl_summary(population = "apat", analysis = "base_char")
 prepare_sl_summary <- function(
     meta,
     population,

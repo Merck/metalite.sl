@@ -22,9 +22,6 @@ The term name is used as key to link information.}
 
 \item{parameter}{A character value of parameter term name.
 The term name is used as key to link information.}
-
-\item{observation}{A character value of observation term name.
-The term name is used as key to link information.}
 }
 \value{
 A list of analysis raw datasets.
@@ -34,5 +31,5 @@ Prepare data for baseline characteristic table
 }
 \examples{
 meta <- meta_sl_example()
-meta |> prepare_sl_summary()
+meta |> prepare_sl_summary(population = "apat", analysis = "base_char")
 }
