@@ -52,7 +52,7 @@ meta_sl_example <- function() {
       analysis = "trt_compliance", population = "apat",
       observation = "apat", parameter = "comp8;comp16;comp24"
     ) |>
-    add_plan(
+    metalite::add_plan(
       analysis = "disp", population = "apat",
       observation = "apat", parameter = "disposition;medical-disposition"    
     )

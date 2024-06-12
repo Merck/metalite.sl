@@ -63,7 +63,6 @@ test_meta_base_char <- meta_adam(
   ) |>
   prepare_sl_summary(
     population = "apat",
-    observation = "apat",
     analysis = "base_char",
     parameter = "age;agen;gender;race"
   )
