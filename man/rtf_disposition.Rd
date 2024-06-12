@@ -17,7 +17,26 @@ rtf_disposition(
 )
 }
 \arguments{
-\item{outdata}{A metadata object created by \code{\link[=prepare_sl_summary]{prepare_sl_summary()}}.}
+\item{outdata}{An \code{outdata} object created by \code{\link[=prepare_sl_summary]{prepare_sl_summary()}}.}
+
+\item{source}{A character value of the data source.}
+
+\item{col_rel_width}{Column relative width in a vector e.g. c(2,1,1) refers to 2:1:1.
+Default is NULL for equal column width.}
+
+\item{text_font_size}{Text font size.  To vary text font size by column, use
+numeric vector with length of vector equal to number of columns
+displayed e.g. c(9,20,40).}
+
+\item{orientation}{Orientation in 'portrait' or 'landscape'.}
+
+\item{footnotes}{A character vector of table footnotes.}
+
+\item{title}{Term "analysis", "observation" and "population") for collecting title from metadata or a character vector of table titles.}
+
+\item{path_outdata}{A character string of the outdata path.}
+
+\item{path_outtable}{A character string of the outtable path.}
 }
 \value{
 A list of analysis raw datasets.

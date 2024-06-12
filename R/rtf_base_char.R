@@ -198,7 +198,7 @@ rtf_base_char <- function(
 
 #' Format Treatment Compliance Analysis
 #'
-#' @inheritParams format_base_char
+#' @inheritParams rtf_base_char
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -220,7 +220,7 @@ rtf_trt_compliance <- rtf_base_char
 
 #' Format Disposition Analysis
 #'
-#' @inheritParams format_base_char
+#' @inheritParams rtf_base_char
 #'
 #' @return A list of analysis raw datasets.
 #'
