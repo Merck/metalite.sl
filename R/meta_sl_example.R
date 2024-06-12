@@ -62,29 +62,29 @@ meta_sl_example <- function() {
     observation = adsl
   ) |>
     metalite::define_plan(plan) |>
-    define_population(
+    metalite::define_population(
       name = "apat",
       group = "TRTA",
       subset = quote(SAFFL == "Y"),
       var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "COMP8FL", "COMP16FL", "COMP24FL")
     ) |>
-    define_parameter(
+    metalite::define_parameter(
       name = "age",
       var = "AGE",
       label = "Age (years)",
       vargroup = "AGEGR1"
     ) |>
-    define_parameter(
+    metalite::define_parameter(
       name = "gender",
       var = "SEX",
       label = "Gender"
     ) |>
-    define_parameter(
+    metalite::define_parameter(
       name = "race",
       var = "RACE",
       label = "Race"
     ) |>
-    define_parameter(
+    metalite::define_parameter(
       name = "disposition",
       var = "EOSSTT",
       label = "Trial Disposition"
@@ -109,20 +109,20 @@ meta_sl_example <- function() {
       var = "COMP24FL",
       label = "Compliance (Week 24)",
     ) |>
-    define_analysis(
+    metalite::define_analysis(
       name = "base_char",
       title = "Participant Baseline Characteristics by Treatment Group",
       label = "baseline characteristic table"
     ) |>
-    define_analysis(
+    metalite::define_analysis(
       name = "trt_compliance",
       title = "Summary of Treatment Compliance",
       label = "treatment compliance table"
     ) |>
-    define_analysis(
+    metalite::define_analysis(
       name = "disp",
       title = "Disposition of Participant",
       label = "disposition table"
     ) |>
-    meta_build()
+    metalite::meta_build()
 }
