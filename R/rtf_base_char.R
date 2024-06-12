@@ -35,9 +35,8 @@
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_sl_summary(
+#'   prepare_base_char(
 #'     population = "apat",
-#'     observation = "apat",
 #'     parameter = "age;gender"
 #'   ) |>
 #'   format_base_char() |>
@@ -231,7 +230,7 @@ rtf_trt_compliance <- rtf_base_char
 #'
 #' meta |>
 #'   prepare_disposition(parameter = "disposition;medical-disposition") |>
-#'   format_disposition()
+#'   format_disposition() |>
 #'   rtf_disposition(
 #'     source = "Source: [CDISCpilot: adam-adsl]",
 #'     path_outdata = tempfile(fileext = ".Rdata"),

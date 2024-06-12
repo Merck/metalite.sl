@@ -48,9 +48,8 @@ Baseline characteristic table
 meta <- meta_sl_example()
 
 meta |>
-  prepare_sl_summary(
+  prepare_base_char(
     population = "apat",
-    observation = "apat",
     parameter = "age;gender"
   ) |>
   format_base_char() |>

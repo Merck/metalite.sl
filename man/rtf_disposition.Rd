@@ -49,7 +49,7 @@ meta <- meta_sl_example()
 
 meta |>
   prepare_disposition(parameter = "disposition;medical-disposition") |>
-  format_disposition()
+  format_disposition() |>
   rtf_disposition(
     source = "Source: [CDISCpilot: adam-adsl]",
     path_outdata = tempfile(fileext = ".Rdata"),
