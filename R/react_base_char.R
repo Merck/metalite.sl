@@ -80,7 +80,6 @@ react_base_char <- function(
   x_sl <- metadata_sl |>
     prepare_sl_summary(
       population = population,
-      observation = population,
       analysis = "base_char",
       parameter = sl_parameter
     ) |>

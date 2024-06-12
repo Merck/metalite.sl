@@ -195,3 +195,46 @@ rtf_base_char <- function(
   # Prepare output
   rtf_output(outdata, path_outdata, path_outtable)
 }
+
+#' Format Treatment Compliance Analysis
+#'
+#' @inheritParams format_base_char
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_trt_compliance(parameter = "comp8;comp16") |>
+#'   format_trt_compliance() |>
+#'   rtf_trt_compliance(
+#'     source = "Source: [CDISCpilot: adam-adsl]",
+#'     path_outdata = tempfile(fileext = ".Rdata"),
+#'     path_outtable = tempfile(fileext = ".rtf")
+#'   )
+rtf_trt_compliance <- rtf_base_char
+
+
+#' Format Disposition Analysis
+#'
+#' @inheritParams format_base_char
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_disposition(parameter = "disposition;medical-disposition") |>
+#'   format_disposition()
+#'   rtf_disposition(
+#'     source = "Source: [CDISCpilot: adam-adsl]",
+#'     path_outdata = tempfile(fileext = ".Rdata"),
+#'     path_outtable = tempfile(fileext = ".rtf")
+#'   )
+rtf_disposition <- rtf_base_char

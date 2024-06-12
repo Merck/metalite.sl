@@ -35,13 +35,26 @@ meta_sl_example <- function() {
     labels = c("Placebo", "Low Dose", "High Dose")
   )
   
+  # Create a variable EOSSTT indicating the end of end of study status
+  adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
+                        size = length(adsl$USUBJID), 
+                        prob = c(0.8, 0.2), replace = TRUE)
+  # Create a variable EOTSTT1 indicating the end of treatment status part 1
+  adsl$EOTSTT1 <- sample(x = c("Completed", "Discontinued"),
+                         size = length(adsl$USUBJID), 
+                         prob = c(0.85, 0.15), replace = TRUE)
+  
   plan <- metalite::plan(
-    analysis = "base_char", population = "apr",
-    observation = "apr", parameter = "age;gender;race"
+    analysis = "base_char", population = "apat",
+    observation = "apat", parameter = "age;gender;race"
     ) |>
     metalite::add_plan(
       analysis = "trt_compliance", population = "apat",
       observation = "apat", parameter = "comp8;comp16;comp24"
+    ) |>
+    add_plan(
+      analysis = "disp", population = "apat",
+      observation = "apat", parameter = "disposition;medical-disposition"    
     )
     
   meta <- metalite::meta_adam(
@@ -49,54 +62,38 @@ meta_sl_example <- function() {
     observation = adsl
   ) |>
     metalite::define_plan(plan) |>
-    metalite::define_population(
+    define_population(
       name = "apat",
       group = "TRTA",
       subset = quote(SAFFL == "Y"),
-      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
+      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "COMP8FL", "COMP16FL", "COMP24FL")
     ) |>
-    metalite::define_population(
-      name = "apr",
-      group = "TRTA",
-      subset = quote(ITTFL == "Y"),
-      label = "All Participants Randomized"
-    ) |>
-    metalite::define_observation(
-      name = "apat",
-      group = "TRTA",
-      subset = quote(SAFFL == "Y"),
-      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
-    ) |>
-    metalite::define_observation(
-      name = "apr",
-      group = "TRTA",
-      subset = quote(ITTFL == "Y"),
-      label = "All Participants Randomized"
-    ) |>
-    # For Baseline Characteristic
-    metalite::define_parameter(
+    define_parameter(
       name = "age",
       var = "AGE",
       label = "Age (years)",
       vargroup = "AGEGR1"
     ) |>
-    metalite::define_parameter(
+    define_parameter(
       name = "gender",
       var = "SEX",
       label = "Gender"
     ) |>
-    metalite::define_parameter(
+    define_parameter(
       name = "race",
       var = "RACE",
       label = "Race"
     ) |>
-    metalite::define_analysis(
-      name = "base_char",
-      title = "Participant Baseline Characteristics by Treatment Group",
-      label = "baseline characteristic table",
-      var_name = c("AGEGR1", "SEX")
+    define_parameter(
+      name = "disposition",
+      var = "EOSSTT",
+      label = "Trial Disposition"
     ) |>
-    # For compliance
+    define_parameter(
+      name = "medical-disposition",
+      var = "EOTSTT1",
+      label = "Participant Study Medication Disposition"
+    ) |>
     metalite::define_parameter(
       name = "comp8",
       var = "COMP8FL",
@@ -112,10 +109,20 @@ meta_sl_example <- function() {
       var = "COMP24FL",
       label = "Compliance (Week 24)",
     ) |>
-    metalite::define_analysis(
+    define_analysis(
+      name = "base_char",
+      title = "Participant Baseline Characteristics by Treatment Group",
+      label = "baseline characteristic table"
+    ) |>
+    define_analysis(
       name = "trt_compliance",
       title = "Summary of Treatment Compliance",
       label = "treatment compliance table"
     ) |>
-    metalite::meta_build()
+    define_analysis(
+      name = "disp",
+      title = "Disposition of Participant",
+      label = "disposition table"
+    ) |>
+    meta_build()
 }

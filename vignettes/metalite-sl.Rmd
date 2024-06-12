@@ -63,12 +63,7 @@ meta <- meta_adam(
     group = "TRTA",
     subset = quote(SAFFL == "Y"),
     var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "COMP8FL", "COMP16FL", "COMP24FL")
-  ) |>
-  define_observation(
-    name = "apat",
-    group = "TRTA",
-    subset = quote(SAFFL == "Y"),
-    var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
+    
   ) |>
   define_parameter(
     name = "age",
@@ -179,8 +174,8 @@ outdata
 
 ```{r}
 outdata |> 
-  format_base_char(display_col = c("n", "prop"), digits_prop = 3) |>
-  rtf_base_char(
+  format_trt_compliance(display_col = c("n", "prop"), digits_prop = 3) |>
+  rtf_trt_compliance(
   source = "Source: [CDISCpilot: adam-adsl]",
   path_outdata = tempfile(fileext = ".Rdata"),
   path_outtable = tempfile(fileext = ".rtf")
@@ -197,8 +192,8 @@ outdata
 
 ```{r}
 outdata |> 
-  format_base_char() |>
-  rtf_base_char(
+  format_dispostion() |>
+  rtf_disposition(
   source = "Source: [CDISCpilot: adam-adsl]",
   path_outdata = tempfile(fileext = ".Rdata"),
   path_outtable = tempfile(fileext = ".rtf")

@@ -34,7 +34,7 @@
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_sl_summary(parameter = "age;gender") |>
+#'   prepare_base_char(parameter = "age;gender") |>
 #'   format_base_char()
 format_base_char <- function(
     outdata,
@@ -119,3 +119,38 @@ format_base_char <- function(
 
   return(outdata)
 }
+
+#' Format Treatment Compliance Analysis
+#'
+#' @inheritParams format_base_char
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_trt_compliance(parameter = "comp8;comp16") |>
+#'   format_trt_compliance()
+format_trt_compliance <- format_base_char
+
+
+#' Format Disposition Analysis
+#'
+#' @inheritParams format_base_char
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_disposition(parameter = "disposition;medical-disposition") |>
+#'   format_disposition()
+format_disposition <- format_base_char
+
+
