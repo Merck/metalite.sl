@@ -192,7 +192,7 @@ outdata
 
 ```{r}
 outdata |> 
-  format_dispostion() |>
+  format_disposition() |>
   rtf_disposition(
   source = "Source: [CDISCpilot: adam-adsl]",
   path_outdata = tempfile(fileext = ".Rdata"),
