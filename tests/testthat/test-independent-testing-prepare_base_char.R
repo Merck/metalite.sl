@@ -65,10 +65,9 @@ meta_test <- meta_adam(
   )
 
 # Prepare test data by the tested function
-test_meta_base_char <- prepare_base_char(
+test_meta_base_char <- prepare_sl_summary(
   meta_test,
   population = "apat",
-  observation = "apat",
   analysis = "base_char",
   parameter = "age;agen;gender;race"
 )
@@ -344,6 +343,6 @@ test_that("Parameter matching", {
   expect_equal(test_meta_base_char$parameter, "age;agen;gender;race")
 })
 
-test_that("Output from prepare_base_char is a list", {
+test_that("Output from prepare_sl_summary is a list", {
   expect_true("outdata" %in% class(test_meta_base_char))
 })

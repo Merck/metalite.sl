@@ -18,7 +18,7 @@
 
 #' Prepare data for baseline characteristic table
 #'
-#' @param outdata A metadata object created by [prepare_base_char()].
+#' @param outdata A metadata object created by [prepare_sl_summary()].
 #' @param display_col Column wants to display on the table.
 #'   The term could be selected from `c("n", "prop", "total")`.
 #' @param digits_prop Number of digits for proportion columns.
@@ -119,3 +119,38 @@ format_base_char <- function(
 
   return(outdata)
 }
+
+#' Format Treatment Compliance Analysis
+#'
+#' @inheritParams format_base_char
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_trt_compliance(parameter = "comp8;comp16") |>
+#'   format_trt_compliance()
+format_trt_compliance <- format_base_char
+
+
+#' Format Disposition Analysis
+#'
+#' @inheritParams format_base_char
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_disposition(parameter = "disposition;medical-disposition") |>
+#'   format_disposition()
+format_disposition <- format_base_char
+
+

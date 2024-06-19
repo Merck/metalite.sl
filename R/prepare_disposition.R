@@ -36,8 +36,8 @@
 #' @examples
 #' meta <- meta_sl_example()
 #' meta |> prepare_base_char()
-prepare_base_char <- function(meta,
-                              analysis = "base_char",
+prepare_disposition <- function(meta,
+                              analysis = "disp",
                               population = meta$plan[meta$plan$analysis==analysis,]$population,
                               parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
 ) {
@@ -48,4 +48,4 @@ prepare_base_char <- function(meta,
                        parameter = parameter
     )
   )
-}   
+}
