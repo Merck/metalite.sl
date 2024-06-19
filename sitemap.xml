@@ -40,6 +40,12 @@
     <loc>https://merck.github.io/metalite.sl/reference/format_base_char.html</loc>
   </url>
   <url>
+    <loc>https://merck.github.io/metalite.sl/reference/format_disposition.html</loc>
+  </url>
+  <url>
+    <loc>https://merck.github.io/metalite.sl/reference/format_trt_compliance.html</loc>
+  </url>
+  <url>
     <loc>https://merck.github.io/metalite.sl/reference/index.html</loc>
   </url>
   <url>
@@ -52,6 +58,15 @@
     <loc>https://merck.github.io/metalite.sl/reference/prepare_base_char.html</loc>
   </url>
   <url>
+    <loc>https://merck.github.io/metalite.sl/reference/prepare_disposition.html</loc>
+  </url>
+  <url>
+    <loc>https://merck.github.io/metalite.sl/reference/prepare_sl_summary.html</loc>
+  </url>
+  <url>
+    <loc>https://merck.github.io/metalite.sl/reference/prepare_trt_compliance.html</loc>
+  </url>
+  <url>
     <loc>https://merck.github.io/metalite.sl/reference/react_base_char.html</loc>
   </url>
   <url>
@@ -59,5 +74,11 @@
   </url>
   <url>
     <loc>https://merck.github.io/metalite.sl/reference/rtf_base_char.html</loc>
+  </url>
+  <url>
+    <loc>https://merck.github.io/metalite.sl/reference/rtf_disposition.html</loc>
+  </url>
+  <url>
+    <loc>https://merck.github.io/metalite.sl/reference/rtf_trt_compliance.html</loc>
   </url>
 </urlset>
