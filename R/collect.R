@@ -59,6 +59,7 @@ collect_baseline <- function(
   # Obtain variables
   par_var <- metalite::collect_adam_mapping(meta, parameter)$var
   par_var_group <- metalite::collect_adam_mapping(meta, parameter)$vargroup
+  par_var_lower <- metalite::collect_adam_mapping(meta, parameter)$varlower
 
   # Obtain Data
   pop <- metalite::collect_population_record(meta, population, var = c(par_var))
@@ -198,6 +199,60 @@ collect_baseline <- function(
     pop_prop <- rbind(pop_prop_group, pop_prop)
   }
 
+  # variable lower level
+  if (!is.null(par_var_lower)) {
+
+    # Obtain number of subjects
+    pop_num_lower <- apply(pop_num, 1, function (x) {
+      pop_lower <- pop[pop[[par_var]] == x[["name"]] & !is.na(pop[[par_var_lower]]), ]
+      id_lower <- seq(pop_lower[[pop_id]])
+      group_lower <- pop_lower[[pop_group]]
+      varlower <- pop_lower[[par_var_lower]]
+      stopifnot(inherits(varlower, c("factor", "character")))
+      varlower <- factor(varlower, exclude = NULL)
+      
+      if (length(varlower) > 0) {
+        lower <- metalite::n_subject(id_lower, group_lower, par = varlower)
+        max_length <- sapply(pop_num, function(x) max(nchar(x)))
+        for (i in 2:length(max_length)) {
+          lower[[i]] <- formatC(lower[[i]], width = max_length[[i]])
+        }
+
+        lower$name <- paste("   ", lower$name)
+        rbind(x, lower)
+      } else {
+        as.data.frame(t(x))
+      }
+    })
+    pop_num <- do.call(rbind, pop_num_lower)
+    
+    # Obtain proportion
+    pop_prop_lower <- apply(pop_prop, 1, function (x) {
+      pop_lower <- pop[pop[[par_var]] == x[["name"]] & !is.na(pop[[par_var_lower]]), ]
+      id_lower <- seq(pop_lower[[pop_id]])
+      group_lower <- pop_lower[[pop_group]]
+      varlower <- pop_lower[[par_var_lower]]
+      stopifnot(inherits(varlower, c("factor", "character")))
+      varlower <- factor(varlower, exclude = NULL)
+      
+      if (length(varlower) > 0) {
+        lower <- metalite::n_subject(id_lower, group_lower, par = varlower)
+        for (i in seq(names(lower))) {
+          if ("integer" %in% class(lower[[i]])) {
+            pct <- lower[[i]] / pop_all[[i]] * 100
+            lower[[i]] <- pct
+          }
+        }
+        lower$name <- paste("   ", lower$name)
+        rbind(x, lower)
+      } else {
+        as.data.frame(t(x))
+      }
+    })
+    pop_prop <- do.call(rbind, pop_prop_lower)
+    
+  }
+  
   pop_n["var_label"] <- label
   pop_num["var_label"] <- label
   pop_prop["var_label"] <- label

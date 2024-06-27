@@ -39,10 +39,16 @@ meta_sl_example <- function() {
   adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
                         size = length(adsl$USUBJID), 
                         prob = c(0.8, 0.2), replace = TRUE)
+  adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
+                                                                size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]), 
+                                                                prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE)
   # Create a variable EOTSTT1 indicating the end of treatment status part 1
   adsl$EOTSTT1 <- sample(x = c("Completed", "Discontinued"),
                          size = length(adsl$USUBJID), 
                          prob = c(0.85, 0.15), replace = TRUE)
+  adsl[adsl[["EOTSTT1"]] == "Discontinued", "DCTREAS"] <- sample(x = c("Adverse Event", "Lack of Efficacy"),
+                                                                size = length(adsl[adsl[["EOTSTT1"]] == "Discontinued", "USUBJID"]), 
+                                                                prob = c(0.9, 0.1), replace = TRUE)
   
   plan <- metalite::plan(
     analysis = "base_char", population = "apat",
@@ -66,7 +72,7 @@ meta_sl_example <- function() {
       name = "apat",
       group = "TRTA",
       subset = quote(SAFFL == "Y"),
-      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "COMP8FL", "COMP16FL", "COMP24FL")
+      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "DCSREAS", "DCTREAS", "COMP8FL", "COMP16FL", "COMP24FL")
     ) |>
     metalite::define_parameter(
       name = "age",
@@ -87,12 +93,14 @@ meta_sl_example <- function() {
     metalite::define_parameter(
       name = "disposition",
       var = "EOSSTT",
-      label = "Trial Disposition"
+      label = "Trial Disposition",
+      varlower = "DCSREAS"
     ) |>
     metalite::define_parameter(
       name = "medical-disposition",
       var = "EOTSTT1",
-      label = "Participant Study Medication Disposition"
+      label = "Participant Study Medication Disposition",
+      varlower = "DCTREAS"
     ) |>
     metalite::define_parameter(
       name = "comp8",
