@@ -1,0 +1,321 @@
+---
+title: "Treatment Compliance"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{prepare_trt_compliance}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 150
+)
+```
+
+```{r setup, message=FALSE}
+
+library(metalite)
+library(metalite.sl)
+library(dplyr)
+
+```
+
+
+
+## Overview
+
+The objective of this tutorial is to generate a production-ready Treatment Compliance specification analyses.
+
+This report produces a table that contains a summary of treatment compliance information. The report consists of a treatment compliance category section and a treatment compliance statistics section. 
+To accomplish this using metalite.sl, three essential functions are required:
+
+-`prepare_trt_compliance ()`:subset data for treatment compliance analysis.
+-`prepare_sl_summary ()`:prepare data for treatment compliance analysis.
+-`format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
+-`rtf_trt_compliance` ()`: transfer (mock) output dataset to RTF table.
+
+
+
+An example output:
+
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("outtable/pdf/treatment0compliance.pdf")
+```
+
+## Example data
+
+Within metalite.sl, we utilized the ADSL datasets from the metalite
+package to create an illustrative dataset.
+The metadata structure remains consistent across all analysis examples
+within metalite.sl.
+To calculate treatment compliance percent and treatment compliance range, we utilized adex dataset.
+Additional information can be accessed on the
+[metalite package website](https://merck.github.io/metalite/articles/metalite.html).
+
+# Build a metadata
+
+
+
+```{r}
+
+adsl <- r2rtf::r2rtf_adsl
+load("~/metalite.ae1/data/metalite_ae_adex.rda")
+
+adex <- metalite_ae_adex
+
+adex1 <- adex %>% filter(EXNUMDOS > 0) %>%
+  group_by(USUBJID) %>%
+  slice(n()) %>%
+  select(USUBJID, AENDY) %>%
+  rename(ADURN=AENDY)
+
+
+adsl <- merge(adsl, adex1, by= "USUBJID")
+
+adsl <- adsl %>%
+  mutate(TRTDUR = as.numeric(TRTDUR),
+         ADURN = as.numeric(ADURN),
+         CMPLPCT = (ADURN / TRTDUR) * 100)
+
+adsl <- adsl %>%
+  mutate(CMPLRNG= case_when(
+    CMPLPCT >= 0  & CMPLPCT <= 20 ~ "0% to <=20%",
+    CMPLPCT > 20 & CMPLPCT <= 40 ~ ">20% to <=40%",
+    CMPLPCT > 40 & CMPLPCT <= 60 ~ ">40% to <=60%",
+    CMPLPCT > 60 & CMPLPCT <= 80 ~ ">60% to <=80%",
+    CMPLPCT > 80 ~ ">80%"
+  ),
+  CMPLRNGN = case_when(
+    CMPLPCT >= 0 & CMPLPCT <= 20 ~ 1,
+    CMPLPCT > 20 & CMPLPCT <= 40 ~ 2,
+    CMPLPCT > 40 & CMPLPCT <= 60 ~ 3,
+    CMPLPCT > 60 & CMPLPCT <= 80 ~ 4,
+    CMPLPCT > 80 ~ 5))
+
+
+
+adsl <- adsl
+```
+
+```{r}
+
+adsl$TRTA <- adsl$TRT01A
+adsl$TRTA <- factor(adsl$TRTA,
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
+)
+
+
+```
+
+```{r}
+plan <- plan(
+    analysis = "trt_compliance", population = "apat",
+    observation = "apat", parameter = "CMPLRNG;CMPLPCT"    
+  )
+```
+
+```{r}
+meta <- meta_adam(
+  population = adsl,
+  observation = adsl
+) |>
+  define_plan(plan = plan) |>
+  define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = quote(SAFFL == "Y"),
+    var = c("USUBJID", "TRTA", "SAFFL", "CMPLPCT" ,"CMPLRNG")
+    
+  ) |>
+  
+  metalite::define_parameter(
+    name = "CMPLPCT",
+    var = "CMPLPCT",
+    label = "Treatment Compliance Percent",
+  ) |>
+   metalite::define_parameter(
+    name = "CMPLRNG",
+    var = "CMPLRNG",
+    label = "Treatment Compliance Range",
+  ) |>
+  define_analysis(
+    name = "trt_compliance",
+    title = "Summary of Treatment Compliance",
+    label = "treatment compliance table"
+  )  |>
+  meta_build()
+```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
+meta
+```
+</details>
+
+### Analysis preparation
+
+The function `prepare_trt_compliance()` is written to prepare data for treatment compliance analysis.The function takes four arguments:
+
+meta is metadata object created by metalite and it contains data from ADSL.
+Analysis, Population, and Parameter arguments are used to subset and process the meta data. They have default values, which rely on the meta data object.
+
+The function assign default value Analysis to `trt_compliance`, Population to the population value associated with the `trt_compliance` analysis in meta plan, and parameter to the parameter(s) associated with the `trt_compliance` analysis in meta$plan.
+
+However, the user can also manually specify the analysis, population, and parameter values when calling the function, if they want to override the default values.
+
+In the body of the function, it calls another function prepare_sl_summary with the same meta, analysis, population, and parameter arguments.
+`prepare_sl_summary` takes the meta data, subsets it based on the analysis, population, and parameter values, and then calculates and returns a summary of the relevant data.
+
+The result of prepare_sl_summary is then returned as the result of prepare_trt_compliance.
+
+
+```{r}
+prepare_trt_compliance <- function(meta,
+                                   analysis = "trt_compliance",
+                                   population = meta$plan[meta$plan$analysis==analysis,]$population,
+                                   parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
+                                   ) {
+  return(
+    prepare_sl_summary(meta,
+                      analysis = analysis,
+                      population = population,
+                      parameter = parameter
+                      )
+  )
+  
+} 
+
+```
+
+The resulting output of the function `prepare_trt_compliance()` comprises
+a collection of raw datasets for analysis and reporting.
+
+```{r}
+outdata <- prepare_trt_compliance(meta)
+outdata
+```
+- `parameter`: parameter name
+```{r}
+outdata$parameter
+```
+- `n`: number of participants in population
+```{r}
+outdata$n
+```
+
+
+The resulting dataset contains frequently used statistics,
+with variables indexed according to the order specified in `outdata$group`.
+
+
+```{r}
+outdata$group
+```
+- `char_n`: number of participants completed vs not completed in each parameter
+```{r}
+outdata$char_n
+```
+- `char_var` : name of parameter
+
+```{r}
+outdata$char_var
+```
+- `char_prop` : proportion of subject with treatment compliance
+
+
+```{r}
+outdata$char_prop
+```
+
+## Format output
+
+Once the raw analysis results are obtained,
+the `format_trt_compliance()` function can be employed to prepare the outdata,ensuring its compatibility with production-ready RTF tables.
+
+```{r}
+tbl <- outdata |> format_trt_compliance()
+head(tbl$tbl)
+```
+### Additional statistics
+
+By using the `display` argument,
+we can choose specific statistics to include.
+
+```{r}
+tbl <- outdata |> format_trt_compliance(display_stat = c("mean", "sd", "median", "range"),display_col = c("n", "prop", "total"))
+tbl$tbl
+
+```
+### Mock data preparation
+
+The `mock` argument facilitates the creation of a mock table with ease.
+
+Please note that the intention of the `mock` argument is not to provide
+an all-encompassing mock table template.
+Instead, it serves as a convenient method to assist users in generating
+a mock table that closely resembles the desired output layout.
+To develop a more versatile mock table generation tool, further efforts
+are necessary.
+This could potentially involve the creation of a dedicated mock table
+generation package or similar solutions.
+
+```{r}
+tbl <- outdata |> format_trt_compliance()
+head(tbl$tbl)
+```
+
+## RTF tables
+
+The last step is to prepare the RTF table using `rtf_trt_compliance`.
+
+
+```{r}
+outdata |>
+  format_trt_compliance() |>
+  rtf_trt_compliance(
+    "Source: [CDISCpilot: adam-adsl]",
+    path_outtable = "outtable/treatment0compliance.rtf"
+  )
+```
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("outtable/pdf/treatment0compliance.pdf")
+```
+
+The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
+
+
+```{r}
+outdata |>
+  format_trt_compliance() |>
+  rtf_trt_compliance(
+  orientation = "landscape",
+  col_rel_width = c(4, rep(1, 9)),
+  "Source: [CDISCpilot: adam-adsl]",
+  path_outtable = "outtable/treatment0compliance1.rtf"
+  )
+```
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("outtable/pdf/treatment0compliance1.pdf")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
