@@ -59,7 +59,7 @@ collect_baseline <- function(
   # Obtain variables
   par_var <- metalite::collect_adam_mapping(meta, parameter)$var
   par_var_group <- metalite::collect_adam_mapping(meta, parameter)$vargroup
-  par_var_lower <- metalite::collect_adam_mapping(meta, parameter)$varlower
+  par_var_lower <- metalite::collect_adam_mapping(meta, parameter)$var_lower
 
   # Obtain Data
   pop <- metalite::collect_population_record(meta, population, var = c(par_var))

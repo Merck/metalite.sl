@@ -94,13 +94,13 @@ meta_sl_example <- function() {
       name = "disposition",
       var = "EOSSTT",
       label = "Trial Disposition",
-      varlower = "DCSREAS"
+      var_lower = "DCSREAS"
     ) |>
     metalite::define_parameter(
       name = "medical-disposition",
       var = "EOTSTT1",
       label = "Participant Study Medication Disposition",
-      varlower = "DCTREAS"
+      var_lower = "DCTREAS"
     ) |>
     metalite::define_parameter(
       name = "comp8",
