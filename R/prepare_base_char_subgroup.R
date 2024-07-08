@@ -83,7 +83,7 @@ prepare_base_char_subgroup <- function(
   meta$population[[population]]$group <- subgroup_header[1]
   
   # Obtain variables
-  par_var <- collect_adam_mapping(meta, parameter)$var
+  par_var <- metalite::collect_adam_mapping(meta, parameter)$var
   
   meta_subgroup <- metalite::meta_split(meta, subgroup_header[2])
   
