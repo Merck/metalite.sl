@@ -27,7 +27,7 @@ A list of analysis raw datasets.
 Prepare data for Subgroup Analysis for Baseline Characteristic
 }
 \examples{
-#' meta <- meta_sl_example()
+meta <- meta_sl_example()
 
 outdata <- prepare_base_char_subgroup(
           meta,

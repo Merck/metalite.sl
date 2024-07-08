@@ -36,7 +36,7 @@
 #' @export
 #'
 #' @examples
-#' #' meta <- meta_sl_example()
+#' meta <- meta_sl_example()
 #' outdata <- prepare_base_char_subgroup(
 #'           meta,
 #'           population = "apat",
