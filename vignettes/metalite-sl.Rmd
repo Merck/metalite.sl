@@ -190,7 +190,7 @@ outdata <- meta |>
 outdata
 ```
 
-```{r}
+```{r, eval=FALSE}
 outdata |> 
   format_disposition() |>
   rtf_disposition(
