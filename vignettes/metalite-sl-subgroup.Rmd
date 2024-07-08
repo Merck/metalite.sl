@@ -19,10 +19,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-devtools::load_all()
 library(metalite)
 library(metalite.sl)
-library(doconv)
 ```
 
 ## Overview

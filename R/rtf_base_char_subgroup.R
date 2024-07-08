@@ -280,10 +280,10 @@ rtf_base_char_subgroup <- function(
   # Prepare output
   rtf_output(outdata, path_outdata, path_outtable)
   
-  to_pdf(
-    path_outtable,
-    output = gsub("\\.[[:alnum:]]+$", ".pdf", path_outtable),
-    timeout = 120,
-    UserInstallation = NULL
-  )
+  #to_pdf(
+  #  path_outtable,
+  #  output = gsub("\\.[[:alnum:]]+$", ".pdf", path_outtable),
+  #  timeout = 120,
+  #  UserInstallation = NULL
+  #)
 }
