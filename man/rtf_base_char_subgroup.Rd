@@ -60,7 +60,8 @@ outdata |>
     format_base_char_subgroup() |>
     rtf_base_char_subgroup(
     source = "Source:  [CDISCpilot: adam-adsl]",
-    path_outtable = "outtable/bar0char0subgroup.rtf"
+    path_outdata = tempfile(fileext = ".Rdata"),
+    path_outtable = tempfile(fileext = ".rtf")
  )
  
 }
