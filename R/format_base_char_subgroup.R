@@ -91,7 +91,7 @@ format_base_char_subgroup <- function(
   #  tbl <- tbl[, -which(names(tbl) %in% rm_tot)]
   #}
   
-  outdata$tbl <- tbl %>% dplyr::arrange(order)
+  outdata$tbl <- tbl |> dplyr::arrange(order)
   outdata$display <- display
   outdata$display_stat <- display_stat
   outdata
