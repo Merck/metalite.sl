@@ -34,6 +34,10 @@ meta_sl_example <- function() {
     levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
     labels = c("Placebo", "Low Dose", "High Dose")
   )
+  adsl$SEX <- factor(adsl$SEX,
+                      levels = c("F", "M"),
+                      labels = c("Female", "Male")
+  )
   
   # Create a variable EOSSTT indicating the end of end of study status
   adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
@@ -55,6 +59,10 @@ meta_sl_example <- function() {
     metalite::add_plan(
       analysis = "disp", population = "apat",
       observation = "apat", parameter = "disposition;medical-disposition"    
+    )  |>
+    metalite::add_plan(
+      analysis = "base_char_subgroup", population = "apat",
+      observation = "apat", parameter = "age"
     )
     
   meta <- metalite::meta_adam(
@@ -123,6 +131,11 @@ meta_sl_example <- function() {
       name = "disp",
       title = "Disposition of Participant",
       label = "disposition table"
+    ) |>
+    metalite::define_analysis(
+      name = "base_char_subgroup",
+      title = "Participant by Age Category and Sex",
+      label = "baseline characteristic sub group table"
     ) |>
     metalite::meta_build()
 }
