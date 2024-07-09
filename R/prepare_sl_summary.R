@@ -43,8 +43,18 @@ prepare_sl_summary <- function(
   # obtain variables
   pop_var <- metalite::collect_adam_mapping(meta, population)$var
   obs_var <- metalite::collect_adam_mapping(meta, observation)$var
-  par_var <- metalite::collect_adam_mapping(meta, parameter)$var
+  par_var <- do.call(c, lapply(parameters, function(x) {
+    metalite::collect_adam_mapping(meta, x)$var
+  }))
 
+  par_var_group <- do.call(c, lapply(parameters, function(x) {
+    metalite::collect_adam_mapping(meta, x)$vargroup
+  }))
+  
+  par_var_lower <- do.call(c, lapply(parameters, function(x) {
+    metalite::collect_adam_mapping(meta, x)$var_lower
+  }))
+  
   pop_group <- metalite::collect_adam_mapping(meta, population)$group
   obs_group <- metalite::collect_adam_mapping(meta, observation)$group
 
@@ -52,7 +62,7 @@ prepare_sl_summary <- function(
   obs_id <- metalite::collect_adam_mapping(meta, observation)$id
 
   # obtain data
-  pop <- metalite::collect_population_record(meta, population, var = pop_var)
+  pop <- metalite::collect_population_record(meta, population, var = c(par_var, par_var_group, par_var_lower))
 
   # obtain group names
   group <- unique(pop[[pop_group]])
@@ -75,9 +85,7 @@ prepare_sl_summary <- function(
 
   # Get the baseline characteristics variables in adsl
   # char_var <- collect_adam_mapping(meta, analysis)$var_name
-  char_var <- do.call(c, lapply(parameters, function(x) {
-    metalite::collect_adam_mapping(meta, x)$var
-  }))
+  char_var <- par_var
 
   # Get the baseline characteristics counts
   char_n <- lapply(parameters, function(x) {
