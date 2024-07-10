@@ -71,8 +71,7 @@ meta_sl_example <- function() {
     metalite::define_population(
       name = "apat",
       group = "TRTA",
-      subset = quote(SAFFL == "Y"),
-      var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "DCSREAS", "DCTREAS", "COMP8FL", "COMP16FL", "COMP24FL")
+      subset = quote(SAFFL == "Y")
     ) |>
     metalite::define_parameter(
       name = "age",
@@ -179,8 +178,7 @@ meta_sl_exposure_example <- function() {
     metalite::define_population(
       name = "apat",
       group = "TRTA",
-      subset = quote(APERIOD==1 & AVAL>0),
-      var = c("USUBJID", "TRTA", "EXDURGR", "AVAL"),
+      subset = quote(APERIOD==1 & AVAL>0)
     ) |>
     metalite::define_parameter(
       name = "expdur",
