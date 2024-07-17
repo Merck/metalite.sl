@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' Prepare data for treatment compliance table
+#' Prepare data for baseline characteristic table
 #'
 #' @param meta A metadata object created by metalite.
 #' @param population A character value of population term name.

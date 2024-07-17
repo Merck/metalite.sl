@@ -178,6 +178,9 @@ meta_sl_exposure_example <- function() {
   adexsum$EXDURGR[adexsum$AVAL>=12*7] <- ">=12 weeks"
   adexsum$EXDURGR[adexsum$AVAL>=24*7] <- ">=24 weeks"
   
+  adexsum$EXDURGR <- factor(adexsum$EXDURGR,
+                            levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks"))
+  
   plan <- metalite::plan(
     analysis = "exp_dur", population = "apat",
     observation = "apat", parameter = "expdur"
