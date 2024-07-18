@@ -17,11 +17,9 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, message=FALSE}
-
 library(metalite)
 library(metalite.sl)
 library(dplyr)
-
 ```
 
 
@@ -33,15 +31,13 @@ The objective of this tutorial is to generate a production-ready Treatment Compl
 This report produces a table that contains a summary of treatment compliance information. The report consists of a treatment compliance category section and a treatment compliance statistics section. 
 To accomplish this using metalite.sl, three essential functions are required:
 
--`prepare_trt_compliance ()`:subset data for treatment compliance analysis.
--`prepare_sl_summary ()`:prepare data for treatment compliance analysis.
+-`prepare_trt_compliance ()`:this function is a wrapper function of `prepare_sl_summary ()` which prepares data for treatment compliance analysis.
+
 -`format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
+
 -`rtf_trt_compliance` ()`: transfer (mock) output dataset to RTF table.
 
-
-
 An example output:
-
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
 knitr::include_graphics("outtable/pdf/treatment0compliance.pdf")
@@ -59,65 +55,61 @@ Additional information can be accessed on the
 
 # Build a metadata
 
-
-
 ```{r}
-
 adsl <- r2rtf::r2rtf_adsl
-load("~/metalite.ae1/data/metalite_ae_adex.rda")
 
-adex <- metalite_ae_adex
+adex <- metalite.ae::metalite_ae_adex
 
-adex1 <- adex %>% filter(EXNUMDOS > 0) %>%
-  group_by(USUBJID) %>%
-  slice(n()) %>%
-  select(USUBJID, AENDY) %>%
-  rename(ADURN=AENDY)
+adex1 <- adex |>
+  filter(EXNUMDOS > 0 & ADURN != NA) |>
+  group_by(USUBJID) |>
+  slice(n()) |>
+  select(USUBJID, AENDY) |>
+  rename(ADURN = AENDY)
 
+adsl <- merge(adsl, adex1, by = "USUBJID")
 
-adsl <- merge(adsl, adex1, by= "USUBJID")
+adsl <- adsl |>
+  mutate(
+    TRTDUR = as.numeric(TRTDUR),
+    ADURN = as.numeric(ADURN),
+    CMPLPCT = (ADURN / TRTDUR) * 100
+  )
 
-adsl <- adsl %>%
-  mutate(TRTDUR = as.numeric(TRTDUR),
-         ADURN = as.numeric(ADURN),
-         CMPLPCT = (ADURN / TRTDUR) * 100)
+adsl <- adsl |>
+  mutate(
+    CMPLRNG = case_when(
+      CMPLPCT >= 0 & CMPLPCT <= 20 ~ "0% to <=20%",
+      CMPLPCT > 20 & CMPLPCT <= 40 ~ ">20% to <=40%",
+      CMPLPCT > 40 & CMPLPCT <= 60 ~ ">40% to <=60%",
+      CMPLPCT > 60 & CMPLPCT <= 80 ~ ">60% to <=80%",
+      CMPLPCT > 80 ~ ">80%"
+    ),
+    CMPLRNGN = case_when(
+      CMPLPCT >= 0 & CMPLPCT <= 20 ~ 1,
+      CMPLPCT > 20 & CMPLPCT <= 40 ~ 2,
+      CMPLPCT > 40 & CMPLPCT <= 60 ~ 3,
+      CMPLPCT > 60 & CMPLPCT <= 80 ~ 4,
+      CMPLPCT > 80 ~ 5
+    )
+  )
 
-adsl <- adsl %>%
-  mutate(CMPLRNG= case_when(
-    CMPLPCT >= 0  & CMPLPCT <= 20 ~ "0% to <=20%",
-    CMPLPCT > 20 & CMPLPCT <= 40 ~ ">20% to <=40%",
-    CMPLPCT > 40 & CMPLPCT <= 60 ~ ">40% to <=60%",
-    CMPLPCT > 60 & CMPLPCT <= 80 ~ ">60% to <=80%",
-    CMPLPCT > 80 ~ ">80%"
-  ),
-  CMPLRNGN = case_when(
-    CMPLPCT >= 0 & CMPLPCT <= 20 ~ 1,
-    CMPLPCT > 20 & CMPLPCT <= 40 ~ 2,
-    CMPLPCT > 40 & CMPLPCT <= 60 ~ 3,
-    CMPLPCT > 60 & CMPLPCT <= 80 ~ 4,
-    CMPLPCT > 80 ~ 5))
-
-
-
-adsl <- adsl
+head(adsl)
 ```
 
 ```{r}
-
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(adsl$TRTA,
   levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
   labels = c("Placebo", "Low Dose", "High Dose")
 )
-
-
 ```
 
 ```{r}
 plan <- plan(
-    analysis = "trt_compliance", population = "apat",
-    observation = "apat", parameter = "CMPLRNG;CMPLPCT"    
-  )
+  analysis = "trt_compliance", population = "apat",
+  observation = "apat", parameter = "CMPLRNG;CMPLPCT"
+)
 ```
 
 ```{r}
@@ -130,16 +122,14 @@ meta <- meta_adam(
     name = "apat",
     group = "TRTA",
     subset = quote(SAFFL == "Y"),
-    var = c("USUBJID", "TRTA", "SAFFL", "CMPLPCT" ,"CMPLRNG")
-    
+    var = c("USUBJID", "TRTA", "SAFFL", "CMPLPCT", "CMPLRNG")
   ) |>
-  
   metalite::define_parameter(
     name = "CMPLPCT",
     var = "CMPLPCT",
     label = "Treatment Compliance Percent",
   ) |>
-   metalite::define_parameter(
+  metalite::define_parameter(
     name = "CMPLRNG",
     var = "CMPLRNG",
     label = "Treatment Compliance Range",
@@ -148,7 +138,7 @@ meta <- meta_adam(
     name = "trt_compliance",
     title = "Summary of Treatment Compliance",
     label = "treatment compliance table"
-  )  |>
+  ) |>
   meta_build()
 ```
 
@@ -179,19 +169,16 @@ The result of prepare_sl_summary is then returned as the result of prepare_trt_c
 ```{r}
 prepare_trt_compliance <- function(meta,
                                    analysis = "trt_compliance",
-                                   population = meta$plan[meta$plan$analysis==analysis,]$population,
-                                   parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
-                                   ) {
+                                   population = meta$plan[meta$plan$analysis == analysis, ]$population,
+                                   parameter = paste(meta$plan[meta$plan$analysis == analysis, ]$parameter, collapse = ";")) {
   return(
     prepare_sl_summary(meta,
-                      analysis = analysis,
-                      population = population,
-                      parameter = parameter
-                      )
+      analysis = analysis,
+      population = population,
+      parameter = parameter
+    )
   )
-  
-} 
-
+}
 ```
 
 The resulting output of the function `prepare_trt_compliance()` comprises
@@ -249,9 +236,8 @@ By using the `display` argument,
 we can choose specific statistics to include.
 
 ```{r}
-tbl <- outdata |> format_trt_compliance(display_stat = c("mean", "sd", "median", "range"),display_col = c("n", "prop", "total"))
+tbl <- outdata |> format_trt_compliance(display_stat = c("mean", "sd", "median", "range"), display_col = c("n", "prop", "total"))
 tbl$tbl
-
 ```
 ### Mock data preparation
 
@@ -275,7 +261,6 @@ head(tbl$tbl)
 
 The last step is to prepare the RTF table using `rtf_trt_compliance`.
 
-
 ```{r}
 outdata |>
   format_trt_compliance() |>
@@ -296,26 +281,13 @@ The rtf_trt_compliance() function also provides some commonly used arguments to 
 outdata |>
   format_trt_compliance() |>
   rtf_trt_compliance(
-  orientation = "landscape",
-  col_rel_width = c(4, rep(1, 9)),
-  "Source: [CDISCpilot: adam-adsl]",
-  path_outtable = "outtable/treatment0compliance1.rtf"
+    orientation = "landscape",
+    col_rel_width = c(4, rep(1, 9)),
+    "Source: [CDISCpilot: adam-adsl]",
+    path_outtable = "outtable/treatment0compliance1.rtf"
   )
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
 knitr::include_graphics("outtable/pdf/treatment0compliance1.pdf")
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
