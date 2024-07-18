@@ -73,7 +73,7 @@ rtf_sl_summary <- function(
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as `outdata$tbl` has number of columns (has ",
+      ") as `outdata$tbl` has number of columns (has ",
       n_col, ").",
       call. = FALSE
     )
