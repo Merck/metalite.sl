@@ -188,7 +188,7 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">outdata</span></span></code></pre></div>
-<pre><code><span><span class="co">## List of 13</span></span>
+<pre><code><span><span class="co">## List of 14</span></span>
 <span><span class="co">##  $ meta           :List of 7</span></span>
 <span><span class="co">##  $ population     : chr "apat"</span></span>
 <span><span class="co">##  $ observation    : chr "apat"</span></span>
@@ -201,7 +201,8 @@
 <span><span class="co">##  $ char_var       : chr [1:3] "AGE" "SEX" "RACE"</span></span>
 <span><span class="co">##  $ char_prop      :List of 3</span></span>
 <span><span class="co">##  $ var_type       :List of 3</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span></code></pre>
+<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
+<span><span class="co">##  $ analysis       : chr "base_char"</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">n</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         name n_1 n_2 n_3 n_9999 var_label</span></span>
@@ -351,7 +352,7 @@
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="st">"base_char.rtf"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpYyOavB/file18976cdc229a.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmpe47KCG/file190834952a6e.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/base_char.rtf</span></span></code></pre>
 </div>
 <div class="section level2">
@@ -361,7 +362,7 @@
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/prepare_trt_compliance.html">prepare_trt_compliance</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">outdata</span></span></code></pre></div>
-<pre><code><span><span class="co">## List of 13</span></span>
+<pre><code><span><span class="co">## List of 14</span></span>
 <span><span class="co">##  $ meta           :List of 7</span></span>
 <span><span class="co">##  $ population     : chr "apat"</span></span>
 <span><span class="co">##  $ observation    : chr "apat"</span></span>
@@ -374,7 +375,8 @@
 <span><span class="co">##  $ char_var       : chr [1:3] "COMP8FL" "COMP16FL" "COMP24FL"</span></span>
 <span><span class="co">##  $ char_prop      :List of 3</span></span>
 <span><span class="co">##  $ var_type       :List of 3</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span></code></pre>
+<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
+<span><span class="co">##  $ analysis       : chr "trt_compliance"</span></span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/format_trt_compliance.html">format_trt_compliance</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -383,8 +385,8 @@
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rtf"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpYyOavB/file189770bd8c20.Rdata</span></span></code></pre>
-<pre><code><span><span class="co">## The output is saved in/tmp/RtmpYyOavB/file18974f570b4f.rtf</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmpe47KCG/file19081a1cb6f2.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The output is saved in/tmp/Rtmpe47KCG/file19087c0a19c1.rtf</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="create-treatment-compliance-table-1">Create Treatment Compliance Table<a class="anchor" aria-label="anchor" href="#create-treatment-compliance-table-1"></a>
@@ -393,7 +395,7 @@
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/prepare_disposition.html">prepare_disposition</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">outdata</span></span></code></pre></div>
-<pre><code><span><span class="co">## List of 13</span></span>
+<pre><code><span><span class="co">## List of 14</span></span>
 <span><span class="co">##  $ meta           :List of 7</span></span>
 <span><span class="co">##  $ population     : chr "apat"</span></span>
 <span><span class="co">##  $ observation    : chr "apat"</span></span>
@@ -406,7 +408,8 @@
 <span><span class="co">##  $ char_var       : chr [1:2] "EOSSTT" "EOTSTT1"</span></span>
 <span><span class="co">##  $ char_prop      :List of 2</span></span>
 <span><span class="co">##  $ var_type       :List of 2</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span></code></pre>
+<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
+<span><span class="co">##  $ analysis       : chr "disp"</span></span></code></pre>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="../reference/format_disposition.html">format_disposition</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>

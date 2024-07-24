@@ -15,13 +15,17 @@
 <url><loc>https://merck.github.io/metalite.sl/reference/format_base_char.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/format_base_char_subgroup.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/format_disposition.html</loc></url>
+<url><loc>https://merck.github.io/metalite.sl/reference/format_exp_duration.html</loc></url>
+<url><loc>https://merck.github.io/metalite.sl/reference/format_sl_summary.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/format_trt_compliance.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/index.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/meta_sl.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/meta_sl_example.html</loc></url>
+<url><loc>https://merck.github.io/metalite.sl/reference/meta_sl_exposure_example.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/prepare_base_char.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/prepare_base_char_subgroup.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/prepare_disposition.html</loc></url>
+<url><loc>https://merck.github.io/metalite.sl/reference/prepare_exp_duration.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/prepare_sl_summary.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/prepare_trt_compliance.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/react_base_char.html</loc></url>
@@ -29,6 +33,8 @@
 <url><loc>https://merck.github.io/metalite.sl/reference/rtf_base_char.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/rtf_base_char_subgroup.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/rtf_disposition.html</loc></url>
+<url><loc>https://merck.github.io/metalite.sl/reference/rtf_exp_duration.html</loc></url>
+<url><loc>https://merck.github.io/metalite.sl/reference/rtf_sl_summary.html</loc></url>
 <url><loc>https://merck.github.io/metalite.sl/reference/rtf_trt_compliance.html</loc></url>
 </urlset>
 
