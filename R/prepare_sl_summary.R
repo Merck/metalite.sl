@@ -110,7 +110,8 @@ prepare_sl_summary <- function(
     char_var = char_var,
     char_prop = char_prop,
     var_type = var_type,
-    group_label = unique(pop[[pop_group]])
+    group_label = unique(pop[[pop_group]]),
+    analysis = analysis
   )
 
   return(ans)

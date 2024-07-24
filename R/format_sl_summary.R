@@ -34,9 +34,9 @@
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_base_char(parameter = "age;gender") |>
-#'   format_base_char()
-format_base_char <- function(
+#'   prepare_sl_summary(population = "apat", analysis = "base_char", parameter = "age;gender") |>
+#'   format_sl_summary()
+format_sl_summary <- function(
     outdata,
     display_col = c("n", "prop", "total"),
     digits_prop = 1,
@@ -120,9 +120,25 @@ format_base_char <- function(
   return(outdata)
 }
 
+#' Format Baseline Characteristics Analysis
+#'
+#' @inheritParams format_sl_summary
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_base_char(population = "apat", parameter = "age;gender") |>
+#'   format_base_char()
+format_base_char <- format_sl_summary
+
 #' Format Treatment Compliance Analysis
 #'
-#' @inheritParams format_base_char
+#' @inheritParams format_sl_summary
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -134,12 +150,11 @@ format_base_char <- function(
 #' meta |>
 #'   prepare_trt_compliance(parameter = "comp8;comp16") |>
 #'   format_trt_compliance()
-format_trt_compliance <- format_base_char
+format_trt_compliance <- format_sl_summary
 
-
-#' Format Disposition Analysis
+#' Format Treatment Compliance Analysis
 #'
-#' @inheritParams format_base_char
+#' @inheritParams format_sl_summary
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -149,8 +164,39 @@ format_trt_compliance <- format_base_char
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_disposition(parameter = "disposition;medical-disposition") |>
+#'   prepare_trt_compliance(population = "apat", parameter = "comp8;comp16") |>
+#'   format_trt_compliance()
+format_trt_compliance <- format_sl_summary
+
+
+#' Format Disposition Analysis
+#'
+#' @inheritParams format_sl_summary
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_disposition(population = "apat", parameter = "disposition;medical-disposition") |>
 #'   format_disposition()
-format_disposition <- format_base_char
+format_disposition <- format_sl_summary
 
-
+#' Format Exposure Duration Analysis
+#'
+#' @inheritParams format_sl_summary
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_exposure_example()
+#'
+#' meta |>
+#'   prepare_exp_duration(population = "apat", parameter = "expdur") |>
+#'   format_exp_duration()
+format_exp_duration <- format_sl_summary

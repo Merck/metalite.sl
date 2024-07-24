@@ -35,17 +35,18 @@
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_base_char(
+#'   prepare_sl_summary(
 #'     population = "apat",
+#'     analysis = "base_char",
 #'     parameter = "age;gender"
 #'   ) |>
-#'   format_base_char() |>
-#'   rtf_base_char(
+#'   format_sl_summary() |>
+#'   rtf_sl_summary(
 #'     source = "Source: [CDISCpilot: adam-adsl]",
 #'     path_outdata = tempfile(fileext = ".Rdata"),
 #'     path_outtable = tempfile(fileext = ".rtf")
 #'   )
-rtf_base_char <- function(
+rtf_sl_summary <- function(
     outdata,
     source,
     col_rel_width = NULL,
@@ -72,7 +73,7 @@ rtf_base_char <- function(
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as `outdata$tbl` has number of columns (has ",
+      ") as `outdata$tbl` has number of columns (has ",
       n_col, ").",
       call. = FALSE
     )
@@ -84,7 +85,7 @@ rtf_base_char <- function(
       outdata$population,
       "",
       outdata$parameter,
-      analysis = "base_char"
+      analysis = outdata$analysis
     )
   }
 
@@ -195,9 +196,9 @@ rtf_base_char <- function(
   rtf_output(outdata, path_outdata, path_outtable)
 }
 
-#' Format Treatment Compliance Analysis
+#' Baseline characteristic table
 #'
-#' @inheritParams rtf_base_char
+#' @inheritParams rtf_sl_summary
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -207,19 +208,44 @@ rtf_base_char <- function(
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_trt_compliance(parameter = "comp8;comp16") |>
+#'   prepare_base_char(
+#'     population = "apat",
+#'     analysis = "base_char",
+#'     parameter = "age;gender"
+#'   ) |>
+#'   format_base_char() |>
+#'   rtf_base_char(
+#'     source = "Source: [CDISCpilot: adam-adsl]",
+#'     path_outdata = tempfile(fileext = ".Rdata"),
+#'     path_outtable = tempfile(fileext = ".rtf")
+#'   )
+rtf_base_char <- rtf_sl_summary
+
+#' Treatment compliance table
+#'
+#' @inheritParams rtf_sl_summary
+#'
+#' @return A list of analysis raw datasets.
+#'
+#' @export
+#'
+#' @examples
+#' meta <- meta_sl_example()
+#'
+#' meta |>
+#'   prepare_trt_compliance(population = "apat", parameter = "comp8;comp16") |>
 #'   format_trt_compliance() |>
 #'   rtf_trt_compliance(
 #'     source = "Source: [CDISCpilot: adam-adsl]",
 #'     path_outdata = tempfile(fileext = ".Rdata"),
 #'     path_outtable = tempfile(fileext = ".rtf")
 #'   )
-rtf_trt_compliance <- rtf_base_char
+rtf_trt_compliance <- rtf_sl_summary
 
 
-#' Format Disposition Analysis
+#' Disposition table
 #'
-#' @inheritParams rtf_base_char
+#' @inheritParams rtf_sl_summary
 #'
 #' @return A list of analysis raw datasets.
 #'
@@ -229,11 +255,11 @@ rtf_trt_compliance <- rtf_base_char
 #' meta <- meta_sl_example()
 #'
 #' meta |>
-#'   prepare_disposition(parameter = "disposition;medical-disposition") |>
+#'   prepare_disposition(population = "apat", parameter = "disposition;medical-disposition") |>
 #'   format_disposition() |>
 #'   rtf_disposition(
 #'     source = "Source: [CDISCpilot: adam-adsl]",
 #'     path_outdata = tempfile(fileext = ".Rdata"),
 #'     path_outtable = tempfile(fileext = ".rtf")
 #'   )
-rtf_disposition <- rtf_base_char
+rtf_disposition <- rtf_sl_summary
