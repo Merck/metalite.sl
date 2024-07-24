@@ -42,6 +42,10 @@ plan <- plan(
     analysis = "base_char", population = "apat",
     observation = "apat", parameter = "age;gender;race"
   ) |>
+    add_plan(
+      analysis = "base_char_subgroup", population = "apat",
+      observation = "apat", parameter = "age"
+  ) |>
   add_plan(
     analysis = "disp", population = "apat",
     observation = "apat", parameter = "disposition;medical-disposition"    
@@ -49,7 +53,7 @@ plan <- plan(
   add_plan(
     analysis = "trt_compliance", population = "apat",
     observation = "apat", parameter = "comp8;comp16;comp24"    
-  )
+  ) 
 ```
 
 ```{r}
@@ -112,6 +116,11 @@ meta <- meta_adam(
     label = "baseline characteristic table"
   ) |>
   define_analysis(
+    name = "base_char_subgroup",
+    title = "Participant by Age Category and Sex",
+    label = "baseline characteristic sub group table"
+  ) |>
+  define_analysis(
     name = "trt_compliance",
     title = "Summary of Treatment Compliance",
     label = "treatment compliance table"
@@ -124,7 +133,8 @@ meta <- meta_adam(
   meta_build()
 ```
 
-# Prepare the numbers
+# Create Baseline Characteristic Table
+## Analysis preparation
 
 ```{r}
 outdata <- meta |>
@@ -140,7 +150,7 @@ outdata$char_var
 outdata$char_prop
 ```
 
-# Format the numbers
+## Format output
 
 ```{r}
 outdata <- outdata |> format_base_char(display_col = c("n", "prop", "total"), digits_prop = 2)
@@ -154,24 +164,104 @@ outdata <- outdata |> format_base_char(display_col = c("n", "prop"), digits_prop
 outdata$tbl
 ```
 
-# Output as RTF
+## Output as RTF
 
 ```{r}
 outdata |> rtf_base_char(
   source = "Source: [CDISCpilot: adam-adsl]",
   path_outdata = tempfile(fileext = ".Rdata"),
-  path_outtable = "base_char.rtf"
+  path_outtable = tempfile(fileext = ".rtf")
 )
 ```
 
-# Create Treatment Compliance Table
+# Create Baseline Characteristic Table for Subgroup Analysis 
+The baseline characteristic subgroup analysis aims to provide tables to summarize details of participants by subgroup.
+The development of baseline characteristic subgroup analysis involves functions:
 
+- `prepare_base_char_subgroup()`: prepare analysis raw datasets.
+- `format_base_char_subgroup()`: prepare analysis (mock) outdata with proper format.
+- `rtf_base_char_subgroup()`: transfer (mock) output dataset to RTF table.
+
+## Analysis preparation
+
+The `prepare_base_char_subgroup()` function is designed to be used for multiple purposes.
+The input of the function is a `meta` object created by the metalite package.
+
+```{r}
+meta <- meta_sl_example()
+```
+
+The output of the function is an `outdata` object containing a list of analysis
+raw datasets. Key arguments are:
+
+- `subgroup_var`: a character value of subgroup variable name in observation data saved in meta$data_observation.
+- `subgroup_header`: a character vector for column header hierarchy. The first element will be the first level header and the second element will be second level header.
+
+```{r}
+outdata <- prepare_base_char_subgroup(
+  meta,
+  population = "apat",
+  parameter = "age",
+  subgroup_var = "TRTA",
+  subgroup_header = c("SEX","TRTA"),
+  display_subgroup_total = TRUE
+)
+```
+
+The output dataset contains commonly used statistics within each `subgroup_var`.
+
+```{r}
+outdata$out_all$`Placebo`
+outdata$out_all$`High Dose`
+outdata$out_all$`Low Dose`
+```
+
+The information about subgroup saved with `outdata$group` and `outdata$subgroup`.
+
+```{r}
+outdata$group
+outdata$subgroup
+```
+
+`n_pop`: participants in population within each `subgroup_var`.
+
+```{r}
+outdata$out_all$`Placebo`$n
+outdata$out_all$`High Dose`$n
+outdata$out_all$`Low Dose`$n
+```
+
+## Format output
+
+`format_base_char_subgroup` to prepare analysis dataset before generate RTF output
+
+```{r}
+tbl <- format_base_char_subgroup(outdata)
+head(tbl$tbl)
+```
+
+## Output as RTF
+`rtf_base_char_subgroup` to generate RTF output
+
+```{r warning=FALSE}
+outdata |>
+  format_base_char_subgroup() |>
+  rtf_base_char_subgroup(
+    source = "Source:  [CDISCpilot: adam-adsl]",
+    path_outdata = tempfile(fileext = ".Rdata"),
+    path_outtable = tempfile(fileext = ".rtf")
+  )
+```
+
+# Create Treatment Compliance Table
+## Analysis preparation
 ```{r}
 outdata <- meta |>
   prepare_trt_compliance()
 outdata
 ```
 
+## Output as RTF
 ```{r}
 outdata |> 
   format_trt_compliance(display_col = c("n", "prop"), digits_prop = 3) |>
@@ -182,14 +272,15 @@ outdata |>
 )
 ```
 
-# Create Treatment Compliance Table
-
+# Create Disposition Table
+## Analysis preparation
 ```{r}
 outdata <- meta |>
   prepare_disposition()
 outdata
 ```
 
+## Output as RTF
 ```{r, eval=FALSE}
 outdata |> 
   format_disposition() |>
@@ -199,3 +290,4 @@ outdata |>
   path_outtable = tempfile(fileext = ".rtf")
 )
 ```
+
