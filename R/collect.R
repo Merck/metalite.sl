@@ -152,7 +152,9 @@ collect_baseline <- function(
 
   # standardize categorical variables
   if (any(c("factor", "character") %in% class_var)) {
-    var <- factor(var, exclude = NULL)
+    if (any(c("character") %in% class_var)) {
+      var <- factor(var, exclude = NULL)
+    }
 
     if (all(is.na(var))) {
       levels(var) <- c(levels(var), title["missing"])
