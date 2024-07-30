@@ -178,7 +178,9 @@ collect_baseline <- function(
   if (!is.null(par_var_group)) {
     vargroup <- pop[[par_var_group]]
     stopifnot(inherits(vargroup, c("factor", "character")))
-    vargroup <- factor(vargroup, exclude = NULL)
+    if (any(c("character") %in% class_var)) {
+      vargroup <- factor(vargroup, exclude = NULL)
+    }
 
     if (all(is.na(vargroup))) {
       levels(vargroup) <- c(levels(vargroup), title["missing"])
@@ -211,7 +213,9 @@ collect_baseline <- function(
       group_lower <- pop_lower[[pop_group]]
       varlower <- pop_lower[[par_var_lower]]
       stopifnot(inherits(varlower, c("factor", "character")))
+      if (any(c("character") %in% class_var)) {
       varlower <- factor(varlower, exclude = NULL)
+      }
       
       if (length(varlower) > 0) {
         lower <- metalite::n_subject(id_lower, group_lower, par = varlower)
