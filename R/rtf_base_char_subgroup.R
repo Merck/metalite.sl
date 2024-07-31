@@ -31,6 +31,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' meta <- meta_sl_example()
 #' 
 #' outdata <- prepare_base_char_subgroup(
@@ -49,7 +50,7 @@
 #'     path_outdata = tempfile(fileext = ".Rdata"),
 #'     path_outtable = tempfile(fileext = ".rtf")
 #'  )
-#'  
+#'  }
 rtf_base_char_subgroup <- function(
     outdata,
     source,
