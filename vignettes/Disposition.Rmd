@@ -2,7 +2,7 @@
 title: "Disposition"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{prepare_disposition}
+  %\VignetteIndexEntry{Disposition}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, message=FALSE}
-devtools::load_all()
+library(metalite.sl)
 library(metalite)
 library(dplyr)
 ```
@@ -31,12 +31,11 @@ The objective of this tutorial is to generate a production-ready Disposition tab
 This report produces a table that contains counts and percentage of disposition for the participants in population for overall study.
 To accomplish this using metalite.sl, four essential functions are required:
 
--`prepare_disposition ()`:subset data for disposition analysis.
--`prepare_sl_summary ()`:prepare data for disposition analysis.
--`format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
--`rtf_disposition ()`: transfer (mock) output dataset to RTF table.
+- `prepare_disposition ()`:subset data for disposition analysis.
 
+- `format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
 
+- `rtf_disposition ()`: transfer (mock) output dataset to RTF table.
 
 An example output:
 
@@ -79,8 +78,6 @@ adsl <- adsl %>%
 head(adsl)
 
 ```
-
-
 
 ```{r}
 plan <- plan(
@@ -140,10 +137,10 @@ The function assign default value Analysis to `prepare_disposition`, Population 
 
 However, the user can also manually specify the analysis, population, and parameter values when calling the function, if they want to override the default values.
 
-In the body of the function, it calls another function prepare_sl_summary with the same meta, analysis, population, and parameter arguments.
+In the body of the function, it calls another function `prepare_sl_summary` with the same meta, analysis, population, and parameter arguments.
 `prepare_sl_summary` takes the meta data, subsets it based on the analysis, population, and parameter values, and then calculates and returns a summary of the relevant data.
 
-The result of prepare_sl_summary is then returned as the result of prepare_trt_compliance.
+The result of `prepare_sl_summary` is then returned as the result of `prepare_disposition`.
 
 ```{r}
 prepare_disposition <- function(meta,
@@ -163,36 +160,42 @@ prepare_disposition <- function(meta,
 
 The resulting output of the function `prepare_disposition()` comprises
 a collection of raw datasets for analysis and reporting.
+
 ```{r}
 outdata <- prepare_disposition(meta)
 outdata
 ```
 - `parameter`: parameter name
+
 ```{r}
 outdata$parameter
 ```
 - `n`: number of participants in population
+
 ```{r}
 outdata$n
 ```
+
 The resulting dataset contains frequently used statistics,
 with variables indexed according to the order specified in `outdata$group`.
-
 
 ```{r}
 outdata$group
 ```
+
 - `char_n`: number of participants completed vs not completed in each parameter
+
 ```{r}
 outdata$char_n
 ```
+
 - `char_var` : name of parameter
 
 ```{r}
 outdata$char_var
 ```
-- `char_prop` : proportion of subject with disposition
 
+- `char_prop` : proportion of subject with disposition
 
 ```{r}
 outdata$char_prop
@@ -202,19 +205,6 @@ outdata$char_prop
 
 Once the raw analysis results are obtained,
 the `format_disposition()` function can be employed to prepare the outdata,ensuring its compatibility with production-ready RTF tables.
-
-### Mock data preparation
-
-The `mock` argument facilitates the creation of a mock table with ease.
-
-Please note that the intention of the `mock` argument is not to provide
-an all-encompassing mock table template.
-Instead, it serves as a convenient method to assist users in generating
-a mock table that closely resembles the desired output layout.
-To develop a more versatile mock table generation tool, further efforts
-are necessary.
-This could potentially involve the creation of a dedicated mock table
-generation package or similar solutions.
 
 ```{r}
 tbl <- outdata |> format_disposition()
@@ -226,7 +216,6 @@ head(tbl$tbl)
 
 The last step is to prepare the RTF table using `rtf_trt_compliance`.
 
-
 ```{r}
 x <- outdata |>
   format_disposition()
@@ -234,15 +223,18 @@ x <- outdata |>
 x$tbl <- x$tbl %>%
   mutate(name = ifelse(trimws(name) == "ZStatus Not Recorded", "    Status Not Recorded", name))
 
-x|>
+x |>
   rtf_disposition(
     "Source: [CDISCpilot: adam-adsl]",
+    path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = "outtable/disposition.rtf"
   )
 ```
+
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
 knitr::include_graphics("outtable/disposition.pdf")
 ```
+
 The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
 
 ```{r}
@@ -253,11 +245,12 @@ x <- outdata |>
 x$tbl <- x$tbl %>%
   mutate(name = ifelse(trimws(name) == "ZStatus Not Recorded", "    Status Not Recorded", name))
 
-x|>
+x |>
   rtf_disposition(
     orientation = "landscape",
     col_rel_width = c(4, rep(1, 9)),
     "Source: [CDISCpilot: adam-adsl]",
+    path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = "outtable/disposition1.rtf"  
     )
 ```
