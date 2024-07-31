@@ -42,7 +42,6 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/interactive-baseline.html">Build an Interactive Baseline Characteristic Table</a></li>
-    <li><a class="dropdown-item" href="../articles/metalite-sl-subgroup.html">Subgroup Analysis for Baseline Characteristic</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -214,14 +213,15 @@
 <span><span class="co">## 1       &lt;65             14        8          11       33 Age (years)</span></span>
 <span><span class="co">## 2       &gt;80             30       29          18       77 Age (years)</span></span>
 <span><span class="co">## 3     65-80             42       47          55      144 Age (years)</span></span>
-<span><span class="co">## 4      Mean           75.2     75.7        74.4     75.1 Age (years)</span></span>
-<span><span class="co">## 5        SD            8.6      8.3         7.9      8.2 Age (years)</span></span>
-<span><span class="co">## 6        SE            0.9      0.9         0.9      0.5 Age (years)</span></span>
-<span><span class="co">## 7    Median           76.0     77.5        76.0     77.0 Age (years)</span></span>
-<span><span class="co">## 8       Min           52.0     51.0        56.0     51.0 Age (years)</span></span>
-<span><span class="co">## 9       Max           89.0     88.0        88.0     89.0 Age (years)</span></span>
-<span><span class="co">## 10 Q1 to Q3 69.25 to 81.75 71 to 82 70.75 to 80 70 to 81 Age (years)</span></span>
-<span><span class="co">## 11    Range       52 to 89 51 to 88    56 to 88 51 to 89 Age (years)</span></span>
+<span><span class="co">## 4      &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 5      Mean           75.2     75.7        74.4     75.1 Age (years)</span></span>
+<span><span class="co">## 6        SD            8.6      8.3         7.9      8.2 Age (years)</span></span>
+<span><span class="co">## 7        SE            0.9      0.9         0.9      0.5 Age (years)</span></span>
+<span><span class="co">## 8    Median           76.0     77.5        76.0     77.0 Age (years)</span></span>
+<span><span class="co">## 9       Min           52.0     51.0        56.0     51.0 Age (years)</span></span>
+<span><span class="co">## 10      Max           89.0     88.0        88.0     89.0 Age (years)</span></span>
+<span><span class="co">## 11 Q1 to Q3 69.25 to 81.75 71 to 82 70.75 to 80 70 to 81 Age (years)</span></span>
+<span><span class="co">## 12    Range       52 to 89 51 to 88    56 to 88 51 to 89 Age (years)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
 <span><span class="co">##   name Placebo Low Dose High Dose Total var_label</span></span>
@@ -243,14 +243,15 @@
 <span><span class="co">## 1       &lt;65 16.27907  9.52381  13.09524 12.99213 Age (years)</span></span>
 <span><span class="co">## 2       &gt;80 34.88372 34.52381  21.42857 30.31496 Age (years)</span></span>
 <span><span class="co">## 3     65-80 48.83721 55.95238  65.47619 56.69291 Age (years)</span></span>
-<span><span class="co">## 4      Mean       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 5        SD       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 6        SE       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 7    Median       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 8       Min       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 9       Max       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 10 Q1 to Q3       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 11    Range       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 4      &lt;NA&gt;       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 5      Mean       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 6        SD       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 7        SE       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 8    Median       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 9       Min       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 10      Max       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 11 Q1 to Q3       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">## 12    Range       NA       NA        NA       NA Age (years)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
 <span><span class="co">##   name  Placebo Low Dose High Dose    Total var_label</span></span>
@@ -279,33 +280,35 @@
 <span><span class="co">## 2                               &lt;65             14 (16.28)        8  (9.52)</span></span>
 <span><span class="co">## 3                               &gt;80             30 (34.88)       29 (34.52)</span></span>
 <span><span class="co">## 4                             65-80             42 (48.84)       47 (55.95)</span></span>
-<span><span class="co">## 5                              Mean           75.2    &lt;NA&gt;     75.7    &lt;NA&gt;</span></span>
-<span><span class="co">## 6                                SD            8.6    &lt;NA&gt;      8.3    &lt;NA&gt;</span></span>
-<span><span class="co">## 7                                SE            0.9    &lt;NA&gt;      0.9    &lt;NA&gt;</span></span>
-<span><span class="co">## 8                            Median           76.0    &lt;NA&gt;     77.5    &lt;NA&gt;</span></span>
-<span><span class="co">## 9                          Q1 to Q3 69.25 to 81.75    &lt;NA&gt; 71 to 82    &lt;NA&gt;</span></span>
-<span><span class="co">## 10                            Range       52 to 89    &lt;NA&gt; 51 to 88    &lt;NA&gt;</span></span>
-<span><span class="co">## 11                                F             53 (61.63)       50 (59.52)</span></span>
-<span><span class="co">## 12                                M             33 (38.37)       34 (40.48)</span></span>
-<span><span class="co">## 13 AMERICAN INDIAN OR ALASKA NATIVE              0  (0.00)        0  (0.00)</span></span>
-<span><span class="co">## 14        BLACK OR AFRICAN AMERICAN              8  (9.30)        6  (7.14)</span></span>
-<span><span class="co">## 15                            WHITE             78 (90.70)       78 (92.86)</span></span>
+<span><span class="co">## 5                              &lt;NA&gt;           &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;</span></span>
+<span><span class="co">## 6                              Mean           75.2    &lt;NA&gt;     75.7    &lt;NA&gt;</span></span>
+<span><span class="co">## 7                                SD            8.6    &lt;NA&gt;      8.3    &lt;NA&gt;</span></span>
+<span><span class="co">## 8                                SE            0.9    &lt;NA&gt;      0.9    &lt;NA&gt;</span></span>
+<span><span class="co">## 9                            Median           76.0    &lt;NA&gt;     77.5    &lt;NA&gt;</span></span>
+<span><span class="co">## 10                         Q1 to Q3 69.25 to 81.75    &lt;NA&gt; 71 to 82    &lt;NA&gt;</span></span>
+<span><span class="co">## 11                            Range       52 to 89    &lt;NA&gt; 51 to 88    &lt;NA&gt;</span></span>
+<span><span class="co">## 12                                F             53 (61.63)       50 (59.52)</span></span>
+<span><span class="co">## 13                                M             33 (38.37)       34 (40.48)</span></span>
+<span><span class="co">## 14 AMERICAN INDIAN OR ALASKA NATIVE              0  (0.00)        0  (0.00)</span></span>
+<span><span class="co">## 15        BLACK OR AFRICAN AMERICAN              8  (9.30)        6  (7.14)</span></span>
+<span><span class="co">## 16                            WHITE             78 (90.70)       78 (92.86)</span></span>
 <span><span class="co">##            n_3     p_3   n_9999  p_9999   var_label</span></span>
 <span><span class="co">## 1           84    &lt;NA&gt;      254    &lt;NA&gt;       -----</span></span>
 <span><span class="co">## 2           11 (13.10)       33 (12.99) Age (years)</span></span>
 <span><span class="co">## 3           18 (21.43)       77 (30.31) Age (years)</span></span>
 <span><span class="co">## 4           55 (65.48)      144 (56.69) Age (years)</span></span>
-<span><span class="co">## 5         74.4    &lt;NA&gt;     75.1    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 6          7.9    &lt;NA&gt;      8.2    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 7          0.9    &lt;NA&gt;      0.5    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 8         76.0    &lt;NA&gt;     77.0    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 9  70.75 to 80    &lt;NA&gt; 70 to 81    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 10    56 to 88    &lt;NA&gt; 51 to 89    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 11          40 (47.62)      143 (56.30)      Gender</span></span>
-<span><span class="co">## 12          44 (52.38)      111 (43.70)      Gender</span></span>
-<span><span class="co">## 13           1  (1.19)        1  (0.39)        Race</span></span>
-<span><span class="co">## 14           9 (10.71)       23  (9.06)        Race</span></span>
-<span><span class="co">## 15          74 (88.10)      230 (90.55)        Race</span></span></code></pre>
+<span><span class="co">## 5         &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 6         74.4    &lt;NA&gt;     75.1    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 7          7.9    &lt;NA&gt;      8.2    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 8          0.9    &lt;NA&gt;      0.5    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 9         76.0    &lt;NA&gt;     77.0    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 10 70.75 to 80    &lt;NA&gt; 70 to 81    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 11    56 to 88    &lt;NA&gt; 51 to 89    &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 12          40 (47.62)      143 (56.30)      Gender</span></span>
+<span><span class="co">## 13          44 (52.38)      111 (43.70)      Gender</span></span>
+<span><span class="co">## 14           1  (1.19)        1  (0.39)        Race</span></span>
+<span><span class="co">## 15           9 (10.71)       23  (9.06)        Race</span></span>
+<span><span class="co">## 16          74 (88.10)      230 (90.55)        Race</span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
@@ -315,33 +318,35 @@
 <span><span class="co">## 2                               &lt;65             14 (16.279)        8  (9.524)</span></span>
 <span><span class="co">## 3                               &gt;80             30 (34.884)       29 (34.524)</span></span>
 <span><span class="co">## 4                             65-80             42 (48.837)       47 (55.952)</span></span>
-<span><span class="co">## 5                              Mean           75.2     &lt;NA&gt;     75.7     &lt;NA&gt;</span></span>
-<span><span class="co">## 6                                SD            8.6     &lt;NA&gt;      8.3     &lt;NA&gt;</span></span>
-<span><span class="co">## 7                                SE            0.9     &lt;NA&gt;      0.9     &lt;NA&gt;</span></span>
-<span><span class="co">## 8                            Median           76.0     &lt;NA&gt;     77.5     &lt;NA&gt;</span></span>
-<span><span class="co">## 9                          Q1 to Q3 69.25 to 81.75     &lt;NA&gt; 71 to 82     &lt;NA&gt;</span></span>
-<span><span class="co">## 10                            Range       52 to 89     &lt;NA&gt; 51 to 88     &lt;NA&gt;</span></span>
-<span><span class="co">## 11                                F             53 (61.628)       50 (59.524)</span></span>
-<span><span class="co">## 12                                M             33 (38.372)       34 (40.476)</span></span>
-<span><span class="co">## 13 AMERICAN INDIAN OR ALASKA NATIVE              0  (0.000)        0  (0.000)</span></span>
-<span><span class="co">## 14        BLACK OR AFRICAN AMERICAN              8  (9.302)        6  (7.143)</span></span>
-<span><span class="co">## 15                            WHITE             78 (90.698)       78 (92.857)</span></span>
+<span><span class="co">## 5                              &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;</span></span>
+<span><span class="co">## 6                              Mean           75.2     &lt;NA&gt;     75.7     &lt;NA&gt;</span></span>
+<span><span class="co">## 7                                SD            8.6     &lt;NA&gt;      8.3     &lt;NA&gt;</span></span>
+<span><span class="co">## 8                                SE            0.9     &lt;NA&gt;      0.9     &lt;NA&gt;</span></span>
+<span><span class="co">## 9                            Median           76.0     &lt;NA&gt;     77.5     &lt;NA&gt;</span></span>
+<span><span class="co">## 10                         Q1 to Q3 69.25 to 81.75     &lt;NA&gt; 71 to 82     &lt;NA&gt;</span></span>
+<span><span class="co">## 11                            Range       52 to 89     &lt;NA&gt; 51 to 88     &lt;NA&gt;</span></span>
+<span><span class="co">## 12                                F             53 (61.628)       50 (59.524)</span></span>
+<span><span class="co">## 13                                M             33 (38.372)       34 (40.476)</span></span>
+<span><span class="co">## 14 AMERICAN INDIAN OR ALASKA NATIVE              0  (0.000)        0  (0.000)</span></span>
+<span><span class="co">## 15        BLACK OR AFRICAN AMERICAN              8  (9.302)        6  (7.143)</span></span>
+<span><span class="co">## 16                            WHITE             78 (90.698)       78 (92.857)</span></span>
 <span><span class="co">##            n_3      p_3   var_label</span></span>
 <span><span class="co">## 1           84     &lt;NA&gt;       -----</span></span>
 <span><span class="co">## 2           11 (13.095) Age (years)</span></span>
 <span><span class="co">## 3           18 (21.429) Age (years)</span></span>
 <span><span class="co">## 4           55 (65.476) Age (years)</span></span>
-<span><span class="co">## 5         74.4     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 6          7.9     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 7          0.9     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 8         76.0     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 9  70.75 to 80     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 10    56 to 88     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 11          40 (47.619)      Gender</span></span>
-<span><span class="co">## 12          44 (52.381)      Gender</span></span>
-<span><span class="co">## 13           1  (1.190)        Race</span></span>
-<span><span class="co">## 14           9 (10.714)        Race</span></span>
-<span><span class="co">## 15          74 (88.095)        Race</span></span></code></pre>
+<span><span class="co">## 5         &lt;NA&gt;     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 6         74.4     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 7          7.9     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 8          0.9     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 9         76.0     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 10 70.75 to 80     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 11    56 to 88     &lt;NA&gt; Age (years)</span></span>
+<span><span class="co">## 12          40 (47.619)      Gender</span></span>
+<span><span class="co">## 13          44 (52.381)      Gender</span></span>
+<span><span class="co">## 14           1  (1.190)        Race</span></span>
+<span><span class="co">## 15           9 (10.714)        Race</span></span>
+<span><span class="co">## 16          74 (88.095)        Race</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="output-as-rtf">Output as RTF<a class="anchor" aria-label="anchor" href="#output-as-rtf"></a>
@@ -352,7 +357,7 @@
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="st">"base_char.rtf"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpX5meuY/file18e1613a72c4.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpgwxWiw/file18c2da3027c.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/base_char.rtf</span></span></code></pre>
 </div>
 <div class="section level2">
@@ -385,8 +390,8 @@
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rtf"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpX5meuY/file18e1532b31b9.Rdata</span></span></code></pre>
-<pre><code><span><span class="co">## The output is saved in/tmp/RtmpX5meuY/file18e16fade628.rtf</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpgwxWiw/file18c2536523b4.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The output is saved in/tmp/RtmpgwxWiw/file18c21dffb6ca.rtf</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="create-treatment-compliance-table-1">Create Treatment Compliance Table<a class="anchor" aria-label="anchor" href="#create-treatment-compliance-table-1"></a>

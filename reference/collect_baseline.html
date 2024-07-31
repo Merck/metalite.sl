@@ -20,7 +20,6 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/interactive-baseline.html">Build an Interactive Baseline Characteristic Table</a></li>
-    <li><a class="dropdown-item" href="../articles/metalite-sl-subgroup.html">Subgroup Analysis for Baseline Characteristic</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -107,28 +106,30 @@ in the table. See the <code>useNA</code> argument in <code><a href="https://rdrr
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     65-80             42       47          55      144 Age (years)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       &lt;65             14        8          11       33 Age (years)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3       &gt;80             30       29          18       77 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      Mean           75.2     75.7        74.4     75.1 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        SD            8.6      8.3         7.9      8.2 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        SE            0.9      0.9         0.9      0.5 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Median           76.0     77.5        76.0     77.0 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8       Min           52.0     51.0        56.0     51.0 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9       Max           89.0     88.0        88.0     89.0 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Q1 to Q3 69.25 to 81.75 71 to 82 70.75 to 80 70 to 81 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11    Range       52 to 89 51 to 88    56 to 88 51 to 89 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;     &lt;NA&gt; Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      Mean           75.2     75.7        74.4     75.1 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        SD            8.6      8.3         7.9      8.2 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        SE            0.9      0.9         0.9      0.5 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Median           76.0     77.5        76.0     77.0 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9       Min           52.0     51.0        56.0     51.0 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10      Max           89.0     88.0        88.0     89.0 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Q1 to Q3 69.25 to 81.75 71 to 82 70.75 to 80 70 to 81 Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12    Range       52 to 89 51 to 88    56 to 88 51 to 89 Age (years)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pop</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        name  Placebo Low Dose High Dose    Total   var_label</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     65-80 48.83721 55.95238  65.47619 56.69291 Age (years)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       &lt;65 16.27907  9.52381  13.09524 12.99213 Age (years)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3       &gt;80 34.88372 34.52381  21.42857 30.31496 Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      Mean       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        SD       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        SE       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Median       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8       Min       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9       Max       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Q1 to Q3       NA       NA        NA       NA Age (years)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11    Range       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      &lt;NA&gt;       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      Mean       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6        SD       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7        SE       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    Median       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9       Min       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10      Max       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Q1 to Q3       NA       NA        NA       NA Age (years)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12    Range       NA       NA        NA       NA Age (years)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $var_type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "numeric"</span>
