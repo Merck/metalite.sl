@@ -1,0 +1,260 @@
+---
+title: "Disposition"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Disposition}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 150
+)
+```
+
+```{r setup, message=FALSE}
+library(metalite.sl)
+library(metalite)
+library(dplyr)
+```
+
+
+
+## Overview
+
+The objective of this tutorial is to generate a production-ready Disposition table specification analyses.
+
+This report produces a table that contains counts and percentage of disposition for the participants in population for overall study.
+To accomplish this using metalite.sl, four essential functions are required:
+
+- `prepare_disposition ()`:subset data for disposition analysis.
+
+- `format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
+
+- `rtf_disposition ()`: transfer (mock) output dataset to RTF table.
+
+An example output:
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("outtable/disposition.pdf")
+```
+
+
+## Example data
+
+Within metalite.sl, we utilized the ADSL datasets from the metalite
+package to create an illustrative dataset.
+The metadata structure remains consistent across all analysis examples
+within metalite.sl.
+Additional information can be accessed on the
+[metalite package website](https://merck.github.io/metalite/articles/metalite.html).
+
+# Build a metadata
+
+
+```{r}
+
+adsl <- r2rtf::r2rtf_adsl
+adsl$TRTA <- adsl$TRT01A
+adsl$TRTA <- factor(adsl$TRTA,
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
+)
+
+# Create a variable EOSSTT indicating the end of end of study status
+adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
+                      size = length(adsl$USUBJID), 
+                      prob = c(0.8, 0.2), replace = TRUE)
+# Create a variable EOTSTT1 indicating the end of treatment status part 1
+adsl$EOTSTT1 <- sample(x = c("Completed", "Discontinued"),
+                      size = length(adsl$USUBJID), 
+                      prob = c(0.85, 0.15), replace = TRUE)
+adsl <- adsl %>%
+  mutate(DCTREAS = ifelse(DISCONFL == "Y", DCREASCD, "ZStatus Not Recorded"))
+head(adsl)
+
+```
+
+```{r}
+plan <- plan(
+  analysis = "disp", population = "apat",
+ observation = "apat", parameter = "disposition;medical-disposition"  
+)
+```
+
+
+```{r}
+meta <- meta_adam(
+  population = adsl,
+  observation = adsl
+) |>
+  define_plan(plan = plan) |>
+  define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = quote(SAFFL == "Y")
+    
+  ) |>
+    define_parameter(
+    name = "disposition",
+    var = "EOSSTT",
+    label = "Trial Disposition",
+    var_lower = "DCTREAS"
+  ) |>
+  define_parameter(
+    name = "medical-disposition",
+    var = "EOTSTT1",
+    label = "Participant Study Medication Disposition",
+    var_lower = "DCTREAS"
+  ) |>
+  define_analysis(
+    name = "disp",
+    title = "Disposition of Participant",
+    label = "disposition table"
+  ) |>
+  meta_build()
+```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
+meta
+```
+</details>
+
+### Analysis preparation
+
+The function `prepare_disposition()` is written to prepare data for subject disposition analysis.The function takes four arguments:
+
+Meta is metadata object created by metalite and it contains data from ADSL.
+Analysis, Population, and Parameter arguments are used to subset and process the meta data. They have default values, which rely on the meta data object.
+
+The function assign default value Analysis to `prepare_disposition`, Population to the population value associated with the `prepare_disposition` analysis in meta plan, and parameter to the parameter(s) associated with the `prepare_disposition` analysis in meta$plan.
+
+However, the user can also manually specify the analysis, population, and parameter values when calling the function, if they want to override the default values.
+
+In the body of the function, it calls another function `prepare_sl_summary` with the same meta, analysis, population, and parameter arguments.
+`prepare_sl_summary` takes the meta data, subsets it based on the analysis, population, and parameter values, and then calculates and returns a summary of the relevant data.
+
+The result of `prepare_sl_summary` is then returned as the result of `prepare_disposition`.
+
+```{r}
+prepare_disposition <- function(meta,
+                              analysis = "disp",
+                              population = meta$plan[meta$plan$analysis==analysis,]$population,
+                              parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
+) {
+  return(
+    prepare_sl_summary(meta,
+                       analysis = analysis,
+                       population = population,
+                       parameter = parameter
+    )
+  )
+}
+```
+
+The resulting output of the function `prepare_disposition()` comprises
+a collection of raw datasets for analysis and reporting.
+
+```{r}
+outdata <- prepare_disposition(meta)
+outdata
+```
+- `parameter`: parameter name
+
+```{r}
+outdata$parameter
+```
+- `n`: number of participants in population
+
+```{r}
+outdata$n
+```
+
+The resulting dataset contains frequently used statistics,
+with variables indexed according to the order specified in `outdata$group`.
+
+```{r}
+outdata$group
+```
+
+- `char_n`: number of participants completed vs not completed in each parameter
+
+```{r}
+outdata$char_n
+```
+
+- `char_var` : name of parameter
+
+```{r}
+outdata$char_var
+```
+
+- `char_prop` : proportion of subject with disposition
+
+```{r}
+outdata$char_prop
+```
+
+## Format output
+
+Once the raw analysis results are obtained,
+the `format_disposition()` function can be employed to prepare the outdata,ensuring its compatibility with production-ready RTF tables.
+
+```{r}
+tbl <- outdata |> format_disposition()
+head(tbl$tbl)
+```
+
+
+## RTF tables
+
+The last step is to prepare the RTF table using `rtf_trt_compliance`.
+
+```{r}
+x <- outdata |>
+  format_disposition()
+
+x$tbl <- x$tbl %>%
+  mutate(name = ifelse(trimws(name) == "ZStatus Not Recorded", "    Status Not Recorded", name))
+
+x |>
+  rtf_disposition(
+    "Source: [CDISCpilot: adam-adsl]",
+    path_outdata = tempfile(fileext = ".Rdata"),
+    path_outtable = "outtable/disposition.rtf"
+  )
+```
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("outtable/disposition.pdf")
+```
+
+The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
+
+```{r}
+
+x <- outdata |>
+  format_disposition()
+
+x$tbl <- x$tbl %>%
+  mutate(name = ifelse(trimws(name) == "ZStatus Not Recorded", "    Status Not Recorded", name))
+
+x |>
+  rtf_disposition(
+    orientation = "landscape",
+    col_rel_width = c(4, rep(1, 9)),
+    "Source: [CDISCpilot: adam-adsl]",
+    path_outdata = tempfile(fileext = ".Rdata"),
+    path_outtable = "outtable/disposition1.rtf"  
+    )
+```
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("outtable/disposition1.pdf")
+```
