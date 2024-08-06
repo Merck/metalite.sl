@@ -33,14 +33,14 @@ To accomplish this using metalite.sl, four essential functions are required:
 
 - `prepare_disposition ()`:subset data for disposition analysis.
 
-- `format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
+- `format_disposition()`: prepare analysis outdata with proper format.
 
-- `rtf_disposition ()`: transfer (mock) output dataset to RTF table.
+- `rtf_disposition ()`: transfer output dataset to RTF table.
 
 An example output:
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/disposition.pdf")
+knitr::include_graphics("outtable/pdf/disposition.pdf")
 ```
 
 
@@ -142,22 +142,6 @@ In the body of the function, it calls another function `prepare_sl_summary` with
 
 The result of `prepare_sl_summary` is then returned as the result of `prepare_disposition`.
 
-```{r}
-prepare_disposition <- function(meta,
-                              analysis = "disp",
-                              population = meta$plan[meta$plan$analysis==analysis,]$population,
-                              parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
-) {
-  return(
-    prepare_sl_summary(meta,
-                       analysis = analysis,
-                       population = population,
-                       parameter = parameter
-    )
-  )
-}
-```
-
 The resulting output of the function `prepare_disposition()` comprises
 a collection of raw datasets for analysis and reporting.
 
@@ -221,7 +205,7 @@ x <- outdata |>
   format_disposition()
 
 x$tbl <- x$tbl %>%
-  mutate(name = ifelse(trimws(name) == "ZStatus Not Recorded", "    Status Not Recorded", name))
+  mutate(name = ifelse(trimws(name) == "Status Not Recorded", "    Status Not Recorded", name))
 
 x |>
   rtf_disposition(
@@ -232,7 +216,7 @@ x |>
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/disposition.pdf")
+knitr::include_graphics("outtable/pdf/disposition.pdf")
 ```
 
 The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
@@ -256,5 +240,5 @@ x |>
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/disposition1.pdf")
+knitr::include_graphics("outtable/pdf/disposition1.pdf")
 ```
