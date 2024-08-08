@@ -69,12 +69,10 @@ adsl$TRTA <- factor(adsl$TRTA,
 adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
                       size = length(adsl$USUBJID), 
                       prob = c(0.8, 0.2), replace = TRUE)
+
 # Create a variable EOTSTT1 indicating the end of treatment status part 1
-adsl$EOTSTT1 <- sample(x = c("Completed", "Discontinued"),
-                      size = length(adsl$USUBJID), 
-                      prob = c(0.85, 0.15), replace = TRUE)
-adsl <- adsl %>%
-  mutate(DCTREAS = ifelse(DISCONFL == "Y", DCREASCD, "ZStatus Not Recorded"))
+adsl$EOTSTT1 <- ifelse(adsl$DISCONFL == "Y", "Discontinued", "Completed")
+adsl$DCTREAS<- ifelse(adsl$EOTSTT1 == "Discontinued" & adsl$EOSSTT == "Discontinued", adsl$DCREASCD, NA)
 head(adsl)
 
 ```
@@ -227,7 +225,7 @@ x <- outdata |>
   format_disposition()
 
 x$tbl <- x$tbl %>%
-  mutate(name = ifelse(trimws(name) == "ZStatus Not Recorded", "    Status Not Recorded", name))
+  mutate(name = ifelse(trimws(name) == "Status Not Recorded", "    Status Not Recorded", name))
 
 x |>
   rtf_disposition(
