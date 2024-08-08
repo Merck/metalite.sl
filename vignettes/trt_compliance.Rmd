@@ -33,9 +33,9 @@ To accomplish this using metalite.sl, three essential functions are required:
 
 -`prepare_trt_compliance ()`:this function is a wrapper function of `prepare_sl_summary ()` which prepares data for treatment compliance analysis.
 
--`format_trt_compliance()`: prepare analysis (mock) outdata with proper format.
+-`format_trt_compliance()`: prepare analysis outdata with proper format.
 
--`rtf_trt_compliance` ()`: transfer (mock) output dataset to RTF table.
+-`rtf_trt_compliance()`: transfer output dataset to RTF table.
 
 An example output:
 
@@ -61,7 +61,7 @@ adsl <- r2rtf::r2rtf_adsl
 adex <- metalite.ae::metalite_ae_adex
 
 adex1 <- adex |>
-  filter(EXNUMDOS > 0 & ADURN != NA) |>
+  filter(EXNUMDOS > 0 & !(is.na(AENDY))) |>
   group_by(USUBJID) |>
   slice(n()) |>
   select(USUBJID, AENDY) |>
@@ -73,7 +73,7 @@ adsl <- adsl |>
   mutate(
     TRTDUR = as.numeric(TRTDUR),
     ADURN = as.numeric(ADURN),
-    CMPLPCT = (ADURN / TRTDUR) * 100
+    CMPLPCT = round((ADURN / TRTDUR) * 100, 2)
   )
 
 adsl <- adsl |>
@@ -164,22 +164,6 @@ In the body of the function, it calls another function prepare_sl_summary with t
 `prepare_sl_summary` takes the meta data, subsets it based on the analysis, population, and parameter values, and then calculates and returns a summary of the relevant data.
 
 The result of prepare_sl_summary is then returned as the result of prepare_trt_compliance.
-
-
-```{r}
-prepare_trt_compliance <- function(meta,
-                                   analysis = "trt_compliance",
-                                   population = meta$plan[meta$plan$analysis == analysis, ]$population,
-                                   parameter = paste(meta$plan[meta$plan$analysis == analysis, ]$parameter, collapse = ";")) {
-  return(
-    prepare_sl_summary(meta,
-      analysis = analysis,
-      population = population,
-      parameter = parameter
-    )
-  )
-}
-```
 
 The resulting output of the function `prepare_trt_compliance()` comprises
 a collection of raw datasets for analysis and reporting.

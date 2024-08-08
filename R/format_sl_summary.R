@@ -101,7 +101,8 @@ format_sl_summary <- function(
   n_within <- length(within_tbl)
   n_row <- ncol(tbl[["n"]])
   within_tbl <- do.call(cbind, within_tbl)
-  within_tbl <- within_tbl[!duplicated(as.list(within_tbl))]
+
+  within_tbl <- within_tbl[, !duplicated(names(within_tbl))]
   within_tbl <- within_tbl[, c(
     1, do.call(c, lapply(
       2:(1 + n_group + ifelse("total" %in% display_col, 1, 0)),

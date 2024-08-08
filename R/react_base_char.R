@@ -80,7 +80,7 @@ react_base_char <- function(
   x_sl <- metadata_sl |>
     prepare_sl_summary(
       population = population,
-      analysis = "base_char",
+      analysis = metadata_sl$plan$analysis,
       parameter = sl_parameter
     ) |>
     format_base_char(display_col = display_sl, digits_prop = 2)
