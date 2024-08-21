@@ -205,7 +205,7 @@ raw datasets. Key arguments are:
 - `subgroup_var`: a character value of subgroup variable name in observation data saved in meta$data_observation.
 - `subgroup_header`: a character vector for column header hierarchy. The first element will be the first level header and the second element will be second level header.
 
-```{r}
+```{r, eval = FALSE}
 outdata <- prepare_base_char_subgroup(
   meta,
   population = "apat",
@@ -218,7 +218,7 @@ outdata <- prepare_base_char_subgroup(
 
 The output dataset contains commonly used statistics within each `subgroup_var`.
 
-```{r}
+```{r, eval = FALSE}
 outdata$out_all$`Placebo`
 outdata$out_all$`High Dose`
 outdata$out_all$`Low Dose`
@@ -226,14 +226,14 @@ outdata$out_all$`Low Dose`
 
 The information about subgroup saved with `outdata$group` and `outdata$subgroup`.
 
-```{r}
+```{r, eval = FALSE}
 outdata$group
 outdata$subgroup
 ```
 
 `n_pop`: participants in population within each `subgroup_var`.
 
-```{r}
+```{r, eval = FALSE}
 outdata$out_all$`Placebo`$n
 outdata$out_all$`High Dose`$n
 outdata$out_all$`Low Dose`$n
@@ -243,7 +243,7 @@ outdata$out_all$`Low Dose`$n
 
 `format_base_char_subgroup` to prepare analysis dataset before generate RTF output
 
-```{r}
+```{r, eval = FALSE}
 tbl <- format_base_char_subgroup(outdata)
 head(tbl$tbl)
 ```
@@ -252,7 +252,7 @@ head(tbl$tbl)
 
 `rtf_base_char_subgroup` to generate RTF output
 
-```{r warning=FALSE}
+```{r, warning=FALSE, eval = FALSE}
 outdata |>
   format_base_char_subgroup() |>
   rtf_base_char_subgroup(
