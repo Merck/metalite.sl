@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Getting Started with metalite.sl • metalite.sl</title>
+<title>Getting Started with Baseline Characteristics Table • metalite.sl</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Getting Started with metalite.sl">
+<meta property="og:title" content="Getting Started with Baseline Characteristics Table">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -36,9 +36,9 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item"><a class="nav-link" href="../articles/metalite-sl.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/metalite-sl.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
+<li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/baseline-character.html">Getting Started with Baseline Characteristics Table</a></li>
@@ -65,11 +65,11 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Getting Started with metalite.sl</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Getting Started with Baseline Characteristics Table</h1>
             
       
 
-      <div class="d-none name"><code>metalite-sl.Rmd</code></div>
+      <div class="d-none name"><code>baseline-character.Rmd</code></div>
     </div>
 
     
@@ -78,49 +78,48 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://merck.github.io/metalite/" class="external-link">metalite</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">metalite.sl</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
-<h2 id="build-a-metadata">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata"></a>
+<h2 id="create-baseline-characteristic-table">Create Baseline Characteristic Table<a class="anchor" aria-label="anchor" href="#create-baseline-characteristic-table"></a>
 </h2>
+<p>The baseline characteristic analysis aims to provide tables to
+summarize details of participants. The development of baseline
+characteristic analysis involves functions:</p>
+<ul>
+<li>
+<code>prepare_base_cha</code>: prepare analysis raw datasets.</li>
+<li>
+<code>format_base_char</code>: prepare analysis (mock) outdata with
+proper format.</li>
+<li>
+<code>rtf_base_char</code>: transfer (mock) output dataset to RTF
+table.</li>
+</ul>
+<div class="section level3">
+<h3 id="build-a-metadata">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata"></a>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">r2rtf</span><span class="fu">::</span><span class="va"><a href="https://merck.github.io/r2rtf/reference/r2rtf_adsl.html" class="external-link">r2rtf_adsl</a></span></span>
 <span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="va">adsl</span><span class="op">$</span><span class="va">TRT01A</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span>,</span>
+<span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span>,</span>
 <span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Xanomeline Low Dose"</span>, <span class="st">"Xanomeline High Dose"</span><span class="op">)</span>,</span>
 <span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Low Dose"</span>, <span class="st">"High Dose"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create a variable EOSSTT indicating the end of end of study status</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">EOSSTT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Participants Ongoing"</span>, <span class="st">"Discontinued"</span><span class="op">)</span>,</span>
-<span>                      size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span>, </span>
-<span>                      prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.2</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co"># Create a variable EOTSTT1 indicating the end of treatment status part 1</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">EOTSTT1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Completed"</span>, <span class="st">"Discontinued"</span><span class="op">)</span>,</span>
-<span>                      size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span>, </span>
-<span>                      prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.85</span>, <span class="fl">0.15</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
-<span>    analysis <span class="op">=</span> <span class="st">"base_char"</span>, population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    observation <span class="op">=</span> <span class="st">"apat"</span>, parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/add_plan.html" class="external-link">add_plan</a></span><span class="op">(</span></span>
-<span>    analysis <span class="op">=</span> <span class="st">"disp"</span>, population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    observation <span class="op">=</span> <span class="st">"apat"</span>, parameter <span class="op">=</span> <span class="st">"disposition;medical-disposition"</span>    </span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/add_plan.html" class="external-link">add_plan</a></span><span class="op">(</span></span>
-<span>    analysis <span class="op">=</span> <span class="st">"trt_compliance"</span>, population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    observation <span class="op">=</span> <span class="st">"apat"</span>, parameter <span class="op">=</span> <span class="st">"comp8;comp16;comp24"</span>    </span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<span>  analysis <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span></span>
-<span>  population <span class="op">=</span> <span class="va">adsl</span>,</span>
-<span>  observation <span class="op">=</span> <span class="va">adsl</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span>population <span class="op">=</span> <span class="va">adsl</span>,</span>
+<span>                  observation <span class="op">=</span> <span class="va">adsl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span>plan <span class="op">=</span> <span class="va">plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
 <span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
 <span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span><span class="op">)</span>,</span>
-<span>    var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"TRTA"</span>, <span class="st">"SAFFL"</span>, <span class="st">"AGEGR1"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span>, <span class="st">"EOSSTT"</span>, <span class="st">"EOTSTT1"</span>, <span class="st">"COMP8FL"</span>, <span class="st">"COMP16FL"</span>, <span class="st">"COMP24FL"</span><span class="op">)</span></span>
-<span>    </span>
+<span>    var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"TRTA"</span>, <span class="st">"SAFFL"</span>, <span class="st">"AGEGR1"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"age"</span>,</span>
@@ -128,66 +127,25 @@
 <span>    label <span class="op">=</span> <span class="st">"Age (years)"</span>,</span>
 <span>    vargroup <span class="op">=</span> <span class="st">"AGEGR1"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Gender"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"race"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Race"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"disposition"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"EOSSTT"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Trial Disposition"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"medical-disposition"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"EOTSTT1"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Participant Study Medication Disposition"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"comp8"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"COMP8FL"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Compliance (Week 8)"</span>,</span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"comp16"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"COMP16FL"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Compliance (Week 16)"</span>,</span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"comp24"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"COMP24FL"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Compliance (Week 24)"</span>,</span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"base_char"</span>,</span>
-<span>    title <span class="op">=</span> <span class="st">"Participant Baseline Characteristics by Treatment Group"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"baseline characteristic table"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"trt_compliance"</span>,</span>
-<span>    title <span class="op">=</span> <span class="st">"Summary of Treatment Compliance"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"treatment compliance table"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"disp"</span>,</span>
-<span>    title <span class="op">=</span> <span class="st">"Disposition of Participant"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"disposition table"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"gender"</span>,</span>
+<span>                   var <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>                   label <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"race"</span>,</span>
+<span>                   var <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>                   label <span class="op">=</span> <span class="st">"Race"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>                  title <span class="op">=</span> <span class="st">"Participant Baseline Characteristics by Treatment Group"</span>,</span>
+<span>                  label <span class="op">=</span> <span class="st">"baseline characteristic table"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="prepare-the-numbers">Prepare the numbers<a class="anchor" aria-label="anchor" href="#prepare-the-numbers"></a>
-</h2>
+<div class="section level3">
+<h3 id="analysis-preparation">Analysis preparation<a class="anchor" aria-label="anchor" href="#analysis-preparation"></a>
+</h3>
+<p>The input of the function <code><a href="../reference/prepare_base_char.html">prepare_base_char()</a></code> is a
+<code>meta</code> object created by the metalite package.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/prepare_base_char.html">prepare_base_char</a></span><span class="op">(</span></span>
-<span>    parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
-<span>  <span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/prepare_base_char.html">prepare_base_char</a></span><span class="op">(</span>parameter <span class="op">=</span> <span class="st">"age;gender;race"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">outdata</span></span></code></pre></div>
 <pre><code><span><span class="co">## List of 14</span></span>
@@ -271,11 +229,15 @@
 <span><span class="co">## 2      Race</span></span>
 <span><span class="co">## 3      Race</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="format-the-numbers">Format the numbers<a class="anchor" aria-label="anchor" href="#format-the-numbers"></a>
-</h2>
+<div class="section level3">
+<h3 id="format-the-numbers">Format the numbers<a class="anchor" aria-label="anchor" href="#format-the-numbers"></a>
+</h3>
+<p><code>format_base_char</code> to prepare analysis dataset before
+generate RTF output</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"total"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"total"</span><span class="op">)</span>,</span>
+<span>                              digits_prop <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                name            n_1     p_1      n_2     p_2</span></span>
@@ -313,7 +275,8 @@
 <span><span class="co">## 15           9 (10.71)       23  (9.06)        Race</span></span>
 <span><span class="co">## 16          74 (88.10)      230 (90.55)        Race</span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                name            n_1      p_1      n_2      p_2</span></span>
@@ -351,81 +314,158 @@
 <span><span class="co">## 15           9 (10.714)        Race</span></span>
 <span><span class="co">## 16          74 (88.095)        Race</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="output-as-rtf">Output as RTF<a class="anchor" aria-label="anchor" href="#output-as-rtf"></a>
-</h2>
+<div class="section level3">
+<h3 id="output-as-rtf">Output as RTF<a class="anchor" aria-label="anchor" href="#output-as-rtf"></a>
+</h3>
+<p><code>rtf_base_char</code> to generate RTF output</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/rtf_base_char.html">rtf_base_char</a></span><span class="op">(</span></span>
 <span>  source <span class="op">=</span> <span class="st">"Source: [CDISCpilot: adam-adsl]"</span>,</span>
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="st">"base_char.rtf"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpceTBd5/file19d2555ec5e4.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmprh2LBZ/file19266d721217.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/base_char.rtf</span></span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="create-treatment-compliance-table">Create Treatment Compliance Table<a class="anchor" aria-label="anchor" href="#create-treatment-compliance-table"></a>
-</h2>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/prepare_trt_compliance.html">prepare_trt_compliance</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">outdata</span></span></code></pre></div>
-<pre><code><span><span class="co">## List of 14</span></span>
-<span><span class="co">##  $ meta           :List of 7</span></span>
-<span><span class="co">##  $ population     : chr "apat"</span></span>
-<span><span class="co">##  $ observation    : chr "apat"</span></span>
-<span><span class="co">##  $ parameter      : chr "comp8;comp16;comp24"</span></span>
-<span><span class="co">##  $ n              :'data.frame': 1 obs. of  6 variables:</span></span>
-<span><span class="co">##  $ order          : NULL</span></span>
-<span><span class="co">##  $ group          : chr "TRTA"</span></span>
-<span><span class="co">##  $ reference_group: NULL</span></span>
-<span><span class="co">##  $ char_n         :List of 3</span></span>
-<span><span class="co">##  $ char_var       : chr [1:3] "COMP8FL" "COMP16FL" "COMP24FL"</span></span>
-<span><span class="co">##  $ char_prop      :List of 3</span></span>
-<span><span class="co">##  $ var_type       :List of 3</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
-<span><span class="co">##  $ analysis       : chr "trt_compliance"</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/format_trt_compliance.html">format_trt_compliance</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/rtf_trt_compliance.html">rtf_trt_compliance</a></span><span class="op">(</span></span>
-<span>  source <span class="op">=</span> <span class="st">"Source: [CDISCpilot: adam-adsl]"</span>,</span>
-<span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
-<span>  path_outtable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rtf"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpceTBd5/file19d28977322.Rdata</span></span></code></pre>
-<pre><code><span><span class="co">## The output is saved in/tmp/RtmpceTBd5/file19d278a8f2af.rtf</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="create-treatment-compliance-table-1">Create Treatment Compliance Table<a class="anchor" aria-label="anchor" href="#create-treatment-compliance-table-1"></a>
+<h2 id="create-baseline-characteristic-table-for-subgroup-analysis">Create Baseline Characteristic Table for Subgroup Analysis<a class="anchor" aria-label="anchor" href="#create-baseline-characteristic-table-for-subgroup-analysis"></a>
 </h2>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/prepare_disposition.html">prepare_disposition</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">outdata</span></span></code></pre></div>
-<pre><code><span><span class="co">## List of 14</span></span>
-<span><span class="co">##  $ meta           :List of 7</span></span>
-<span><span class="co">##  $ population     : chr "apat"</span></span>
-<span><span class="co">##  $ observation    : chr "apat"</span></span>
-<span><span class="co">##  $ parameter      : chr "disposition;medical-disposition"</span></span>
-<span><span class="co">##  $ n              :'data.frame': 1 obs. of  6 variables:</span></span>
-<span><span class="co">##  $ order          : NULL</span></span>
-<span><span class="co">##  $ group          : chr "TRTA"</span></span>
-<span><span class="co">##  $ reference_group: NULL</span></span>
-<span><span class="co">##  $ char_n         :List of 2</span></span>
-<span><span class="co">##  $ char_var       : chr [1:2] "EOSSTT" "EOTSTT1"</span></span>
-<span><span class="co">##  $ char_prop      :List of 2</span></span>
-<span><span class="co">##  $ var_type       :List of 2</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
-<span><span class="co">##  $ analysis       : chr "disp"</span></span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/format_disposition.html">format_disposition</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/rtf_disposition.html">rtf_disposition</a></span><span class="op">(</span></span>
-<span>  source <span class="op">=</span> <span class="st">"Source: [CDISCpilot: adam-adsl]"</span>,</span>
-<span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
-<span>  path_outtable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rtf"</span><span class="op">)</span></span>
+<p>The baseline characteristic subgroup analysis aims to provide tables
+to summarize details of participants by subgroup. The development of
+baseline characteristic subgroup analysis involves functions:</p>
+<ul>
+<li>
+<code><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup()</a></code>: prepare analysis raw
+datasets.</li>
+<li>
+<code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code>: prepare analysis (mock)
+outdata with proper format.</li>
+<li>
+<code><a href="../reference/rtf_base_char_subgroup.html">rtf_base_char_subgroup()</a></code>: transfer (mock) output
+dataset to RTF table.</li>
+</ul>
+<div class="section level3">
+<h3 id="build-a-metadata-1">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata-1"></a>
+</h3>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">r2rtf</span><span class="fu">::</span><span class="va"><a href="https://merck.github.io/r2rtf/reference/r2rtf_adsl.html" class="external-link">r2rtf_adsl</a></span></span>
+<span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="va">adsl</span><span class="op">$</span><span class="va">TRT01A</span></span>
+<span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Xanomeline Low Dose"</span>, <span class="st">"Xanomeline High Dose"</span><span class="op">)</span>,</span>
+<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Low Dose"</span>, <span class="st">"High Dose"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
+<span>  analysis <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/add_plan.html" class="external-link">add_plan</a></span><span class="op">(</span></span>
+<span>    analysis <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span>
+<span>    population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    parameter <span class="op">=</span> <span class="st">"age"</span></span>
+<span>  <span class="op">)</span> </span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span>population <span class="op">=</span> <span class="va">adsl</span>,</span>
+<span>                  observation <span class="op">=</span> <span class="va">adsl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span>plan <span class="op">=</span> <span class="va">plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span><span class="op">)</span>,</span>
+<span>    var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"TRTA"</span>, <span class="st">"SAFFL"</span>, <span class="st">"AGEGR1"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"age"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"AGE"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Age (years)"</span>,</span>
+<span>    vargroup <span class="op">=</span> <span class="st">"AGEGR1"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"gender"</span>,</span>
+<span>                   var <span class="op">=</span> <span class="st">"SEX"</span>,</span>
+<span>                   label <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"race"</span>,</span>
+<span>                   var <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>                   label <span class="op">=</span> <span class="st">"Race"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>                  title <span class="op">=</span> <span class="st">"Participant Baseline Characteristics by Treatment Group"</span>,</span>
+<span>                  label <span class="op">=</span> <span class="st">"baseline characteristic table"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span>
+<span>                  title <span class="op">=</span> <span class="st">"Participant by Age Category and Sex"</span>,</span>
+<span>                  label <span class="op">=</span> <span class="st">"baseline characteristic sub group table"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="analysis-preparation-1">Analysis preparation<a class="anchor" aria-label="anchor" href="#analysis-preparation-1"></a>
+</h3>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meta_sl_example.html">meta_sl_example</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The input of the function <code><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup()</a></code>
+is a <code>meta</code> object created by the metalite package.</p>
+<p>The output of the function is an <code>outdata</code> object
+containing a list of analysis raw datasets. Key arguments are:</p>
+<ul>
+<li>
+<code>subgroup_var</code>: a character value of subgroup variable
+name in observation data saved in meta$data_observation.</li>
+<li>
+<code>subgroup_header</code>: a character vector for column header
+hierarchy. The first element will be the first level header and the
+second element will be second level header.</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup</a></span><span class="op">(</span></span>
+<span>  <span class="va">meta</span>,</span>
+<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"age"</span>,</span>
+<span>  subgroup_var <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>  subgroup_header <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEX"</span>, <span class="st">"TRTA"</span><span class="op">)</span>,</span>
+<span>  display_subgroup_total <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The output dataset contains commonly used statistics within each
+<code>subgroup_var</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Placebo`</span></span>
+<span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`High Dose`</span></span>
+<span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Low Dose`</span></span></code></pre></div>
+<p>The information about subgroup saved with <code>outdata$group</code>
+and <code>outdata$subgroup</code>.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">group</span></span>
+<span><span class="va">outdata</span><span class="op">$</span><span class="va">subgroup</span></span></code></pre></div>
+<p><code>n_pop</code>: participants in population within each
+<code>subgroup_var</code>.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Placebo`</span><span class="op">$</span><span class="va">n</span></span>
+<span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`High Dose`</span><span class="op">$</span><span class="va">n</span></span>
+<span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Low Dose`</span><span class="op">$</span><span class="va">n</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="format-output">Format output<a class="anchor" aria-label="anchor" href="#format-output"></a>
+</h3>
+<p><code>format_base_char_subgroup</code> to prepare analysis dataset
+before generate RTF output</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">tbl</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="output-as-rtf-1">Output as RTF<a class="anchor" aria-label="anchor" href="#output-as-rtf-1"></a>
+</h3>
+<p><code>rtf_base_char_subgroup</code> to generate RTF output</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/rtf_base_char_subgroup.html">rtf_base_char_subgroup</a></span><span class="op">(</span></span>
+<span>    source <span class="op">=</span> <span class="st">"Source:  [CDISCpilot: adam-adsl]"</span>,</span>
+<span>    path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
+<span>    path_outtable <span class="op">=</span> <span class="st">"base_char_subgroup.rtf"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
