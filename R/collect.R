@@ -199,8 +199,8 @@ collect_baseline <- function(
       }
     }
 
-    pop_num <- rbind(pop_num_group, pop_num)
-    pop_prop <- rbind(pop_prop_group, pop_prop)
+    pop_num <- rbind(pop_num_group, rep(NA, ncol(pop_num)), pop_num)
+    pop_prop <- rbind(pop_prop_group, rep(NA, ncol(pop_num)), pop_prop)
   }
 
   # variable lower level

@@ -38,7 +38,7 @@ meta_sl_example <- function() {
                       levels = c("F", "M"),
                       labels = c("Female", "Male")
   )
-  
+  set.seed(123) 
   # Create a variable EOSSTT indicating the end of end of study status
   adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
                         size = length(adsl$USUBJID), 
@@ -170,6 +170,7 @@ meta_sl_exposure_example <- function() {
   
   adexsum$APERIODC <- "Base"
   adexsum$APERIOD <- 1
+  
   set.seed(123)  # Set a seed for reproducibility
   adexsum$AVAL <- sample(x = 0:(24*7), size = length(adexsum$USUBJID), replace = TRUE)
   adexsum$EXDURGR <- "not treated"

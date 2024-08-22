@@ -80,7 +80,7 @@ react_base_char <- function(
   x_sl <- metadata_sl |>
     prepare_sl_summary(
       population = population,
-      analysis = "base_char",
+      analysis = metadata_sl$plan$analysis,
       parameter = sl_parameter
     ) |>
     format_base_char(display_col = display_sl, digits_prop = 2)
@@ -201,7 +201,7 @@ react_base_char <- function(
     details = function(index) {
       if (index > 1 &
         !(tolower(tbl_sl$name[index]) %in% c("mean", "sd", "median", "min", "max", "se", "q1", "q3", "q1 to q3", "range")) &
-        tbl_sl$var_label[index] %in% ae_subgrp_label
+        tbl_sl$var_label[index] %in% ae_subgrp_label & !is.na(tbl_sl$name[index])
       ) {
         # get the index of the AE subgroup variable by the index in the baseline char table
         idx_ae_subgroup <- which(tbl_sl$var_label[index] == ae_subgrp_label)
