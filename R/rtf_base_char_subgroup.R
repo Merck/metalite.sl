@@ -68,10 +68,8 @@ rtf_base_char_subgroup <- function(
   #Add empty line before stats summary section
   tbl<- tbl |> 
     dplyr::mutate(split = cumsum(ifelse(tolower(name) == outdata$display_stat[1], 1, 0))) |>
-    dplyr::group_by(split) |> 
-    dplyr::group_modify(.f = ~dplyr::add_row(.data = .,
-                               name = "", var_label= tbl[tolower(tbl$name) == outdata$display_stat[1],]$var_label))
-  
+    dplyr::group_by(split)
+
   tbl1 <- tbl[!names(tbl) %in% c("order","split")]
   tgroup <- outdata$group
   sgroup <- outdata$subgroup
