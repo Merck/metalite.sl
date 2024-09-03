@@ -256,6 +256,16 @@ test_that("Character variables count", {
   test_meta_n_num1 <- test_meta_n_num1 %>% 
     mutate_at(vars_to_update, as.integer)
   
+  # Filter out empty line with NA
+  test_meta_n_num1 <- na.omit(test_meta_n_num1)
+  
+  # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
+  attr(test_meta_n_num1, 'na.action') <- NULL
+  
+  # Filter out empty line with NA
+  test_meta_prop_num1 <- na.omit(test_meta_prop_num1)
+  # Remove the na.action attribute from the object to avoid inequality comparsion at below "expect_equal" step
+  attr(test_meta_prop_num1, 'na.action') <- NULL
   
   # Test n
   expect_equal(

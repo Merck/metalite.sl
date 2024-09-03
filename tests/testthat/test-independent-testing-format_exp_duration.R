@@ -193,18 +193,46 @@ test_that("When digits_prop is specified then the proportions are rounded to the
     )
   
   
-  expect_equal(
-    test_dig0dat,
-    res_frq_prop0 |>
-      filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max"))
-  )
+  # Filter out empty line with NA
+  test_dig0dat <- na.omit(test_dig0dat)
+  # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
+  attr(test_dig0dat, 'na.action') <- NULL
+  
+  res_frq_prop0_tst <- res_frq_prop0 |>
+    filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max")) 
+  # Filter out empty line with (NA)
+  res_frq_prop0_tst <- na.omit(res_frq_prop0_tst)
+  # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
+  attr(res_frq_prop0_tst, 'na.action') <- NULL
   
   expect_equal(
-    test_dig2$tbl |>
-      filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max")) |>
-      select(c("name", starts_with("p_"))),
-    res_frq_prop2 |>
-      filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max"))
+    test_dig0dat,
+    res_frq_prop0_tst
+  )
+  
+  
+  test_dig2_tst <- test_dig2$tbl |>
+    filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max")) |>
+    select(c("name", starts_with("p_")))
+  
+  # Filter out empty line with NA
+  test_dig2_tst <- na.omit(test_dig2_tst)
+  # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
+  attr(test_dig2_tst, 'na.action') <- NULL
+  
+  
+  res_frq_prop2_tst <- res_frq_prop2 |>
+    filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max"))
+  
+  # Filter out empty line with NA
+  res_frq_prop2_tst <- na.omit(res_frq_prop2_tst)
+  # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
+  attr(res_frq_prop2_tst, 'na.action') <- NULL
+  
+  
+  expect_equal(
+    test_dig2_tst,
+    res_frq_prop2_tst
   )
 })
 
@@ -219,6 +247,8 @@ test_that("When display_stat contains mean then Mean row is included", {
     display_stat = c("mean")
   )
   
+  test_nm3 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+  
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
@@ -226,7 +256,7 @@ test_that("When display_stat contains mean then Mean row is included", {
       "Mean"
     )),
     
-    test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+    test_nm3[!is.na(test_nm3)]
     
   )
 })
@@ -242,13 +272,16 @@ test_that("When display_stat contains sd then SD row is included", {
     display_stat = c("sd")
   )
   
+  test_nm4 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+  
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "SD"
     )),
-    test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+    
+    test_nm4[!is.na(test_nm4)]
   )
 })
 
@@ -263,13 +296,16 @@ test_that("When display_stat contains se then SE row is included", {
     display_stat = c("se")
   )
   
+  test_nm4 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+  
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "SE"
    ) ),
-    test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+   
+   test_nm4[!is.na(test_nm4)]
   )
 })
 
@@ -284,13 +320,16 @@ test_that("When display_stat contains median then Median row is included", {
     display_stat = c("median")
   )
   
+  test_nm6 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+  
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Median"
     )),
-    test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+    
+    test_nm6[!is.na(test_nm6)]
   )
 })
 
@@ -306,13 +345,16 @@ test_that("When display_stat contains q1 to q3 then q1 to q3 row is included", {
     display_stat = c("q1 to q3")
   )
   
+  test_nm7 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+  
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Q1 to Q3"
     )),
-    test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+    
+    test_nm7[!is.na(test_nm7)]
   )
 })
 
@@ -328,12 +370,15 @@ test_that("When display_stat contains range then Range row is included", {
     display_stat = c("range")
   )
   
+  test_nm8 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+  
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Range"
     )),
-    test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
+    
+    test_nm8[!is.na(test_nm8)]
   )
 })
