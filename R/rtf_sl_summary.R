@@ -57,6 +57,9 @@ rtf_sl_summary <- function(
     path_outdata = NULL,
     path_outtable = NULL) {
   # Set default column width
+  
+  
+  
   tbl <- outdata$tbl
   display_total <- "total" %in% outdata$display_col
   if (display_total == TRUE) {
@@ -91,7 +94,7 @@ rtf_sl_summary <- function(
 
   # Set default footnote
   footnotes_stat <- NULL
-  if ("numeric" %in% outdata$var_type) {
+  if (("integer" %in% outdata$var_type) || ("numeric" %in% outdata$var_type)) {
     if ("sd" %in% tolower(outdata$display_stat)) {
       footnotes_stat <- c(footnotes_stat, "SD=Standard deviation")
     }

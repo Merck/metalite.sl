@@ -41,11 +41,21 @@ format_sl_summary <- function(
     display_col = c("n", "prop", "total"),
     digits_prop = 1,
     display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")) {
+  
+  
   n_group <- length(outdata$group_label)
 
+
+  
+  # Check if the "tbl" element exists in the "outdata" object
+  if ("tbl" %in% names(outdata)) {
+    # If the element exists, delete it
+    outdata$tbl <- NULL
+  } 
+  
   # Select statistics want to display
   for (i in 1:length(outdata$var_type)) {
-    if ("numeric" %in% outdata$var_type[[i]]) {
+    if ( ("integer" %in% outdata$var_type[[i]]) || ("numeric" %in% outdata$var_type[[i]]) ) {
       n_num <- outdata$char_n[[i]]
       n_num_group <- n_num[which(!tolower(n_num$name)
       %in% c(

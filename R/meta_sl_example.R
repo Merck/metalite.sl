@@ -170,7 +170,8 @@ meta_sl_exposure_example <- function() {
   
   adexsum$APERIODC <- "Base"
   adexsum$APERIOD <- 1
-  set.seed(123) 
+  
+  set.seed(123)  # Set a seed for reproducibility
   adexsum$AVAL <- sample(x = 0:(24*7), size = length(adexsum$USUBJID), replace = TRUE)
   adexsum$EXDURGR <- "not treated"
   adexsum$EXDURGR[adexsum$AVAL>=1] <- ">=1 day"
