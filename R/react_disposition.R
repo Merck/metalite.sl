@@ -164,38 +164,38 @@ react_disposition <- function(
   #   build interactive disposition table     #
   # ----------------------------------------- #
   # Define Column
-  # col_defs <- list()
-  # for (sl_name in names(tbl_sl)) {
-  #   if (startsWith(sl_name, "n_")) {
-  #     col_defs[[sl_name]] <- reactable::colDef(name = "n")
-  #   } else if (startsWith(sl_name, "p_")) {
-  #     col_defs[[sl_name]] <- reactable::colDef(name = "(%)")
-  #   } else {
-  #     col_defs[[sl_name]] <- reactable::colDef(name = " ")
-  #   }
-  # }
-  
+  col_defs <- list()
+  for (sl_name in names(tbl_sl)) {
+    if (startsWith(sl_name, "n_")) {
+      col_defs[[sl_name]] <- reactable::colDef(name = "n")
+    } else if (startsWith(sl_name, "p_")) {
+      col_defs[[sl_name]] <- reactable::colDef(name = "(%)")
+    } else {
+      col_defs[[sl_name]] <- reactable::colDef(name = " ")
+    }
+  }
+
   # Define Column Group
-  # col_group_defs <- list()
-  # for (i in 1:length(x_sl$group_label)) {
-  #   group <- levels(x_sl$group_label)[i]
-  #   col_group_defs <- append(
-  #     col_group_defs,
-  #     list(reactable::colGroup(
-  #       name = group,
-  #       columns = c(paste0("n_", i), paste0("p_", i))
-  #     ))
-  #   )
-  # }
-  # if (display_total == TRUE) {
-  #   col_group_defs <- append(
-  #     col_group_defs,
-  #     list(reactable::colGroup(
-  #       name = "Total",
-  #       columns = c("n_9999", "p_9999")
-  #     ))
-  #   )
-  # }
+  col_group_defs <- list()
+  for (i in 1:length(x_sl$group_label)) {
+    group <- levels(x_sl$group_label)[i]
+    col_group_defs <- append(
+      col_group_defs,
+      list(reactable::colGroup(
+        name = group,
+        columns = c(paste0("n_", i), paste0("p_", i))
+      ))
+    )
+  }
+  if (display_total == TRUE) {
+    col_group_defs <- append(
+      col_group_defs,
+      list(reactable::colGroup(
+        name = "Total",
+        columns = c("n_9999", "p_9999")
+      ))
+    )
+  }
   
   details = function(index) {
     dcsreas <- stringr::str_trim(tolower(tbl_sl$name[index]))
@@ -208,7 +208,7 @@ react_disposition <- function(
       if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="participant ptudy medication disposition"){
         var <- metadata_sl$parameter[['medical-disposition']]$var
       }
-      # get the index of the AE subgroup variable by the index in the baseline char table
+      # get dicontinued subject list
       usubjids <- x_sl$meta$data_population |> dplyr::filter(tolower(DCSREAS)==dcsreas & tolower(!!as.symbol(var))=="discontinued") |> dplyr::pull(USUBJID)
       subj_list <- metadata_sl$data_population |> dplyr::filter(USUBJID %in% usubjids)
       subj_list |>
