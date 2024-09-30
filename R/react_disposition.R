@@ -211,19 +211,18 @@ react_disposition <- function(
       subj_list <- metadata_sl$data_population |> dplyr::filter(USUBJID %in% usubjids)
       subj_list |>
       reactable::reactable(
-        details = subj_details
+        details = function(index) {
+          usubjid <- subj_list$USUBJID[index]
+          sub_ae_listing <- ae_listing_outdata$ae_listing |> dplyr::filter(Unique_Participant_ID %in% usubjid)
+          sub_ae_listing |>
+            reactable::reactable(
+            )
+        }
       )
     } 
   }
-  
-  subj_details <- function(index) {
-    usubjid <- subj_list$USUBJID[index]
-    sub_ae_listing <- ae_listing_outdata$ae_listing |> dplyr::filter(Unique_Participant_ID %in% usubjid)
-    sub_ae_listing |>
-      reactable::reactable(
-      )
-  }
-  subj_list <- data.frame()
+
+
   reactable::reactable(
     tbl_sl,
     groupBy = "var_label",
