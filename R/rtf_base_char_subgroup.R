@@ -64,13 +64,8 @@ rtf_base_char_subgroup <- function(
   
   out_all <- outdata$out_all
   tbl <- outdata$tbl
-  
-  #Add empty line before stats summary section
-  tbl<- tbl |> 
-    dplyr::mutate(split = cumsum(ifelse(tolower(name) == outdata$display_stat[1], 1, 0))) |>
-    dplyr::group_by(split)
 
-  tbl1 <- tbl[!names(tbl) %in% c("order","split")]
+  tbl1 <- tbl[!names(tbl) %in% c("order")]
   tgroup <- outdata$group
   sgroup <- outdata$subgroup
   if (outdata$display_subgroup_total) tgroup <- c(tgroup, "Total")
