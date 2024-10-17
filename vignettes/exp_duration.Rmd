@@ -14,7 +14,6 @@ vignette: >
 ---
 
 ```{r}
-devtools::load_all()
 library(metalite)
 library(metalite.sl)
 ```
