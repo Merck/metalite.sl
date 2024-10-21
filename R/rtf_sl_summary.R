@@ -109,7 +109,7 @@ rtf_sl_summary <- function(
     # combine with user defined footnotes if not NULL
     if (nchar(footnotes_stat) > 0) {
       if (!is.null(footnotes)) {
-        footnotes <- paste0(footnotes_stat, ".\n", footnotes)
+        footnotes <- c(paste0(footnotes_stat, "."), footnotes)
       } else {
         footnotes <- paste0(footnotes_stat, ".")
       }
