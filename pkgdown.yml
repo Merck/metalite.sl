@@ -4,10 +4,11 @@ pkgdown_sha: ~
 articles:
   baseline-character: baseline-character.html
   Disposition: Disposition.html
+  exp_duration: exp_duration.html
   interactive-baseline: interactive-baseline.html
   metalite-sl: metalite-sl.html
   trt_compliance: trt_compliance.html
-last_built: 2024-10-01T15:07Z
+last_built: 2024-10-21T18:46Z
 urls:
   reference: https://merck.github.io/metalite.sl/reference
   article: https://merck.github.io/metalite.sl/articles
