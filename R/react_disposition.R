@@ -24,15 +24,10 @@
 #'   which builds the AE subgroup specific table
 #' @param population A character value of population term name.
 #'   The term name is used as key to link information.
-#' @param observation A character value of observation term name.
-#'   The term name is used as key to link information.
 #' @param display_total Display total column or not.
 #' @param sl_parameter A character value of parameter term name for
 #'   the baseline characteristic table.
 #'   The term name is used as key to link information.
-#' @param ae_subgroup A vector of strubf to specify the subgroups
-#'   in the AE subgroup specific table.
-#' @param ae_specific A string specifying the AE specific category.
 #' @param width A numeric value of width of the table in pixels.
 #'
 #' @return An reactable combing both baseline characteristic table
@@ -54,10 +49,7 @@ react_disposition <- function(
     analysis = 'disp',
     population = metadata_sl$plan[metadata_sl$plan$analysis==analysis,]$population,
     sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis==analysis,]$parameter, collapse = ";"),
-    # observation = "wk12",
     display_total = TRUE,
-    #ae_subgroup = c("gender", "race"),
-    #ae_specific = "rel",
     width = 1200) {
   # ----------------------------------------- #
   #   total setting                           #
@@ -141,10 +133,10 @@ react_disposition <- function(
   ae_col_def <- list()
   for (i in 1:length(ae_selected)) ae_col_def[[ae_selected[i]]] <- reactable::colDef(ae_sel_names[i])
   
-  trt_grp <- 'trt01a'
+  trt_grp <-  toupper('trt01a')
   details <- function(index) {
     dcsreas <- stringr::str_trim(tolower(tbl_sl$name[index]))
-    if ( dcsreas %in% c("adverse event") & !is.na(tbl_sl$name[index]) ) {
+    if (!is.na(tbl_sl$name[index]) & !(dcsreas %in% c("participants in population", "discontinued", "participants ongoing", "completed"))) {
       if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="trial disposition") {
         var <- metadata_sl$parameter[['disposition']]$var
       }
@@ -156,14 +148,17 @@ react_disposition <- function(
       subj_list <- metadata_sl$data_population |> subset(subset = metadata_sl$data_population$USUBJID %in% usubjids,
                                                          select = sl_selected )
       subj_list |>
-      reactable::reactable(filterable = T, defaultExpanded = F, striped = T, groupBy = toupper(trt_grp),
+      reactable::reactable(filterable = T, defaultExpanded = F, striped = T, groupBy =trt_grp,
         columns = sl_col_def,
         details = function(index) {
           usubjid <- subj_list$USUBJID[index]
           # get AE list of a subject
-          sub_ae_listing <- ae_listing_outdata$ae_listing |> subset(subset = ae_listing_outdata$ae_listing$Unique_Participant_ID %in% usubjid, 
-                                                                    select = ae_selected)
-          sub_ae_listing |> reactable::reactable(striped = F, columns = ae_col_def, defaultExpanded = F) 
+          if ( dcsreas %in% c("adverse event")){
+            sub_ae_listing <- ae_listing_outdata$ae_listing |> subset(subset = ae_listing_outdata$ae_listing$Unique_Participant_ID %in% usubjid, 
+                                                                      select = ae_selected)
+            sub_ae_listing |> reactable::reactable(striped = F, columns = ae_col_def, defaultExpanded = F) 
+          }
+          
         }
       )
     } 
