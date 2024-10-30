@@ -57,7 +57,6 @@ Additional information can be accessed on the
 
 
 ```{r}
-
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(adsl$TRTA,
@@ -66,21 +65,22 @@ adsl$TRTA <- factor(adsl$TRTA,
 )
 
 # Create a variable EOSSTT indicating the end of end of study status
-adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
-                      size = length(adsl$USUBJID), 
-                      prob = c(0.8, 0.2), replace = TRUE)
+adsl$EOSSTT <- sample(
+  x = c("Participants Ongoing", "Discontinued"),
+  size = length(adsl$USUBJID),
+  prob = c(0.8, 0.2), replace = TRUE
+)
 
 # Create a variable EOTSTT1 indicating the end of treatment status part 1
 adsl$EOTSTT1 <- ifelse(adsl$DISCONFL == "Y", "Discontinued", "Completed")
-adsl$DCTREAS<- ifelse(adsl$EOTSTT1 == "Discontinued" & adsl$EOSSTT == "Discontinued", adsl$DCREASCD, NA)
+adsl$DCTREAS <- ifelse(adsl$EOTSTT1 == "Discontinued" & adsl$EOSSTT == "Discontinued", adsl$DCREASCD, NA)
 head(adsl)
-
 ```
 
 ```{r}
 plan <- plan(
   analysis = "disp", population = "apat",
- observation = "apat", parameter = "disposition;medical-disposition"  
+  observation = "apat", parameter = "disposition;medical-disposition"
 )
 ```
 
@@ -95,9 +95,8 @@ meta <- meta_adam(
     name = "apat",
     group = "TRTA",
     subset = quote(SAFFL == "Y")
-    
   ) |>
-    define_parameter(
+  define_parameter(
     name = "disposition",
     var = "EOSSTT",
     label = "Trial Disposition",
@@ -220,7 +219,6 @@ knitr::include_graphics("outtable/pdf/disposition.pdf")
 The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
 
 ```{r}
-
 x <- outdata |>
   format_disposition()
 
@@ -233,8 +231,8 @@ x |>
     col_rel_width = c(4, rep(1, 9)),
     "Source: [CDISCpilot: adam-adsl]",
     path_outdata = tempfile(fileext = ".Rdata"),
-    path_outtable = "outtable/disposition1.rtf"  
-    )
+    path_outtable = "outtable/disposition1.rtf"
+  )
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}

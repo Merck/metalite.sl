@@ -35,42 +35,50 @@ meta_sl_example <- function() {
     labels = c("Placebo", "Low Dose", "High Dose")
   )
   adsl$SEX <- factor(adsl$SEX,
-                      levels = c("F", "M"),
-                      labels = c("Female", "Male")
+    levels = c("F", "M"),
+    labels = c("Female", "Male")
   )
-  set.seed(123) 
+  set.seed(123)
   # Create a variable EOSSTT indicating the end of end of study status
-  adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
-                        size = length(adsl$USUBJID), 
-                        prob = c(0.8, 0.2), replace = TRUE)
-  adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
-                                                                size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]), 
-                                                                prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE)
+  adsl$EOSSTT <- sample(
+    x = c("Participants Ongoing", "Discontinued"),
+    size = length(adsl$USUBJID),
+    prob = c(0.8, 0.2), replace = TRUE
+  )
+  adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(
+    x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
+    size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]),
+    prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE
+  )
   # Create a variable EOTSTT1 indicating the end of treatment status part 1
-  adsl$EOTSTT1 <- sample(x = c("Completed", "Discontinued"),
-                         size = length(adsl$USUBJID), 
-                         prob = c(0.85, 0.15), replace = TRUE)
-  adsl[adsl[["EOTSTT1"]] == "Discontinued", "DCTREAS"] <- sample(x = c("Adverse Event", "Lack of Efficacy"),
-                                                                size = length(adsl[adsl[["EOTSTT1"]] == "Discontinued", "USUBJID"]), 
-                                                                prob = c(0.9, 0.1), replace = TRUE)
-  
+  adsl$EOTSTT1 <- sample(
+    x = c("Completed", "Discontinued"),
+    size = length(adsl$USUBJID),
+    prob = c(0.85, 0.15), replace = TRUE
+  )
+  adsl[adsl[["EOTSTT1"]] == "Discontinued", "DCTREAS"] <- sample(
+    x = c("Adverse Event", "Lack of Efficacy"),
+    size = length(adsl[adsl[["EOTSTT1"]] == "Discontinued", "USUBJID"]),
+    prob = c(0.9, 0.1), replace = TRUE
+  )
+
   plan <- metalite::plan(
     analysis = "base_char", population = "apat",
     observation = "apat", parameter = "age;gender;race"
-    ) |>
+  ) |>
     metalite::add_plan(
       analysis = "trt_compliance", population = "apat",
       observation = "apat", parameter = "comp8;comp16;comp24"
     ) |>
     metalite::add_plan(
       analysis = "disp", population = "apat",
-      observation = "apat", parameter = "disposition;medical-disposition"    
-    )  |>
+      observation = "apat", parameter = "disposition;medical-disposition"
+    ) |>
     metalite::add_plan(
       analysis = "base_char_subgroup", population = "apat",
       observation = "apat", parameter = "age"
     )
-    
+
   meta <- metalite::meta_adam(
     population = adsl,
     observation = adsl
@@ -160,34 +168,35 @@ meta_sl_example <- function() {
 #' meta_sl_exposure_example()
 meta_sl_exposure_example <- function() {
   adsl <- r2rtf::r2rtf_adsl
-  
+
   # Create ADEXSUM dataset
-  adexsum <- data.frame(USUBJID=adsl$USUBJID)
+  adexsum <- data.frame(USUBJID = adsl$USUBJID)
   adexsum$TRTA <- factor(adsl$TRT01A,
-                         levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-                         labels = c("Placebo", "Low Dose", "High Dose")
+    levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+    labels = c("Placebo", "Low Dose", "High Dose")
   )
-  
+
   adexsum$APERIODC <- "Base"
   adexsum$APERIOD <- 1
-  
-  set.seed(123)  # Set a seed for reproducibility
-  adexsum$AVAL <- sample(x = 0:(24*7), size = length(adexsum$USUBJID), replace = TRUE)
+
+  set.seed(123) # Set a seed for reproducibility
+  adexsum$AVAL <- sample(x = 0:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
   adexsum$EXDURGR <- "not treated"
-  adexsum$EXDURGR[adexsum$AVAL>=1] <- ">=1 day"
-  adexsum$EXDURGR[adexsum$AVAL>=7] <- ">=7 days"
-  adexsum$EXDURGR[adexsum$AVAL>=28] <- ">=28 days"
-  adexsum$EXDURGR[adexsum$AVAL>=12*7] <- ">=12 weeks"
-  adexsum$EXDURGR[adexsum$AVAL>=24*7] <- ">=24 weeks"
-  
+  adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day"
+  adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days"
+  adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days"
+  adexsum$EXDURGR[adexsum$AVAL >= 12 * 7] <- ">=12 weeks"
+  adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
+
   adexsum$EXDURGR <- factor(adexsum$EXDURGR,
-                            levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks"))
-  
+    levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
+  )
+
   plan <- metalite::plan(
     analysis = "exp_dur", population = "apat",
     observation = "apat", parameter = "expdur"
-  ) 
-  
+  )
+
   meta <- metalite::meta_adam(
     population = adexsum,
     observation = adexsum
@@ -196,14 +205,14 @@ meta_sl_exposure_example <- function() {
     metalite::define_population(
       name = "apat",
       group = "TRTA",
-      subset = quote(APERIOD==1 & AVAL>0)
+      subset = quote(APERIOD == 1 & AVAL > 0)
     ) |>
     metalite::define_parameter(
       name = "expdur",
       var = "AVAL",
       label = "Exposure Duration (Days)",
       vargroup = "EXDURGR"
-    )|>
+    ) |>
     metalite::define_analysis(
       name = "exp_dur",
       title = "Summary of Exposure Duration",

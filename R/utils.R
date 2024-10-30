@@ -45,13 +45,13 @@ rtf_output <- function(
     save(outdata, file = path_outdata)
     message("The outdata is saved in", normalizePath(path_outdata))
   }
-  
+
   if (!is.null(path_outtable)) {
     outdata$rtf |>
       r2rtf::rtf_encode() |>
       r2rtf::write_rtf(file = path_outtable)
     message("The output is saved in", normalizePath(path_outtable))
   }
-  
+
   invisible(outdata)
 }

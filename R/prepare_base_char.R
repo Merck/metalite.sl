@@ -38,14 +38,13 @@
 #' meta |> prepare_base_char()
 prepare_base_char <- function(meta,
                               analysis = "base_char",
-                              population = meta$plan[meta$plan$analysis==analysis,]$population,
-                              parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
-) {
+                              population = meta$plan[meta$plan$analysis == analysis, ]$population,
+                              parameter = paste(meta$plan[meta$plan$analysis == analysis, ]$parameter, collapse = ";")) {
   return(
     prepare_sl_summary(meta,
-                       analysis = analysis,
-                       population = population,
-                       parameter = parameter
+      analysis = analysis,
+      population = population,
+      parameter = parameter
     )
   )
-}   
+}

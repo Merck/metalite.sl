@@ -1,18 +1,17 @@
-
 library(metalite)
 library(metalite.ae)
 library(dplyr)
-library(tidyr)   
+library(tidyr)
 
 # Read data
 adsl <- r2rtf::r2rtf_adsl
 
 
 # Create ADEXSUM dataset
-adexsum <- data.frame(USUBJID=adsl$USUBJID)
+adexsum <- data.frame(USUBJID = adsl$USUBJID)
 adexsum$TRTA <- factor(adsl$TRT01A,
-                       levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-                       labels = c("Placebo", "Low Dose", "High Dose")
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
 )
 
 adexsum$TRTAN <- adsl$TRT01AN
@@ -22,23 +21,24 @@ names(adexsum$TRTA) <- "TREATMENT"
 
 adexsum$APERIODC <- "Base"
 adexsum$APERIOD <- 1
-adexsum$AVAL <- sample(x = 0:(24*7), size = length(adexsum$USUBJID), replace = TRUE)
+adexsum$AVAL <- sample(x = 0:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
 adexsum$EXDURGR <- "not treated"
-adexsum$EXDURGR[adexsum$AVAL>=1] <- ">=1 day"
-adexsum$EXDURGR[adexsum$AVAL>=7] <- ">=7 days"
-adexsum$EXDURGR[adexsum$AVAL>=28] <- ">=28 days"
-adexsum$EXDURGR[adexsum$AVAL>=12*7] <- ">=12 weeks"
-adexsum$EXDURGR[adexsum$AVAL>=24*7] <- ">=24 weeks"
+adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day"
+adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days"
+adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days"
+adexsum$EXDURGR[adexsum$AVAL >= 12 * 7] <- ">=12 weeks"
+adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
 
 adexsum$EXDURGR <- factor(adexsum$EXDURGR,
-                          levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks"))
+  levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
+)
 
 plan <- metalite::plan(
-  analysis = "exp_dur", 
+  analysis = "exp_dur",
   population = "apat",
-  observation = "apat", 
+  observation = "apat",
   parameter = "expdur"
-) 
+)
 
 # Create test metadata
 meta_test <- metalite::meta_adam(
@@ -49,19 +49,19 @@ meta_test <- metalite::meta_adam(
   metalite::define_population(
     name = "apat",
     group = "TRTA",
-    subset = quote(APERIOD==1 & AVAL>0)
+    subset = quote(APERIOD == 1 & AVAL > 0)
   ) |>
   metalite::define_parameter(
     name = "expdur",
     var = "AVAL",
     label = "Exposure Duration (Days)",
     vargroup = "EXDURGR"
-  )|>
+  ) |>
   metalite::define_analysis(
     name = "exp_dur",
     title = "Summary of Exposure Duration",
     label = "exposure duration table"
-  ) 
+  )
 
 
 # Prepare test data by the tested function
@@ -74,13 +74,15 @@ test_meta_exp_dur <- prepare_sl_summary(
 
 
 # Prepare adding more info
-adexsum_tot <- adexsum |> select(-c(TRTAN))  |> mutate(TRTA = "Overall")
+adexsum_tot <- adexsum |>
+  select(-c(TRTAN)) |>
+  mutate(TRTA = "Overall")
 
-adexsum_tot <- adexsum_tot |> mutate(TRTAN=9999)
+adexsum_tot <- adexsum_tot |> mutate(TRTAN = 9999)
 
 adexsum_tot <- rbind(adexsum, adexsum_tot)
 
-adexsum_tot <- adexsum_tot |> filter(APERIOD==1 & AVAL>0 & SAFFL == "Y")
+adexsum_tot <- adexsum_tot |> filter(APERIOD == 1 & AVAL > 0 & SAFFL == "Y")
 
 exdurgr_value <- as.character(sort(unique(adexsum_tot$EXDURGR)))
 
@@ -95,9 +97,9 @@ test_that("When display_col contains n and prop then the total column disappears
     test_meta_exp_dur,
     display_col = dis
   )
-  
+
   display_total <- "total" %in% dis
-  
+
   if ("n" %in% dis) {
     if (display_total) {
       n_col <- test$char_n[[1]]
@@ -108,7 +110,7 @@ test_that("When display_col contains n and prop then the total column disappears
     }
     n_col_names <- names(n_col)
   }
-  
+
   if ("prop" %in% dis) {
     if (display_total) {
       prop_col <- test$char_prop[[1]]
@@ -119,46 +121,44 @@ test_that("When display_col contains n and prop then the total column disappears
     }
     prop_col_names <- names(prop_col)
   }
-  
+
   expect_col_names <- sort(unique(c(n_col_names, prop_col_names)))
-  
+
   format_tbl_col_names <- sort(names(test$tbl))
-  
+
   expect_equal(format_tbl_col_names, expect_col_names)
 })
 
 # 2
 test_that("When digits_prop is specified then the proportions are rounded to the decimal place", {
   dis <- c("n", "prop", "total")
-  
+
   test_dig0 <- format_exp_duration(
     test_meta_exp_dur,
     display_col = dis,
     digits_prop = 0
   )
-  
+
   test_dig2 <- format_exp_duration(
     test_meta_exp_dur,
     display_col = dis,
     digits_prop = 2
   )
-  
+
   test_meta_exp_dur$char_prop
   test_meta_prop_char <- NULL
-  
+
   for (i in (1:length(test_meta_exp_dur$char_var))) {
-    
     test_meta_prop_char <-
       rbind(
         test_meta_prop_char,
         tibble(test_meta_exp_dur$char_prop[[i]])
       )
-    
   }
-  
+
   test_meta_prop_char_val <-
     test_meta_prop_char |> select(-c("name", "var_label"))
-  
+
   res_frq_prop0 <-
     data.frame(
       test_meta_prop_char$name,
@@ -168,7 +168,7 @@ test_that("When digits_prop is specified then the proportions are rounded to the
         \(x) formatC(paste0("(", formatC(x, digits = 0, format = "f"), ")"), format = "f")
       )
     )
-  
+
   res_frq_prop2 <-
     data.frame(
       test_meta_prop_char$name,
@@ -178,7 +178,7 @@ test_that("When digits_prop is specified then the proportions are rounded to the
         \(x) formatC(paste0("(", formatC(x, digits = 2, format = "f"), ")"), format = "f")
       )
     )
-  
+
   if ("total" %in% dis) {
     names(res_frq_prop0) <- c("name", paste0("p_", seq(1, length(test_meta_exp_dur$group_label))), "p_9999")
     names(res_frq_prop2) <- c("name", paste0("p_", seq(1, length(test_meta_exp_dur$group_label))), "p_9999")
@@ -186,50 +186,49 @@ test_that("When digits_prop is specified then the proportions are rounded to the
     names(res_frq_prop0) <- c("name", paste0("p_", seq(1, length(test_meta_exp_dur$group_label))))
     names(res_frq_prop2) <- c("name", paste0("p_", seq(1, length(test_meta_exp_dur$group_label))))
   }
-  
+
   test_dig0dat <- test_dig0$tbl |>
     filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max")) |>
-    select(c("name", starts_with("p_"))
-    )
-  
-  
+    select(c("name", starts_with("p_")))
+
+
   # Filter out empty line with NA
   test_dig0dat <- na.omit(test_dig0dat)
   # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
-  attr(test_dig0dat, 'na.action') <- NULL
-  
+  attr(test_dig0dat, "na.action") <- NULL
+
   res_frq_prop0_tst <- res_frq_prop0 |>
-    filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max")) 
+    filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max"))
   # Filter out empty line with (NA)
   res_frq_prop0_tst <- na.omit(res_frq_prop0_tst)
   # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
-  attr(res_frq_prop0_tst, 'na.action') <- NULL
-  
+  attr(res_frq_prop0_tst, "na.action") <- NULL
+
   expect_equal(
     test_dig0dat,
     res_frq_prop0_tst
   )
-  
-  
+
+
   test_dig2_tst <- test_dig2$tbl |>
     filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max")) |>
     select(c("name", starts_with("p_")))
-  
+
   # Filter out empty line with NA
   test_dig2_tst <- na.omit(test_dig2_tst)
   # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
-  attr(test_dig2_tst, 'na.action') <- NULL
-  
-  
+  attr(test_dig2_tst, "na.action") <- NULL
+
+
   res_frq_prop2_tst <- res_frq_prop2 |>
     filter(!name %in% c("Participants in population", "Mean", "SD", "SE", "Median", "Q1 to Q3", "Range", "Min", "Max"))
-  
+
   # Filter out empty line with NA
   res_frq_prop2_tst <- na.omit(res_frq_prop2_tst)
   # Remove the na.action attribute from the object to avoid inequality comparsion at below expect_equal" step
-  attr(res_frq_prop2_tst, 'na.action') <- NULL
-  
-  
+  attr(res_frq_prop2_tst, "na.action") <- NULL
+
+
   expect_equal(
     test_dig2_tst,
     res_frq_prop2_tst
@@ -238,97 +237,88 @@ test_that("When digits_prop is specified then the proportions are rounded to the
 
 # 3
 test_that("When display_stat contains mean then Mean row is included", {
-  
   hold <- c("SD", "SE", "Median", "Min", "Max", "Q1 to Q3", "Range")
-  
+
   test <- format_exp_duration(
     test_meta_exp_dur,
     display_col = c("n", "prop", "total"),
     display_stat = c("mean")
   )
-  
+
   test_nm3 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
-  
+
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Mean"
     )),
-    
     test_nm3[!is.na(test_nm3)]
-    
   )
 })
 
 # 4
 test_that("When display_stat contains sd then SD row is included", {
-  
   hold <- c("Mean", "SE", "Median", "Min", "Max", "Q1 to Q3", "Range")
-  
+
   test <- format_exp_duration(
     test_meta_exp_dur,
     display_col = c("n", "prop", "total"),
     display_stat = c("sd")
   )
-  
+
   test_nm4 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
-  
+
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "SD"
     )),
-    
     test_nm4[!is.na(test_nm4)]
   )
 })
 
 # 5
 test_that("When display_stat contains se then SE row is included", {
-  
   hold <- c("Mean", "SD", "Median", "Min", "Max", "Q1 to Q3", "Range")
-  
+
   test <- format_exp_duration(
     test_meta_exp_dur,
     display_col = c("n", "prop", "total"),
     display_stat = c("se")
   )
-  
+
   test_nm4 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
-  
+
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "SE"
-   ) ),
-   
-   test_nm4[!is.na(test_nm4)]
+    )),
+    test_nm4[!is.na(test_nm4)]
   )
 })
 
 # 6
 test_that("When display_stat contains median then Median row is included", {
-  
   hold <- c("Mean", "SD", "SE", "Min", "Max", "Q1 to Q3", "Range")
-  
+
   test <- format_exp_duration(
     test_meta_exp_dur,
     display_col = c("n", "prop", "total"),
     display_stat = c("median")
   )
-  
+
   test_nm6 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
-  
+
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Median"
     )),
-    
     test_nm6[!is.na(test_nm6)]
   )
 })
@@ -336,24 +326,22 @@ test_that("When display_stat contains median then Median row is included", {
 # 7
 
 test_that("When display_stat contains q1 to q3 then q1 to q3 row is included", {
-  
   hold <- c("Mean", "SD", "SE", "Min", "Max", "Median", "Range")
-  
+
   test <- format_exp_duration(
     test_meta_exp_dur,
     display_col = c("n", "prop", "total"),
     display_stat = c("q1 to q3")
   )
-  
+
   test_nm7 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
-  
+
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Q1 to Q3"
     )),
-    
     test_nm7[!is.na(test_nm7)]
   )
 })
@@ -361,24 +349,22 @@ test_that("When display_stat contains q1 to q3 then q1 to q3 row is included", {
 # 8
 
 test_that("When display_stat contains range then Range row is included", {
-  
   hold <- c("Mean", "SD", "SE", "Min", "Max", "Median", "Q1 to Q3")
-  
+
   test <- format_exp_duration(
     test_meta_exp_dur,
     display_col = c("n", "prop", "total"),
     display_stat = c("range")
   )
-  
+
   test_nm8 <- test$tbl[["name"]][!as.vector(test$tbl[["name"]]) %in% hold]
-  
+
   expect_equal(
     as.vector(c(
       "Participants in population", "not treated",
       exdurgr_value,
       "Range"
     )),
-    
     test_nm8[!is.na(test_nm8)]
   )
 })

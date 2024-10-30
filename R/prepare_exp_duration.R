@@ -37,16 +37,14 @@
 #' meta <- meta_sl_exposure_example()
 #' meta |> prepare_exp_duration()
 prepare_exp_duration <- function(meta,
-                                analysis = "exp_dur",
-                                population = meta$plan[meta$plan$analysis==analysis,]$population,
-                                parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
-) {
+                                 analysis = "exp_dur",
+                                 population = meta$plan[meta$plan$analysis == analysis, ]$population,
+                                 parameter = paste(meta$plan[meta$plan$analysis == analysis, ]$parameter, collapse = ";")) {
   return(
     prepare_sl_summary(meta,
-                       analysis = analysis,
-                       population = population,
-                       parameter = parameter
+      analysis = analysis,
+      population = population,
+      parameter = parameter
     )
   )
-  
 }

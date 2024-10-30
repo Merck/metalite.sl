@@ -47,11 +47,13 @@ rtf_exp_duration <- function(outdata,
                              col_rel_width = NULL,
                              text_font_size = 9,
                              orientation = "portrait",
-                             footnotes = c("Each participant is counted once on each applicable duration category row.", 
-                                           "Duration of Exposure is the time from the first dose date to the last dose date."),
+                             footnotes = c(
+                               "Each participant is counted once on each applicable duration category row.",
+                               "Duration of Exposure is the time from the first dose date to the last dose date."
+                             ),
                              title = NULL,
                              path_outdata = NULL,
-                             path_outtable = NULL){
+                             path_outtable = NULL) {
   return(
     rtf_sl_summary(
       outdata,
@@ -63,6 +65,6 @@ rtf_exp_duration <- function(outdata,
       title = title,
       path_outdata = path_outdata,
       path_outtable = path_outtable
-    ) 
+    )
   )
 }

@@ -38,15 +38,13 @@
 #' meta |> prepare_trt_compliance()
 prepare_trt_compliance <- function(meta,
                                    analysis = "trt_compliance",
-                                   population = meta$plan[meta$plan$analysis==analysis,]$population,
-                                   parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
-                                   ) {
+                                   population = meta$plan[meta$plan$analysis == analysis, ]$population,
+                                   parameter = paste(meta$plan[meta$plan$analysis == analysis, ]$parameter, collapse = ";")) {
   return(
     prepare_sl_summary(meta,
-                      analysis = analysis,
-                      population = population,
-                      parameter = parameter
-                      )
+      analysis = analysis,
+      population = population,
+      parameter = parameter
+    )
   )
-  
-}   
+}

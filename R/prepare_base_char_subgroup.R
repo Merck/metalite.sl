@@ -38,14 +38,13 @@
 #' @examples
 #' meta <- meta_sl_example()
 #' outdata <- prepare_base_char_subgroup(
-#'           meta,
-#'           population = "apat",
-#'           parameter = "age",
-#'           subgroup_var = "TRTA",
-#'           subgroup_header = c("SEX","TRTA"),
-#'           display_subgroup_total = TRUE)
-
-
+#'   meta,
+#'   population = "apat",
+#'   parameter = "age",
+#'   subgroup_var = "TRTA",
+#'   subgroup_header = c("SEX", "TRTA"),
+#'   display_subgroup_total = TRUE
+#' )
 prepare_base_char_subgroup <- function(
     meta,
     population,
@@ -54,12 +53,11 @@ prepare_base_char_subgroup <- function(
     subgroup_var,
     subgroup_header = c(meta$population[[population]]$group, subgroup_var),
     display_subgroup_total = TRUE) {
-  
   meta_original <- meta
-  
-  observation <- meta$plan[meta$plan$analysis==analysis,]$observation
-  
-  #Factor Level 1 Subgroup
+
+  observation <- meta$plan[meta$plan$analysis == analysis, ]$observation
+
+  # Factor Level 1 Subgroup
   meta$data_population[[subgroup_header[1]]] <- factor(
     as.character(meta$data_population[[subgroup_header[1]]]),
     levels = sort(unique(meta$data_population[[subgroup_header[1]]]))
@@ -68,8 +66,8 @@ prepare_base_char_subgroup <- function(
     as.character(meta$data_observation[[subgroup_header[1]]]),
     levels = sort(unique(meta$data_observation[[subgroup_header[1]]]))
   )
-  
-  #Factor Level 2 Subgroup
+
+  # Factor Level 2 Subgroup
   meta$data_population[[subgroup_var]] <- factor(
     as.character(meta$data_population[[subgroup_var]]),
     levels = sort(unique(meta$data_population[[subgroup_var]]))
@@ -78,36 +76,36 @@ prepare_base_char_subgroup <- function(
     as.character(meta$data_observation[[subgroup_var]]),
     levels = sort(unique(meta$data_observation[[subgroup_var]]))
   )
-  
+
   meta$observation[[observation]]$group <- subgroup_header[1]
   meta$population[[population]]$group <- subgroup_header[1]
-  
+
   # Obtain variables
   par_var <- metalite::collect_adam_mapping(meta, parameter)$var
-  
+
   meta_subgroup <- metalite::meta_split(meta, subgroup_header[2])
-  
+
   outdata_all <- prepare_sl_summary(
     meta,
     analysis = analysis,
-    population = meta$plan[meta$plan$analysis==analysis,]$population,
+    population = meta$plan[meta$plan$analysis == analysis, ]$population,
     parameter = parameter
   )
-  
+
   outdata_subgroup <- lapply(
     meta_subgroup,
     prepare_sl_summary,
     analysis = analysis,
-    population = meta$plan[meta$plan$analysis==analysis,]$population,
+    population = meta$plan[meta$plan$analysis == analysis, ]$population,
     parameter = parameter
   )
-  
+
   out_all <- outdata_subgroup
   out_all$Total <- outdata_all
-  
+
   group <- as.character(outdata_subgroup[[1]]$group_label)
   group <- group[!group %in% "Total"]
-  
+
   outdata <- list(
     group = group,
     subgroup = tools::toTitleCase(tolower(names(outdata_subgroup))),
@@ -118,6 +116,4 @@ prepare_base_char_subgroup <- function(
     parameter = parameter,
     out_all = out_all
   )
-  
 }
-  

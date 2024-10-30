@@ -57,9 +57,9 @@ rtf_sl_summary <- function(
     path_outdata = NULL,
     path_outtable = NULL) {
   # Set default column width
-  
-  
-  
+
+
+
   tbl <- outdata$tbl
   display_total <- "total" %in% outdata$display_col
   if (display_total == TRUE) {
