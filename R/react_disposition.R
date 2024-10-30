@@ -82,87 +82,19 @@ react_disposition <- function(
   
   tbl_sl <- x_sl$tbl
   tbl_sl$var_label[tbl_sl$name == "Participants in population"] <- "Participants in population"
-  
-  # ----------------------------------------- #
-  #   prepare the AE subgroup table numbers   #
-  # ----------------------------------------- #
-  # get the variable name of the subgroup
-  # ae_subgrp_var <- NULL
-  # ae_subgrp_label <- NULL
-  # for (x_subgrp in ae_subgroup) {
-  #   if (length(metalite::collect_adam_mapping(metadata_sl, x_subgrp)$vargroup) > 0) {
-  #     ae_subgrp_var <- c(ae_subgrp_var, metalite::collect_adam_mapping(metadata_sl, x_subgrp)$vargroup)
-  #   } else {
-  #     ae_subgrp_var <- c(ae_subgrp_var, metalite::collect_adam_mapping(metadata_sl, x_subgrp)$var)
-  #   }
-  #   ae_subgrp_label <- c(ae_subgrp_label, metalite::collect_adam_mapping(metadata_sl, x_subgrp)$label)
-  # }
-  
-  # get the AE subgroup tables
-  # tbl_ae <- list()
-  # group_ae <- list()
-  # 
-  # for (y_subgrp in ae_subgrp_var) {
-  #   tbl_ae_temp <- metalite.ae::prepare_ae_specific_subgroup(
-  #     metadata_ae,
-  #     population = population,
-  #     observation = observation,
-  #     parameter = ae_specific,
-  #     subgroup_var = y_subgrp,
-  #     display_subgroup_total = FALSE # total display for subgroup is not needed
-  #   ) |>
-  #     format_ae_specific_subgroup()
-  #   
-  #   tbl_ae <- c(tbl_ae, list(tbl_ae_temp$tbl))
-  #   # get group labels for AE analysis
-  #   group_ae <- c(group_ae, list(tbl_ae_temp$group))
-  #   # Note: Need to confirm whether treatment total can be displayed in ae subgroup
-  #   # if (display_total == TRUE){
-  #   #   group_ae <- c(group_ae, list(tbl_ae_temp$group))
-  #   # } else {
-  #   #   group_ae <- c(group_ae, list(tbl_ae_temp$group[!(tbl_ae_temp$group %in% "total")]))
-  #   # }
-  # }
-  
-  # get the AE specific
-  # ae_listing_outdata <- metalite.ae::prepare_ae_listing(
-  #   metadata_ae,
-  #   analysis = 'ae_listing',
-  #   population = population,
-  #   observation = observation,
-  #   parameter = 'any'
-  # ) |>
-  #   forestly:::format_ae_listing(display = display_sl)
+ 
+  # get AE listing
   
   ae_listing_outdata <- metalite.ae::prepare_ae_specific(metadata_ae, "apat", "wk12", "any") |>
     forestly:::collect_ae_listing(
       c(
-        "USUBJID", "SEX", "RACE", "AGE", "ASTDY", "AESEV", "AESER",
+        "USUBJID", "SEX", "RACE", "AGE", "ASTDT", "ASTDY", "AESEV", "AESER",
         "AEREL", "AEACN", "AEOUT", "SITEID", "ADURN", "ADURU", "AOCCPFL"
       )
     ) |>
     forestly:::format_ae_listing()
   
-  # Define Column and Column Group for AE specific
-  # col_defs_ae <- list()
-  # col_group_defs_ae <- list()
-  # col_defs_ae[["name"]] <- reactable::colDef(name = " ")
-  # for (i in 1:length(ae_specific_outdata$group)) {
-  #   col_defs_ae[[paste0("n_", i)]] <- reactable::colDef(name = "n")
-  #   col_defs_ae[[paste0("prop_", i)]] <- reactable::colDef(name = "(%)")
-  #   
-  #   col_group_defs_ae <- append(
-  #     col_group_defs_ae,
-  #     list(reactable::colGroup(
-  #       name = ae_specific_outdata$group[i],
-  #       columns = c(paste0("n_", i), paste0("prop_", i))
-  #     ))
-  #   )
-  # }
   
-  # ----------------------------------------- #
-  #   build interactive disposition table     #
-  # ----------------------------------------- #
   # Define Column
   col_defs <- list()
   for (sl_name in names(tbl_sl)) {
@@ -197,7 +129,20 @@ react_disposition <- function(
     )
   }
   
-  details = function(index) {
+  # Define columns for subject list
+  sl_selected <- toupper(c( 'trt01a', 'usubjid', 'siteid', 'subjid', 'sex', 'age', 'weightbl'))
+  sl_sel_names <- c('Treatment', 'Unique Subjet ID', 'Site', 'Subject ID', 'Sex', 'Age (Year)', 'Weight (kg)')
+  sl_col_def <- list()
+  for (i in 1:length(sl_selected)) sl_col_def[[sl_selected[i]]] <- reactable::colDef(sl_sel_names[i])
+  
+  # Define columns for AE list
+  ae_selected <- c('SOC_Name', 'ASTDT', 'Relative_Day_of_Onset', 'Adverse_Event', 'Duration', 'Intensity', 'Serious', 'Related', 'Action_Taken', 'Outcome')
+  ae_sel_names <- c('SOC', 'Onset Date', 'Relative Day of Onset', 'AE', 'Duraion', 'Intensity', 'Serious', 'Related', 'Action Taken', 'Outcome')
+  ae_col_def <- list()
+  for (i in 1:length(ae_selected)) ae_col_def[[ae_selected[i]]] <- reactable::colDef(ae_sel_names[i])
+  
+  trt_grp <- 'trt01a'
+  details <- function(index) {
     dcsreas <- stringr::str_trim(tolower(tbl_sl$name[index]))
     if ( dcsreas %in% c("adverse event") & !is.na(tbl_sl$name[index]) ) {
       if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="trial disposition") {
@@ -206,17 +151,19 @@ react_disposition <- function(
       if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="participant ptudy medication disposition"){
         var <- metadata_sl$parameter[['medical-disposition']]$var
       }
-      # get dicontinued subject list
-      usubjids <- x_sl$meta$data_population |> dplyr::filter(tolower(DCSREAS)==dcsreas & tolower(!!as.symbol(var))=="discontinued") |> dplyr::pull(USUBJID)
-      subj_list <- metadata_sl$data_population |> dplyr::filter(USUBJID %in% usubjids)
+      # get discontinued subject list
+      usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population$DCSREAS)==dcsreas &  tolower(x_sl$meta$data_population[[var]])=="discontinued")
+      subj_list <- metadata_sl$data_population |> subset(subset = metadata_sl$data_population$USUBJID %in% usubjids,
+                                                         select = sl_selected )
       subj_list |>
-      reactable::reactable(
+      reactable::reactable(filterable = T, defaultExpanded = F, striped = T, groupBy = toupper(trt_grp),
+        columns = sl_col_def,
         details = function(index) {
           usubjid <- subj_list$USUBJID[index]
-          sub_ae_listing <- ae_listing_outdata$ae_listing |> dplyr::filter(Unique_Participant_ID %in% usubjid)
-          sub_ae_listing |>
-            reactable::reactable(
-            )
+          # get AE list of a subject
+          sub_ae_listing <- ae_listing_outdata$ae_listing |> subset(subset = ae_listing_outdata$ae_listing$Unique_Participant_ID %in% usubjid, 
+                                                                    select = ae_selected)
+          sub_ae_listing |> reactable::reactable(striped = F, columns = ae_col_def, defaultExpanded = F) 
         }
       )
     } 
