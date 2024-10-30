@@ -140,7 +140,7 @@ react_disposition <- function(
       if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="trial disposition") {
         var <- metadata_sl$parameter[['disposition']]$var
       }
-      if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="participant ptudy medication disposition"){
+      if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="participant study medication disposition"){
         var <- metadata_sl$parameter[['medical-disposition']]$var
       }
       # get discontinued subject list
