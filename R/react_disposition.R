@@ -167,6 +167,7 @@ react_disposition <- function(
 
   reactable::reactable(
     tbl_sl,
+    sortable = F,
     groupBy = "var_label",
     width = width,
     columns = col_defs,
