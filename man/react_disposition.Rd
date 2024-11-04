@@ -22,6 +22,8 @@ which builds the baseline characteristic table}
 \item{metadata_ae}{A metadata created by \link{metalite},
 which builds the AE subgroup specific table}
 
+\item{analysis}{The analysis label provided in \code{metadata_sl}.}
+
 \item{population}{A character value of population term name.
 The term name is used as key to link information.}
 

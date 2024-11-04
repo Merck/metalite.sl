@@ -22,6 +22,7 @@
 #'   which builds the baseline characteristic table
 #' @param metadata_ae A metadata created by [metalite],
 #'   which builds the AE subgroup specific table
+#' @param analysis The analysis label provided in \code{metadata_sl}.
 #' @param population A character value of population term name.
 #'   The term name is used as key to link information.
 #' @param display_total Display total column or not.
