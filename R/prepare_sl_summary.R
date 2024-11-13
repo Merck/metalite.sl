@@ -39,10 +39,9 @@ prepare_sl_summary <- function(
     analysis,
     parameter = paste(names(meta$parameter), collapse = ";")) {
   parameters <- unlist(strsplit(parameter, ";"))
-  observation <- meta$plan[meta$plan$analysis == analysis, ]$observation
+  observation <- population
   # obtain variables
   pop_var <- metalite::collect_adam_mapping(meta, population)$var
-  obs_var <- metalite::collect_adam_mapping(meta, observation)$var
   par_var <- do.call(c, lapply(parameters, function(x) {
     metalite::collect_adam_mapping(meta, x)$var
   }))
@@ -56,10 +55,8 @@ prepare_sl_summary <- function(
   }))
 
   pop_group <- metalite::collect_adam_mapping(meta, population)$group
-  obs_group <- metalite::collect_adam_mapping(meta, observation)$group
 
   pop_id <- metalite::collect_adam_mapping(meta, population)$id
-  obs_id <- metalite::collect_adam_mapping(meta, observation)$id
 
   # obtain data
   pop <- metalite::collect_population_record(meta, population, var = c(par_var, par_var_group, par_var_lower))

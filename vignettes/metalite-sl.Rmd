@@ -13,192 +13,102 @@ vignette: >
   %\VignetteIndexEntry{Getting Started with metalite.sl}
 ---
 
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  out.width = "100%",
+  dpi = 150,
+  eval = TRUE
+)
+```
+
 ```{r}
 library(metalite)
-library(metalite.sl)
+# library(metalite.sl)
+devtools::load_all()
 ```
 
-# Build a metadata
-```{r}
-adsl <- r2rtf::r2rtf_adsl
-adsl$TRTA <- adsl$TRT01A
-adsl$TRTA <- factor(adsl$TRTA,
-  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-  labels = c("Placebo", "Low Dose", "High Dose")
-)
+# Overview
 
-# Create a variable EOSSTT indicating the end of end of study status
-adsl$EOSSTT <- sample(
-  x = c("Participants Ongoing", "Discontinued"),
-  size = length(adsl$USUBJID),
-  prob = c(0.8, 0.2), replace = TRUE
-)
-# Create a variable EOTSTT1 indicating the end of treatment status part 1
-adsl$EOTSTT1 <- sample(
-  x = c("Completed", "Discontinued"),
-  size = length(adsl$USUBJID),
-  prob = c(0.85, 0.15), replace = TRUE
-)
+metalite.sl R package designed for the analysis & reporting of subject-level analysis in clinical trials.
+It operates on ADaM datasets and adheres to the metalite structure.
+The package encompasses the following components:
+
+<details>
+<summary>Baseline Characteristics.</summary>
+<img src="https://merck.github.io/metalite.sl/articles/fig/base0char.png" width="100%">
+</details>
+
+This R package offers a comprehensive software development lifecycle (SDLC)
+solution, encompassing activities such as definition, development,
+validation, and finalization of the analysis.
+
+# Highlighted features
+
+- Avoid duplicated input by using metadata structure.
+  - For example, define analysis population once to use
+    in all subject level analysis.
+- Consistent input and output in standard functions.
+- Provide workflow to add interactive features to subject-level analysis table.
+
+# Workflow
+
+The overall workflow includes the following steps:
+
+1. Define metadata information using metalite R package.
+1. Prepare outdata using `prepare_*()` functions.
+1. Extend outdata using `extend_*()` functions (optional).
+1. Format outdata using `format_*()` functions.
+1. Create TLFs using `tlf_*()` functions.
+
+For instance, we can illustrate the creation of a straightforward
+Baseline characteristic table as shown below.
+
+```{r, eval = FALSE}
+meta_sl_example() |>
+   prepare_base_char(
+     population = "apat",
+     analysis = "base_char",
+     parameter = "age;gender"
+   ) |>
+   format_base_char() |>
+   rtf_base_char(
+     source = "Source: [CDISCpilot: adam-adsl]",
+     path_outdata = tempfile(fileext = ".Rdata"),
+     path_outtable = tempfile(fileext = ".rtf")
 ```
 
-```{r}
-plan <- plan(
-  analysis = "base_char", population = "apat",
-  observation = "apat", parameter = "age;gender;race"
-) |>
-  add_plan(
-    analysis = "disp", population = "apat",
-    observation = "apat", parameter = "disposition;medical-disposition"
-  ) |>
-  add_plan(
-    analysis = "trt_compliance", population = "apat",
-    observation = "apat", parameter = "comp8;comp16;comp24"
-  )
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/base0char.pdf")
 ```
 
-```{r}
-meta <- meta_adam(
-  population = adsl,
-  observation = adsl
-) |>
-  define_plan(plan = plan) |>
-  define_population(
-    name = "apat",
-    group = "TRTA",
-    subset = quote(SAFFL == "Y"),
-    var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE", "EOSSTT", "EOTSTT1", "COMP8FL", "COMP16FL", "COMP24FL")
-  ) |>
-  define_parameter(
-    name = "age",
-    var = "AGE",
-    label = "Age (years)",
-    vargroup = "AGEGR1"
-  ) |>
-  define_parameter(
-    name = "gender",
-    var = "SEX",
-    label = "Gender"
-  ) |>
-  define_parameter(
-    name = "race",
-    var = "RACE",
-    label = "Race"
-  ) |>
-  define_parameter(
-    name = "disposition",
-    var = "EOSSTT",
-    label = "Trial Disposition"
-  ) |>
-  define_parameter(
-    name = "medical-disposition",
-    var = "EOTSTT1",
-    label = "Participant Study Medication Disposition"
-  ) |>
-  metalite::define_parameter(
-    name = "comp8",
-    var = "COMP8FL",
-    label = "Compliance (Week 8)",
-  ) |>
-  metalite::define_parameter(
-    name = "comp16",
-    var = "COMP16FL",
-    label = "Compliance (Week 16)",
-  ) |>
-  metalite::define_parameter(
-    name = "comp24",
-    var = "COMP24FL",
-    label = "Compliance (Week 24)",
-  ) |>
-  define_analysis(
-    name = "base_char",
-    title = "Participant Baseline Characteristics by Treatment Group",
-    label = "baseline characteristic table"
-  ) |>
-  define_analysis(
-    name = "trt_compliance",
-    title = "Summary of Treatment Compliance",
-    label = "treatment compliance table"
-  ) |>
-  define_analysis(
-    name = "disp",
-    title = "Disposition of Participant",
-    label = "disposition table"
-  ) |>
-  meta_build()
-```
-
-# Prepare the numbers
+An example for interactive baseline characteristic table:
 
 ```{r}
-outdata <- meta |>
-  prepare_base_char(
-    parameter = "age;gender;race"
+  react_base_char(
+    metadata_sl = meta_sl_example(),
+    metadata_ae = metalite.ae::meta_ae_example(),
+    population = "apat",
+    observation = "wk12",
+    display_total = TRUE,
+    sl_parameter = "age;race",
+    ae_subgroup = c("age", "race"),
+    ae_specific = "rel",
+    width = 1200
   )
 
-outdata
-
-outdata$n
-outdata$char_n
-outdata$char_var
-outdata$char_prop
 ```
 
-# Format the numbers
+Additional examples and tutorials can be found on the
+[package website](https://merck.github.io/metalite.sl/articles/),
+offering further guidance and illustrations.
 
-```{r}
-outdata <- outdata |> format_base_char(display_col = c("n", "prop", "total"), digits_prop = 2)
+## Input
 
-outdata$tbl
-```
-
-```{r}
-outdata <- outdata |> format_base_char(display_col = c("n", "prop"), digits_prop = 3)
-
-outdata$tbl
-```
-
-# Output as RTF
-
-```{r}
-outdata |> rtf_base_char(
-  source = "Source: [CDISCpilot: adam-adsl]",
-  path_outdata = tempfile(fileext = ".Rdata"),
-  path_outtable = "base_char.rtf"
-)
-```
-
-# Create Treatment Compliance Table
-
-```{r}
-outdata <- meta |>
-  prepare_trt_compliance()
-outdata
-```
-
-```{r}
-outdata |>
-  format_trt_compliance(display_col = c("n", "prop"), digits_prop = 3) |>
-  rtf_trt_compliance(
-    source = "Source: [CDISCpilot: adam-adsl]",
-    path_outdata = tempfile(fileext = ".Rdata"),
-    path_outtable = tempfile(fileext = ".rtf")
-  )
-```
-
-# Create Treatment Compliance Table
-
-```{r}
-outdata <- meta |>
-  prepare_disposition()
-outdata
-```
-
-```{r, eval=FALSE}
-outdata |>
-  format_disposition() |>
-  rtf_disposition(
-    source = "Source: [CDISCpilot: adam-adsl]",
-    path_outdata = tempfile(fileext = ".Rdata"),
-    path_outtable = tempfile(fileext = ".rtf")
-  )
-```
+To implement the workflow in metalite.sl, it is necessary to establish
+a metadata structure using the metalite R package.
+For detailed instructions, please consult the
+[metalite tutorial](https://merck.github.io/metalite/articles/metalite.html)
+and refer to the source code of the function
+[`meta_sl_example()`](https://github.com/Merck/metalite.sl/blob/main/R/meta_sl_example.R).

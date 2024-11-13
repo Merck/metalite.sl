@@ -28,6 +28,10 @@ The development of exposure duration analysis involves functions:
 - `format_exp_duration`: prepare analysis outdata with proper format.
 - `rtf_exp_duration`: transfer (mock) output dataset to RTF table.
 
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/exp0duration.pdf")
+```
+
 ## Build a metadata
 
 There are two steps in `meta_sl_exposure_example` function in order to build the metadata (`meta` object): processing the ADaM dataset and save meta information for A&R reporting.
@@ -156,3 +160,6 @@ outdata <- format_exp_duration(outdata) |>
   )
 ```
 
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/exp0duration.pdf")
+```
