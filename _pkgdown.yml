@@ -22,3 +22,73 @@ footer:
   components:
     legal: "<br>Copyright &copy; 2024 Merck & Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved."
     blank: "<span></span>"
+
+navbar:
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Get Started"
+      href: articles/metalite-sl.html
+    - text: "Articles"
+      href: articles/index.html
+    - text: "Changelog"
+      href: news/index.html
+
+reference:
+- title: Subject-level analysis
+  contents:
+    - meta_sl
+    - prepare_sl_summary
+    - format_sl_summary
+    - rtf_sl_summary
+- title: Baseline characteristics
+  contents:
+    - prepare_base_char
+    - format_base_char
+    - rtf_base_char
+    - prepare_base_char_subgroup
+    - format_base_char_subgroup
+    - rtf_base_char_subgroup
+- title: Interactive baseline characteristics
+  contents:
+    - react_base_char
+    - react_subgroup_table
+    - format_ae_specific_subgroup    
+- title: Disposition
+  contents:
+    - prepare_disposition
+    - format_disposition
+    - rtf_disposition
+- title: Exposure duration
+  contents:
+    - prepare_exp_duration
+    - format_exp_duration
+    - rtf_exp_duration
+- title: Treatment compliance
+  contents:
+    - prepare_trt_compliance
+    - format_trt_compliance
+    - rtf_trt_compliance
+- title: Collect components
+  contents:
+    - collect_baseline
+- title: Example data
+  contents:
+    - meta_sl_example
+    - meta_sl_exposure_example
+- title: Deformat
+  contents:
+    - defmt_pct
+articles:
+- title: Get started
+  contents:
+    - metalite-sl
+- title: Tutorial
+  contents:
+    - baseline-character
+    - disposition
+    - exp_duration
+    - trt_compliance
+    - interactive-baseline
