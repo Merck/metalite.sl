@@ -49,20 +49,20 @@ Subgroup Analysis for Baseline Characteristic
 meta <- meta_sl_example()
 
 outdata <- prepare_base_char_subgroup(
-          meta,
-          population = "apat",
-          parameter = "age",
-          subgroup_var = "TRTA",
-          subgroup_header = c("SEX","TRTA"),
-          display_subgroup_total = TRUE
+  meta,
+  population = "apat",
+  parameter = "age",
+  subgroup_var = "TRTA",
+  subgroup_header = c("SEX", "TRTA"),
+  display_subgroup_total = TRUE
 )
 
 outdata |>
-    format_base_char_subgroup() |>
-    rtf_base_char_subgroup(
+  format_base_char_subgroup() |>
+  rtf_base_char_subgroup(
     source = "Source:  [CDISCpilot: adam-adsl]",
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = tempfile(fileext = ".rtf")
- )
- }
+  )
+}
 }
