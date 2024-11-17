@@ -25,8 +25,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(metalite)
-# library(metalite.sl)
-devtools::load_all()
+library(metalite.sl)
 ```
 
 # Overview
@@ -77,6 +76,7 @@ meta_sl_example() |>
      source = "Source: [CDISCpilot: adam-adsl]",
      path_outdata = tempfile(fileext = ".Rdata"),
      path_outtable = tempfile(fileext = ".rtf")
+   )
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}

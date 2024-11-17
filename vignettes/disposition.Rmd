@@ -70,6 +70,11 @@ adsl$EOSSTT <- sample(
   size = length(adsl$USUBJID),
   prob = c(0.8, 0.2), replace = TRUE
 )
+adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(
+  x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
+  size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]),
+  prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE
+)
 
 # Create a variable EOTSTT1 indicating the end of treatment status part 1
 adsl$EOTSTT1 <- ifelse(adsl$DISCONFL == "Y", "Discontinued", "Completed")
@@ -100,7 +105,7 @@ meta <- meta_adam(
     name = "disposition",
     var = "EOSSTT",
     label = "Trial Disposition",
-    var_lower = "DCTREAS"
+    var_lower = "DCSREAS"
   ) |>
   define_parameter(
     name = "medical-disposition",
