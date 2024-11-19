@@ -18,8 +18,7 @@ vignette: >
 library(r2rtf)
 library(metalite)
 library(metalite.ae)
-# library(metalite.sl)
-devtools::load_all()
+library(metalite.sl)
 ```
 
 There are 2 key metadata types:
