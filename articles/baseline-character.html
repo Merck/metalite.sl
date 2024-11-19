@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Getting Started with Baseline Characteristics Table">
 </head>
@@ -36,18 +36,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../articles/metalite-sl.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/baseline-character.html">Getting Started with Baseline Characteristics Table</a></li>
-    <li><a class="dropdown-item" href="../articles/Disposition.html">Disposition</a></li>
-    <li><a class="dropdown-item" href="../articles/exp_duration.html">Getting Started with Exposure Duration Table</a></li>
-    <li><a class="dropdown-item" href="../articles/interactive-baseline.html">Build an Interactive Baseline Characteristic Table</a></li>
-    <li><a class="dropdown-item" href="../articles/trt_compliance.html">Treatment Compliance</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="nav-link" href="../articles/metalite-sl.html">Get Started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -86,12 +78,12 @@ summarize details of participants. The development of baseline
 characteristic analysis involves functions:</p>
 <ul>
 <li>
-<code>prepare_base_cha</code>: prepare analysis raw datasets.</li>
+<code>prepare_base_char</code>: prepare analysis raw datasets.</li>
 <li>
-<code>format_base_char</code>: prepare analysis (mock) outdata with
-proper format.</li>
+<code>format_base_char</code>: prepare analysis outdata with proper
+format.</li>
 <li>
-<code>rtf_base_char</code>: transfer (mock) output dataset to RTF
+<code>rtf_base_char</code>: transfer output dataset to RTF
 table.</li>
 </ul>
 <div class="section level3">
@@ -106,45 +98,59 @@ table.</li>
 <span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Low Dose"</span>, <span class="st">"High Dose"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
-<span>  analysis <span class="op">=</span> <span class="st">"base_char"</span>,</span>
-<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>  observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>  parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
+<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meta_sl.html">meta_sl</a></span><span class="op">(</span></span>
+<span>  dataset_population <span class="op">=</span> <span class="va">adsl</span>,</span>
+<span>  population_term <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  parameter_term <span class="op">=</span> <span class="st">"age;gender;race"</span>,</span>
+<span>  parameter_var <span class="op">=</span> <span class="st">"AGE^AGEGR1;SEX;RACE"</span>,</span>
+<span>  treatment_group <span class="op">=</span> <span class="st">"TRTA"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span>population <span class="op">=</span> <span class="va">adsl</span>,</span>
-<span>                  observation <span class="op">=</span> <span class="va">adsl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span>plan <span class="op">=</span> <span class="va">plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
-<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span><span class="op">)</span>,</span>
-<span>    var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"USUBJID"</span>, <span class="st">"TRTA"</span>, <span class="st">"SAFFL"</span>, <span class="st">"AGEGR1"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>    name <span class="op">=</span> <span class="st">"age"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"AGE"</span>,</span>
-<span>    label <span class="op">=</span> <span class="st">"Age (years)"</span>,</span>
-<span>    vargroup <span class="op">=</span> <span class="st">"AGEGR1"</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>                   var <span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>                   label <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"race"</span>,</span>
-<span>                   var <span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>                   label <span class="op">=</span> <span class="st">"Race"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"base_char"</span>,</span>
-<span>                  title <span class="op">=</span> <span class="st">"Participant Baseline Characteristics by Treatment Group"</span>,</span>
-<span>                  label <span class="op">=</span> <span class="st">"baseline characteristic table"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<details><summary>
+Click to show the output
+</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">meta</span></span></code></pre></div>
+<pre><code><span><span class="co">## ADaM metadata: </span></span>
+<span><span class="co">##    .$data_population     Population data with 254 subjects </span></span>
+<span><span class="co">##    .$data_observation    Observation data with 254 records </span></span>
+<span><span class="co">##    .$plan    Analysis plan with 1 plans </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis population type:</span></span>
+<span><span class="co">##     name        id  group</span></span>
+<span><span class="co">## 1 'apat' 'USUBJID' 'TRTA'</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                    var</span></span>
+<span><span class="co">## 1 STUDYID, USUBJID, SUBJID, SITEID, SITEGR1, ARM, TRT01P, TRT01PN, TRT01A, TRT01AN, TRTSDT, TRTEDT, TRTDUR, AVGDD, CUMDOSE, AGE, AGEGR1, AGEGR1N, AGEU, RACE, RACEN, SEX, ETHNIC, SAFFL, ITTFL, EFFFL, COMP8FL, COMP16FL, COMP24FL, DISCONFL, DSRAEFL, DTHFL, BMIBL, BMIBLGR1, HEIGHTBL, WEIGHTBL, EDUCLVL, DISONSDT, DURDIS, DURDSGR1, VISIT1DT, RFSTDTC, RFENDTC, VISNUMEN, RFENDT, DCDECOD, DCREASCD, MMSETOT, TRTA</span></span>
+<span><span class="co">##         subset                         label</span></span>
+<span><span class="co">## 1 SAFFL == 'Y' 'All Participants as Treated'</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis observation type:</span></span>
+<span><span class="co">##     name        id  group</span></span>
+<span><span class="co">## 1 'apat' 'USUBJID' 'TRTA'</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                                                                                                                                                                                                    var</span></span>
+<span><span class="co">## 1 STUDYID, USUBJID, SUBJID, SITEID, SITEGR1, ARM, TRT01P, TRT01PN, TRT01A, TRT01AN, TRTSDT, TRTEDT, TRTDUR, AVGDD, CUMDOSE, AGE, AGEGR1, AGEGR1N, AGEU, RACE, RACEN, SEX, ETHNIC, SAFFL, ITTFL, EFFFL, COMP8FL, COMP16FL, COMP24FL, DISCONFL, DSRAEFL, DTHFL, BMIBL, BMIBLGR1, HEIGHTBL, WEIGHTBL, EDUCLVL, DISONSDT, DURDIS, DURDSGR1, VISIT1DT, RFSTDTC, RFENDTC, VISNUMEN, RFENDT, DCDECOD, DCREASCD, MMSETOT, TRTA</span></span>
+<span><span class="co">##         subset label</span></span>
+<span><span class="co">## 1 SAFFL == 'Y'    ''</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis parameter type:</span></span>
+<span><span class="co">##       name  label subset</span></span>
+<span><span class="co">## 1    'age'  'Age'       </span></span>
+<span><span class="co">## 2 'gender'  'Sex'       </span></span>
+<span><span class="co">## 3   'race' 'Race'       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis function:</span></span>
+<span><span class="co">##          name label</span></span>
+<span><span class="co">## 1 'base_char'    ''</span></span></code></pre>
+</details>
 </div>
 <div class="section level3">
 <h3 id="analysis-preparation">Analysis preparation<a class="anchor" aria-label="anchor" href="#analysis-preparation"></a>
 </h3>
 <p>The input of the function <code><a href="../reference/prepare_base_char.html">prepare_base_char()</a></code> is a
 <code>meta</code> object created by the metalite package.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/prepare_base_char.html">prepare_base_char</a></span><span class="op">(</span>parameter <span class="op">=</span> <span class="st">"age;gender;race"</span><span class="op">)</span></span>
 <span></span>
@@ -164,61 +170,63 @@ table.</li>
 <span><span class="co">##  $ var_type       :List of 3</span></span>
 <span><span class="co">##  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
 <span><span class="co">##  $ analysis       : chr "base_char"</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<details><summary>
+Click to show the output
+</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">n</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         name n_1 n_2 n_3 n_9999 var_label</span></span>
 <span><span class="co">## 1 Participants in population  86  84  84    254     -----</span></span></code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">char_n</span></span></code></pre></div>
 <pre><code><span><span class="co">## [[1]]</span></span>
-<span><span class="co">##        name        Placebo Low Dose   High Dose    Total   var_label</span></span>
-<span><span class="co">## 1       &lt;65             14        8          11       33 Age (years)</span></span>
-<span><span class="co">## 2       &gt;80             30       29          18       77 Age (years)</span></span>
-<span><span class="co">## 3     65-80             42       47          55      144 Age (years)</span></span>
-<span><span class="co">## 4      &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 5      Mean           75.2     75.7        74.4     75.1 Age (years)</span></span>
-<span><span class="co">## 6        SD            8.6      8.3         7.9      8.2 Age (years)</span></span>
-<span><span class="co">## 7        SE            0.9      0.9         0.9      0.5 Age (years)</span></span>
-<span><span class="co">## 8    Median           76.0     77.5        76.0     77.0 Age (years)</span></span>
-<span><span class="co">## 9       Min           52.0     51.0        56.0     51.0 Age (years)</span></span>
-<span><span class="co">## 10      Max           89.0     88.0        88.0     89.0 Age (years)</span></span>
-<span><span class="co">## 11 Q1 to Q3 69.25 to 81.75 71 to 82 70.75 to 80 70 to 81 Age (years)</span></span>
-<span><span class="co">## 12    Range       52 to 89 51 to 88    56 to 88 51 to 89 Age (years)</span></span>
+<span><span class="co">##        name        Placebo Low Dose   High Dose    Total var_label</span></span>
+<span><span class="co">## 1       &lt;65             14        8          11       33       Age</span></span>
+<span><span class="co">## 2       &gt;80             30       29          18       77       Age</span></span>
+<span><span class="co">## 3     65-80             42       47          55      144       Age</span></span>
+<span><span class="co">## 4      &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;     &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 5      Mean           75.2     75.7        74.4     75.1       Age</span></span>
+<span><span class="co">## 6        SD            8.6      8.3         7.9      8.2       Age</span></span>
+<span><span class="co">## 7        SE            0.9      0.9         0.9      0.5       Age</span></span>
+<span><span class="co">## 8    Median           76.0     77.5        76.0     77.0       Age</span></span>
+<span><span class="co">## 9       Min           52.0     51.0        56.0     51.0       Age</span></span>
+<span><span class="co">## 10      Max           89.0     88.0        88.0     89.0       Age</span></span>
+<span><span class="co">## 11 Q1 to Q3 69.25 to 81.75 71 to 82 70.75 to 80 70 to 81       Age</span></span>
+<span><span class="co">## 12    Range       52 to 89 51 to 88    56 to 88 51 to 89       Age</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
 <span><span class="co">##   name Placebo Low Dose High Dose Total var_label</span></span>
-<span><span class="co">## 1    F      53       50        40   143    Gender</span></span>
-<span><span class="co">## 2    M      33       34        44   111    Gender</span></span>
+<span><span class="co">## 1    F      53       50        40   143       Sex</span></span>
+<span><span class="co">## 2    M      33       34        44   111       Sex</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[3]]</span></span>
 <span><span class="co">##                               name Placebo Low Dose High Dose Total var_label</span></span>
 <span><span class="co">## 1 AMERICAN INDIAN OR ALASKA NATIVE       0        0         1     1      Race</span></span>
 <span><span class="co">## 2        BLACK OR AFRICAN AMERICAN       8        6         9    23      Race</span></span>
 <span><span class="co">## 3                            WHITE      78       78        74   230      Race</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">char_var</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "AGE"  "SEX"  "RACE"</span></span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">char_prop</span></span></code></pre></div>
 <pre><code><span><span class="co">## [[1]]</span></span>
-<span><span class="co">##        name  Placebo Low Dose High Dose    Total   var_label</span></span>
-<span><span class="co">## 1       &lt;65 16.27907  9.52381  13.09524 12.99213 Age (years)</span></span>
-<span><span class="co">## 2       &gt;80 34.88372 34.52381  21.42857 30.31496 Age (years)</span></span>
-<span><span class="co">## 3     65-80 48.83721 55.95238  65.47619 56.69291 Age (years)</span></span>
-<span><span class="co">## 4      &lt;NA&gt;       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 5      Mean       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 6        SD       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 7        SE       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 8    Median       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 9       Min       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 10      Max       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 11 Q1 to Q3       NA       NA        NA       NA Age (years)</span></span>
-<span><span class="co">## 12    Range       NA       NA        NA       NA Age (years)</span></span>
+<span><span class="co">##        name  Placebo Low Dose High Dose    Total var_label</span></span>
+<span><span class="co">## 1       &lt;65 16.27907  9.52381  13.09524 12.99213       Age</span></span>
+<span><span class="co">## 2       &gt;80 34.88372 34.52381  21.42857 30.31496       Age</span></span>
+<span><span class="co">## 3     65-80 48.83721 55.95238  65.47619 56.69291       Age</span></span>
+<span><span class="co">## 4      &lt;NA&gt;       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 5      Mean       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 6        SD       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 7        SE       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 8    Median       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 9       Min       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 10      Max       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 11 Q1 to Q3       NA       NA        NA       NA       Age</span></span>
+<span><span class="co">## 12    Range       NA       NA        NA       NA       Age</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
 <span><span class="co">##   name  Placebo Low Dose High Dose    Total var_label</span></span>
-<span><span class="co">## 1    F 61.62791 59.52381  47.61905 56.29921    Gender</span></span>
-<span><span class="co">## 2    M 38.37209 40.47619  52.38095 43.70079    Gender</span></span>
+<span><span class="co">## 1    F 61.62791 59.52381  47.61905 56.29921       Sex</span></span>
+<span><span class="co">## 2    M 38.37209 40.47619  52.38095 43.70079       Sex</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[3]]</span></span>
 <span><span class="co">##                               name   Placebo  Low Dose High Dose      Total</span></span>
@@ -229,18 +237,23 @@ table.</li>
 <span><span class="co">## 1      Race</span></span>
 <span><span class="co">## 2      Race</span></span>
 <span><span class="co">## 3      Race</span></span></code></pre>
+</details>
 </div>
 <div class="section level3">
 <h3 id="format-the-numbers">Format the numbers<a class="anchor" aria-label="anchor" href="#format-the-numbers"></a>
 </h3>
 <p><code>format_base_char</code> to prepare analysis dataset before
 generate RTF output</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"total"</span><span class="op">)</span>,</span>
-<span>                              digits_prop <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span></code></pre></div>
+<span>  <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span></span>
+<span>    display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"total"</span><span class="op">)</span>,</span>
+<span>    digits_prop <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<details><summary>
+Click to show the output
+</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span></code></pre></div>
 <pre><code><span><span class="co">##                                name            n_1     p_1      n_2     p_2</span></span>
 <span><span class="co">## 1        Participants in population             86    &lt;NA&gt;       84    &lt;NA&gt;</span></span>
 <span><span class="co">## 2                               &lt;65             14 (16.28)        8  (9.52)</span></span>
@@ -258,62 +271,24 @@ generate RTF output</p>
 <span><span class="co">## 14 AMERICAN INDIAN OR ALASKA NATIVE              0  (0.00)        0  (0.00)</span></span>
 <span><span class="co">## 15        BLACK OR AFRICAN AMERICAN              8  (9.30)        6  (7.14)</span></span>
 <span><span class="co">## 16                            WHITE             78 (90.70)       78 (92.86)</span></span>
-<span><span class="co">##            n_3     p_3   n_9999  p_9999   var_label</span></span>
-<span><span class="co">## 1           84    &lt;NA&gt;      254    &lt;NA&gt;       -----</span></span>
-<span><span class="co">## 2           11 (13.10)       33 (12.99) Age (years)</span></span>
-<span><span class="co">## 3           18 (21.43)       77 (30.31) Age (years)</span></span>
-<span><span class="co">## 4           55 (65.48)      144 (56.69) Age (years)</span></span>
-<span><span class="co">## 5         &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 6         74.4    &lt;NA&gt;     75.1    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 7          7.9    &lt;NA&gt;      8.2    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 8          0.9    &lt;NA&gt;      0.5    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 9         76.0    &lt;NA&gt;     77.0    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 10 70.75 to 80    &lt;NA&gt; 70 to 81    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 11    56 to 88    &lt;NA&gt; 51 to 89    &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 12          40 (47.62)      143 (56.30)      Gender</span></span>
-<span><span class="co">## 13          44 (52.38)      111 (43.70)      Gender</span></span>
-<span><span class="co">## 14           1  (1.19)        1  (0.39)        Race</span></span>
-<span><span class="co">## 15           9 (10.71)       23  (9.06)        Race</span></span>
-<span><span class="co">## 16          74 (88.10)      230 (90.55)        Race</span></span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">outdata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/format_base_char.html">format_base_char</a></span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span><span class="op">)</span>, digits_prop <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                name            n_1      p_1      n_2      p_2</span></span>
-<span><span class="co">## 1        Participants in population             86     &lt;NA&gt;       84     &lt;NA&gt;</span></span>
-<span><span class="co">## 2                               &lt;65             14 (16.279)        8  (9.524)</span></span>
-<span><span class="co">## 3                               &gt;80             30 (34.884)       29 (34.524)</span></span>
-<span><span class="co">## 4                             65-80             42 (48.837)       47 (55.952)</span></span>
-<span><span class="co">## 5                              &lt;NA&gt;           &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;</span></span>
-<span><span class="co">## 6                              Mean           75.2     &lt;NA&gt;     75.7     &lt;NA&gt;</span></span>
-<span><span class="co">## 7                                SD            8.6     &lt;NA&gt;      8.3     &lt;NA&gt;</span></span>
-<span><span class="co">## 8                                SE            0.9     &lt;NA&gt;      0.9     &lt;NA&gt;</span></span>
-<span><span class="co">## 9                            Median           76.0     &lt;NA&gt;     77.5     &lt;NA&gt;</span></span>
-<span><span class="co">## 10                         Q1 to Q3 69.25 to 81.75     &lt;NA&gt; 71 to 82     &lt;NA&gt;</span></span>
-<span><span class="co">## 11                            Range       52 to 89     &lt;NA&gt; 51 to 88     &lt;NA&gt;</span></span>
-<span><span class="co">## 12                                F             53 (61.628)       50 (59.524)</span></span>
-<span><span class="co">## 13                                M             33 (38.372)       34 (40.476)</span></span>
-<span><span class="co">## 14 AMERICAN INDIAN OR ALASKA NATIVE              0  (0.000)        0  (0.000)</span></span>
-<span><span class="co">## 15        BLACK OR AFRICAN AMERICAN              8  (9.302)        6  (7.143)</span></span>
-<span><span class="co">## 16                            WHITE             78 (90.698)       78 (92.857)</span></span>
-<span><span class="co">##            n_3      p_3   var_label</span></span>
-<span><span class="co">## 1           84     &lt;NA&gt;       -----</span></span>
-<span><span class="co">## 2           11 (13.095) Age (years)</span></span>
-<span><span class="co">## 3           18 (21.429) Age (years)</span></span>
-<span><span class="co">## 4           55 (65.476) Age (years)</span></span>
-<span><span class="co">## 5         &lt;NA&gt;     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 6         74.4     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 7          7.9     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 8          0.9     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 9         76.0     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 10 70.75 to 80     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 11    56 to 88     &lt;NA&gt; Age (years)</span></span>
-<span><span class="co">## 12          40 (47.619)      Gender</span></span>
-<span><span class="co">## 13          44 (52.381)      Gender</span></span>
-<span><span class="co">## 14           1  (1.190)        Race</span></span>
-<span><span class="co">## 15           9 (10.714)        Race</span></span>
-<span><span class="co">## 16          74 (88.095)        Race</span></span></code></pre>
+<span><span class="co">##            n_3     p_3   n_9999  p_9999 var_label</span></span>
+<span><span class="co">## 1           84    &lt;NA&gt;      254    &lt;NA&gt;     -----</span></span>
+<span><span class="co">## 2           11 (13.10)       33 (12.99)       Age</span></span>
+<span><span class="co">## 3           18 (21.43)       77 (30.31)       Age</span></span>
+<span><span class="co">## 4           55 (65.48)      144 (56.69)       Age</span></span>
+<span><span class="co">## 5         &lt;NA&gt;    &lt;NA&gt;     &lt;NA&gt;    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 6         74.4    &lt;NA&gt;     75.1    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 7          7.9    &lt;NA&gt;      8.2    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 8          0.9    &lt;NA&gt;      0.5    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 9         76.0    &lt;NA&gt;     77.0    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 10 70.75 to 80    &lt;NA&gt; 70 to 81    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 11    56 to 88    &lt;NA&gt; 51 to 89    &lt;NA&gt;       Age</span></span>
+<span><span class="co">## 12          40 (47.62)      143 (56.30)       Sex</span></span>
+<span><span class="co">## 13          44 (52.38)      111 (43.70)       Sex</span></span>
+<span><span class="co">## 14           1  (1.19)        1  (0.39)      Race</span></span>
+<span><span class="co">## 15           9 (10.71)       23  (9.06)      Race</span></span>
+<span><span class="co">## 16          74 (88.10)      230 (90.55)      Race</span></span></code></pre>
+</details>
 </div>
 <div class="section level3">
 <h3 id="output-as-rtf">Output as RTF<a class="anchor" aria-label="anchor" href="#output-as-rtf"></a>
@@ -325,8 +300,9 @@ generate RTF output</p>
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="st">"outtable/base0char.rtf"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmp6tFqTc/file19676add66bf.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpzDHMD0/file191a52738fbc.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0char.rtf</span></span></code></pre>
+<embed src="pdf/base0char.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
 </div>
 <div class="section level2">
@@ -340,11 +316,11 @@ baseline characteristic subgroup analysis involves functions:</p>
 <code><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup()</a></code>: prepare analysis raw
 datasets.</li>
 <li>
-<code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code>: prepare analysis (mock)
-outdata with proper format.</li>
+<code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code>: prepare analysis outdata
+with proper format.</li>
 <li>
-<code><a href="../reference/rtf_base_char_subgroup.html">rtf_base_char_subgroup()</a></code>: transfer (mock) output
-dataset to RTF table.</li>
+<code><a href="../reference/rtf_base_char_subgroup.html">rtf_base_char_subgroup()</a></code>: transfer output dataset to
+RTF table.</li>
 </ul>
 <div class="section level3">
 <h3 id="build-a-metadata-1">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata-1"></a>
@@ -359,20 +335,16 @@ dataset to RTF table.</li>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
-<span>  analysis <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>  analysis <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span>
 <span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
 <span>  observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
 <span>  parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/add_plan.html" class="external-link">add_plan</a></span><span class="op">(</span></span>
-<span>    analysis <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span>
-<span>    population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    parameter <span class="op">=</span> <span class="st">"age"</span></span>
-<span>  <span class="op">)</span> </span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span>population <span class="op">=</span> <span class="va">adsl</span>,</span>
-<span>                  observation <span class="op">=</span> <span class="va">adsl</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span></span>
+<span>  population <span class="op">=</span> <span class="va">adsl</span>,</span>
+<span>  observation <span class="op">=</span> <span class="va">adsl</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span>plan <span class="op">=</span> <span class="va">plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
@@ -386,25 +358,55 @@ dataset to RTF table.</li>
 <span>    label <span class="op">=</span> <span class="st">"Age (years)"</span>,</span>
 <span>    vargroup <span class="op">=</span> <span class="st">"AGEGR1"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"gender"</span>,</span>
-<span>                   var <span class="op">=</span> <span class="st">"SEX"</span>,</span>
-<span>                   label <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"race"</span>,</span>
-<span>                   var <span class="op">=</span> <span class="st">"RACE"</span>,</span>
-<span>                   label <span class="op">=</span> <span class="st">"Race"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"base_char"</span>,</span>
-<span>                  title <span class="op">=</span> <span class="st">"Participant Baseline Characteristics by Treatment Group"</span>,</span>
-<span>                  label <span class="op">=</span> <span class="st">"baseline characteristic table"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span>
-<span>                  title <span class="op">=</span> <span class="st">"Participant by Age Category and Sex"</span>,</span>
-<span>                  label <span class="op">=</span> <span class="st">"baseline characteristic sub group table"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"race"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"RACE"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Race"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Participant by Age Category and Sex"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"baseline characteristic sub group table"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in FUN(X[[i]], ...): gender: has missing label</span></span></code></pre>
+<details><summary>
+Click to show the output
+</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">meta</span></span></code></pre></div>
+<pre><code><span><span class="co">## ADaM metadata: </span></span>
+<span><span class="co">##    .$data_population     Population data with 254 subjects </span></span>
+<span><span class="co">##    .$data_observation    Observation data with 254 records </span></span>
+<span><span class="co">##    .$plan    Analysis plan with 1 plans </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis population type:</span></span>
+<span><span class="co">##     name        id  group                                     var       subset</span></span>
+<span><span class="co">## 1 'apat' 'USUBJID' 'TRTA' USUBJID, TRTA, SAFFL, AGEGR1, SEX, RACE SAFFL == 'Y'</span></span>
+<span><span class="co">##                           label</span></span>
+<span><span class="co">## 1 'All Participants as Treated'</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis observation type:</span></span>
+<span><span class="co">##     name        id  group var subset                         label</span></span>
+<span><span class="co">## 1 'apat' 'USUBJID' 'TRTA'            'All Participants as Treated'</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis parameter type:</span></span>
+<span><span class="co">##       name         label subset</span></span>
+<span><span class="co">## 1    'age' 'Age (years)'       </span></span>
+<span><span class="co">## 2   'race'        'Race'       </span></span>
+<span><span class="co">## 3 'gender'                     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   Analysis function:</span></span>
+<span><span class="co">##                   name                                     label</span></span>
+<span><span class="co">## 1 'base_char_subgroup' 'baseline characteristic sub group table'</span></span></code></pre>
+</details>
 </div>
 <div class="section level3">
 <h3 id="analysis-preparation-1">Analysis preparation<a class="anchor" aria-label="anchor" href="#analysis-preparation-1"></a>
 </h3>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meta_sl_example.html">meta_sl_example</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The input of the function <code><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup()</a></code>
 is a <code>meta</code> object created by the metalite package.</p>
 <p>The output of the function is an <code>outdata</code> object
@@ -418,141 +420,181 @@ name in observation data saved in meta$data_observation.</li>
 hierarchy. The first element will be the first level header and the
 second element will be second level header.</li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup</a></span><span class="op">(</span></span>
 <span>  <span class="va">meta</span>,</span>
 <span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>  parameter <span class="op">=</span> <span class="st">"age"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"age;race"</span>,</span>
 <span>  subgroup_var <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
 <span>  subgroup_header <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEX"</span>, <span class="st">"TRTA"</span><span class="op">)</span>,</span>
 <span>  display_subgroup_total <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The output dataset contains commonly used statistics within each
+<details><summary>
+Click to show the output
+</summary><p>The output dataset contains commonly used statistics within each
 <code>subgroup_var</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Placebo`</span></span></code></pre></div>
 <pre><code><span><span class="co">## List of 14</span></span>
 <span><span class="co">##  $ meta           :List of 7</span></span>
 <span><span class="co">##  $ population     : chr "apat"</span></span>
 <span><span class="co">##  $ observation    : chr "apat"</span></span>
-<span><span class="co">##  $ parameter      : chr "age"</span></span>
+<span><span class="co">##  $ parameter      : chr "age;race"</span></span>
 <span><span class="co">##  $ n              :'data.frame': 1 obs. of  5 variables:</span></span>
 <span><span class="co">##  $ order          : NULL</span></span>
 <span><span class="co">##  $ group          : chr "SEX"</span></span>
 <span><span class="co">##  $ reference_group: NULL</span></span>
-<span><span class="co">##  $ char_n         :List of 1</span></span>
-<span><span class="co">##  $ char_var       : chr "AGE"</span></span>
-<span><span class="co">##  $ char_prop      :List of 1</span></span>
-<span><span class="co">##  $ var_type       :List of 1</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 2 levels "Female","Male": 1 2</span></span>
+<span><span class="co">##  $ char_n         :List of 2</span></span>
+<span><span class="co">##  $ char_var       : chr [1:2] "AGE" "RACE"</span></span>
+<span><span class="co">##  $ char_prop      :List of 2</span></span>
+<span><span class="co">##  $ var_type       :List of 2</span></span>
+<span><span class="co">##  $ group_label    : Factor w/ 2 levels "F","M": 1 2</span></span>
 <span><span class="co">##  $ analysis       : chr "base_char_subgroup"</span></span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`High Dose`</span></span></code></pre></div>
 <pre><code><span><span class="co">## List of 14</span></span>
 <span><span class="co">##  $ meta           :List of 7</span></span>
 <span><span class="co">##  $ population     : chr "apat"</span></span>
 <span><span class="co">##  $ observation    : chr "apat"</span></span>
-<span><span class="co">##  $ parameter      : chr "age"</span></span>
+<span><span class="co">##  $ parameter      : chr "age;race"</span></span>
 <span><span class="co">##  $ n              :'data.frame': 1 obs. of  5 variables:</span></span>
 <span><span class="co">##  $ order          : NULL</span></span>
 <span><span class="co">##  $ group          : chr "SEX"</span></span>
 <span><span class="co">##  $ reference_group: NULL</span></span>
-<span><span class="co">##  $ char_n         :List of 1</span></span>
-<span><span class="co">##  $ char_var       : chr "AGE"</span></span>
-<span><span class="co">##  $ char_prop      :List of 1</span></span>
-<span><span class="co">##  $ var_type       :List of 1</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 2 levels "Female","Male": 2 1</span></span>
+<span><span class="co">##  $ char_n         :List of 2</span></span>
+<span><span class="co">##  $ char_var       : chr [1:2] "AGE" "RACE"</span></span>
+<span><span class="co">##  $ char_prop      :List of 2</span></span>
+<span><span class="co">##  $ var_type       :List of 2</span></span>
+<span><span class="co">##  $ group_label    : Factor w/ 2 levels "F","M": 2 1</span></span>
 <span><span class="co">##  $ analysis       : chr "base_char_subgroup"</span></span></code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Low Dose`</span></span></code></pre></div>
 <pre><code><span><span class="co">## List of 14</span></span>
 <span><span class="co">##  $ meta           :List of 7</span></span>
 <span><span class="co">##  $ population     : chr "apat"</span></span>
 <span><span class="co">##  $ observation    : chr "apat"</span></span>
-<span><span class="co">##  $ parameter      : chr "age"</span></span>
+<span><span class="co">##  $ parameter      : chr "age;race"</span></span>
 <span><span class="co">##  $ n              :'data.frame': 1 obs. of  5 variables:</span></span>
 <span><span class="co">##  $ order          : NULL</span></span>
 <span><span class="co">##  $ group          : chr "SEX"</span></span>
 <span><span class="co">##  $ reference_group: NULL</span></span>
-<span><span class="co">##  $ char_n         :List of 1</span></span>
-<span><span class="co">##  $ char_var       : chr "AGE"</span></span>
-<span><span class="co">##  $ char_prop      :List of 1</span></span>
-<span><span class="co">##  $ var_type       :List of 1</span></span>
-<span><span class="co">##  $ group_label    : Factor w/ 2 levels "Female","Male": 2 1</span></span>
+<span><span class="co">##  $ char_n         :List of 2</span></span>
+<span><span class="co">##  $ char_var       : chr [1:2] "AGE" "RACE"</span></span>
+<span><span class="co">##  $ char_prop      :List of 2</span></span>
+<span><span class="co">##  $ var_type       :List of 2</span></span>
+<span><span class="co">##  $ group_label    : Factor w/ 2 levels "F","M": 2 1</span></span>
 <span><span class="co">##  $ analysis       : chr "base_char_subgroup"</span></span></code></pre>
 <p>The information about subgroup saved with <code>outdata$group</code>
 and <code>outdata$subgroup</code>.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">group</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "Female" "Male"</span></span></code></pre>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">group</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "F" "M"</span></span></code></pre>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">subgroup</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Placebo"   "Low Dose"  "High Dose"</span></span></code></pre>
 <p><code>n_pop</code>: participants in population within each
 <code>subgroup_var</code>.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Placebo`</span><span class="op">$</span><span class="va">n</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         name n_1 n_2 n_9999 var_label</span></span>
 <span><span class="co">## 1 Participants in population  53  33     86     -----</span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`High Dose`</span><span class="op">$</span><span class="va">n</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         name n_1 n_2 n_9999 var_label</span></span>
 <span><span class="co">## 1 Participants in population  40  44     84     -----</span></span></code></pre>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">out_all</span><span class="op">$</span><span class="va">`Low Dose`</span><span class="op">$</span><span class="va">n</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         name n_1 n_2 n_9999 var_label</span></span>
 <span><span class="co">## 1 Participants in population  50  34     84     -----</span></span></code></pre>
+</details>
 </div>
 <div class="section level3">
 <h3 id="format-output">Format output<a class="anchor" aria-label="anchor" href="#format-output"></a>
 </h3>
 <p><code>format_base_char_subgroup</code> to prepare analysis dataset
 before generate RTF output</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">tbl</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                         name   var_label order Placebon_1 Placebop_1 Placebon_2</span></span>
-<span><span class="co">## 7 Participants in population       -----     1         53       &lt;NA&gt;         33</span></span>
-<span><span class="co">## 1                        &lt;65 Age (years)     2          9     (17.0)          5</span></span>
-<span><span class="co">## 2                        &gt;80 Age (years)     3         22     (41.5)          8</span></span>
-<span><span class="co">## 3                      65-80 Age (years)     4         22     (41.5)         20</span></span>
-<span><span class="co">## 6                       &lt;NA&gt; Age (years)     5       &lt;NA&gt;       &lt;NA&gt;       &lt;NA&gt;</span></span>
-<span><span class="co">## 4                       Mean Age (years)     6       76.4       &lt;NA&gt;       73.4</span></span>
-<span><span class="co">##   Placebop_2 Placebon_9999 Placebop_9999 Low Dosen_1 Low Dosep_1 Low Dosen_2</span></span>
-<span><span class="co">## 7       &lt;NA&gt;            86          &lt;NA&gt;          50        &lt;NA&gt;          34</span></span>
-<span><span class="co">## 1     (15.2)            14        (16.3)           5      (10.0)           3</span></span>
-<span><span class="co">## 2     (24.2)            30        (34.9)          17      (34.0)          12</span></span>
-<span><span class="co">## 3     (60.6)            42        (48.8)          28      (56.0)          19</span></span>
-<span><span class="co">## 6       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">## 4       &lt;NA&gt;          75.2          &lt;NA&gt;        75.7        &lt;NA&gt;        75.6</span></span>
-<span><span class="co">##   Low Dosep_2 Low Dosen_9999 Low Dosep_9999 High Dosen_1 High Dosep_1</span></span>
-<span><span class="co">## 7        &lt;NA&gt;             84           &lt;NA&gt;           40         &lt;NA&gt;</span></span>
-<span><span class="co">## 1       (8.8)              8          (9.5)            5       (12.5)</span></span>
-<span><span class="co">## 2      (35.3)             29         (34.5)            7       (17.5)</span></span>
-<span><span class="co">## 3      (55.9)             47         (56.0)           28       (70.0)</span></span>
-<span><span class="co">## 6        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;</span></span>
-<span><span class="co">## 4        &lt;NA&gt;           75.7           &lt;NA&gt;         74.7         &lt;NA&gt;</span></span>
-<span><span class="co">##   High Dosen_2 High Dosep_2 High Dosen_9999 High Dosep_9999</span></span>
-<span><span class="co">## 7           44         &lt;NA&gt;              84            &lt;NA&gt;</span></span>
-<span><span class="co">## 1            6       (13.6)              11          (13.1)</span></span>
-<span><span class="co">## 2           11       (25.0)              18          (21.4)</span></span>
-<span><span class="co">## 3           27       (61.4)              55          (65.5)</span></span>
-<span><span class="co">## 6         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
-<span><span class="co">## 4         74.1         &lt;NA&gt;            74.4            &lt;NA&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">)</span></span></code></pre></div>
+<details><summary>
+Click to show the output
+</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span></code></pre></div>
+<pre><code><span><span class="co">##                                name   var_label order Placebon_1 Placebop_1</span></span>
+<span><span class="co">## 9        Participants in population       -----     1         53       &lt;NA&gt;</span></span>
+<span><span class="co">## 1                               &lt;65 Age (years)     2          9     (17.0)</span></span>
+<span><span class="co">## 2                               &gt;80 Age (years)     3         22     (41.5)</span></span>
+<span><span class="co">## 3                             65-80 Age (years)     4         22     (41.5)</span></span>
+<span><span class="co">## 14                             &lt;NA&gt; Age (years)     5       &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">## 7                              Mean Age (years)     6       76.4       &lt;NA&gt;</span></span>
+<span><span class="co">## 11                               SD Age (years)     7        8.7       &lt;NA&gt;</span></span>
+<span><span class="co">## 8                            Median Age (years)     8       78.0       &lt;NA&gt;</span></span>
+<span><span class="co">## 10                            Range Age (years)     9   59 to 89       &lt;NA&gt;</span></span>
+<span><span class="co">## 4  AMERICAN INDIAN OR ALASKA NATIVE        Race    10       &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">## 5         BLACK OR AFRICAN AMERICAN        Race    10          5      (9.4)</span></span>
+<span><span class="co">## 6         BLACK OR AFRICAN AMERICAN        Race    11       &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">## 12                            WHITE        Race    11         48     (90.6)</span></span>
+<span><span class="co">## 13                            WHITE        Race    12       &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">##    Placebon_2 Placebop_2 Placebon_9999 Placebop_9999 Low Dosen_1 Low Dosep_1</span></span>
+<span><span class="co">## 9          33       &lt;NA&gt;            86          &lt;NA&gt;          50        &lt;NA&gt;</span></span>
+<span><span class="co">## 1           5     (15.2)            14        (16.3)           5      (10.0)</span></span>
+<span><span class="co">## 2           8     (24.2)            30        (34.9)          17      (34.0)</span></span>
+<span><span class="co">## 3          20     (60.6)            42        (48.8)          28      (56.0)</span></span>
+<span><span class="co">## 14       &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">## 7        73.4       &lt;NA&gt;          75.2          &lt;NA&gt;        75.7        &lt;NA&gt;</span></span>
+<span><span class="co">## 11        8.1       &lt;NA&gt;           8.6          &lt;NA&gt;         8.1        &lt;NA&gt;</span></span>
+<span><span class="co">## 8        74.0       &lt;NA&gt;          76.0          &lt;NA&gt;        77.5        &lt;NA&gt;</span></span>
+<span><span class="co">## 10   52 to 85       &lt;NA&gt;      52 to 89          &lt;NA&gt;    54 to 87        &lt;NA&gt;</span></span>
+<span><span class="co">## 4        &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">## 5           3      (9.1)             8         (9.3)           6      (12.0)</span></span>
+<span><span class="co">## 6        &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">## 12         30     (90.9)            78        (90.7)          44      (88.0)</span></span>
+<span><span class="co">## 13       &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">##    Low Dosen_2 Low Dosep_2 Low Dosen_9999 Low Dosep_9999 High Dosen_1</span></span>
+<span><span class="co">## 9           34        &lt;NA&gt;             84           &lt;NA&gt;           40</span></span>
+<span><span class="co">## 1            3       (8.8)              8          (9.5)            5</span></span>
+<span><span class="co">## 2           12      (35.3)             29         (34.5)            7</span></span>
+<span><span class="co">## 3           19      (55.9)             47         (56.0)           28</span></span>
+<span><span class="co">## 14        &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;         &lt;NA&gt;</span></span>
+<span><span class="co">## 7         75.6        &lt;NA&gt;           75.7           &lt;NA&gt;         74.7</span></span>
+<span><span class="co">## 11         8.7        &lt;NA&gt;            8.3           &lt;NA&gt;          7.7</span></span>
+<span><span class="co">## 8         77.5        &lt;NA&gt;           77.5           &lt;NA&gt;         76.0</span></span>
+<span><span class="co">## 10    51 to 88        &lt;NA&gt;       51 to 88           &lt;NA&gt;     56 to 88</span></span>
+<span><span class="co">## 4         &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;            0</span></span>
+<span><span class="co">## 5            0       (0.0)              6          (7.1)         &lt;NA&gt;</span></span>
+<span><span class="co">## 6         &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;            6</span></span>
+<span><span class="co">## 12          34     (100.0)             78         (92.9)         &lt;NA&gt;</span></span>
+<span><span class="co">## 13        &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           34</span></span>
+<span><span class="co">##    High Dosep_1 High Dosen_2 High Dosep_2 High Dosen_9999 High Dosep_9999</span></span>
+<span><span class="co">## 9          &lt;NA&gt;           44         &lt;NA&gt;              84            &lt;NA&gt;</span></span>
+<span><span class="co">## 1        (12.5)            6       (13.6)              11          (13.1)</span></span>
+<span><span class="co">## 2        (17.5)           11       (25.0)              18          (21.4)</span></span>
+<span><span class="co">## 3        (70.0)           27       (61.4)              55          (65.5)</span></span>
+<span><span class="co">## 14         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span><span class="co">## 7          &lt;NA&gt;         74.1         &lt;NA&gt;            74.4            &lt;NA&gt;</span></span>
+<span><span class="co">## 11         &lt;NA&gt;          8.2         &lt;NA&gt;             7.9            &lt;NA&gt;</span></span>
+<span><span class="co">## 8          &lt;NA&gt;         77.0         &lt;NA&gt;            76.0            &lt;NA&gt;</span></span>
+<span><span class="co">## 10         &lt;NA&gt;     56 to 86         &lt;NA&gt;        56 to 88            &lt;NA&gt;</span></span>
+<span><span class="co">## 4         (0.0)            1        (2.3)               1           (1.2)</span></span>
+<span><span class="co">## 5          &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span><span class="co">## 6        (15.0)            3        (6.8)               9          (10.7)</span></span>
+<span><span class="co">## 12         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span><span class="co">## 13       (85.0)           40       (90.9)              74          (88.1)</span></span></code></pre>
+</details>
 </div>
 <div class="section level3">
 <h3 id="output-as-rtf-1">Output as RTF<a class="anchor" aria-label="anchor" href="#output-as-rtf-1"></a>
 </h3>
 <p><code>rtf_base_char_subgroup</code> to generate RTF output</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outdata</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/rtf_base_char_subgroup.html">rtf_base_char_subgroup</a></span><span class="op">(</span></span>
 <span>    source <span class="op">=</span> <span class="st">"Source:  [CDISCpilot: adam-adsl]"</span>,</span>
 <span>    path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>    path_outtable <span class="op">=</span> <span class="st">"outtable/base0charsubgroup.rtf"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmp6tFqTc/file196778a3b043.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpzDHMD0/file191a2c0325f1.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0charsubgroup.rtf</span></span></code></pre>
+<embed src="pdf/base0charsubgroup.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

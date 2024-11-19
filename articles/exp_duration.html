@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Getting Started with Exposure Duration Table">
 </head>
@@ -36,18 +36,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../articles/metalite-sl.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/baseline-character.html">Getting Started with Baseline Characteristics Table</a></li>
-    <li><a class="dropdown-item" href="../articles/Disposition.html">Disposition</a></li>
-    <li><a class="dropdown-item" href="../articles/exp_duration.html">Getting Started with Exposure Duration Table</a></li>
-    <li><a class="dropdown-item" href="../articles/interactive-baseline.html">Build an Interactive Baseline Characteristic Table</a></li>
-    <li><a class="dropdown-item" href="../articles/trt_compliance.html">Treatment Compliance</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="nav-link" href="../articles/metalite-sl.html">Get Started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -98,7 +90,7 @@ proper format.</li>
 <code>rtf_exp_duration</code>: transfer (mock) output dataset to RTF
 table.</li>
 </ul>
-<div class="section level3">
+<embed src="pdf/exp0duration.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed><div class="section level3">
 <h3 id="build-a-metadata">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata"></a>
 </h3>
 <p>There are two steps in <code>meta_sl_exposure_example</code> function
@@ -118,27 +110,28 @@ day”, “&gt;=7 days”,“&gt;=28 days”, “&gt;=12 weeks” and “&gt;=24
 weeks”.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">r2rtf</span><span class="fu">::</span><span class="va"><a href="https://merck.github.io/r2rtf/reference/r2rtf_adsl.html" class="external-link">r2rtf_adsl</a></span></span>
-<span>  <span class="va">adexsum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID<span class="op">=</span><span class="va">adsl</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">TRT01A</span>,</span>
-<span>                         levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Xanomeline Low Dose"</span>, <span class="st">"Xanomeline High Dose"</span><span class="op">)</span>,</span>
-<span>                         labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Low Dose"</span>, <span class="st">"High Dose"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span>  </span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">APERIODC</span> <span class="op">&lt;-</span> <span class="st">"Base"</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">APERIOD</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span>  </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>  <span class="co"># Set a seed for reproducibility</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="fl">24</span><span class="op">*</span><span class="fl">7</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">adexsum</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span> <span class="op">&lt;-</span> <span class="st">"not treated"</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span><span class="op">&gt;=</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=1 day"</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span><span class="op">&gt;=</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=7 days"</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span><span class="op">&gt;=</span><span class="fl">28</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=28 days"</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span><span class="op">&gt;=</span><span class="fl">12</span><span class="op">*</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=12 weeks"</span></span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span><span class="op">&gt;=</span><span class="fl">24</span><span class="op">*</span><span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=24 weeks"</span></span>
-<span>  </span>
-<span>  <span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span>,</span>
-<span>                            levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"not treated"</span>, <span class="st">"&gt;=1 day"</span>, <span class="st">"&gt;=7 days"</span>, <span class="st">"&gt;=28 days"</span>, <span class="st">"&gt;=12 weeks"</span>, <span class="st">"&gt;=24 weeks"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">r2rtf</span><span class="fu">::</span><span class="va"><a href="https://merck.github.io/r2rtf/reference/r2rtf_adsl.html" class="external-link">r2rtf_adsl</a></span></span>
+<span><span class="va">adexsum</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>USUBJID <span class="op">=</span> <span class="va">adsl</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">TRT01A</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Xanomeline Low Dose"</span>, <span class="st">"Xanomeline High Dose"</span><span class="op">)</span>,</span>
+<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Low Dose"</span>, <span class="st">"High Dose"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">APERIODC</span> <span class="op">&lt;-</span> <span class="st">"Base"</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">APERIOD</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span> <span class="co"># Set a seed for reproducibility</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="fl">24</span> <span class="op">*</span> <span class="fl">7</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">adexsum</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span> <span class="op">&lt;-</span> <span class="st">"not treated"</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=1 day"</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&gt;=</span> <span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=7 days"</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&gt;=</span> <span class="fl">28</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=28 days"</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&gt;=</span> <span class="fl">12</span> <span class="op">*</span> <span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=12 weeks"</span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">[</span><span class="va">adexsum</span><span class="op">$</span><span class="va">AVAL</span> <span class="op">&gt;=</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">7</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"&gt;=24 weeks"</span></span>
+<span></span>
+<span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"not treated"</span>, <span class="st">"&gt;=1 day"</span>, <span class="st">"&gt;=7 days"</span>, <span class="st">"&gt;=28 days"</span>, <span class="st">"&gt;=12 weeks"</span>, <span class="st">"&gt;=24 weeks"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">adexsum</span><span class="op">$</span><span class="va">EXDURGR</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] &gt;=12 weeks  &gt;=7 days    &gt;=28 days   &gt;=1 day     &gt;=24 weeks  not treated</span></span>
 <span><span class="co">## Levels: not treated &gt;=1 day &gt;=7 days &gt;=28 days &gt;=12 weeks &gt;=24 weeks</span></span></code></pre>
@@ -146,32 +139,32 @@ weeks”.</li>
 information, then build meta object.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
-<span>    analysis <span class="op">=</span> <span class="st">"exp_dur"</span>, population <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>    observation <span class="op">=</span> <span class="st">"apat"</span>, parameter <span class="op">=</span> <span class="st">"expdur"</span></span>
-<span>  <span class="op">)</span> </span>
-<span>  </span>
+<span>  analysis <span class="op">=</span> <span class="st">"exp_dur"</span>, population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  observation <span class="op">=</span> <span class="st">"apat"</span>, parameter <span class="op">=</span> <span class="st">"expdur"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span></span>
-<span>    population <span class="op">=</span> <span class="va">adexsum</span>,</span>
-<span>    observation <span class="op">=</span> <span class="va">adexsum</span></span>
+<span>  population <span class="op">=</span> <span class="va">adexsum</span>,</span>
+<span>  observation <span class="op">=</span> <span class="va">adexsum</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">APERIOD</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">AVAL</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span><span class="va">plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
-<span>      name <span class="op">=</span> <span class="st">"apat"</span>,</span>
-<span>      group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
-<span>      subset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="va">APERIOD</span><span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">AVAL</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
-<span>      name <span class="op">=</span> <span class="st">"expdur"</span>,</span>
-<span>      var <span class="op">=</span> <span class="st">"AVAL"</span>,</span>
-<span>      label <span class="op">=</span> <span class="st">"Exposure Duration (Days)"</span>,</span>
-<span>      vargroup <span class="op">=</span> <span class="st">"EXDURGR"</span></span>
-<span>    <span class="op">)</span><span class="op">|&gt;</span></span>
-<span>    <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
-<span>      name <span class="op">=</span> <span class="st">"exp_dur"</span>,</span>
-<span>      title <span class="op">=</span> <span class="st">"Summary of Exposure Duration"</span>,</span>
-<span>      label <span class="op">=</span> <span class="st">"exposure duration table"</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"expdur"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"AVAL"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Exposure Duration (Days)"</span>,</span>
+<span>    vargroup <span class="op">=</span> <span class="st">"EXDURGR"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"exp_dur"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Summary of Exposure Duration"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"exposure duration table"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="analysis-preparation">Analysis preparation<a class="anchor" aria-label="anchor" href="#analysis-preparation"></a>
@@ -200,13 +193,13 @@ reporting.</p>
 <span><span class="co">##  $ analysis       : chr "exp_dur"</span></span></code></pre>
 <p>Number of participants in population</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">n</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">n</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##                         name n_1 n_2 n_3 n_9999</span></span>
 <span><span class="co">## 1 Participants in population  86  83  84    253</span></span></code></pre>
 <p>Number of participants in each duration category</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">charn</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">$</span><span class="va">char_n</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">charn</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,<span class="fl">6</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">charn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">$</span><span class="va">char_n</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">charn</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          name Placebo Low.Dose High.Dose Total</span></span>
 <span><span class="co">## 1 not treated       0        0         0     0</span></span>
 <span><span class="co">## 2     &gt;=1 day       2        4         3     9</span></span>
@@ -216,8 +209,8 @@ reporting.</p>
 <span><span class="co">## 6  &gt;=24 weeks       1        0         0     1</span></span></code></pre>
 <p>Proportion of participants in each duration category</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">charp</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">$</span><span class="va">char_prop</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">charp</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,<span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">charp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">$</span><span class="va">char_prop</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">charp</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##          name   Placebo  Low.Dose High.Dose      Total</span></span>
 <span><span class="co">## 1 not treated  0.000000  0.000000  0.000000  0.0000000</span></span>
 <span><span class="co">## 2     &gt;=1 day  2.325581  4.819277  3.571429  3.5573123</span></span>
@@ -227,8 +220,8 @@ reporting.</p>
 <span><span class="co">## 6  &gt;=24 weeks  1.162791  0.000000  0.000000  0.3952569</span></span></code></pre>
 <p>Statistical summary of exposure duration for each treatment</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">chars</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">$</span><span class="va">char_n</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">chars</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>,<span class="fl">8</span><span class="op">)</span> </span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">chars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">outdata</span><span class="op">$</span><span class="va">char_n</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">chars</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="fl">8</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        name         Placebo    Low.Dose       High.Dose     Total</span></span>
 <span><span class="co">## 8      Mean            81.5        90.8            87.6      86.6</span></span>
 <span><span class="co">## 9        SD            49.1        51.3            48.8      49.7</span></span>
@@ -273,8 +266,9 @@ generate RTF output</p>
 <span>    path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>    path_outtable <span class="op">=</span> <span class="st">"outtable/exp0duration.rtf"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmp0BmMMs/file19da34cc313c.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpSIJ0R7/file1996e144239.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/exp0duration.rtf</span></span></code></pre>
+<embed src="pdf/exp0duration.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
