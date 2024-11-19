@@ -137,11 +137,11 @@ adsl$TRTA <- factor(
 
 ```{r}
 plan <- plan(
-    analysis = "base_char_subgroup",
-    population = "apat",
-    observation = "apat",
-    parameter = "age;gender;race"
-  )
+  analysis = "base_char_subgroup",
+  population = "apat",
+  observation = "apat",
+  parameter = "age;gender;race"
+)
 ```
 
 ```{r}
