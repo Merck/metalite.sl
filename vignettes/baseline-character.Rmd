@@ -23,9 +23,9 @@ library(metalite.sl)
 The baseline characteristic analysis aims to provide tables to summarize details of participants.
 The development of baseline characteristic analysis involves functions:
 
-- `prepare_base_cha`: prepare analysis raw datasets.
-- `format_base_char`: prepare analysis (mock) outdata with proper format.
-- `rtf_base_char`: transfer (mock) output dataset to RTF table.
+- `prepare_base_char`: prepare analysis raw datasets.
+- `format_base_char`: prepare analysis outdata with proper format.
+- `rtf_base_char`: transfer output dataset to RTF table.
 
 ## Build a metadata
 
@@ -40,41 +40,21 @@ adsl$TRTA <- factor(
 ```
 
 ```{r}
-plan <- plan(
-  analysis = "base_char",
-  population = "apat",
-  observation = "apat",
-  parameter = "age;gender;race"
+meta <- meta_sl(
+  dataset_population = adsl,
+  population_term = "apat",
+  parameter_term = "age;gender;race",
+  parameter_var = "AGE^AGEGR1;SEX;RACE",
+  treatment_group = "TRTA"
 )
 ```
 
+<details>
+<summary>Click to show the output</summary>
 ```{r}
-meta <- meta_adam(population = adsl,
-                  observation = adsl) |>
-  define_plan(plan = plan) |>
-  define_population(
-    name = "apat",
-    group = "TRTA",
-    subset = quote(SAFFL == "Y"),
-    var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
-  ) |>
-  define_parameter(
-    name = "age",
-    var = "AGE",
-    label = "Age (years)",
-    vargroup = "AGEGR1"
-  ) |>
-  define_parameter(name = "gender",
-                   var = "SEX",
-                   label = "Gender") |>
-  define_parameter(name = "race",
-                   var = "RACE",
-                   label = "Race") |>
-  define_analysis(name = "base_char",
-                  title = "Participant Baseline Characteristics by Treatment Group",
-                  label = "baseline characteristic table") |>
-  meta_build()
+meta
 ```
+</details>
 
 ## Analysis preparation
 
@@ -85,12 +65,19 @@ outdata <- meta |>
   prepare_base_char(parameter = "age;gender;race")
 
 outdata
+```
 
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
 outdata$n
 outdata$char_n
 outdata$char_var
 outdata$char_prop
 ```
+</details>
+
 
 ## Format the numbers
 
@@ -98,18 +85,18 @@ outdata$char_prop
 
 ```{r}
 outdata <-
-  outdata |> format_base_char(display_col = c("n", "prop", "total"),
-                              digits_prop = 2)
-
-outdata$tbl
+  outdata |> format_base_char(
+    display_col = c("n", "prop", "total"),
+    digits_prop = 2
+  )
 ```
 
+<details>
+<summary>Click to show the output</summary>
 ```{r}
-outdata <-
-  outdata |> format_base_char(display_col = c("n", "prop"), digits_prop = 3)
-
 outdata$tbl
 ```
+</details>
 
 ## Output as RTF
 
@@ -123,14 +110,18 @@ outdata |> rtf_base_char(
 )
 ```
 
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/base0char.pdf")
+```
+
 # Create Baseline Characteristic Table for Subgroup Analysis 
 
 The baseline characteristic subgroup analysis aims to provide tables to summarize details of participants by subgroup.
 The development of baseline characteristic subgroup analysis involves functions:
 
 - `prepare_base_char_subgroup()`: prepare analysis raw datasets.
-- `format_base_char_subgroup()`: prepare analysis (mock) outdata with proper format.
-- `rtf_base_char_subgroup()`: transfer (mock) output dataset to RTF table.
+- `format_base_char_subgroup()`: prepare analysis outdata with proper format.
+- `rtf_base_char_subgroup()`: transfer output dataset to RTF table.
 
 ## Build a metadata
 
@@ -142,27 +133,22 @@ adsl$TRTA <- factor(
   levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
   labels = c("Placebo", "Low Dose", "High Dose")
 )
-
 ```
 
 ```{r}
 plan <- plan(
-  analysis = "base_char",
+  analysis = "base_char_subgroup",
   population = "apat",
   observation = "apat",
   parameter = "age;gender;race"
-) |>
-  add_plan(
-    analysis = "base_char_subgroup",
-    population = "apat",
-    observation = "apat",
-    parameter = "age"
-  ) 
+)
 ```
 
 ```{r}
-meta <- meta_adam(population = adsl,
-                  observation = adsl) |>
+meta <- meta_adam(
+  population = adsl,
+  observation = adsl
+) |>
   define_plan(plan = plan) |>
   define_population(
     name = "apat",
@@ -176,26 +162,27 @@ meta <- meta_adam(population = adsl,
     label = "Age (years)",
     vargroup = "AGEGR1"
   ) |>
-  define_parameter(name = "gender",
-                   var = "SEX",
-                   label = "Gender") |>
-  define_parameter(name = "race",
-                   var = "RACE",
-                   label = "Race") |>
-  define_analysis(name = "base_char",
-                  title = "Participant Baseline Characteristics by Treatment Group",
-                  label = "baseline characteristic table") |>
-  define_analysis(name = "base_char_subgroup",
-                  title = "Participant by Age Category and Sex",
-                  label = "baseline characteristic sub group table") |>
+  define_parameter(
+    name = "race",
+    var = "RACE",
+    label = "Race"
+  ) |>
+  define_analysis(
+    name = "base_char_subgroup",
+    title = "Participant by Age Category and Sex",
+    label = "baseline characteristic sub group table"
+  ) |>
   meta_build()
 ```
 
-## Analysis preparation
-
+<details>
+<summary>Click to show the output</summary>
 ```{r}
-meta <- meta_sl_example()
+meta
 ```
+</details>
+
+## Analysis preparation
 
 The input of the function `prepare_base_char_subgroup()` is a `meta` object created by the metalite package.
 
@@ -209,13 +196,15 @@ raw datasets. Key arguments are:
 outdata <- prepare_base_char_subgroup(
   meta,
   population = "apat",
-  parameter = "age",
+  parameter = "age;race",
   subgroup_var = "TRTA",
   subgroup_header = c("SEX", "TRTA"),
   display_subgroup_total = TRUE
 )
 ```
 
+<details>
+<summary>Click to show the output</summary>
 The output dataset contains commonly used statistics within each `subgroup_var`.
 
 ```{r}
@@ -238,25 +227,37 @@ outdata$out_all$`Placebo`$n
 outdata$out_all$`High Dose`$n
 outdata$out_all$`Low Dose`$n
 ```
+</details>
 
 ## Format output
 
 `format_base_char_subgroup` to prepare analysis dataset before generate RTF output
 
 ```{r}
-tbl <- format_base_char_subgroup(outdata)
-head(tbl$tbl)
+outdata <- format_base_char_subgroup(outdata)
 ```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
+outdata$tbl
+```
+</details>
 
 ## Output as RTF
 
 `rtf_base_char_subgroup` to generate RTF output
 
 ```{r, warning=FALSE}
-outdata <- format_base_char_subgroup(outdata) |>
+outdata |>
   rtf_base_char_subgroup(
     source = "Source:  [CDISCpilot: adam-adsl]",
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = "outtable/base0charsubgroup.rtf"
   )
+```
+
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/base0charsubgroup.pdf")
 ```

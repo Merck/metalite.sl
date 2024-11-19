@@ -116,7 +116,7 @@ react_base_char <- function(
       subgroup_var = y_subgrp,
       display_subgroup_total = FALSE # total display for subgroup is not needed
     ) |>
-      format_ae_specific_subgroup()
+      metalite.ae::format_ae_specific_subgroup()
 
     tbl_ae <- c(tbl_ae, list(tbl_ae_temp$tbl))
     # get group labels for AE analysis

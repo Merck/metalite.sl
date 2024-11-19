@@ -44,10 +44,11 @@ Prepare data for treatment compliance table
 \examples{
 meta <- meta_sl_example()
 outdata <- prepare_base_char_subgroup(
-          meta,
-          population = "apat",
-          parameter = "age",
-          subgroup_var = "TRTA",
-          subgroup_header = c("SEX","TRTA"),
-          display_subgroup_total = TRUE)
+  meta,
+  population = "apat",
+  parameter = "age",
+  subgroup_var = "TRTA",
+  subgroup_header = c("SEX", "TRTA"),
+  display_subgroup_total = TRUE
+)
 }

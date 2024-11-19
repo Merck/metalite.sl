@@ -205,18 +205,17 @@ collect_baseline <- function(
 
   # variable lower level
   if (!is.null(par_var_lower)) {
-
     # Obtain number of subjects
-    pop_num_lower <- apply(pop_num, 1, function (x) {
+    pop_num_lower <- apply(pop_num, 1, function(x) {
       pop_lower <- pop[pop[[par_var]] == x[["name"]] & !is.na(pop[[par_var_lower]]), ]
       id_lower <- seq(pop_lower[[pop_id]])
       group_lower <- pop_lower[[pop_group]]
       varlower <- pop_lower[[par_var_lower]]
       stopifnot(inherits(varlower, c("factor", "character")))
       if (any(c("character") %in% class_var)) {
-      varlower <- factor(varlower, exclude = NULL)
+        varlower <- factor(varlower, exclude = NULL)
       }
-      
+
       if (length(varlower) > 0) {
         lower <- metalite::n_subject(id_lower, group_lower, par = varlower)
         max_length <- sapply(pop_num, function(x) max(nchar(x)))
@@ -231,16 +230,16 @@ collect_baseline <- function(
       }
     })
     pop_num <- do.call(rbind, pop_num_lower)
-    
+
     # Obtain proportion
-    pop_prop_lower <- apply(pop_prop, 1, function (x) {
+    pop_prop_lower <- apply(pop_prop, 1, function(x) {
       pop_lower <- pop[pop[[par_var]] == x[["name"]] & !is.na(pop[[par_var_lower]]), ]
       id_lower <- seq(pop_lower[[pop_id]])
       group_lower <- pop_lower[[pop_group]]
       varlower <- pop_lower[[par_var_lower]]
       stopifnot(inherits(varlower, c("factor", "character")))
       varlower <- factor(varlower, exclude = NULL)
-      
+
       if (length(varlower) > 0) {
         lower <- metalite::n_subject(id_lower, group_lower, par = varlower)
         for (i in seq(names(lower))) {
@@ -256,9 +255,8 @@ collect_baseline <- function(
       }
     })
     pop_prop <- do.call(rbind, pop_prop_lower)
-    
   }
-  
+
   pop_n["var_label"] <- label
   pop_num["var_label"] <- label
   pop_prop["var_label"] <- label

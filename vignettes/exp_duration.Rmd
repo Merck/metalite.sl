@@ -28,6 +28,10 @@ The development of exposure duration analysis involves functions:
 - `format_exp_duration`: prepare analysis outdata with proper format.
 - `rtf_exp_duration`: transfer (mock) output dataset to RTF table.
 
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/exp0duration.pdf")
+```
+
 ## Build a metadata
 
 There are two steps in `meta_sl_exposure_example` function in order to build the metadata (`meta` object): processing the ADaM dataset and save meta information for A&R reporting.
@@ -40,27 +44,28 @@ Step1: ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data, is utilized to:
 - Assign duration category `adexsum$EXDURGR` i.e.">=1 day", ">=7 days",">=28 days", ">=12 weeks" and ">=24 weeks".
 
 ```{r}
-  adsl <- r2rtf::r2rtf_adsl
-  adexsum <- data.frame(USUBJID=adsl$USUBJID)
-  adexsum$TRTA <- factor(adsl$TRT01A,
-                         levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-                         labels = c("Placebo", "Low Dose", "High Dose")
-  )
-  
-  adexsum$APERIODC <- "Base"
-  adexsum$APERIOD <- 1
-  
-  set.seed(123)  # Set a seed for reproducibility
-  adexsum$AVAL <- sample(x = 0:(24*7), size = length(adexsum$USUBJID), replace = TRUE)
-  adexsum$EXDURGR <- "not treated"
-  adexsum$EXDURGR[adexsum$AVAL>=1] <- ">=1 day"
-  adexsum$EXDURGR[adexsum$AVAL>=7] <- ">=7 days"
-  adexsum$EXDURGR[adexsum$AVAL>=28] <- ">=28 days"
-  adexsum$EXDURGR[adexsum$AVAL>=12*7] <- ">=12 weeks"
-  adexsum$EXDURGR[adexsum$AVAL>=24*7] <- ">=24 weeks"
-  
-  adexsum$EXDURGR <- factor(adexsum$EXDURGR,
-                            levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks"))
+adsl <- r2rtf::r2rtf_adsl
+adexsum <- data.frame(USUBJID = adsl$USUBJID)
+adexsum$TRTA <- factor(adsl$TRT01A,
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
+)
+
+adexsum$APERIODC <- "Base"
+adexsum$APERIOD <- 1
+
+set.seed(123) # Set a seed for reproducibility
+adexsum$AVAL <- sample(x = 0:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
+adexsum$EXDURGR <- "not treated"
+adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day"
+adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days"
+adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days"
+adexsum$EXDURGR[adexsum$AVAL >= 12 * 7] <- ">=12 weeks"
+adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
+
+adexsum$EXDURGR <- factor(adexsum$EXDURGR,
+  levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
+)
 unique(adexsum$EXDURGR)
 ```
 
@@ -68,32 +73,32 @@ Step2: Save analysis plan and metadata(parameter and analysis) information, then
 
 ```{r}
 plan <- metalite::plan(
-    analysis = "exp_dur", population = "apat",
-    observation = "apat", parameter = "expdur"
-  ) 
-  
+  analysis = "exp_dur", population = "apat",
+  observation = "apat", parameter = "expdur"
+)
+
 meta <- metalite::meta_adam(
-    population = adexsum,
-    observation = adexsum
+  population = adexsum,
+  observation = adexsum
+) |>
+  metalite::define_plan(plan) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = quote(APERIOD == 1 & AVAL > 0)
   ) |>
-    metalite::define_plan(plan) |>
-    metalite::define_population(
-      name = "apat",
-      group = "TRTA",
-      subset = quote(APERIOD==1 & AVAL>0)
-    ) |>
-    metalite::define_parameter(
-      name = "expdur",
-      var = "AVAL",
-      label = "Exposure Duration (Days)",
-      vargroup = "EXDURGR"
-    )|>
-    metalite::define_analysis(
-      name = "exp_dur",
-      title = "Summary of Exposure Duration",
-      label = "exposure duration table"
-    ) |>
-    metalite::meta_build()
+  metalite::define_parameter(
+    name = "expdur",
+    var = "AVAL",
+    label = "Exposure Duration (Days)",
+    vargroup = "EXDURGR"
+  ) |>
+  metalite::define_analysis(
+    name = "exp_dur",
+    title = "Summary of Exposure Duration",
+    label = "exposure duration table"
+  ) |>
+  metalite::meta_build()
 ```
 
 ## Analysis preparation
@@ -108,28 +113,28 @@ outdata
 Number of participants in population
 
 ```{r}
-outdata$n[,1:5]
+outdata$n[, 1:5]
 ```
 
 Number of participants in each duration category
 
 ```{r}
-charn<-data.frame(outdata$char_n[1])
-head(charn[,1:5],6) 
+charn <- data.frame(outdata$char_n[1])
+head(charn[, 1:5], 6)
 ```
 
 Proportion of participants in each duration category
 
 ```{r}
-charp<-data.frame(outdata$char_prop[1])
-head(charp[,1:5],6)
+charp <- data.frame(outdata$char_prop[1])
+head(charp[, 1:5], 6)
 ```
 
 Statistical summary of exposure duration for each treatment
 
 ```{r}
-chars<-data.frame(outdata$char_n[1])
-tail(chars[,1:5],8) 
+chars <- data.frame(outdata$char_n[1])
+tail(chars[, 1:5], 8)
 ```
 
 ## Format output
@@ -155,3 +160,6 @@ outdata <- format_exp_duration(outdata) |>
   )
 ```
 
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/exp0duration.pdf")
+```

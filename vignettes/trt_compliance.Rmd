@@ -24,23 +24,23 @@ library(dplyr)
 
 
 
-## Overview
+# Create Treatment Compliance Table
 
 The objective of this tutorial is to generate a production-ready Treatment Compliance specification analyses.
 
 This report produces a table that contains a summary of treatment compliance information. The report consists of a treatment compliance category section and a treatment compliance statistics section. 
 To accomplish this using metalite.sl, three essential functions are required:
 
--`prepare_trt_compliance ()`:this function is a wrapper function of `prepare_sl_summary ()` which prepares data for treatment compliance analysis.
+- `prepare_trt_compliance ()`:this function is a wrapper function of `prepare_sl_summary ()` which prepares data for treatment compliance analysis.
 
--`format_trt_compliance()`: prepare analysis outdata with proper format.
+- `format_trt_compliance()`: prepare analysis outdata with proper format.
 
--`rtf_trt_compliance()`: transfer output dataset to RTF table.
+- `rtf_trt_compliance()`: transfer output dataset to RTF table.
 
 An example output:
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/pdf/treatment0compliance.pdf")
+knitr::include_graphics("pdf/treatment0compliance.pdf")
 ```
 
 ## Example data
@@ -53,7 +53,7 @@ To calculate treatment compliance percent and treatment compliance range, we uti
 Additional information can be accessed on the
 [metalite package website](https://merck.github.io/metalite/articles/metalite.html).
 
-# Build a metadata
+## Build a metadata
 
 ```{r}
 adsl <- r2rtf::r2rtf_adsl
@@ -149,7 +149,7 @@ meta
 ```
 </details>
 
-### Analysis preparation
+## Analysis preparation
 
 The function `prepare_trt_compliance()` is written to prepare data for treatment compliance analysis.The function takes four arguments:
 
@@ -170,6 +170,11 @@ a collection of raw datasets for analysis and reporting.
 
 ```{r}
 outdata <- prepare_trt_compliance(meta)
+```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
 outdata
 ```
 - `parameter`: parameter name
@@ -181,10 +186,8 @@ outdata$parameter
 outdata$n
 ```
 
-
 The resulting dataset contains frequently used statistics,
 with variables indexed according to the order specified in `outdata$group`.
-
 
 ```{r}
 outdata$group
@@ -204,6 +207,7 @@ outdata$char_var
 ```{r}
 outdata$char_prop
 ```
+</details>
 
 ## Format output
 
@@ -211,35 +215,31 @@ Once the raw analysis results are obtained,
 the `format_trt_compliance()` function can be employed to prepare the outdata,ensuring its compatibility with production-ready RTF tables.
 
 ```{r}
-tbl <- outdata |> format_trt_compliance()
-head(tbl$tbl)
+outdata <- outdata |> format_trt_compliance()
 ```
-### Additional statistics
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
+outdata$tbl
+```
+</details>
+
+## Additional statistics
 
 By using the `display` argument,
 we can choose specific statistics to include.
 
 ```{r}
 tbl <- outdata |> format_trt_compliance(display_stat = c("mean", "sd", "median", "range"), display_col = c("n", "prop", "total"))
+```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
 tbl$tbl
 ```
-### Mock data preparation
-
-The `mock` argument facilitates the creation of a mock table with ease.
-
-Please note that the intention of the `mock` argument is not to provide
-an all-encompassing mock table template.
-Instead, it serves as a convenient method to assist users in generating
-a mock table that closely resembles the desired output layout.
-To develop a more versatile mock table generation tool, further efforts
-are necessary.
-This could potentially involve the creation of a dedicated mock table
-generation package or similar solutions.
-
-```{r}
-tbl <- outdata |> format_trt_compliance()
-head(tbl$tbl)
-```
+</details>
 
 ## RTF tables
 
@@ -255,23 +255,5 @@ outdata |>
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/pdf/treatment0compliance.pdf")
-```
-
-The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
-
-
-```{r}
-outdata |>
-  format_trt_compliance() |>
-  rtf_trt_compliance(
-    orientation = "landscape",
-    col_rel_width = c(4, rep(1, 9)),
-    "Source: [CDISCpilot: adam-adsl]",
-    path_outtable = "outtable/treatment0compliance1.rtf"
-  )
-```
-
-```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/pdf/treatment0compliance1.pdf")
+knitr::include_graphics("pdf/treatment0compliance.pdf")
 ```

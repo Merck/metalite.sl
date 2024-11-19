@@ -1,6 +1,7 @@
 # metalite.sl <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/Merck/metalite.sl/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Merck/metalite.sl?branch=main)
 [![R-CMD-check](https://github.com/Merck/metalite.sl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Merck/metalite.sl/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 

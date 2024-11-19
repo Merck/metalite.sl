@@ -7,3 +7,5 @@
 ^LICENSE\.md$
 ^LICENSE_THIRD_PARTY\.md$
 ^\.github$
+^codecov\.yml$
+^tests/testthat/_snaps$

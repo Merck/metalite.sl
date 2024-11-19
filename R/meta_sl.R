@@ -26,7 +26,7 @@
 #'   If there are multiple terms, they are separated by the semicolon (;).
 #' @param parameter_var A character value of parameter variable name.
 #'   If there are multiple variables, they are separated by the semicolon (;).
-#'   A group variable can be specified followed by a variable 
+#'   A group variable can be specified followed by a variable
 #'   and the hat symbol (^).
 #' @param parameter_labels A character vector of parameter label name.
 #'   The length of vector should be the same as the number of parameter terms.
@@ -65,7 +65,6 @@ meta_sl <- function(
     observation_subset = NULL,
     population_label = "All Participants as Treated",
     treatment_group = "TRT01A") {
-
   # Check input
   if (is.null(dataset_observation)) {
     dataset_observation <- dataset_population
@@ -84,11 +83,11 @@ meta_sl <- function(
     stop("The number of parameter labels should be the same as that of parameter terms.")
   }
   parameter_vars <- strsplit(unlist(strsplit(parameter_var, ";")), "^", fixed = TRUE)
-  
+
   meta <- metalite::meta_adam(
     population = as.data.frame(dataset_population),
     observation = as.data.frame(dataset_observation)
-    )|>
+  ) |>
     metalite::define_plan(plan = metalite::plan(
       analysis = analysis_term,
       population = population_term,
@@ -109,7 +108,7 @@ meta_sl <- function(
       var = names(dataset_observation),
       label = ""
     )
-  
+
   for (i in seq(parameter_terms)) {
     var <- parameter_vars[[i]]
     vargroup <- NULL
@@ -120,14 +119,15 @@ meta_sl <- function(
       vargroup <- parameter_vars[[i]][[2]]
     }
     if (!is.null(parameter_labels)) {
-      varlabel <- ifelse(!is.na(parameter_labels[i]), 
-                         parameter_labels[i], 
-                         attr(dataset_population[[var]], "label"))
+      varlabel <- ifelse(!is.na(parameter_labels[i]),
+        parameter_labels[i],
+        attr(dataset_population[[var]], "label")
+      )
     } else {
       varlabel <- attr(dataset_population[[var]], "label")
     }
-    
-    meta <- meta |> 
+
+    meta <- meta |>
       metalite::define_parameter(
         name = parameter_terms[[i]],
         var = var,
@@ -144,6 +144,6 @@ meta_sl <- function(
       var_name = unlist(parameter_vars)
     ) |>
     metalite::meta_build()
-  
+
   meta
 }

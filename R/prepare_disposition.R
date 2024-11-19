@@ -37,15 +37,14 @@
 #' meta <- meta_sl_example()
 #' meta |> prepare_base_char()
 prepare_disposition <- function(meta,
-                              analysis = "disp",
-                              population = meta$plan[meta$plan$analysis==analysis,]$population,
-                              parameter = paste(meta$plan[meta$plan$analysis==analysis,]$parameter, collapse = ";") 
-) {
+                                analysis = "disp",
+                                population = meta$plan[meta$plan$analysis == analysis, ]$population,
+                                parameter = paste(meta$plan[meta$plan$analysis == analysis, ]$parameter, collapse = ";")) {
   return(
     prepare_sl_summary(meta,
-                       analysis = analysis,
-                       population = population,
-                       parameter = parameter
+      analysis = analysis,
+      population = population,
+      parameter = parameter
     )
   )
 }

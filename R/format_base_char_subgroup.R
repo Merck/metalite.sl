@@ -18,7 +18,7 @@
 
 #' Prepare data for Subgroup Analysis for Baseline Characteristic
 #'
-#' @param outdata A metadata object created by [prepare_base_char_subgroup()]. 
+#' @param outdata A metadata object created by [prepare_base_char_subgroup()].
 #' @param display Column wants to display on the table.
 #'   The term could be selected from `c("n", "prop", "total")`.
 #' @param display_stat A vector of statistics term name.
@@ -30,25 +30,23 @@
 #'
 #' @examples
 #' meta <- meta_sl_example()
-#' 
+#'
 #' outdata <- prepare_base_char_subgroup(
-#'           meta,
-#'           population = "apat",
-#'           parameter = "age",
-#'           subgroup_var = "TRTA",
-#'           subgroup_header = c("SEX","TRTA"),
-#'           display_subgroup_total = TRUE
+#'   meta,
+#'   population = "apat",
+#'   parameter = "age",
+#'   subgroup_var = "TRTA",
+#'   subgroup_header = c("SEX", "TRTA"),
+#'   display_subgroup_total = TRUE
 #' )
-#' 
+#'
 #' outdata |> format_base_char_subgroup()
-     
 format_base_char_subgroup <- function(
     outdata,
-    display = c("n","prop","total"),
+    display = c("n", "prop", "total"),
     display_stat = c("mean", "sd", "median", "range")) {
-  
   out_all <- outdata$out_all
-  
+
   outlst <- list()
   for (i in seq_along(out_all)) {
     tbl <- out_all[[i]] |>
@@ -57,41 +55,41 @@ format_base_char_subgroup <- function(
         digits_prop = 1,
         display_stat = display_stat
       )
-    
-    #names(tbl$tbl)[-1] <- paste0(names(out_all[i]), names(tbl$tbl)[-1])
-    names(tbl$tbl)[-1] <- ifelse(grepl("_label",names(tbl$tbl)[-1]) %in% "FALSE", paste0(names(out_all[i]), names(tbl$tbl)[-1]),names(tbl$tbl)[-1])
-    
+
+    # names(tbl$tbl)[-1] <- paste0(names(out_all[i]), names(tbl$tbl)[-1])
+    names(tbl$tbl)[-1] <- ifelse(grepl("_label", names(tbl$tbl)[-1]) %in% "FALSE", paste0(names(out_all[i]), names(tbl$tbl)[-1]), names(tbl$tbl)[-1])
+
     tbl$tbl$order <- as.numeric(rownames(tbl$tbl))
-    
+
     outlst[[i]] <- tbl$tbl
   }
-  
+
   names(outlst) <- names(out_all)
   outlst <- outlst[-length(outlst)]
-  
+
   i <- 1
   while (i < length(outlst)) {
     if (i == 1) {
-      tbl <- merge(outlst[[i]], outlst[[i + 1]], by = c("name","var_label","order"), all = TRUE)
+      tbl <- merge(outlst[[i]], outlst[[i + 1]], by = c("name", "var_label", "order"), all = TRUE)
     }
-    
+
     i <- i + 1
-    
+
     if (i > 1 && i < length(outlst)) {
-      tbl <- merge(tbl, outlst[[i + 1]], by = c("name","var_label","order"), all = TRUE)
+      tbl <- merge(tbl, outlst[[i + 1]], by = c("name", "var_label", "order"), all = TRUE)
     }
   }
-  
-  
+
+
   # If outdata$display_subgroup_total = FALSE, remove that part
-  #if (!outdata$display_subgroup_total) {
+  # if (!outdata$display_subgroup_total) {
   #  rm_tot <- names(outlst$Total) # Columns from Total Section
   #  rm_tot <- rm_tot[!rm_tot %in% c("name", "order")]
-    
+
   #  tbl <- tbl[, -which(names(tbl) %in% rm_tot)]
-  #}
-  
-  outdata$tbl <- tbl[order(tbl$order),]
+  # }
+
+  outdata$tbl <- tbl[order(tbl$order), ]
   outdata$display <- display
   outdata$display_stat <- display_stat
   outdata

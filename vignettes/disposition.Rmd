@@ -24,7 +24,7 @@ library(dplyr)
 
 
 
-## Overview
+# Create Disposition Table
 
 The objective of this tutorial is to generate a production-ready Disposition table specification analyses.
 
@@ -40,7 +40,7 @@ To accomplish this using metalite.sl, four essential functions are required:
 An example output:
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/pdf/disposition.pdf")
+knitr::include_graphics("pdf/disposition.pdf")
 ```
 
 
@@ -53,11 +53,10 @@ within metalite.sl.
 Additional information can be accessed on the
 [metalite package website](https://merck.github.io/metalite/articles/metalite.html).
 
-# Build a metadata
+## Build a metadata
 
 
 ```{r}
-
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(adsl$TRTA,
@@ -66,21 +65,27 @@ adsl$TRTA <- factor(adsl$TRTA,
 )
 
 # Create a variable EOSSTT indicating the end of end of study status
-adsl$EOSSTT <- sample(x = c("Participants Ongoing", "Discontinued"),
-                      size = length(adsl$USUBJID), 
-                      prob = c(0.8, 0.2), replace = TRUE)
+adsl$EOSSTT <- sample(
+  x = c("Participants Ongoing", "Discontinued"),
+  size = length(adsl$USUBJID),
+  prob = c(0.8, 0.2), replace = TRUE
+)
+adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(
+  x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
+  size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]),
+  prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE
+)
 
 # Create a variable EOTSTT1 indicating the end of treatment status part 1
 adsl$EOTSTT1 <- ifelse(adsl$DISCONFL == "Y", "Discontinued", "Completed")
-adsl$DCTREAS<- ifelse(adsl$EOTSTT1 == "Discontinued" & adsl$EOSSTT == "Discontinued", adsl$DCREASCD, NA)
+adsl$DCTREAS <- ifelse(adsl$EOTSTT1 == "Discontinued" & adsl$EOSSTT == "Discontinued", adsl$DCREASCD, NA)
 head(adsl)
-
 ```
 
 ```{r}
 plan <- plan(
   analysis = "disp", population = "apat",
- observation = "apat", parameter = "disposition;medical-disposition"  
+  observation = "apat", parameter = "disposition;medical-disposition"
 )
 ```
 
@@ -95,13 +100,12 @@ meta <- meta_adam(
     name = "apat",
     group = "TRTA",
     subset = quote(SAFFL == "Y")
-    
   ) |>
-    define_parameter(
+  define_parameter(
     name = "disposition",
     var = "EOSSTT",
     label = "Trial Disposition",
-    var_lower = "DCTREAS"
+    var_lower = "DCSREAS"
   ) |>
   define_parameter(
     name = "medical-disposition",
@@ -124,7 +128,7 @@ meta
 ```
 </details>
 
-### Analysis preparation
+## Analysis preparation
 
 The function `prepare_disposition()` is written to prepare data for subject disposition analysis.The function takes four arguments:
 
@@ -145,6 +149,11 @@ a collection of raw datasets for analysis and reporting.
 
 ```{r}
 outdata <- prepare_disposition(meta)
+```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
 outdata
 ```
 - `parameter`: parameter name
@@ -182,6 +191,7 @@ outdata$char_var
 ```{r}
 outdata$char_prop
 ```
+</details>
 
 ## Format output
 
@@ -189,9 +199,15 @@ Once the raw analysis results are obtained,
 the `format_disposition()` function can be employed to prepare the outdata,ensuring its compatibility with production-ready RTF tables.
 
 ```{r}
-tbl <- outdata |> format_disposition()
-head(tbl$tbl)
+outdata <- outdata |> format_disposition()
 ```
+
+<details>
+<summary>Click to show the output</summary>
+```{r}
+outdata$tbl
+```
+</details>
 
 
 ## RTF tables
@@ -199,13 +215,10 @@ head(tbl$tbl)
 The last step is to prepare the RTF table using `rtf_trt_compliance`.
 
 ```{r}
-x <- outdata |>
-  format_disposition()
-
-x$tbl <- x$tbl %>%
+outdata$tbl <- outdata$tbl %>%
   mutate(name = ifelse(trimws(name) == "Status Not Recorded", "    Status Not Recorded", name))
 
-x |>
+outdata |>
   rtf_disposition(
     "Source: [CDISCpilot: adam-adsl]",
     path_outdata = tempfile(fileext = ".Rdata"),
@@ -214,29 +227,6 @@ x |>
 ```
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/pdf/disposition.pdf")
+knitr::include_graphics("pdf/disposition.pdf")
 ```
 
-The rtf_trt_compliance() function also provides some commonly used arguments to customize the table.
-
-```{r}
-
-x <- outdata |>
-  format_disposition()
-
-x$tbl <- x$tbl %>%
-  mutate(name = ifelse(trimws(name) == "Status Not Recorded", "    Status Not Recorded", name))
-
-x |>
-  rtf_disposition(
-    orientation = "landscape",
-    col_rel_width = c(4, rep(1, 9)),
-    "Source: [CDISCpilot: adam-adsl]",
-    path_outdata = tempfile(fileext = ".Rdata"),
-    path_outtable = "outtable/disposition1.rtf"  
-    )
-```
-
-```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("outtable/pdf/disposition1.pdf")
-```
