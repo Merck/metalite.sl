@@ -47,21 +47,21 @@
 react_disposition <- function(
     metadata_sl,
     metadata_ae,
-    analysis = 'disp',
-    population = metadata_sl$plan[metadata_sl$plan$analysis==analysis,]$population,
-    sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis==analysis,]$parameter, collapse = ";"),
+    analysis = "disp",
+    population = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population,
+    sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";"),
     display_total = TRUE,
     width = 1200) {
   # ----------------------------------------- #
   #   total setting                           #
   # ----------------------------------------- #
-  
+
   if (display_total == TRUE) {
     display_sl <- c("n", "prop", "total")
   } else {
     display_sl <- c("n", "prop")
   }
-  
+
   # ----------------------------------------- #
   #   prepare the baseline char table numbers #
   # ----------------------------------------- #
@@ -72,12 +72,12 @@ react_disposition <- function(
       parameter = sl_parameter
     ) |>
     format_disposition(display_col = display_sl, digits_prop = 2)
-  
+
   tbl_sl <- x_sl$tbl
   tbl_sl$var_label[tbl_sl$name == "Participants in population"] <- "Participants in population"
- 
+
   # get AE listing
-  
+
   ae_listing_outdata <- metalite.ae::prepare_ae_specific(metadata_ae, "apat", "wk12", "any") |>
     forestly:::collect_ae_listing(
       c(
@@ -86,8 +86,8 @@ react_disposition <- function(
       )
     ) |>
     forestly:::format_ae_listing()
-  
-  
+
+
   # Define Column
   col_defs <- list()
   for (sl_name in names(tbl_sl)) {
@@ -121,48 +121,52 @@ react_disposition <- function(
       ))
     )
   }
-  
+
   # Define columns for subject list
-  sl_selected <- toupper(c( 'trt01a', 'usubjid', 'siteid', 'subjid', 'sex', 'age', 'weightbl'))
-  sl_sel_names <- c('Treatment', 'Unique Subjet ID', 'Site', 'Subject ID', 'Sex', 'Age (Year)', 'Weight (kg)')
+  sl_selected <- toupper(c("trt01a", "usubjid", "siteid", "subjid", "sex", "age", "weightbl"))
+  sl_sel_names <- c("Treatment", "Unique Subjet ID", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
   sl_col_def <- list()
   for (i in 1:length(sl_selected)) sl_col_def[[sl_selected[i]]] <- reactable::colDef(sl_sel_names[i])
-  
+
   # Define columns for AE list
-  ae_selected <- c('SOC_Name', 'ASTDT', 'Relative_Day_of_Onset', 'Adverse_Event', 'Duration', 'Intensity', 'Serious', 'Related', 'Action_Taken', 'Outcome')
-  ae_sel_names <- c('SOC', 'Onset Date', 'Relative Day of Onset', 'AE', 'Duraion', 'Intensity', 'Serious', 'Related', 'Action Taken', 'Outcome')
+  ae_selected <- c("SOC_Name", "ASTDT", "Relative_Day_of_Onset", "Adverse_Event", "Duration", "Intensity", "Serious", "Related", "Action_Taken", "Outcome")
+  ae_sel_names <- c("SOC", "Onset Date", "Relative Day of Onset", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
   ae_col_def <- list()
   for (i in 1:length(ae_selected)) ae_col_def[[ae_selected[i]]] <- reactable::colDef(ae_sel_names[i])
-  
-  trt_grp <-  toupper('trt01a')
+
+  trt_grp <- toupper("trt01a")
   details <- function(index) {
     dcsreas <- stringr::str_trim(tolower(tbl_sl$name[index]))
     if (!is.na(tbl_sl$name[index]) & !(dcsreas %in% c("participants in population", "discontinued", "participants ongoing", "completed"))) {
-      if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="trial disposition") {
-        var <- metadata_sl$parameter[['disposition']]$var
+      if (stringr::str_trim(tolower(tbl_sl$var_label[index])) == "trial disposition") {
+        var <- metadata_sl$parameter[["disposition"]]$var
       }
-      if (stringr::str_trim(tolower(tbl_sl$var_label[index]))=="participant study medication disposition"){
-        var <- metadata_sl$parameter[['medical-disposition']]$var
+      if (stringr::str_trim(tolower(tbl_sl$var_label[index])) == "participant study medication disposition") {
+        var <- metadata_sl$parameter[["medical-disposition"]]$var
       }
       # get discontinued subject list
-      usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population$DCSREAS)==dcsreas &  tolower(x_sl$meta$data_population[[var]])=="discontinued")
-      subj_list <- metadata_sl$data_population |> subset(subset = metadata_sl$data_population$USUBJID %in% usubjids,
-                                                         select = sl_selected )
-      subj_list |>
-      reactable::reactable(filterable = T, defaultExpanded = F, striped = T, groupBy =trt_grp,
-        columns = sl_col_def,
-        details = function(index) {
-          usubjid <- subj_list$USUBJID[index]
-          # get AE list of a subject
-          if ( dcsreas %in% c("adverse event")){
-            sub_ae_listing <- ae_listing_outdata$ae_listing |> subset(subset = ae_listing_outdata$ae_listing$Unique_Participant_ID %in% usubjid, 
-                                                                      select = ae_selected)
-            sub_ae_listing |> reactable::reactable(striped = F, columns = ae_col_def, defaultExpanded = F) 
-          }
-          
-        }
+      usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population$DCSREAS) == dcsreas & tolower(x_sl$meta$data_population[[var]]) == "discontinued")
+      subj_list <- metadata_sl$data_population |> subset(
+        subset = metadata_sl$data_population$USUBJID %in% usubjids,
+        select = sl_selected
       )
-    } 
+      subj_list |>
+        reactable::reactable(
+          filterable = T, defaultExpanded = F, striped = T, groupBy = trt_grp,
+          columns = sl_col_def,
+          details = function(index) {
+            usubjid <- subj_list$USUBJID[index]
+            # get AE list of a subject
+            if (dcsreas %in% c("adverse event")) {
+              sub_ae_listing <- ae_listing_outdata$ae_listing |> subset(
+                subset = ae_listing_outdata$ae_listing$Unique_Participant_ID %in% usubjid,
+                select = ae_selected
+              )
+              sub_ae_listing |> reactable::reactable(striped = F, columns = ae_col_def, defaultExpanded = F)
+            }
+          }
+        )
+    }
   }
 
 
