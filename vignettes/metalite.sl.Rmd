@@ -1,5 +1,5 @@
 ---
-title: "Getting Started with metalite.sl"
+title: "Introduction to metalite.sl"
 output:
   rmarkdown::html_document:
     toc: true
@@ -9,8 +9,12 @@ output:
     highlight: "textmate"
     css: "custom.css"
 vignette: >
+  %\VignetteIndexEntry{Introduction to metalite.sl}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Getting Started with metalite.sl}
+  %\VignetteEncoding{UTF-8}
+resource_files:
+   - fig/*.png
+   - pdf/*.pdf
 ---
 
 ```{r, include=FALSE}
@@ -25,7 +29,8 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(metalite)
-library(metalite.sl)
+# library(metalite.sl)
+devtools::load_all()
 ```
 
 # Overview
