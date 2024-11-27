@@ -152,7 +152,7 @@ react_disposition <- function(
       )
       subj_list |>
         reactable::reactable(
-          filterable = T, defaultExpanded = F, striped = T, groupBy = trt_grp,
+          filterable = TRUE, defaultExpanded = FALSE, striped = TRUE, groupBy = trt_grp,
           columns = sl_col_def,
           details = function(index) {
             usubjid <- subj_list$USUBJID[index]
@@ -162,7 +162,7 @@ react_disposition <- function(
                 subset = ae_listing_outdata$ae_listing$Unique_Participant_ID %in% usubjid,
                 select = ae_selected
               )
-              sub_ae_listing |> reactable::reactable(striped = F, columns = ae_col_def, defaultExpanded = F)
+              sub_ae_listing |> reactable::reactable(striped = FALSE, columns = ae_col_def, defaultExpanded = FALSE)
             }
           }
         )
@@ -172,7 +172,7 @@ react_disposition <- function(
 
   reactable::reactable(
     tbl_sl,
-    sortable = F,
+    sortable = FALSE,
     groupBy = "var_label",
     width = width,
     columns = col_defs,
