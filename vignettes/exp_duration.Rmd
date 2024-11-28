@@ -142,7 +142,7 @@ tail(chars[, 1:5], 8)
 `format_exp_duration` to prepare analysis dataset before generate RTF output
 
 ```{r}
-tbl <- format_exp_duration(outdata)
+tbl <- format_exp_duration(outdata, display_col = c("n", "prop", "total"))
 head(tbl$tbl)
 ```
 
@@ -152,7 +152,7 @@ head(tbl$tbl)
 `rtf_exp_duration` to generate RTF output
 
 ```{r, warning=FALSE}
-outdata <- format_exp_duration(outdata) |>
+outdata <- format_exp_duration(outdata, display_col = c("n", "prop", "total")) |>
   rtf_exp_duration(
     source = "Source:  [CDISCpilot: adam-adexsum]",
     path_outdata = tempfile(fileext = ".Rdata"),
