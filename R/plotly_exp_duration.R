@@ -51,15 +51,15 @@
 #'   
 #'   outdata |> plotly_exposure_duration()
 #' }
-plotly_exposure_duration <- function(outdata,
-                                     color = NULL,
-                                     display = c("n", "prop"),
-                                     display_total = TRUE,
-                                     plot_group_label = "Treatment group",
-                                     plot_category_label = "Exposure duration",
-                                     hover_summary_var = c("median", "sd", "se", "median", "min", "max", "q1 to q3", "range"),
-                                     width = 1000,
-                                     height = 400){
+plotly_exp_duration <- function(outdata,
+                                color = NULL,
+                                display = c("n", "prop"),
+                                display_total = TRUE,
+                                plot_group_label = "Treatment group",
+                                plot_category_label = "Exposure duration",
+                                hover_summary_var = c("n", "median", "sd", "se", "median", "min", "max", "q1 to q3", "range"),
+                                width = 1000,
+                                height = 400){
   # input check
   display <- tolower(display)
   display <- match.arg(
@@ -70,25 +70,24 @@ plotly_exposure_duration <- function(outdata,
   
   group_label <- outdata$group_label
   n_group <- length(outdata$group_label)
+  if (display_total) {
+    n_group <- n_group + 1
+  }
   parameter <- outdata$parameter
   par_var_group <- metalite::collect_adam_mapping(outdata$meta, parameter)$vargroup
   p <- list()
-  
-  # implement color
-  if (is.null(color)) {
-    color_pal <- c("#00857C", "#6ECEB2", "#BFED33", "#FFF063", "#0C2340", "#5450E4")
-    color <- c("#66203A", rep(color_pal, length.out = n_group - 1))
-  } else {
-    color <- rep(color, length.out = n_group)
-  }
+
+  # Color palette  
+  color_pal <- c("#00857C", "#6ECEB2", "#BFED33", "#FFF063", "#0C2340", "#5450E4")
   
   # Exclusive counting
   if (!is.null(par_var_group)) {
     tbl <- outdata$char_n[[1]]
+    tbl <- tbl[1:(which(is.na(tbl$name)) - 1), ]
     prop <- outdata$char_prop[[1]]
-    res <- tbl[1:(which(is.na(tbl$name)) - 1), ]
     stats <- outdata$char_stat_groups
     
+    res <- tbl
     res <- stats::reshape(
       res,
       varying = names(res)[!names(res) %in% c("name", "var_label")], 
@@ -100,19 +99,19 @@ plotly_exposure_duration <- function(outdata,
       direction = "long"
     )
     rownames(res) <- NULL
-    
+
     if (display == "n") {
       plot_count_label <- "Number of participants"
       res$res <- as.numeric(res$n)
     } else {
       plot_count_label <- "Percentage of participants"
-      res_prop <- tbl[1:(which(is.na(prop$name)) - 1), ]
+      res_prop <- prop[1:(which(is.na(prop$name)) - 1), ]
       res_prop <- stats::reshape(
         res_prop,
-        varying = names(res)[!names(res) %in% c("name", "var_label")], 
+        varying = names(res_prop)[!names(res_prop) %in% c("name", "var_label")], 
         v.names = "prop", 
         timevar = "group", 
-        times = names(res)[!names(res) %in% c("name", "var_label")], 
+        times = names(res_prop)[!names(res_prop) %in% c("name", "var_label")], 
         idvar = "name", 
         new.row.names = NULL,
         direction = "long"
@@ -120,7 +119,7 @@ plotly_exposure_duration <- function(outdata,
       rownames(res_prop) <- NULL
       res <- merge(res, res_prop, by = c("name", "var_label", "group"))
       res$res <- as.numeric(res$prop)
-    }      
+    }
     
     res$text <- mapply(
       function(x, y) {
@@ -141,7 +140,14 @@ plotly_exposure_duration <- function(outdata,
       res <- res[!res$group == "Total", ]
       res$group <- factor(res$group, levels = c(levels(group_label)))
     }
-    res$name <- factor(res$name, levels = unique(res$name))
+    res$name <- factor(res$name, levels = unique(tbl$name))
+    
+    # implement color
+    if (is.null(color)) {
+      color2 <- c("#66203A", rep(color_pal, length.out = length(unique(tbl$name)) - 1))
+    } else {
+      color2 <- rep(color, length.out = length(unique(tbl$name)))
+    }
     
     plot_type2 <- res |> 
       plotly::plot_ly(
@@ -152,7 +158,7 @@ plotly_exposure_duration <- function(outdata,
         hoverinfo = "text",
         text = ~text,
         textposition = "none",
-        colors = color,
+        colors = color2,
         width = width,
         height = height
       ) |>
@@ -201,7 +207,7 @@ plotly_exposure_duration <- function(outdata,
       res_cum$res <- as.numeric(res_cum$n)
     } else {
       plot_count_label <- "Percentage of participants"
-      res_cum_prop <- tbl[1:(which(is.na(prop$name)) - 1), ]
+      res_cum_prop <- prop_cum[1:(which(is.na(prop$name)) - 1), ]
       res_cum_prop <- stats::reshape(
         res_cum_prop,
         varying = names(res_cum_prop)[!names(res_cum_prop) %in% c("name", "var_label")], 
@@ -236,16 +242,22 @@ plotly_exposure_duration <- function(outdata,
       res_cum <- res_cum[!res_cum$group == "Total", ]
       res_cum$group <- factor(res_cum$group, levels = c(levels(group_label)))
     }
+    res_cum$name <- factor(res_cum$name, levels = unique(tbl_cum$name))
     
-    res_cum$name <- factor(res_cum$name, levels = unique(res_cum$name))
+    # implement color
+    if (is.null(color)) {
+      color1 <- c("#66203A", rep(color_pal, length.out = length(unique(tbl_cum$name)) - 1))
+    } else {
+      color1 <- rep(color, length.out = length(unique(tbl_cum$name)))
+    }
     
     plot_type1 <- res_cum |> 
       plotly::plot_ly(
         x = ~group, 
         y = ~res, 
         color = ~name, 
-        colors = color, 
-        type = "bar", 
+        colors = color1, 
+        type = "bar",
         hoverinfo = "text",
         text = ~text,
         textposition = "none",
@@ -264,20 +276,27 @@ plotly_exposure_duration <- function(outdata,
           showline = TRUE, linewidth = 2, linecolor = "#cccccc", mirror = TRUE
         ),
         legend = list(
-          title = list(text = plot_caetgory_label),
+          title = list(text = plot_category_label),
           x = 1.05,
           titlefont = list(size = 12),
           font = list(size = 9)
         ),
         autosize = FALSE
       )
-    
+
+    # implement color
+    if (is.null(color)) {
+      color3 <- c("#66203A", rep(color_pal, length.out = n_group - 1))
+    } else {
+      color3 <- rep(color, length.out = n_group)
+    }
+
     plot_type3 <- res_cum |> 
       plotly::plot_ly(
         x = ~res, 
         y = ~name, 
         color = ~group, 
-        colors = color, 
+        colors = color3, 
         type = "bar", 
         orientation = "h",
         hoverinfo = "text",
@@ -293,7 +312,7 @@ plotly_exposure_duration <- function(outdata,
           showline = TRUE, linewidth = 2, linecolor = "#cccccc", mirror = TRUE
         ),
         yaxis = list(
-          title = list(text = plot_group_label, standoff = 20), titlefont = list(size = 12),
+          title = list(text = plot_category_label, standoff = 20), titlefont = list(size = 12),
           ticks = "outside", tickwidth = 1, tickfont = list(size = 9),
           showline = TRUE, linewidth = 2, linecolor = "#cccccc", mirror = TRUE
         ),
