@@ -30,7 +30,7 @@ navbar:
     - text: "Reference"
       href: reference/index.html
     - text: "Get Started"
-      href: articles/metalite-sl.html
+      href: articles/metalite.sl.html
     - text: "Articles"
       href: articles/index.html
     - text: "Changelog"
@@ -86,7 +86,7 @@ reference:
 articles:
 - title: Get started
   contents:
-    - metalite-sl
+    - metalite.sl
 - title: Tutorial
   contents:
     - baseline-character
