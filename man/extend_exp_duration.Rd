@@ -38,7 +38,7 @@ meta <- meta_sl_exposure_example()
 outdata <- meta |> prepare_exp_duration()
 outdata |> 
   extend_exp_duration(
-    duration_category_list = list(c(1, 7), c(7, 21), c(21, 84)),
-    duration_category_labels = c("1-7 days", "7-21 days", "21-84 days")
+    duration_category_list = list(c(1, NA), c(7, NA), c(21, NA)),
+    duration_category_labels = c(">=1 day", ">=7 days", ">=21 days")
   )
 }

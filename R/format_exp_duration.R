@@ -66,8 +66,6 @@ format_exp_duration <- function(
     tbl[["n"]] <- n
   }
   
-  tbl$n <- rbind(outdata$n[, names(outdata$n) %in% names(tbl$n)], tbl$n)
-  
   if ("prop" %in% display_col) {
     prop <- do.call(rbind, outdata$char_prop)
     name <- prop$name
@@ -83,12 +81,11 @@ format_exp_duration <- function(
     }
     tbl[["prop"]] <- prop
   }
-  tbl$prop <- rbind(c(tbl$n[1, 1], rep(NA, ifelse("total" %in% display_col, n_group + 1, n_group)), tbl$n[1, ncol(tbl$n)]), tbl$prop)
   
   if ("n_cum" %in% display_col) {
     if (is.null(outdata$char_n_cum)) {
       stop(
-        "Please use `extend_exp_duration` to get n for cumulative count.",
+        "Please use `extend_exp_duration()` with `duration_category_list` and `duration_category_labels` to get n for a defined category.",
         call. = FALSE
       )
     }
@@ -103,11 +100,12 @@ format_exp_duration <- function(
     
     tbl[["n"]] <- rbind(n_cum, tbl[["n"]])
   }
+  tbl$n <- rbind(outdata$n[, names(outdata$n) %in% names(tbl$n)], tbl$n)
   
   if ("prop_cum" %in% display_col) {
     if (is.null(outdata$char_prop_cum)) {
       stop(
-        "Please use `extend_exp_duration` to get proportion for cumulative count.",
+        "Please use `extend_exp_duration()` with `duration_category_list` and `duration_category_labels` to get proportion for a defined category.",
         call. = FALSE
       )
     }
@@ -126,6 +124,7 @@ format_exp_duration <- function(
     }
     tbl[["prop"]] <- rbind(prop_cum, tbl[["prop"]])
   }
+  tbl$prop <- rbind(c(tbl$n[1, 1], rep(NA, ifelse("total" %in% display_col, n_group + 1, n_group)), tbl$n[1, ncol(tbl$n)]), tbl$prop)
   
   # Arrange Within Group information
   within_var <- names(tbl)[names(tbl) %in% c("n", "prop")]

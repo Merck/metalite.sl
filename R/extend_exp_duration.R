@@ -39,14 +39,13 @@
 #' outdata <- meta |> prepare_exp_duration()
 #' outdata |> 
 #'   extend_exp_duration(
-#'     duration_category_list = list(c(1, 7), c(7, 21), c(21, 84)),
-#'     duration_category_labels = c("1-7 days", "7-21 days", "21-84 days")
+#'     duration_category_list = list(c(1, NA), c(7, NA), c(21, NA)),
+#'     duration_category_labels = c(">=1 day", ">=7 days", ">=21 days")
 #'   )
 extend_exp_duration <- function(outdata,
                                 category_section_label = NULL,
                                 duration_category_list = NULL,
                                 duration_category_labels = NULL) {
-  
   res <- outdata
   meta <- res$meta
   analysis <- res$analysis
@@ -57,21 +56,19 @@ extend_exp_duration <- function(outdata,
   if (!length(unlist(strsplit(parameter, ";"))) == 1) {
     stop("Only one parameter is allowed with `duration_category_list`.")
   }
-  if (is.null(duration_category_list) | is.null(duration_category_labels)) {
-    stop("Please specify `duration_category_list` and `duration_category_labels`.")
-  } else {
+  if (!is.null(duration_category_list)) {
     if (!length(duration_category_list) == length(duration_category_labels)) {
       stop("Length of `duration_category_list` and `duration_category_labels` should be the same.")
     }
-  }
-  if (!class(duration_category_list) == "list") {
-    stop("`duration_category_list` should be a list of range vectors.")
-  }
-  if (!all(sapply(duration_category_list, function(x) {length(x) == 2}))) {
-    stop("Each element of `duration_category_list` should be a vector of length 2 (low, high).")
-  }
-  if (!all(sapply(duration_category_list, function(x) {class(x) %in% c("numeric", "integer")}))) {
-    stop("Each element of `duration_category_list` allows `NA`, numeric or integer.")
+    if (!is.list(duration_category_list)) {
+      stop("`duration_category_list` should be a list of range vectors.")
+    }
+    if (!all(sapply(duration_category_list, function(x) {length(x) == 2}))) {
+      stop("Each element of `duration_category_list` should be a vector of length 2 (low, high).")
+    }
+    if (!all(sapply(duration_category_list, function(x) {class(x) %in% c("numeric", "integer")}))) {
+      stop("Each element of `duration_category_list` allows `NA`, numeric or integer.")
+    }
   }
 
   char_n <- res$char_n[[1]]
@@ -176,10 +173,13 @@ extend_exp_duration <- function(outdata,
     # calculate for each category
     for (i in seq_along(duration_category_list)) {
       condition <- duration_category_list[[i]]
-      low <- ifelse(ia.na(condition[1]), -Inf, condition[1])
-      high <- ifelse(ia.na(condition[2]), Inf, condition[2])
+      low <- ifelse(is.na(condition[1]), -Inf, condition[1])
+      high <- ifelse(is.na(condition[2]), Inf, condition[2])
+      if (high <= low) {
+        warning("The upper limit of the range should be greater than the lower limit.")
+      }
       label <- duration_category_labels[i]
-      filter <- paste(low, "<=" ,"data_population[par_var]", "<", high)
+      filter <- paste(low, "<=", "data_population[par_var] & data_population[par_var]", "<", high)
       data_population$TRTDURGR[eval(parse(text = filter))] <- label
       
       # Create subgroup    
@@ -219,20 +219,25 @@ extend_exp_duration <- function(outdata,
         
         count_cum <- rbind(count_cum, count)
         char_stat_cums[[label]] <- sum
+      } else {
+        count <- cbind("name" = label, "var_label" = category_section_label) |> data.frame()
+        count[names(char_n)[!names(char_n) %in% names(count)]] <- 0
+        count <- count[, names(char_n)]
+        count_cum <- rbind(count_cum, count)
       }
-      char_prop_cum <- sapply(names(count_cum), function(x) {
-        if (x %in% c(levels(group), "Total")) {
-          i <- which(names(count_cum) == x)
-          (as.numeric(count_cum[[i]]) / n_pop[[i]]) * 100
-        } else {
-          count_cum[[x]]
-        }
-      }) |> as.data.frame()
-      
-      outdata$char_n_cum <- count_cum |> list()
-      outdata$char_prop_cum <- char_prop_cum |> list()
-      outdata$char_stat_cums <- char_stat_cums
     }
+    char_prop_cum <- sapply(names(count_cum), function(x) {
+      if (x %in% c(levels(group), "Total")) {
+        i <- which(names(count_cum) == x)
+        (as.numeric(count_cum[[i]]) / n_pop[[i]]) * 100
+      } else {
+        count_cum[[x]]
+      }
+    }) |> as.data.frame()
+    
+    outdata$char_n_cum <- count_cum |> list()
+    outdata$char_prop_cum <- char_prop_cum |> list()
+    outdata$char_stat_cums <- char_stat_cums
   }
   
   outdata$extend_call <- c(outdata$extend_call, match.call())
