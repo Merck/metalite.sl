@@ -37,7 +37,7 @@
 #' @examples
 #' meta <- meta_sl_exposure_example()
 #' outdata <- meta |> prepare_exp_duration()
-#' outdata |> 
+#' outdata |>
 #'   extend_exp_duration(
 #'     duration_category_list = list(c(1, NA), c(7, NA), c(21, NA)),
 #'     duration_category_labels = c(">=1 day", ">=7 days", ">=21 days")
@@ -51,7 +51,7 @@ extend_exp_duration <- function(outdata,
   analysis <- res$analysis
   population <- res$population
   parameter <- res$parameter
-  
+
   # Input check
   if (!length(unlist(strsplit(parameter, ";"))) == 1) {
     stop("Only one parameter is allowed with `duration_category_list`.")
@@ -63,40 +63,44 @@ extend_exp_duration <- function(outdata,
     if (!is.list(duration_category_list)) {
       stop("`duration_category_list` should be a list of range vectors.")
     }
-    if (!all(sapply(duration_category_list, function(x) {length(x) == 2}))) {
+    if (!all(sapply(duration_category_list, function(x) {
+      length(x) == 2
+    }))) {
       stop("Each element of `duration_category_list` should be a vector of length 2 (low, high).")
     }
-    if (!all(sapply(duration_category_list, function(x) {class(x) %in% c("numeric", "integer")}))) {
+    if (!all(sapply(duration_category_list, function(x) {
+      class(x) %in% c("numeric", "integer")
+    }))) {
       stop("Each element of `duration_category_list` allows `NA`, numeric or integer.")
     }
   }
 
   char_n <- res$char_n[[1]]
-  observation <- meta$plan[meta$plan$analysis==analysis,]$observation
-  
+  observation <- meta$plan[meta$plan$analysis == analysis, ]$observation
+
   # obtain variables
   pop_var <- metalite::collect_adam_mapping(meta, population)$var
   obs_var <- metalite::collect_adam_mapping(meta, observation)$var
   par_var <- metalite::collect_adam_mapping(meta, parameter)$var
   par_var_group <- metalite::collect_adam_mapping(meta, parameter)$vargroup
-  
+
   pop_group <- metalite::collect_adam_mapping(meta, population)$group
   obs_group <- metalite::collect_adam_mapping(meta, observation)$group
-  
+
   pop_id <- metalite::collect_adam_mapping(meta, population)$id
   obs_id <- metalite::collect_adam_mapping(meta, observation)$id
-  
+
   # variable check
   if (!res$var_type[[1]] %in% c("numeric", "integer")) {
     stop("The variable type of the parameter should be continuous to apply `extend_exp_duration`.")
   }
-  
+
   # obtain data
   pop <- metalite::collect_population_record(meta, population, var = c(par_var))
-  
+
   # obtain group names
   group <- unique(pop[[pop_group]])
-  
+
   # count the number of subjects in each arms
   n_pop <- metalite::n_subject(id = pop[[pop_id]], group = pop[[pop_group]])
   names(n_pop) <- do.call(
@@ -111,11 +115,11 @@ extend_exp_duration <- function(outdata,
   n_pop$n_9999 <- sum(n_pop[1, ])
   n_pop$name <- "Participants in population"
   n_pop <- n_pop[, c(length(group) + 2, 1:(length(group) + 1))]
-  
+
   # create category
-  
+
   data_population <- meta$data_population
-  
+
   # `var_group` is specified with numeric variable `par_var`
   if (!is.null(par_var_group) & !is.null(par_var)) {
     if (!is.factor(data_population[[par_var_group]])) {
@@ -124,13 +128,13 @@ extend_exp_duration <- function(outdata,
     category_conditions <- paste0("==", "'", levels(unique(data_population[[par_var_group]])), "'")
     category_labels <- levels(unique(data_population[[par_var_group]]))
     char_stat_groups <- list()
-    
+
     # calculate for each category
     for (i in seq_along(category_conditions)) {
       condition <- category_conditions[i]
       label <- category_labels[i]
-      
-      # Create subgroup    
+
+      # Create subgroup
       if (!par_var_group == "TRTDURGR") {
         data_population$TRTDURGR <- data_population[[par_var_group]]
       }
@@ -138,7 +142,7 @@ extend_exp_duration <- function(outdata,
       # Create metadata for subgroup
       pop_subset <- metalite::collect_adam_mapping(meta, population)$subset
       pop_subset <- rlang::quo(TRTDURGR == !!label & !!pop_subset)
-      
+
       meta_group <- meta_sl(
         data_population,
         dataset_observation = NULL,
@@ -154,7 +158,7 @@ extend_exp_duration <- function(outdata,
         population_label = metalite::collect_adam_mapping(meta, population)$label,
         treatment_group = metalite::collect_adam_mapping(meta, population)$group
       )
-      
+
       if (nrow(metalite::collect_population_record(meta_group, population)) > 0) {
         char_stat_group <- collect_baseline(meta_group, population, paste0(names(meta$parameter), "_group"))[[2]]
         sum <- char_stat_group
@@ -181,16 +185,16 @@ extend_exp_duration <- function(outdata,
       label <- duration_category_labels[i]
       filter <- paste(low, "<=", "data_population[par_var] & data_population[par_var]", "<", high)
       data_population$TRTDURGR[eval(parse(text = filter))] <- label
-      
-      # Create subgroup    
+
+      # Create subgroup
       # Create metadata for subgroup
       pop_subset <- metalite::collect_adam_mapping(meta, population)$subset
       pop_subset <- rlang::quo(TRTDURGR == !!label & !!pop_subset)
-      
+
       if (is.null(category_section_label)) {
         category_section_label <- paste0(metalite::collect_adam_mapping(meta, parameter)$label, " (cumulative)")
       }
-      
+
       meta_cum <- meta_sl(
         data_population,
         dataset_observation = NULL,
@@ -208,15 +212,15 @@ extend_exp_duration <- function(outdata,
       )
       if (nrow(metalite::collect_population_record(meta_cum, population)) > 0) {
         char_stat_cum <- collect_baseline(meta_cum, population, paste0(names(meta$parameter), "_cum"))[[2]]
-        
+
         count <- char_stat_cum[1:(which(is.na(char_stat_cum$name)) - 1), ]
         count[names(char_n)[!names(char_n) %in% names(count)]] <- 0
         count <- count[, names(char_n)]
-        
+
         sum <- char_stat_cum[(which(is.na(char_stat_cum$name)) + 1):nrow(char_stat_cum), ]
         sum[names(char_n)[!names(char_n) %in% names(sum)]] <- NA
         sum <- sum[, names(char_n)]
-        
+
         count_cum <- rbind(count_cum, count)
         char_stat_cums[[label]] <- sum
       } else {
@@ -234,13 +238,13 @@ extend_exp_duration <- function(outdata,
         count_cum[[x]]
       }
     }) |> as.data.frame()
-    
+
     outdata$char_n_cum <- count_cum |> list()
     outdata$char_prop_cum <- char_prop_cum |> list()
     outdata$char_stat_cums <- char_stat_cums
   }
-  
+
   outdata$extend_call <- c(outdata$extend_call, match.call())
-  
+
   return(outdata)
 }
