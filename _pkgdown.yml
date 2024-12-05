@@ -64,8 +64,10 @@ reference:
 - title: Exposure duration
   contents:
     - prepare_exp_duration
+    - extend_exp_duration
     - format_exp_duration
     - rtf_exp_duration
+    - plotly_exp_duration
 - title: Treatment compliance
   contents:
     - prepare_trt_compliance

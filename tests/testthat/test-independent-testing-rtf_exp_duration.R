@@ -35,7 +35,7 @@ test_that("rtf output: n, prop and total, with Landscape", {
   path_rdata <- tempfile(fileext = ".Rdata")
 
   tbl <- outdata |>
-    format_exp_duration() |>
+    format_exp_duration(display_col = c("n", "prop", "total")) |>
     rtf_exp_duration(
       orientation = "landscape",
       col_rel_width = NULL,

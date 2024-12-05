@@ -51,7 +51,7 @@ meta <- meta_sl_exposure_example()
 
 meta |>
   prepare_exp_duration(population = "apat", parameter = "expdur") |>
-  format_exp_duration() |>
+  format_exp_duration(display_col = c("n", "prop", "total")) |>
   rtf_exp_duration(
     source = "Source: [CDISCpilot: adam-adsl; adex]",
     path_outdata = tempfile(fileext = ".Rdata"),
