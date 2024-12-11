@@ -42,7 +42,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">format_exp_duration</span><span class="op">(</span></span>
 <span>  <span class="va">outdata</span>,</span>
-<span>  display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"total"</span><span class="op">)</span>,</span>
+<span>  display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"n_cum"</span>, <span class="st">"prop_cum"</span>, <span class="st">"total"</span><span class="op">)</span>,</span>
 <span>  digits_prop <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  display_stat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"se"</span>, <span class="st">"median"</span>, <span class="st">"q1 to q3"</span>, <span class="st">"range"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -58,7 +58,9 @@
 
 <dt id="arg-display-col">display_col<a class="anchor" aria-label="anchor" href="#arg-display-col"></a></dt>
 <dd><p>Column wants to display on the table.
-The term could be selected from <code>c("n", "prop", "total")</code>.</p></dd>
+"n_cum", "prop_cum" can additionally be selected.</p><ul><li><p><code>n_cum</code>: Number of subjects created by <code><a href="extend_exp_duration.html">extend_exp_duration()</a></code>.</p></li>
+<li><p><code>prop_cum</code>: Proportion of subjects created by <code><a href="extend_exp_duration.html">extend_exp_duration()</a></code>.</p></li>
+</ul></dd>
 
 
 <dt id="arg-digits-prop">digits_prop<a class="anchor" aria-label="anchor" href="#arg-digits-prop"></a></dt>
@@ -82,8 +84,8 @@ The term name could be selected from
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">meta</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="prepare_exp_duration.html">prepare_exp_duration</a></span><span class="op">(</span>population <span class="op">=</span> <span class="st">"apat"</span>, parameter <span class="op">=</span> <span class="st">"expdur"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">format_exp_duration</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> List of 17</span>
+<span class="r-in"><span>  <span class="fu">format_exp_duration</span><span class="op">(</span>display_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"n"</span>, <span class="st">"prop"</span>, <span class="st">"total"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ meta           :List of 7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ population     : chr "apat"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ observation    : chr "apat"</span>
@@ -101,6 +103,7 @@ The term name could be selected from
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ tbl            :'data.frame':	14 obs. of  10 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ display_col    : chr [1:3] "n" "prop" "total"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ display_stat   : chr [1:6] "mean" "sd" "se" "median" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ extend_call    :List of 1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
