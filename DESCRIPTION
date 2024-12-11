@@ -19,7 +19,11 @@ Imports:
     r2rtf,
     reactable,
     stringr,
-    rlang
+    rlang,
+    plotly,
+    htmltools,
+    brew,
+    uuid
 Suggests:
     dplyr,
     knitr,
