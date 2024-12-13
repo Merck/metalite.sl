@@ -35,6 +35,9 @@ react_subgroup_table <- function(
   selected_columns <- c("name", race_columns)
 
   formatted_data <- tbl[, selected_columns]
+  
+  #Remove row with no observation
+  formatted_data <- formatted_data[which(rowSums(formatted_data[,grepl("n_",colnames(formatted_data))])>0),]
 
   prop_prefix <- paste0(subgroup_name, "prop_")
   n_prefix <- paste0(subgroup_name, "n_")
