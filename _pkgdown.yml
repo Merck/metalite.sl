@@ -54,7 +54,6 @@ reference:
 - title: Interactive baseline characteristics
   contents:
     - react_base_char
-    - react_subgroup_table
     - react_disposition   
 - title: Disposition
   contents:
