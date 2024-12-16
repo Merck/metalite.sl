@@ -21,7 +21,7 @@
 #' @param tbl A tibble to create reactable.
 #' @param group Treatment group label.
 #' @param subgroup_name Subgroup label.
-#' 
+#'
 #' @noRd
 #'
 #' @return A reactable combining both baseline characteristic table
