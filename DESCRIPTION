@@ -5,7 +5,11 @@ Authors@R: c(
     person("Benjamin", "Wang", email = "benjamin.wang@merck.com", role = c("aut", "cre")),
     person("Yujie", "Zhao", role = "aut"),
     person("Hiroaki", "Fukuda", role = "aut"),
+    person("PoYao", "Niu", role = "aut"),
+    person("Nan", "Xiao", role = "aut"),
     person("Jeetener", "Chauhan", role = "ctb"),
+    person("Li", "Ma", role = "ctb"),
+    person("Chen", "Wang", role = "ctb"),
     person("Merck Sharp & Dohme Corp", role = "cph")
     )
 Description: Provide subject-level analysis.
