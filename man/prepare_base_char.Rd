@@ -23,11 +23,6 @@ The term name is used as key to link information.}
 
 \item{parameter}{A character value of parameter term name.
 The term name is used as key to link information.}
-
-\item{observation}{A character value of observation term name.
-The term name is used as key to link information.}
-
-\item{display_total}{A logic value of displaying the total group.}
 }
 \value{
 A list of analysis raw datasets.

@@ -21,13 +21,10 @@
 #' @param meta A metadata object created by metalite.
 #' @param population A character value of population term name.
 #'   The term name is used as key to link information.
-#' @param observation A character value of observation term name.
-#'   The term name is used as key to link information.
 #' @param analysis A character value of analysis term name.
 #'   The term name is used as key to link information.
 #' @param parameter A character value of parameter term name.
 #'   The term name is used as key to link information.
-#' @param display_total A logic value of displaying the total group.
 #'
 #' @return A list of analysis raw datasets.
 #'
