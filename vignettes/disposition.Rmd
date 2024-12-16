@@ -1,8 +1,8 @@
 ---
-title: "Disposition"
+title: "Disposition Table"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Disposition}
+  %\VignetteIndexEntry{Disposition Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

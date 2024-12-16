@@ -1,16 +1,10 @@
 ---
-title: "Getting Started with Baseline Characteristics Table"
-output:
-  rmarkdown::html_document:
-    toc: true
-    toc_float: true
-    toc_depth: 2
-    number_sections: true
-    highlight: "textmate"
-    css: "custom.css"
+title: "Baseline Characteristics Table"
+output: rmarkdown::html_vignette
 vignette: >
+  %\VignetteIndexEntry{Baseline Characteristics Table}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Getting Started with Baseline Characteristics Table}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r}
