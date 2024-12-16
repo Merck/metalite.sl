@@ -16,10 +16,10 @@ react_disposition(
 )
 }
 \arguments{
-\item{metadata_sl}{A metadata created by \link{metalite},
+\item{metadata_sl}{A metadata created by metalite,
 which builds the baseline characteristic table}
 
-\item{metadata_ae}{A metadata created by \link{metalite},
+\item{metadata_ae}{A metadata created by metalite,
 which builds the AE subgroup specific table}
 
 \item{analysis}{The analysis label provided in \code{metadata_sl}.}
