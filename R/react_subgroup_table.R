@@ -21,6 +21,8 @@
 #' @param tbl A tibble to create reactable.
 #' @param group Treatment group label.
 #' @param subgroup_name Subgroup label.
+#' 
+#' @noRd
 #'
 #' @return A reactable combining both baseline characteristic table
 #'   and AE subgroup specific tables for a subgroup.
@@ -37,7 +39,7 @@ react_subgroup_table <- function(
   formatted_data <- tbl[, selected_columns]
 
   # Remove row with no observation
-  formatted_data <- formatted_data[which(rowSums(formatted_data[, grepl("n_", colnames(formatted_data))]) > 0), ]
+  # formatted_data <- formatted_data[which(rowSums(formatted_data[, grepl("n_", colnames(formatted_data))]) > 0), ]
 
   prop_prefix <- paste0(subgroup_name, "prop_")
   n_prefix <- paste0(subgroup_name, "n_")

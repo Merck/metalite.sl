@@ -36,7 +36,7 @@ Add cumulative count and summary stats for categories for exposure duration anal
 \examples{
 meta <- meta_sl_exposure_example()
 outdata <- meta |> prepare_exp_duration()
-outdata |> 
+outdata |>
   extend_exp_duration(
     duration_category_list = list(c(1, NA), c(7, NA), c(21, NA)),
     duration_category_labels = c(">=1 day", ">=7 days", ">=21 days")
