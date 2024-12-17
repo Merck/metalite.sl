@@ -1,16 +1,10 @@
 ---
-title: "Getting Started with Exposure Duration Table"
-output:
-  rmarkdown::html_document:
-    toc: true
-    toc_float: true
-    toc_depth: 2
-    number_sections: true
-    highlight: "textmate"
-    css: "custom.css"
+title: "Exposure Duration Table"
+output: rmarkdown::html_vignette
 vignette: >
+  %\VignetteIndexEntry{Exposure Duration Table}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Getting Started with Exposure Duration Table}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r}

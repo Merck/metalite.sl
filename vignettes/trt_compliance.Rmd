@@ -1,8 +1,8 @@
 ---
-title: "Treatment Compliance"
+title: "Treatment Compliance Table"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Treatment Compliance}
+  %\VignetteIndexEntry{Treatment Compliance Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

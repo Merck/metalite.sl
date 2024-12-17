@@ -14,11 +14,15 @@ Third party R packages listed by License type
 MIT / X11 License (or adaptations) (https://www.opensource.org/licenses/MIT)
   * rlang - https://rlang.r-lib.org/LICENSE.html
   * glue - https://glue.tidyverse.org/LICENSE.html
-  * dplyr - https://dplyr.tidyverse.org/LICENSE.html
-  * tidyr - https://tidyr.tidyverse.org/LICENSE.html
   * reactable - https://cran.r-project.org/web/packages/reactable/LICENSE
+  * plotly - https://github.com/plotly/plotly.R/blob/master/LICENSE
+  * uuid - https://cran.r-project.org/web/packages/uuid/LICENSE
+  * stringr - https://stringr.tidyverse.org/LICENSE.html
 
-GPL-3
+GPL-3 / GPL-2
   * metalite - https://merck.github.io/metalite/LICENSE.html
   * metalite.ae - https://merck.github.io/metalite.ae/LICENSE.html
   * r2rtf - https://github.com/Merck/r2rtf/blob/master/LICENSE
+  * forestly - https://merck.github.io/forestly/LICENSE.html
+  * htmltools - https://cran.r-project.org/web/licenses/GPL-3
+  * brew - https://cran.r-project.org/web/licenses/GPL-2

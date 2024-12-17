@@ -49,13 +49,13 @@ Create an interactive plot for exposure duration
 # Only run this example in interactive R sessions
 if (interactive()) {
   meta <- meta_sl_exposure_example()
-  outdata <- meta |> 
+  outdata <- meta |>
     prepare_exp_duration() |>
     extend_exp_duration(
       duration_category_list = list(c(1, 7), c(7, 21), c(21, 84)),
       duration_category_labels = c("1-7 days", "7-21 days", "21-84 days")
     )
-  
+
   outdata |> plotly_exposure_duration()
 }
 }

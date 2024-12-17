@@ -1,13 +1,6 @@
 ---
 title: "Introduction to metalite.sl"
-output:
-  rmarkdown::html_document:
-    toc: true
-    toc_float: true
-    toc_depth: 2
-    number_sections: true
-    highlight: "textmate"
-    css: "custom.css"
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to metalite.sl}
   %\VignetteEngine{knitr::rmarkdown}

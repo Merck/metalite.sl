@@ -1,17 +1,10 @@
 ---
 title: "Build an Interactive Baseline Characteristic Table"
-output:
-  rmarkdown::html_document:
-    toc: true
-    toc_float: true
-    toc_depth: 2
-    number_sections: true
-    code_fold: hide
-    highlight: "textmate"
-    css: "custom.css"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Build an Interactive Baseline Characteristic Table}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, message=FALSE}

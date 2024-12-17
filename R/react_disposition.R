@@ -18,9 +18,9 @@
 
 #' Display interactive disposition tables with AE subgroup analysis
 #'
-#' @param metadata_sl A metadata created by [metalite],
+#' @param metadata_sl A metadata created by metalite,
 #'   which builds the baseline characteristic table
-#' @param metadata_ae A metadata created by [metalite],
+#' @param metadata_ae A metadata created by metalite,
 #'   which builds the AE subgroup specific table
 #' @param analysis The analysis label provided in \code{metadata_sl}.
 #' @param population A character value of population term name.

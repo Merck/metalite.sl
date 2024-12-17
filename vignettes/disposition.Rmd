@@ -1,8 +1,8 @@
 ---
-title: "Disposition"
+title: "Disposition Table"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Disposition}
+  %\VignetteIndexEntry{Disposition Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -78,7 +78,7 @@ adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(
 
 # Create a variable EOTSTT1 indicating the end of treatment status part 1
 adsl$EOTSTT1 <- ifelse(adsl$DISCONFL == "Y", "Discontinued", "Completed")
-adsl$DCTREAS <- ifelse(adsl$EOTSTT1 == "Discontinued" & adsl$EOSSTT == "Discontinued", adsl$DCREASCD, NA)
+adsl$DCTREAS <- ifelse(adsl$EOTSTT1 == "Discontinued", adsl$DCREASCD, NA)
 head(adsl)
 ```
 
