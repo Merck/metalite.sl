@@ -1,5 +1,5 @@
 Package: metalite.sl
-Title: Subject-level Analysis Using 'metalite'
+Title: Subject-Level Analysis Using 'metalite'
 Version: 0.1.0
 Authors@R: c(
     person("Benjamin", "Wang", email = "benjamin.wang@merck.com", role = c("aut", "cre")),
@@ -12,7 +12,12 @@ Authors@R: c(
     person("Chen", "Wang", role = "ctb"),
     person("Merck Sharp & Dohme Corp", role = "cph")
     )
-Description: Provide subject-level analysis.
+Description: Analyzes subject-level data in clinical trials using the 'metalite'
+    data structure. The package simplifies the workflow to create
+    production-ready tables, listings, and figures discussed in the
+    subject-level analysis chapters of
+    "R for Clinical Study Reports and Submission"
+    by Zhang et al. (2022) <https://r4csr.org/>.
 Depends: R (>= 4.1.0)
 License: GPL (>= 3)
 Imports:
