@@ -38,9 +38,12 @@ react_subgroup_table <- function(
 
   formatted_data <- tbl[, selected_columns]
 
-  # Remove row with no observation
-  # formatted_data <- formatted_data[which(rowSums(formatted_data[, grepl("n_", colnames(formatted_data))]) > 0), ]
-
+  #Remove row with no observation
+  formatted_data1 <- formatted_data[1:4,]
+  formatted_data2 <- formatted_data[5:nrow(formatted_data),]
+  formatted_data2 <- formatted_data2[which(rowSums(formatted_data2[,grepl("n_",colnames(formatted_data2))])>0),]
+  formatted_data <- rbind(formatted_data1,formatted_data2)
+  
   prop_prefix <- paste0(subgroup_name, "prop_")
   n_prefix <- paste0(subgroup_name, "n_")
 
@@ -76,6 +79,9 @@ react_subgroup_table <- function(
     col_group_defs <- append(col_group_defs, list(reactable::colGroup(name = group[i], columns = c(n_name, prop_name, prop_num_name))))
   }
 
+  #Row 4 is the empty row to separate summary and specified AE, leave columns as empty
+  formatted_data[4,] <- NA
+  
   formatted_data <- formatted_data |> dplyr::select(dplyr::all_of(all_columns))
 
   reactable::reactable(
