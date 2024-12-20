@@ -31,7 +31,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' meta <- meta_sl_example()
 #'
 #' outdata <- prepare_base_char_subgroup(

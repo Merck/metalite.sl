@@ -9,3 +9,4 @@
 ^\.github$
 ^codecov\.yml$
 ^tests/testthat/_snaps$
+^cran-comments\.md$
