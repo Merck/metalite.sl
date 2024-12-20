@@ -1,5 +1,6 @@
 library(metalite)
 
+set.seed(123)
 metatest <- meta_sl_exposure_example()
 
 outdata <- prepare_sl_summary(
