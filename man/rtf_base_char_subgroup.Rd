@@ -45,7 +45,7 @@ RTF file and source dataset for baseline characteristic table.
 Subgroup Analysis for Baseline Characteristic
 }
 \examples{
-\dontrun{
+\donttest{
 meta <- meta_sl_example()
 
 outdata <- prepare_base_char_subgroup(
