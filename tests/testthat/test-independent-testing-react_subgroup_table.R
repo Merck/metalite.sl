@@ -4,7 +4,6 @@ library(htmlwidgets)
 
 
 test_that("Testing react_subgroup_table function via calling react_base_char function", {
-
   # the "react_subgroup_table()" function is called inside the "react_base_char()" function
   table_output <- react_base_char(
     metadata_sl = meta_sl_example(),
@@ -27,9 +26,9 @@ test_that("Testing react_subgroup_table function via calling react_base_char fun
 
   # Use expect_snapshot_file to compare the file against the snapshot
   expect_snapshot_file(file_path)
-  
+
   if (file.exists(file_path)) {
-    #Delete file if it exists
+    # Delete file if it exists
     file.remove(file_path)
   }
 })
