@@ -24,8 +24,7 @@ Suggests:
     dplyr,
     knitr,
     testthat (>= 3.0.0),
-    tidyr,
-    htmlwidgets
+    tidyr
 VignetteBuilder: knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

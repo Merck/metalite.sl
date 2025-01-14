@@ -1,7 +1,5 @@
 library(reactable)
 library(htmltools)
-library(htmlwidgets)
-
 
 test_that("Testing react_subgroup_table function via calling react_base_char function", {
 
@@ -17,19 +15,7 @@ test_that("Testing react_subgroup_table function via calling react_base_char fun
     ae_specific = "rel",
     width = 1200
   )
-
-
-  # Define the file path for the HTML output
-  file_path <- "react_subgroup_table.html"
-
-  # Save the table output to the HTML file:  use saveWidget to save the reactable output
-  saveWidget(table_output, file_path, selfcontained = TRUE)
-
-  # Use expect_snapshot_file to compare the file against the snapshot
-  expect_snapshot_file(file_path)
   
-  if (file.exists(file_path)) {
-    #Delete file if it exists
-    file.remove(file_path)
-  }
+  rendered <- htmltools::renderTags(table_output)
+  expect_snapshot(cat(rendered$html))
 })
