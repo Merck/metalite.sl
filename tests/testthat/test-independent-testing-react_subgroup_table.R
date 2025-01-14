@@ -21,7 +21,7 @@ test_that("Testing react_subgroup_table function via calling react_base_char fun
     ae_specific = "rel",
     width = 1200
   )
-  table_output <- expect_and_replace_dataKey(table_output)
+  # table_output <- expect_and_replace_dataKey(table_output)
   rendered <- htmltools::renderTags(table_output)
-  expect_snapshot(cat(rendered$html))
+  expect_snapshot(rendered$html)
 })
