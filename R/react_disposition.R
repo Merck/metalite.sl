@@ -49,25 +49,20 @@
 #'     metadata_ae = metalite.ae::meta_ae_example()
 #'   )
 #' }
-
-react_disposition <- function(
-     metadata_sl
-    ,metadata_ae
-    ,analysis        = "disp"
-    ,trtvar          = "trt01a"
-    ,population      = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population
-    ,sl_parameter    = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";")
-    ,sl_col_selected = NULL #c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
-    ,sl_col_names    = NULL #c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
-    ,ae_observation  = 'wk24'
-    ,ae_population   = population
-    ,ae_col_selected = NULL #c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
-    ,ae_col_names    = NULL #c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
-    ,display_total   = TRUE
-    ,width           = 1200
-    ) 
-  {
-
+react_disposition <- function(metadata_sl,
+    metadata_ae,
+    analysis = "disp",
+    trtvar = "trt01a",
+    population = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population,
+    sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";"),
+    sl_col_selected = NULL # c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
+    , sl_col_names = NULL # c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
+    , ae_observation = "wk24",
+    ae_population = population,
+    ae_col_selected = NULL # c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
+    , ae_col_names = NULL # c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
+    , display_total = TRUE,
+    width = 1200) {
   # ----------------------------------------- #
   #   default columns                         #
   # ----------------------------------------- #
@@ -145,20 +140,20 @@ react_disposition <- function(
   if (is.null(sl_col_names)) sl_col_names <- sl_col_selected
   sl_col_def <- list()
   for (i in 1:length(sl_col_selected)) sl_col_def[[sl_col_selected[i]]] <- reactable::colDef(sl_col_names[i])
-  
+
   # ----------------------------------------- #
   #   get AE listing                          #
   # ----------------------------------------- #
-  ae_listing_outdata <- 
-    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis='ae_specific', observation = ae_observation, parameter = 'any')
-  ae_list <- ae_listing_outdata$meta$data_observation  
-  
+  ae_listing_outdata <-
+    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis = "ae_specific", observation = ae_observation, parameter = "any")
+  ae_list <- ae_listing_outdata$meta$data_observation
+
   # Define columns for AE list
   if (is.null(ae_col_names)) ae_col_names <- ae_col_selected
   ae_col_def <- list()
   for (i in 1:length(ae_col_selected)) ae_col_def[[ae_col_selected[i]]] <- reactable::colDef(ae_col_names[i])
 
-  
+
   # ----------------------------------------- #
   #   making react table                      #
   # ----------------------------------------- #
