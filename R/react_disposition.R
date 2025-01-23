@@ -29,6 +29,12 @@
 #' @param sl_parameter A character value of parameter term name for
 #'   the baseline characteristic table.
 #'   The term name is used as key to link information.
+#' @param sl_col_selected A character vector of variable which will be shown in the participant detail.
+#' @param sl_col_names A character vector for the columns names of the participant detail. Same length as sl_col_selected.
+#' @param ae_observation The meta parameter of the observation in adverse event listing.
+#' @param ae_population The meta parameter of the population in adverse event listing.
+#' @param ae_col_selected A character vector of variable which will be shown in the AE detail.
+#' @param ae_col_names A character vector for the columns names of the AE detail. Same length as ae_col_selected.
 #' @param width A numeric value of width of the table in pixels.
 #'
 #' @return An reactable combing both baseline characteristic table
@@ -40,8 +46,7 @@
 #' if (interactive()) {
 #'   react_disposition(
 #'     metadata_sl = meta_sl_example(),
-#'     metadata_ae = metalite.ae::meta_ae_example(),
-#'     width = 1200
+#'     metadata_ae = metalite.ae::meta_ae_example()
 #'   )
 #' }
 react_disposition <- function(
@@ -53,7 +58,7 @@ react_disposition <- function(
     ,sl_parameter    = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";")
     ,sl_col_selected = NULL #c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
     ,sl_col_names    = NULL #c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
-    ,ae_obs          = 'wk24'
+    ,ae_observation  = 'wk24'
     ,ae_population   = population
     ,ae_col_selected = NULL #c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
     ,ae_col_names    = NULL #c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
@@ -100,7 +105,7 @@ react_disposition <- function(
 
   # get AE listing
   ae_listing_outdata <- 
-    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis='ae_specific', observation = ae_obs, parameter = 'any')
+    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis='ae_specific', observation = ae_observation, parameter = 'any')
   ae_list <- ae_listing_outdata$meta$data_observation  
   
   # Define Column
