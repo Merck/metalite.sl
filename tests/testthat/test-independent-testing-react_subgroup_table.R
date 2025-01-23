@@ -3,17 +3,20 @@ library(htmltools)
 
 test_that("Testing react_subgroup_table function via calling react_base_char function", {
   # the "react_subgroup_table()" function is called inside the "react_base_char()" function
-  table_output <- react_base_char(
-    metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
+  outdata <- metalite.ae::prepare_ae_specific_subgroup(
+    metalite.ae::meta_ae_example(),
     population = "apat",
     observation = "wk12",
-    display_total = TRUE,
-    sl_parameter = "age;race",
-    ae_subgroup = c("age", "race"),
-    ae_specific = "rel",
-    width = 1200
-  )
-  rendered <- htmltools::renderTags(table_output$x)
-  expect_snapshot(cat(rendered$html))
+    parameter = "rel",
+    subgroup_var = "SEX",
+    display_subgroup_total = FALSE # total display for subgroup is not needed
+  ) |>
+    metalite.ae::format_ae_specific_subgroup()
+  
+  table <- react_subgroup_table(outdata$tbl, outdata$group, "F")
+  html <- htmltools::renderTags(table)
+  
+  html <- gsub("id=\"htmlwidget-[A-Za-z0-9]+\"", "id=\"htmlwidget-123456\"", html)
+  
+  expect_snapshot(html)
 })
