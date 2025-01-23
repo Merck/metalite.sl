@@ -49,7 +49,8 @@
 #'     metadata_ae = metalite.ae::meta_ae_example()
 #'   )
 #' }
-react_disposition <- function(metadata_sl,
+react_disposition <- function(
+    metadata_sl,
     metadata_ae,
     analysis = "disp",
     trtvar = "trt01a",
