@@ -55,13 +55,13 @@ react_disposition <- function(metadata_sl,
     trtvar = "trt01a",
     population = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population,
     sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";"),
-    sl_col_selected = NULL # c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
-    , sl_col_names = NULL # c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
-    , ae_observation = "wk24",
+    sl_col_selected = NULL,
+    sl_col_names = NULL,
+    ae_observation = "wk24",
     ae_population = population,
-    ae_col_selected = NULL # c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
-    , ae_col_names = NULL # c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
-    , display_total = TRUE,
+    ae_col_selected = NULL,
+    ae_col_names = NULL,
+    display_total = TRUE,
     width = 1200) {
   # ----------------------------------------- #
   #   default columns                         #
