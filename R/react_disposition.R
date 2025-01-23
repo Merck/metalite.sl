@@ -44,36 +44,33 @@
 #'     width = 1200
 #'   )
 #' }
-react_disposition <- function(
-     metadata_sl
-    ,metadata_ae
-    ,analysis        = "disp"
-    ,trtvar          = "trt01a"
-    ,population      = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population
-    ,sl_parameter    = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";")
-    ,sl_col_selected = NULL #c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
-    ,sl_col_names    = NULL #c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
-    ,ae_obs          = 'wk24'
-    ,ae_population   = population
-    ,ae_col_selected = NULL #c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
-    ,ae_col_names    = NULL #c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
-    ,display_total   = TRUE
-    ,width           = 1200
-    ) 
-  {
+react_disposition <- function(metadata_sl,
+    metadata_ae,
+    analysis = "disp",
+    trtvar = "trt01a",
+    population = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population,
+    sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";"),
+    sl_col_selected = NULL # c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
+    , sl_col_names = NULL # c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
+    , ae_obs = "wk24",
+    ae_population = population,
+    ae_col_selected = NULL # c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
+    , ae_col_names = NULL # c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
+    , display_total = TRUE,
+    width = 1200) {
   # ----------------------------------------- #
   #   default columns                         #
   # ----------------------------------------- #
   if (is.null(sl_col_selected)) {
     sl_col_selected <- c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
-    sl_col_names    <- c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
-  } 
-  
-  if (is.null(ae_col_selected)){
-    ae_col_selected <- c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
-    ae_col_names    <- c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
+    sl_col_names <- c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
   }
-  
+
+  if (is.null(ae_col_selected)) {
+    ae_col_selected <- c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
+    ae_col_names <- c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
+  }
+
   # ----------------------------------------- #
   #   total setting                           #
   # ----------------------------------------- #
@@ -99,10 +96,10 @@ react_disposition <- function(
   tbl_sl$var_label[tbl_sl$name == "Participants in population"] <- "Participants in population"
 
   # get AE listing
-  ae_listing_outdata <- 
-    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis='ae_specific', observation = ae_obs, parameter = 'any')
-  ae_list <- ae_listing_outdata$meta$data_observation  
-  
+  ae_listing_outdata <-
+    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis = "ae_specific", observation = ae_obs, parameter = "any")
+  ae_list <- ae_listing_outdata$meta$data_observation
+
   # Define Column
   col_defs <- list()
   for (sl_name in names(tbl_sl)) {
@@ -139,7 +136,7 @@ react_disposition <- function(
 
   # Define columns for subject list
   sl_col_selected <- toupper(sl_col_selected)
-  if (!('USUBJID' %in% sl_col_selected)) u_sl_col_selected <- c('USUBJID', sl_col_selected)
+  if (!("USUBJID" %in% sl_col_selected)) u_sl_col_selected <- c("USUBJID", sl_col_selected)
   if (is.null(sl_col_names)) sl_col_names <- sl_col_selected
   sl_col_def <- list()
   for (i in 1:length(sl_col_selected)) sl_col_def[[sl_col_selected[i]]] <- reactable::colDef(sl_col_names[i])
@@ -165,7 +162,7 @@ react_disposition <- function(
         subset = metadata_sl$data_population$USUBJID %in% usubjids,
         select = u_sl_col_selected
       )
-      subj_list[,sl_col_selected] |>
+      subj_list[, sl_col_selected] |>
         reactable::reactable(
           filterable = TRUE, defaultExpanded = FALSE, striped = TRUE, groupBy = trt_grp,
           columns = sl_col_def,
