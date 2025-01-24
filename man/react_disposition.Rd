@@ -8,9 +8,16 @@ react_disposition(
   metadata_sl,
   metadata_ae,
   analysis = "disp",
+  trtvar = "trt01a",
   population = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population,
   sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis,
     ]$parameter, collapse = ";"),
+  sl_col_selected = NULL,
+  sl_col_names = NULL,
+  ae_observation = "wk24",
+  ae_population = population,
+  ae_col_selected = NULL,
+  ae_col_names = NULL,
   display_total = TRUE,
   width = 1200
 )
@@ -24,12 +31,26 @@ which builds the AE subgroup specific table}
 
 \item{analysis}{The analysis label provided in \code{metadata_sl}.}
 
+\item{trtvar}{A character that indicate variable for the treatment group.}
+
 \item{population}{A character value of population term name.
 The term name is used as key to link information.}
 
 \item{sl_parameter}{A character value of parameter term name for
 the baseline characteristic table.
 The term name is used as key to link information.}
+
+\item{sl_col_selected}{A character vector of variable which will be shown in the participant detail.}
+
+\item{sl_col_names}{A character vector for the columns names of the participant detail. Same length as sl_col_selected.}
+
+\item{ae_observation}{The meta parameter of the observation in adverse event listing.}
+
+\item{ae_population}{The meta parameter of the population in adverse event listing.}
+
+\item{ae_col_selected}{A character vector of variable which will be shown in the AE detail.}
+
+\item{ae_col_names}{A character vector for the columns names of the AE detail. Same length as ae_col_selected.}
 
 \item{display_total}{Display total column or not.}
 
@@ -46,8 +67,7 @@ Display interactive disposition tables with AE subgroup analysis
 if (interactive()) {
   react_disposition(
     metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
-    width = 1200
+    metadata_ae = metalite.ae::meta_ae_example()
   )
 }
 }
