@@ -25,7 +25,7 @@
 #'  `n` or `prop` can be selected.
 #' @param display_total A logical value to display total.
 #' @param plot_type_label A character vector of histogram type.
-#'  The first element is for the standard histogram. 
+#'  The first element is for the standard histogram.
 #'  The second element is for the stacked histogram.
 #'  The third element is for the horizontal histogram.
 #' @param plot_group_label A label for grouping.
@@ -49,7 +49,7 @@
 #'   outdata <- meta |>
 #'     prepare_exp_duration() |>
 #'     extend_exp_duration(
-#'       duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12*7, NA), c(24*7, NA)),
+#'       duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12 * 7, NA), c(24 * 7, NA)),
 #'       duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
 #'     )
 #'
@@ -72,7 +72,7 @@ plotly_exp_duration <- function(outdata,
     c("n", "prop")
   )
   hover_summary_var <- tolower(hover_summary_var)
-  
+
   if (!length(plot_type_label) == 3) {
     message("Three labels should be provided for `plot_type_label`. The default values are used.")
     plot_type_label <- c("Histogram", "Stacked histogram", "Horizontal histogram")
