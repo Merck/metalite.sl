@@ -179,8 +179,7 @@ meta_sl_exposure_example <- function() {
   adexsum$APERIODC <- "Base"
   adexsum$APERIOD <- 1
 
-  adexsum$AVAL <- sample(x = 0:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
-  adexsum$EXDURGR <- "not treated"
+  adexsum$AVAL <- sample(x = 1:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
   adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day and <7days"
   adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days and <28 days"
   adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days and <12 weeks"
@@ -188,7 +187,7 @@ meta_sl_exposure_example <- function() {
   adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
 
   adexsum$EXDURGR <- factor(adexsum$EXDURGR,
-    levels = c("not treated", ">=1 day and <7days", ">=7 days and <28 days", ">=28 days and <12 weeks", ">=12 weeks and <24 weeks", ">=24 weeks")
+    levels = c(">=1 day and <7days", ">=7 days and <28 days", ">=28 days and <12 weeks", ">=12 weeks and <24 weeks", ">=24 weeks")
   )
 
   plan <- metalite::plan(

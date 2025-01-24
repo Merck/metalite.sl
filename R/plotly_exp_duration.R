@@ -24,6 +24,10 @@
 #' @param display A character vector of display type.
 #'  `n` or `prop` can be selected.
 #' @param display_total A logical value to display total.
+#' @param plot_type_label A character vector of histogram type.
+#'  The first element is for the standard histogram. 
+#'  The second element is for the stacked histogram.
+#'  The third element is for the horizontal histogram.
 #' @param plot_group_label A label for grouping.
 #' @param plot_category_label A label for category.
 #' @param hover_summary_var A character vector of statistics to be displayed
@@ -45,16 +49,17 @@
 #'   outdata <- meta |>
 #'     prepare_exp_duration() |>
 #'     extend_exp_duration(
-#'       duration_category_list = list(c(1, 7), c(7, 21), c(21, 84)),
-#'       duration_category_labels = c("1-7 days", "7-21 days", "21-84 days")
+#'       duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12*7, NA), c(24*7, NA)),
+#'       duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
 #'     )
 #'
-#'   outdata |> plotly_exposure_duration()
+#'   outdata |> plotly_exp_duration()
 #' }
 plotly_exp_duration <- function(outdata,
                                 color = NULL,
                                 display = c("n", "prop"),
                                 display_total = TRUE,
+                                plot_type_label = c("Histogram", "Stacked histogram", "Horizontal histogram"),
                                 plot_group_label = "Treatment group",
                                 plot_category_label = "Exposure duration",
                                 hover_summary_var = c("n", "median", "sd", "se", "median", "min", "max", "q1 to q3", "range"),
@@ -67,6 +72,11 @@ plotly_exp_duration <- function(outdata,
     c("n", "prop")
   )
   hover_summary_var <- tolower(hover_summary_var)
+  
+  if (!length(plot_type_label) == 3) {
+    message("Three labels should be provided for `plot_type_label`. The default values are used.")
+    plot_type_label <- c("Histogram", "Stacked histogram", "Horizontal histogram")
+  }
 
   group_label <- outdata$group_label
   n_group <- length(outdata$group_label)
@@ -192,7 +202,7 @@ plotly_exp_duration <- function(outdata,
         barmode = "stack",
         autosize = FALSE
       )
-    p[["Stacked histogram"]] <- plot_type2
+    p[[plot_type_label[2]]] <- plot_type2
   }
   if (!is.null(outdata$char_n_cum)) {
     tbl_cum <- outdata$char_n_cum[[1]]
@@ -335,8 +345,8 @@ plotly_exp_duration <- function(outdata,
         autosize = FALSE
       )
 
-    p[["Histogram with cumulative count"]] <- plot_type1
-    p[["Horizontal histogram with cumulative count"]] <- plot_type3
+    p[[plot_type_label[1]]] <- plot_type1
+    p[[plot_type_label[3]]] <- plot_type3
   }
 
   # Stop if there is no plot
