@@ -17,7 +17,7 @@ test_that("Testing react_subgroup_table function", {
 
   html <- gsub("id=\"htmlwidget-[A-Za-z0-9]+\"", "id=\"htmlwidget-123456\"", table)
   html <- gsub(
-    "\"dataKey\":\"[a-f0-9]{32}\"",  # Regex pattern to match the dataKey
+    "\"dataKey\":\"[a-f0-9]{32}\"", # Regex pattern to match the dataKey
     "\"dataKey\":\"fixed_data_key\"", # New fixed dataKey value
     html
   )
