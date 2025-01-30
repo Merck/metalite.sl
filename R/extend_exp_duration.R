@@ -76,6 +76,7 @@ extend_exp_duration <- function(outdata,
   }
 
   char_n <- res$char_n[[1]]
+  char_prop <- res$char_prop[[1]]
   observation <- meta$plan[meta$plan$analysis == analysis, ]$observation
 
   # obtain variables
@@ -167,6 +168,17 @@ extend_exp_duration <- function(outdata,
         char_stat_groups[[label]] <- sum
         outdata$char_stat_groups <- char_stat_groups
       }
+    }
+  }
+  # Duration category is not specified
+  if (is.null(duration_category_list) & !is.null(par_var_group)) {
+    count <- char_n[1:(which(is.na(char_n$name)) - 1), ]
+    prop <- char_prop[1:(which(is.na(char_prop$name)) - 1), ]
+    
+    outdata$char_n_cum <- count |> list()
+    outdata$char_prop_cum <- prop |> list()
+    if (!is.null(outdata$char_stat_groups)) {
+      outdata$char_stat_cums <- outdata$char_stat_groups
     }
   }
   # Duration category is specified
