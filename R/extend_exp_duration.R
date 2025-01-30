@@ -174,7 +174,7 @@ extend_exp_duration <- function(outdata,
   if (is.null(duration_category_list) & !is.null(par_var_group)) {
     count <- char_n[1:(which(is.na(char_n$name)) - 1), ]
     prop <- char_prop[1:(which(is.na(char_prop$name)) - 1), ]
-    
+
     outdata$char_n_cum <- count |> list()
     outdata$char_prop_cum <- prop |> list()
     if (!is.null(outdata$char_stat_groups)) {
