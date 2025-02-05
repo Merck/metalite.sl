@@ -27,9 +27,11 @@ test_that("When display is n, prop then display only n and prop", {
     outdata,
     display = c("n", "prop")
   )
-  exp_header <- 
-    c(lapply(outdata$subgroup, function(x) paste0(x, "n_", seq_along(outdata$group))) |> unlist(),
-      lapply(outdata$subgroup, function(x) paste0(x, "p_", seq_along(outdata$group))) |> unlist())
+  exp_header <-
+    c(
+      lapply(outdata$subgroup, function(x) paste0(x, "n_", seq_along(outdata$group))) |> unlist(),
+      lapply(outdata$subgroup, function(x) paste0(x, "p_", seq_along(outdata$group))) |> unlist()
+    )
 
   expect_equal(test1$display, c("n", "prop"))
   expect_true(all(exp_header %in% names(test1$tbl)))
@@ -40,10 +42,12 @@ test_that("When display is n, prop, total then display only n, prop and total", 
     outdata,
     display = c("n", "prop", "total")
   )
-  exp_header <- 
-    c(lapply(outdata$subgroup, function(x) paste0(x, "n_", c(seq_along(outdata$group), 9999))) |> unlist(),
-      lapply(outdata$subgroup, function(x) paste0(x, "p_", c(seq_along(outdata$group), 9999))) |> unlist())
-  
+  exp_header <-
+    c(
+      lapply(outdata$subgroup, function(x) paste0(x, "n_", c(seq_along(outdata$group), 9999))) |> unlist(),
+      lapply(outdata$subgroup, function(x) paste0(x, "p_", c(seq_along(outdata$group), 9999))) |> unlist()
+    )
+
   expect_equal(test2$display, c("n", "prop", "total"))
   expect_true(all(exp_header %in% names(test2$tbl)))
 })
@@ -54,7 +58,7 @@ test_that("When display_stat contains mean then Mean row is included", {
     display = c("n", "prop"),
     display_stat = c("mean")
   )
-  
+
   expect_equal(
     c(
       "Participants in population",
@@ -72,7 +76,7 @@ test_that("When display_stat contains sd then SD row is included", {
     display = c("n", "prop"),
     display_stat = c("sd")
   )
-  
+
   expect_equal(
     c(
       "Participants in population",
@@ -90,7 +94,7 @@ test_that("When display_stat contains median then Median row is included", {
     display = c("n", "prop"),
     display_stat = c("median")
   )
-  
+
   expect_equal(
     c(
       "Participants in population",
@@ -108,7 +112,7 @@ test_that("When display_stat contains range then Range row is included", {
     display = c("n", "prop"),
     display_stat = c("range")
   )
-  
+
   expect_equal(
     c(
       "Participants in population",
@@ -125,7 +129,7 @@ test_that("Summary statistics are not disply when they are not included", {
     outdata_nostat,
     display = c("n", "prop")
   )
-  
+
   expect_equal(
     c(
       "Participants in population",
