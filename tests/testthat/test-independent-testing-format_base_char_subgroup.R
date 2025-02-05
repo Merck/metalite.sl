@@ -124,7 +124,7 @@ test_that("When display_stat contains range then Range row is included", {
   )
 })
 
-test_that("Summary statistics are not disply when they are not included", {
+test_that("Summary statistics are not displyed when they are not included", {
   test7 <- format_base_char_subgroup(
     outdata_nostat,
     display = c("n", "prop")
