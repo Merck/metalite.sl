@@ -70,7 +70,7 @@ extract_duration_category_ranges <- function(labels) {
       }
       as.numeric(x)
     })
-  
+
   factors <- labels |>
     stringr::str_extract_all(pattern = "\\d+ ?([a-zA-Z]+)") |>
     lapply(
@@ -93,10 +93,10 @@ extract_duration_category_ranges <- function(labels) {
         return(factor)
       }
     )
-  
+
   list <- lapply(
     seq_along(times),
-    function (x) {
+    function(x) {
       if (length(times[[x]]) < 2) {
         time <- c(times[[x]], rep(NA, 2 - length(times[[x]])))
       } else {
