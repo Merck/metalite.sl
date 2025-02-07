@@ -6,9 +6,12 @@
 \usage{
 extend_exp_duration(
   outdata,
-  category_section_label = NULL,
-  duration_category_list = NULL,
-  duration_category_labels = NULL
+  category_section_label = paste0(metalite::collect_adam_mapping(outdata$meta,
+    outdata$parameter)$label, " (extend)"),
+  duration_category_list = extract_duration_category_ranges(duration_category_labels),
+  duration_category_labels =
+    levels(outdata$meta$data_population[[metalite::collect_adam_mapping(outdata$meta,
+    outdata$parameter)$vargroup]])
 )
 }
 \arguments{
@@ -38,7 +41,7 @@ meta <- meta_sl_exposure_example()
 outdata <- meta |> prepare_exp_duration()
 outdata |>
   extend_exp_duration(
-    duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12*7, NA), c(24*7, NA)),
+    duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12 * 7, NA), c(24 * 7, NA)),
     duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
   )
 }

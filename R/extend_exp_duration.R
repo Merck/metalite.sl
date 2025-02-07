@@ -43,9 +43,9 @@
 #'     duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
 #'   )
 extend_exp_duration <- function(outdata,
-                                category_section_label = NULL,
-                                duration_category_list = NULL,
-                                duration_category_labels = NULL) {
+                                category_section_label = paste0(metalite::collect_adam_mapping(outdata$meta, outdata$parameter)$label, " (extend)"),
+                                duration_category_list = extract_duration_category_ranges(duration_category_labels),
+                                duration_category_labels = levels(outdata$meta$data_population[[metalite::collect_adam_mapping(outdata$meta, outdata$parameter)$vargroup]])) {
   res <- outdata
   meta <- res$meta
   analysis <- res$analysis
@@ -170,17 +170,6 @@ extend_exp_duration <- function(outdata,
       }
     }
   }
-  # Duration category is not specified
-  if (is.null(duration_category_list) & !is.null(par_var_group)) {
-    count <- char_n[1:(which(is.na(char_n$name)) - 1), ]
-    prop <- char_prop[1:(which(is.na(char_prop$name)) - 1), ]
-
-    outdata$char_n_cum <- count |> list()
-    outdata$char_prop_cum <- prop |> list()
-    if (!is.null(outdata$char_stat_groups)) {
-      outdata$char_stat_cums <- outdata$char_stat_groups
-    }
-  }
   # Duration category is specified
   if (!is.null(duration_category_list) & !is.null(par_var)) {
     data_population$TRTDURGR <- NA
@@ -202,10 +191,6 @@ extend_exp_duration <- function(outdata,
       # Create metadata for subgroup
       pop_subset <- metalite::collect_adam_mapping(meta, population)$subset
       pop_subset <- rlang::quo(TRTDURGR == !!label & !!pop_subset)
-
-      if (is.null(category_section_label)) {
-        category_section_label <- paste0(metalite::collect_adam_mapping(meta, parameter)$label, " (cumulative)")
-      }
 
       meta_cum <- meta_sl(
         data_population,
