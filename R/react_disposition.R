@@ -55,8 +55,8 @@ react_disposition <- function(
     metadata_ae,
     analysis = "disp",
     trtvar = "trt01a",
-    population = metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$population,
-    sl_parameter = paste(metadata_sl$plan[metadata_sl$plan$analysis == analysis, ]$parameter, collapse = ";"),
+    population = metadata_sl$plan$population[metadata_sl$plan$analysis == analysis],
+    sl_parameter = paste(metadata_sl$plan$parameter[metadata_sl$plan$analysis == analysis], collapse = ";"),
     sl_col_selected = NULL,
     sl_col_names = NULL,
     ae_observation = "wk24",
@@ -166,12 +166,14 @@ react_disposition <- function(
     if (!is.na(tbl_sl$name[index]) & !(dcsreas %in% c("participants in population", "discontinued", "participants ongoing", "completed"))) {
       if (stringr::str_trim(tolower(tbl_sl$var_label[index])) == "trial disposition") {
         var <- metadata_sl$parameter[["disposition"]]$var
+        var_lower <- metadata_sl$parameter[["disposition"]]$var_lower
       }
       if (stringr::str_trim(tolower(tbl_sl$var_label[index])) == "participant study medication disposition") {
         var <- metadata_sl$parameter[["medical-disposition"]]$var
+        var_lower <- metadata_sl$parameter[["medical-disposition"]]$var_lower
       }
       # get discontinued subject list
-      usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population$DCSREAS) == dcsreas & tolower(x_sl$meta$data_population[[var]]) == "discontinued")
+      usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population[[var_lower]]) == dcsreas & tolower(x_sl$meta$data_population[[var]]) == "discontinued")
       subj_list <- metadata_sl$data_population |> subset(
         subset = metadata_sl$data_population$USUBJID %in% usubjids,
         select = u_sl_col_selected
