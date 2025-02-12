@@ -76,7 +76,6 @@ extend_exp_duration <- function(outdata,
   }
 
   char_n <- res$char_n[[1]]
-  char_prop <- res$char_prop[[1]]
   observation <- meta$plan[meta$plan$analysis == analysis, ]$observation
 
   # obtain variables
