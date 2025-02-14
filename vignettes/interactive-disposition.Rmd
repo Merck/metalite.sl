@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, message=FALSE}
-devtools::load_all()
 library(metalite.sl)
 library(metalite.ae)
 library(metalite)
