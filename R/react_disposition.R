@@ -185,7 +185,7 @@ react_disposition <- function(
           details = function(index) {
             usubjid <- subj_list$USUBJID[index]
             # get AE list of a subject if discontinued because of AE
-            if ((var=="EOTSTT" && dcsreas %in% c("adverse event")) | (var=="EOSSTT" && dcsreas %in% c("other"))) {
+            if ((var == "EOTSTT" && dcsreas %in% c("adverse event")) | (var == "EOSSTT" && dcsreas %in% c("other"))) {
               sub_ae_listing <- ae_list |> subset(
                 subset = ae_list$USUBJID %in% usubjid,
                 select = ae_col_selected

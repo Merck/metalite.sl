@@ -39,49 +39,49 @@ meta_sl_example <- function() {
     labels = c("Female", "Male")
   )
   set.seed(123)
-  
+
   # Create a variable EOSSTT indicating the end of end of study status
-  adae<-metalite.ae::meta_ae_example()$data_observation
-  
-  #adae$AEACN <- sample(
+  adae <- metalite.ae::meta_ae_example()$data_observation
+
+  # adae$AEACN <- sample(
   #  x = c("DOSE NOT CHANGED", "DRUG INTERRUPTED", "DRUG WITHDRAWN", "NOT APPLICABLE", "UNKNOWN"),
   #  size = length(adae$USUBJID),
   #  prob = c(0.7, 0.1,0.05,0.1,0.05), replace = TRUE
-  #)
-  
-  #Treatment Disposition
-  #For discontinued due to AE
-  adaedisc<-subset(adae[which(adae$AEACN=="DRUG WITHDRAWN"),] ,select=c(USUBJID,AEACN))
-  adaedisc<-adaedisc[!duplicated(adaedisc), ]
-  
-  adsl<-merge(adsl,adaedisc,by="USUBJID",all.x=TRUE)
-  adsl$EOTSTT<-ifelse(adsl$AEACN =="DRUG WITHDRAWN","Discontinued",NA)
+  # )
+
+  # Treatment Disposition
+  # For discontinued due to AE
+  adaedisc <- subset(adae[which(adae$AEACN == "DRUG WITHDRAWN"), ], select = c(USUBJID, AEACN))
+  adaedisc <- adaedisc[!duplicated(adaedisc), ]
+
+  adsl <- merge(adsl, adaedisc, by = "USUBJID", all.x = TRUE)
+  adsl$EOTSTT <- ifelse(adsl$AEACN == "DRUG WITHDRAWN", "Discontinued", NA)
   adsl$DCTREAS <- ifelse(adsl$EOTSTT == "Discontinued", "Adverse Event", NA)
-  
-  #sample assignment cannot be NA value
-  adsl$EOTSTT[is.na(adsl$EOTSTT)]<-"temp"
-  adsl$DCTREAS[is.na(adsl$DCTREAS)]<-"temp"
-  
-  
+
+  # sample assignment cannot be NA value
+  adsl$EOTSTT[is.na(adsl$EOTSTT)] <- "temp"
+  adsl$DCTREAS[is.na(adsl$DCTREAS)] <- "temp"
+
+
   adsl[adsl$EOTSTT != "Discontinued", "EOTSTT"] <- sample(
-    x = c("Complete", "Discontinued","Participants Ongoing"),
+    x = c("Complete", "Discontinued", "Participants Ongoing"),
     size = length(adsl[adsl[["EOTSTT"]] != "Discontinued", "USUBJID"]),
-    prob = c(0.6, 0.2,0.2), replace = TRUE
+    prob = c(0.6, 0.2, 0.2), replace = TRUE
   )
-  
+
   adsl[adsl$EOTSTT == "Discontinued" & adsl$DCTREAS != "Adverse Event", "DCTREAS"] <- sample(
-    x = c("Withdrawal By Subject", "Lack of Efficacy","Lost to Follow-Up"),
+    x = c("Withdrawal By Subject", "Lack of Efficacy", "Lost to Follow-Up"),
     size = length(adsl[adsl$EOTSTT == "Discontinued" & adsl$DCTREAS != "Adverse Event", "USUBJID"]),
-    prob = c(0.3, 0.4,0.3), replace = TRUE
+    prob = c(0.3, 0.4, 0.3), replace = TRUE
   )
-  
-  adsl[adsl[["EOTSTT"]] != "Discontinued", "DCTREAS"]<-NA
-  
-  #Trial Disposition
-  adsl$EOSSTT<-adsl$EOTSTT
-  adsl$DCSREAS<-adsl$DCTREAS
-  
-  adsl$DCSREAS<-ifelse(adsl$DCSREAS =="Adverse Event","Other",adsl$DCTREAS)
+
+  adsl[adsl[["EOTSTT"]] != "Discontinued", "DCTREAS"] <- NA
+
+  # Trial Disposition
+  adsl$EOSSTT <- adsl$EOTSTT
+  adsl$DCSREAS <- adsl$DCTREAS
+
+  adsl$DCSREAS <- ifelse(adsl$DCSREAS == "Adverse Event", "Other", adsl$DCTREAS)
 
   plan <- metalite::plan(
     analysis = "base_char", population = "apat",
