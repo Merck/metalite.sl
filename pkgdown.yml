@@ -6,9 +6,10 @@ articles:
   disposition: disposition.html
   exp_duration: exp_duration.html
   interactive-baseline: interactive-baseline.html
+  interactive-disposition: interactive-disposition.html
   metalite.sl: metalite.sl.html
   trt_compliance: trt_compliance.html
-last_built: 2025-02-10T19:30Z
+last_built: 2025-02-19T14:22Z
 urls:
   reference: https://merck.github.io/metalite.sl/reference
   article: https://merck.github.io/metalite.sl/articles
