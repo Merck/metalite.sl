@@ -24,6 +24,7 @@
 #' @param display_stat A vector of statistics term name.
 #'   The term name could be selected from
 #'   `c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max")`.
+#' @param display_subgroup_total A logic value of displaying the total group.
 #'
 #' @return A list of analysis raw datasets.
 #' @export
@@ -36,15 +37,15 @@
 #'   population = "apat",
 #'   parameter = "age",
 #'   subgroup_var = "TRTA",
-#'   subgroup_header = c("SEX", "TRTA"),
-#'   display_subgroup_total = TRUE
+#'   subgroup_header = c("SEX", "TRTA")
 #' )
 #'
 #' outdata |> format_base_char_subgroup()
 format_base_char_subgroup <- function(
     outdata,
     display = c("n", "prop", "total"),
-    display_stat = c("mean", "sd", "median", "range")) {
+    display_stat = c("mean", "sd", "median", "range"),
+    display_subgroup_total = TRUE) {
   out_all <- outdata$out_all
 
   outlst <- list()
@@ -65,7 +66,9 @@ format_base_char_subgroup <- function(
   }
 
   names(outlst) <- names(out_all)
-  outlst <- outlst[-length(outlst)]
+  if (!display_subgroup_total) {
+    outlst <- outlst[-length(outlst)]
+  }
 
   i <- 1
   while (i < length(outlst)) {
@@ -80,8 +83,6 @@ format_base_char_subgroup <- function(
     }
   }
 
-
-  # If outdata$display_subgroup_total = FALSE, remove that part
   # if (!outdata$display_subgroup_total) {
   #  rm_tot <- names(outlst$Total) # Columns from Total Section
   #  rm_tot <- rm_tot[!rm_tot %in% c("name", "order")]
@@ -92,5 +93,6 @@ format_base_char_subgroup <- function(
   outdata$tbl <- tbl[order(tbl$order), ]
   outdata$display <- display
   outdata$display_stat <- display_stat
+  outdata$display_subgroup_total <- display_subgroup_total
   outdata
 }

@@ -53,8 +53,7 @@ outdata <- prepare_base_char_subgroup(
   population = "apat",
   parameter = "age",
   subgroup_var = "TRTA",
-  subgroup_header = c("SEX", "TRTA"),
-  display_subgroup_total = TRUE
+  subgroup_header = c("SEX", "TRTA")
 )
 
 outdata |>

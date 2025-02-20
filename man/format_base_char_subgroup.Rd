@@ -7,7 +7,8 @@
 format_base_char_subgroup(
   outdata,
   display = c("n", "prop", "total"),
-  display_stat = c("mean", "sd", "median", "range")
+  display_stat = c("mean", "sd", "median", "range"),
+  display_subgroup_total = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ The term could be selected from \code{c("n", "prop", "total")}.}
 \item{display_stat}{A vector of statistics term name.
 The term name could be selected from
 \code{c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max")}.}
+
+\item{display_subgroup_total}{A logic value of displaying the total group.}
 }
 \value{
 A list of analysis raw datasets.
@@ -34,8 +37,7 @@ outdata <- prepare_base_char_subgroup(
   population = "apat",
   parameter = "age",
   subgroup_var = "TRTA",
-  subgroup_header = c("SEX", "TRTA"),
-  display_subgroup_total = TRUE
+  subgroup_header = c("SEX", "TRTA")
 )
 
 outdata |> format_base_char_subgroup()

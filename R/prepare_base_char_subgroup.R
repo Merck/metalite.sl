@@ -30,7 +30,6 @@
 #' @param subgroup_header A character vector for column header hierarchy.
 #'   The first element will be the first level header and the second element
 #'   will be second level header.
-#' @param display_subgroup_total A logic value of displaying the total group.
 #'
 #' @return A list of analysis raw datasets.
 #' @export
@@ -42,8 +41,7 @@
 #'   population = "apat",
 #'   parameter = "age",
 #'   subgroup_var = "TRTA",
-#'   subgroup_header = c("SEX", "TRTA"),
-#'   display_subgroup_total = TRUE
+#'   subgroup_header = c("SEX", "TRTA")
 #' )
 prepare_base_char_subgroup <- function(
     meta,
@@ -51,8 +49,7 @@ prepare_base_char_subgroup <- function(
     analysis = "base_char_subgroup",
     parameter,
     subgroup_var,
-    subgroup_header = c(meta$population[[population]]$group, subgroup_var),
-    display_subgroup_total = TRUE) {
+    subgroup_header = c(meta$population[[population]]$group, subgroup_var)) {
   meta_original <- meta
 
   observation <- meta$plan[meta$plan$analysis == analysis, ]$observation
@@ -109,7 +106,6 @@ prepare_base_char_subgroup <- function(
   outdata <- list(
     group = group,
     subgroup = tools::toTitleCase(tolower(names(outdata_subgroup))),
-    display_subgroup_total = display_subgroup_total,
     meta = meta_original,
     population = population,
     observation = observation,
