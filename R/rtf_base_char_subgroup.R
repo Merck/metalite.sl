@@ -189,7 +189,7 @@ rtf_base_char_subgroup <- function(
       c(rep(1:(n_sgroup * n_tgroup), each = length(col_tbl_within))),
       sum
     )
-    
+
     rwidth_2 <- c(
       rwidth_3[1],
       rwidth_2
@@ -201,7 +201,7 @@ rtf_base_char_subgroup <- function(
       c(rep(1:n_sgroup, each = length(col_tbl_within) * n_tgroup)),
       sum
     )
-    
+
     rwidth_1 <- c(
       rwidth_3[1],
       rwidth_1

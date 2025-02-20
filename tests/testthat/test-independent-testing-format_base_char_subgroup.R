@@ -148,7 +148,7 @@ test_that("When display_subgroup_total is FALSE w/ total then subgroup total col
       lapply(outdata$subgroup, function(x) paste0(x, "n_", c(seq_along(outdata$group), 9999))) |> unlist(),
       lapply(outdata$subgroup, function(x) paste0(x, "p_", c(seq_along(outdata$group), 9999))) |> unlist()
     )
-  
+
   expect_equal(test8$display_subgroup_total, FALSE)
   expect_true(all(exp_header %in% names(test8$tbl)))
 })
@@ -164,7 +164,7 @@ test_that("When display_subgroup_total is FALSE w/o total then subgroup total co
       lapply(outdata$subgroup, function(x) paste0(x, "n_", c(seq_along(outdata$group)))) |> unlist(),
       lapply(outdata$subgroup, function(x) paste0(x, "p_", c(seq_along(outdata$group)))) |> unlist()
     )
-  
+
   expect_equal(test9$display_subgroup_total, FALSE)
   expect_true(all(exp_header %in% names(test9$tbl)))
 })
