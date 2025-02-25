@@ -34,10 +34,7 @@ meta_sl_example <- function() {
     levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
     labels = c("Placebo", "Low Dose", "High Dose")
   )
-  adsl$SEX <- factor(adsl$SEX,
-    levels = c("F", "M"),
-    labels = c("Female", "Male")
-  )
+ 
   set.seed(123)
   # Create a variable EOSSTT indicating the end of end of study status
   adsl$EOSSTT <- sample(
