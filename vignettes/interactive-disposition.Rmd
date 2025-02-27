@@ -2,7 +2,7 @@
 title: "Interactive Disposition Table"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Disposition Table}
+  %\VignetteIndexEntry{Interactive Disposition Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
