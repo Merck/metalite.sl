@@ -65,13 +65,13 @@ prepare_base_char_subgroup <- function(
   )
 
   # Factor Level 2 Subgroup
-  meta$data_population[[subgroup_var]] <- factor(
-    as.character(meta$data_population[[subgroup_var]]),
-    levels = sort(unique(meta$data_population[[subgroup_var]]))
+  meta$data_population[[subgroup_header[2]]] <- factor(
+    as.character(meta$data_population[[subgroup_header[2]]]),
+    levels = sort(unique(meta$data_population[[subgroup_header[2]]]))
   )
-  meta$data_observation[[subgroup_var]] <- factor(
-    as.character(meta$data_observation[[subgroup_var]]),
-    levels = sort(unique(meta$data_observation[[subgroup_var]]))
+  meta$data_observation[[subgroup_header[2]]] <- factor(
+    as.character(meta$data_observation[[subgroup_header[2]]]),
+    levels = sort(unique(meta$data_observation[[subgroup_header[2]]]))
   )
 
   meta$observation[[observation]]$group <- subgroup_header[1]
@@ -100,7 +100,7 @@ prepare_base_char_subgroup <- function(
   out_all <- outdata_subgroup
   out_all$Total <- outdata_all
 
-  group <- as.character(outdata_subgroup[[1]]$group_label)
+  group <- levels(outdata_subgroup[[1]]$group_label)
   group <- group[!group %in% "Total"]
 
   outdata <- list(
