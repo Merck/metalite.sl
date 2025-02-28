@@ -137,11 +137,11 @@ test_that("Summary statistics are not displyed when they are not included", {
   )
 })
 
-test_that("When display_subgroup_total is FALSE w/ total then subgroup total columns are not displayed", {
+test_that("When display_total is FALSE w/ total then subgroup total columns are not displayed", {
   test8 <- format_base_char_subgroup(
     outdata,
     display = c("n", "prop", "total"),
-    display_subgroup_total = FALSE
+    display_total = FALSE
   )
   exp_header <-
     c(
@@ -149,15 +149,15 @@ test_that("When display_subgroup_total is FALSE w/ total then subgroup total col
       lapply(outdata$subgroup, function(x) paste0(x, "p_", c(seq_along(outdata$group), 9999))) |> unlist()
     )
 
-  expect_equal(test8$display_subgroup_total, FALSE)
+  expect_equal(test8$display_total, FALSE)
   expect_true(all(exp_header %in% names(test8$tbl)))
 })
 
-test_that("When display_subgroup_total is FALSE w/o total then subgroup total columns are not displayed", {
+test_that("When display_total is FALSE w/o total then subgroup total columns are not displayed", {
   test9 <- format_base_char_subgroup(
     outdata,
     display = c("n", "prop"),
-    display_subgroup_total = FALSE
+    display_total = FALSE
   )
   exp_header <-
     c(
@@ -165,6 +165,6 @@ test_that("When display_subgroup_total is FALSE w/o total then subgroup total co
       lapply(outdata$subgroup, function(x) paste0(x, "p_", c(seq_along(outdata$group)))) |> unlist()
     )
 
-  expect_equal(test9$display_subgroup_total, FALSE)
+  expect_equal(test9$display_total, FALSE)
   expect_true(all(exp_header %in% names(test9$tbl)))
 })

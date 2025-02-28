@@ -66,7 +66,7 @@ rtf_base_char_subgroup <- function(
   tbl1 <- tbl[!names(tbl) %in% c("order")]
   tgroup <- outdata$group
   sgroup <- outdata$subgroup
-  if (outdata$display_subgroup_total) {
+  if (outdata$display_total) {
     sgroup <- c(sgroup, "Total")
   }
   if ("total" %in% outdata$display) {
