@@ -25,7 +25,7 @@
 #' @param display_stat A vector of statistics term name.
 #'   The term name could be selected from
 #'   `c("mean", "sd", "se", "median", "q1 to q3", "range", "q1", "q3", "min", "max")`.
-#' @param display_total A logic value of displaying the total column 
+#' @param display_total A logic value of displaying the total column
 #'   for the second level header.
 #'
 #' @return A list of analysis raw datasets.
@@ -81,8 +81,10 @@ format_base_char_subgroup <- function(
     tbl <- merge(tbl, x, by = c("name", "var_label"), all.x = TRUE)
   }
 
-  # Assign zero for missing data  
-  max_nchar <- apply(tbl[!tbl$name %in% c("Mean", "SD", "Median", "Range"), ], 2, function(x) {max(nchar(x), na.rm = TRUE)})
+  # Assign zero for missing data
+  max_nchar <- apply(tbl[!tbl$name %in% c("Mean", "SD", "Median", "Range"), ], 2, function(x) {
+    max(nchar(x), na.rm = TRUE)
+  })
   tbl <- apply(tbl, 1, function(x) {
     if (is.na(x[["name"]]) | x[["name"]] %in% c("Participants in population", "Mean", "SD", "Median", "Range")) {
       x
@@ -97,7 +99,9 @@ format_base_char_subgroup <- function(
         }
       })
     }
-  }, simplify = TRUE) |> t() |> as.data.frame()
+  }, simplify = TRUE) |>
+    t() |>
+    as.data.frame()
 
   outdata$tbl <- tbl[order(tbl$order), ]
   outdata$display <- display
