@@ -104,7 +104,7 @@ test_that("rtf output: n and prop not including subgroup total w/ total", {
 test_that("rtf output: no group/subgroup total when a subgroup has no subject", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup5.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -122,14 +122,14 @@ test_that("rtf output: no group/subgroup total when a subgroup has no subject", 
       path_outdata = path_rdata,
       path_outtable = path_rtf
     )
-  
+
   testthat::expect_snapshot_file(path_rtf)
 })
 
 test_that("rtf output: group/subgroup total when a subgroup has no subject", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup6.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -147,7 +147,7 @@ test_that("rtf output: group/subgroup total when a subgroup has no subject", {
       path_outdata = path_rdata,
       path_outtable = path_rtf
     )
-  
+
   testthat::expect_snapshot_file(path_rtf)
 })
 
