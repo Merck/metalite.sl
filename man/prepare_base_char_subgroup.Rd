@@ -10,8 +10,7 @@ prepare_base_char_subgroup(
   analysis = "base_char_subgroup",
   parameter,
   subgroup_var,
-  subgroup_header = c(meta$population[[population]]$group, subgroup_var),
-  display_subgroup_total = TRUE
+  subgroup_header = c(meta$population[[population]]$group, subgroup_var)
 )
 }
 \arguments{
@@ -32,8 +31,6 @@ observation data saved in \code{meta$data_observation}.}
 \item{subgroup_header}{A character vector for column header hierarchy.
 The first element will be the first level header and the second element
 will be second level header.}
-
-\item{display_subgroup_total}{A logic value of displaying the total group.}
 }
 \value{
 A list of analysis raw datasets.
@@ -48,7 +45,6 @@ outdata <- prepare_base_char_subgroup(
   population = "apat",
   parameter = "age",
   subgroup_var = "TRTA",
-  subgroup_header = c("SEX", "TRTA"),
-  display_subgroup_total = TRUE
+  subgroup_header = c("SEX", "TRTA")
 )
 }
