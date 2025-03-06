@@ -9,12 +9,12 @@ test_that("rtf output: n and prop including subgroup total w/o total", {
     population = "apat",
     parameter = "age",
     subgroup_var = "TRTA",
-    subgroup_header = c("SEX", "TRTA"),
-    display_subgroup_total = TRUE
+    subgroup_header = c("SEX", "TRTA")
   )
   tbl <- outdata |>
     format_base_char_subgroup(
-      display = c("n", "prop")
+      display = c("n", "prop"),
+      display_total = TRUE
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
@@ -34,12 +34,12 @@ test_that("rtf output: n and prop including subgroup total w/ total", {
     population = "apat",
     parameter = "age",
     subgroup_var = "TRTA",
-    subgroup_header = c("SEX", "TRTA"),
-    display_subgroup_total = TRUE
+    subgroup_header = c("SEX", "TRTA")
   )
   tbl <- outdata |>
     format_base_char_subgroup(
-      display = c("n", "prop", "total")
+      display = c("n", "prop", "total"),
+      display_total = TRUE
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
@@ -59,12 +59,12 @@ test_that("rtf output: n and prop not including subgroup total w/o total", {
     population = "apat",
     parameter = "age",
     subgroup_var = "TRTA",
-    subgroup_header = c("SEX", "TRTA"),
-    display_subgroup_total = FALSE
+    subgroup_header = c("SEX", "TRTA")
   )
   tbl <- outdata |>
     format_base_char_subgroup(
-      display = c("n", "prop")
+      display = c("n", "prop"),
+      display_total = FALSE
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
@@ -84,12 +84,12 @@ test_that("rtf output: n and prop not including subgroup total w/ total", {
     population = "apat",
     parameter = "age",
     subgroup_var = "TRTA",
-    subgroup_header = c("SEX", "TRTA"),
-    display_subgroup_total = FALSE
+    subgroup_header = c("SEX", "TRTA")
   )
   tbl <- outdata |>
     format_base_char_subgroup(
-      display = c("n", "prop", "total")
+      display = c("n", "prop", "total"),
+      display_total = FALSE
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
@@ -100,8 +100,59 @@ test_that("rtf output: n and prop not including subgroup total w/ total", {
   testthat::expect_snapshot_file(path_rtf)
 })
 
-test_that("relative width 'works' with display_subgroup_total = FALSE", {
+
+test_that("rtf output: no group/subgroup total when a subgroup has no subject", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup5.rtf")
+  path_rdata <- tempfile(fileext = ".Rdata")
+  
+  outdata <- prepare_base_char_subgroup(
+    meta,
+    population = "apat",
+    parameter = "race",
+    subgroup_var = "SEX",
+    subgroup_header = c("SEX", "TRTA")
+  )
+  tbl <- outdata |>
+    format_base_char_subgroup(
+      display = c("n", "prop"),
+      display_total = FALSE
+    ) |>
+    rtf_base_char_subgroup(
+      source = "Source:  [CDISCpilot: adam-adsl]",
+      path_outdata = path_rdata,
+      path_outtable = path_rtf
+    )
+  
+  testthat::expect_snapshot_file(path_rtf)
+})
+
+test_that("rtf output: group/subgroup total when a subgroup has no subject", {
+  path_rtf <- file.path(tempdir(), "base0char0subgroup6.rtf")
+  path_rdata <- tempfile(fileext = ".Rdata")
+  
+  outdata <- prepare_base_char_subgroup(
+    meta,
+    population = "apat",
+    parameter = "race",
+    subgroup_var = "SEX",
+    subgroup_header = c("SEX", "TRTA")
+  )
+  tbl <- outdata |>
+    format_base_char_subgroup(
+      display = c("n", "prop", "total"),
+      display_total = TRUE
+    ) |>
+    rtf_base_char_subgroup(
+      source = "Source:  [CDISCpilot: adam-adsl]",
+      path_outdata = path_rdata,
+      path_outtable = path_rtf
+    )
+  
+  testthat::expect_snapshot_file(path_rtf)
+})
+
+test_that("relative width 'works' with display_subgroup_total = FALSE", {
+  path_rtf <- file.path(tempdir(), "rwnt_base0char0subgroup.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
 
   outdata <- prepare_base_char_subgroup(
@@ -109,15 +160,15 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
     population = "apat",
     parameter = "age",
     subgroup_var = "TRTA",
-    subgroup_header = c("SEX", "TRTA"),
-    display_subgroup_total = FALSE
+    subgroup_header = c("SEX", "TRTA")
   )
 
   expect_error(
     {
       tbl <- outdata |>
         format_base_char_subgroup(
-          display = c("n", "prop")
+          display = c("n", "prop"),
+          display_total = FALSE
         ) |>
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
@@ -132,7 +183,8 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
     {
       tbl <- outdata |>
         format_base_char_subgroup(
-          display = c("n", "prop")
+          display = c("n", "prop"),
+          display_total = FALSE
         ) |>
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
@@ -146,7 +198,7 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
 })
 
 test_that("relative width 'works' display_subgroup_total = TRUE", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup6.rtf")
+  path_rtf <- file.path(tempdir(), "rwt_base0char0subgroup.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
 
   outdata <- prepare_base_char_subgroup(
@@ -154,19 +206,19 @@ test_that("relative width 'works' display_subgroup_total = TRUE", {
     population = "apat",
     parameter = "age",
     subgroup_var = "TRTA",
-    subgroup_header = c("SEX", "TRTA"),
-    display_subgroup_total = TRUE
+    subgroup_header = c("SEX", "TRTA")
   )
 
   expect_error(
     {
       tbl <- outdata |>
         format_base_char_subgroup(
-          display = c("n", "prop")
+          display = c("n", "prop"),
+          display_total = TRUE
         ) |>
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
-          col_rel_width = c(3, rep(2, 2 * 3 * 3)),
+          col_rel_width = c(3, rep(2, 2 * 2 * 4)),
           path_outdata = path_rdata,
           path_outtable = path_rtf
         )
@@ -177,11 +229,12 @@ test_that("relative width 'works' display_subgroup_total = TRUE", {
     {
       tbl <- outdata |>
         format_base_char_subgroup(
-          display = c("n", "prop")
+          display = c("n", "prop"),
+          display_total = TRUE
         ) |>
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
-          col_rel_width = c(3, rep(2, 2 * 3 * 3), 2),
+          col_rel_width = c(3, rep(2, 2 * 2 * 4), 2),
           path_outdata = path_rdata,
           path_outtable = path_rtf
         )
