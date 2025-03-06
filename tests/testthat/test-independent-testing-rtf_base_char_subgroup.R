@@ -3,7 +3,7 @@ meta <- meta_sl_example()
 test_that("rtf output: n and prop including subgroup total w/o total", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup1.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -28,7 +28,7 @@ test_that("rtf output: n and prop including subgroup total w/o total", {
 test_that("rtf output: n and prop including subgroup total w/ total", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup2.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -46,14 +46,14 @@ test_that("rtf output: n and prop including subgroup total w/ total", {
       path_outdata = path_rdata,
       path_outtable = path_rtf
     )
-  
+
   testthat::expect_snapshot_file(path_rtf)
 })
 
 test_that("rtf output: n and prop not including subgroup total w/o total", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup3.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -71,14 +71,14 @@ test_that("rtf output: n and prop not including subgroup total w/o total", {
       path_outdata = path_rdata,
       path_outtable = path_rtf
     )
-  
+
   testthat::expect_snapshot_file(path_rtf)
 })
 
 test_that("rtf output: n and prop not including subgroup total w/ total", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup4.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -96,7 +96,7 @@ test_that("rtf output: n and prop not including subgroup total w/ total", {
       path_outdata = path_rdata,
       path_outtable = path_rtf
     )
-  
+
   testthat::expect_snapshot_file(path_rtf)
 })
 
@@ -112,7 +112,7 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
     subgroup_header = c("SEX", "TRTA"),
     display_subgroup_total = FALSE
   )
-  
+
   expect_error(
     {
       tbl <- outdata |>
@@ -148,7 +148,7 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
 test_that("relative width 'works' display_subgroup_total = TRUE", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup6.rtf")
   path_rdata <- tempfile(fileext = ".Rdata")
-  
+
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -157,7 +157,7 @@ test_that("relative width 'works' display_subgroup_total = TRUE", {
     subgroup_header = c("SEX", "TRTA"),
     display_subgroup_total = TRUE
   )
-  
+
   expect_error(
     {
       tbl <- outdata |>
