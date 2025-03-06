@@ -300,7 +300,7 @@ Click to show the output
 <span>  path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>  path_outtable <span class="op">=</span> <span class="st">"outtable/base0char.rtf"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpX6Zmgj/file1de92c002c0.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmprDqMdE/file1ef175c8416a.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0char.rtf</span></span></code></pre>
 <embed src="pdf/base0char.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
@@ -426,8 +426,7 @@ second element will be second level header.</li>
 <span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
 <span>  parameter <span class="op">=</span> <span class="st">"age;race"</span>,</span>
 <span>  subgroup_var <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
-<span>  subgroup_header <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEX"</span>, <span class="st">"TRTA"</span><span class="op">)</span>,</span>
-<span>  display_subgroup_total <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  subgroup_header <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SEX"</span>, <span class="st">"TRTA"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <details><summary>
 Click to show the output
@@ -524,61 +523,66 @@ Click to show the output
 <span><span class="co">## 1                               &lt;65 Age (years)     2          9     (17.0)</span></span>
 <span><span class="co">## 2                               &gt;80 Age (years)     3         22     (41.5)</span></span>
 <span><span class="co">## 3                             65-80 Age (years)     4         22     (41.5)</span></span>
-<span><span class="co">## 14                             &lt;NA&gt; Age (years)     5       &lt;NA&gt;       &lt;NA&gt;</span></span>
-<span><span class="co">## 7                              Mean Age (years)     6       76.4       &lt;NA&gt;</span></span>
+<span><span class="co">## 8                              &lt;NA&gt; Age (years)     5       &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">## 6                              Mean Age (years)     6       76.4       &lt;NA&gt;</span></span>
 <span><span class="co">## 11                               SD Age (years)     7        8.7       &lt;NA&gt;</span></span>
-<span><span class="co">## 8                            Median Age (years)     8       78.0       &lt;NA&gt;</span></span>
+<span><span class="co">## 7                            Median Age (years)     8       78.0       &lt;NA&gt;</span></span>
 <span><span class="co">## 10                            Range Age (years)     9   59 to 89       &lt;NA&gt;</span></span>
-<span><span class="co">## 4  AMERICAN INDIAN OR ALASKA NATIVE        Race    10       &lt;NA&gt;       &lt;NA&gt;</span></span>
-<span><span class="co">## 5         BLACK OR AFRICAN AMERICAN        Race    10          5      (9.4)</span></span>
-<span><span class="co">## 6         BLACK OR AFRICAN AMERICAN        Race    11       &lt;NA&gt;       &lt;NA&gt;</span></span>
-<span><span class="co">## 12                            WHITE        Race    11         48     (90.6)</span></span>
-<span><span class="co">## 13                            WHITE        Race    12       &lt;NA&gt;       &lt;NA&gt;</span></span>
+<span><span class="co">## 4  AMERICAN INDIAN OR ALASKA NATIVE        Race    10          0      (0.0)</span></span>
+<span><span class="co">## 5         BLACK OR AFRICAN AMERICAN        Race    11          5      (9.4)</span></span>
+<span><span class="co">## 12                            WHITE        Race    12         48     (90.6)</span></span>
 <span><span class="co">##    Placebon_2 Placebop_2 Placebon_9999 Placebop_9999 Low Dosen_1 Low Dosep_1</span></span>
 <span><span class="co">## 9          33       &lt;NA&gt;            86          &lt;NA&gt;          50        &lt;NA&gt;</span></span>
 <span><span class="co">## 1           5     (15.2)            14        (16.3)           5      (10.0)</span></span>
 <span><span class="co">## 2           8     (24.2)            30        (34.9)          17      (34.0)</span></span>
 <span><span class="co">## 3          20     (60.6)            42        (48.8)          28      (56.0)</span></span>
-<span><span class="co">## 14       &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
-<span><span class="co">## 7        73.4       &lt;NA&gt;          75.2          &lt;NA&gt;        75.7        &lt;NA&gt;</span></span>
+<span><span class="co">## 8        &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">## 6        73.4       &lt;NA&gt;          75.2          &lt;NA&gt;        75.7        &lt;NA&gt;</span></span>
 <span><span class="co">## 11        8.1       &lt;NA&gt;           8.6          &lt;NA&gt;         8.1        &lt;NA&gt;</span></span>
-<span><span class="co">## 8        74.0       &lt;NA&gt;          76.0          &lt;NA&gt;        77.5        &lt;NA&gt;</span></span>
+<span><span class="co">## 7        74.0       &lt;NA&gt;          76.0          &lt;NA&gt;        77.5        &lt;NA&gt;</span></span>
 <span><span class="co">## 10   52 to 85       &lt;NA&gt;      52 to 89          &lt;NA&gt;    54 to 87        &lt;NA&gt;</span></span>
-<span><span class="co">## 4        &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">## 4           0      (0.0)             0         (0.0)           0       (0.0)</span></span>
 <span><span class="co">## 5           3      (9.1)             8         (9.3)           6      (12.0)</span></span>
-<span><span class="co">## 6        &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
 <span><span class="co">## 12         30     (90.9)            78        (90.7)          44      (88.0)</span></span>
-<span><span class="co">## 13       &lt;NA&gt;       &lt;NA&gt;          &lt;NA&gt;          &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
 <span><span class="co">##    Low Dosen_2 Low Dosep_2 Low Dosen_9999 Low Dosep_9999 High Dosen_1</span></span>
 <span><span class="co">## 9           34        &lt;NA&gt;             84           &lt;NA&gt;           40</span></span>
 <span><span class="co">## 1            3       (8.8)              8          (9.5)            5</span></span>
 <span><span class="co">## 2           12      (35.3)             29         (34.5)            7</span></span>
 <span><span class="co">## 3           19      (55.9)             47         (56.0)           28</span></span>
-<span><span class="co">## 14        &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;         &lt;NA&gt;</span></span>
-<span><span class="co">## 7         75.6        &lt;NA&gt;           75.7           &lt;NA&gt;         74.7</span></span>
+<span><span class="co">## 8         &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;         &lt;NA&gt;</span></span>
+<span><span class="co">## 6         75.6        &lt;NA&gt;           75.7           &lt;NA&gt;         74.7</span></span>
 <span><span class="co">## 11         8.7        &lt;NA&gt;            8.3           &lt;NA&gt;          7.7</span></span>
-<span><span class="co">## 8         77.5        &lt;NA&gt;           77.5           &lt;NA&gt;         76.0</span></span>
+<span><span class="co">## 7         77.5        &lt;NA&gt;           77.5           &lt;NA&gt;         76.0</span></span>
 <span><span class="co">## 10    51 to 88        &lt;NA&gt;       51 to 88           &lt;NA&gt;     56 to 88</span></span>
-<span><span class="co">## 4         &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;            0</span></span>
-<span><span class="co">## 5            0       (0.0)              6          (7.1)         &lt;NA&gt;</span></span>
-<span><span class="co">## 6         &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;            6</span></span>
-<span><span class="co">## 12          34     (100.0)             78         (92.9)         &lt;NA&gt;</span></span>
-<span><span class="co">## 13        &lt;NA&gt;        &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;           34</span></span>
+<span><span class="co">## 4            0       (0.0)              0          (0.0)            0</span></span>
+<span><span class="co">## 5            0       (0.0)              6          (7.1)            6</span></span>
+<span><span class="co">## 12          34     (100.0)             78         (92.9)           34</span></span>
 <span><span class="co">##    High Dosep_1 High Dosen_2 High Dosep_2 High Dosen_9999 High Dosep_9999</span></span>
 <span><span class="co">## 9          &lt;NA&gt;           44         &lt;NA&gt;              84            &lt;NA&gt;</span></span>
 <span><span class="co">## 1        (12.5)            6       (13.6)              11          (13.1)</span></span>
 <span><span class="co">## 2        (17.5)           11       (25.0)              18          (21.4)</span></span>
 <span><span class="co">## 3        (70.0)           27       (61.4)              55          (65.5)</span></span>
-<span><span class="co">## 14         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
-<span><span class="co">## 7          &lt;NA&gt;         74.1         &lt;NA&gt;            74.4            &lt;NA&gt;</span></span>
+<span><span class="co">## 8          &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
+<span><span class="co">## 6          &lt;NA&gt;         74.1         &lt;NA&gt;            74.4            &lt;NA&gt;</span></span>
 <span><span class="co">## 11         &lt;NA&gt;          8.2         &lt;NA&gt;             7.9            &lt;NA&gt;</span></span>
-<span><span class="co">## 8          &lt;NA&gt;         77.0         &lt;NA&gt;            76.0            &lt;NA&gt;</span></span>
+<span><span class="co">## 7          &lt;NA&gt;         77.0         &lt;NA&gt;            76.0            &lt;NA&gt;</span></span>
 <span><span class="co">## 10         &lt;NA&gt;     56 to 86         &lt;NA&gt;        56 to 88            &lt;NA&gt;</span></span>
 <span><span class="co">## 4         (0.0)            1        (2.3)               1           (1.2)</span></span>
-<span><span class="co">## 5          &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
-<span><span class="co">## 6        (15.0)            3        (6.8)               9          (10.7)</span></span>
-<span><span class="co">## 12         &lt;NA&gt;         &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;            &lt;NA&gt;</span></span>
-<span><span class="co">## 13       (85.0)           40       (90.9)              74          (88.1)</span></span></code></pre>
+<span><span class="co">## 5        (15.0)            3        (6.8)               9          (10.7)</span></span>
+<span><span class="co">## 12       (85.0)           40       (90.9)              74          (88.1)</span></span>
+<span><span class="co">##    Totaln_1 Totalp_1 Totaln_2 Totalp_2 Totaln_9999 Totalp_9999</span></span>
+<span><span class="co">## 9       143     &lt;NA&gt;      111     &lt;NA&gt;         254        &lt;NA&gt;</span></span>
+<span><span class="co">## 1        19   (13.3)       14   (12.6)          33      (13.0)</span></span>
+<span><span class="co">## 2        46   (32.2)       31   (27.9)          77      (30.3)</span></span>
+<span><span class="co">## 3        78   (54.5)       66   (59.5)         144      (56.7)</span></span>
+<span><span class="co">## 8      &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;     &lt;NA&gt;        &lt;NA&gt;        &lt;NA&gt;</span></span>
+<span><span class="co">## 6      75.7     &lt;NA&gt;     74.4     &lt;NA&gt;        75.1        &lt;NA&gt;</span></span>
+<span><span class="co">## 11      8.2     &lt;NA&gt;      8.3     &lt;NA&gt;         8.2        &lt;NA&gt;</span></span>
+<span><span class="co">## 7      77.0     &lt;NA&gt;     77.0     &lt;NA&gt;        77.0        &lt;NA&gt;</span></span>
+<span><span class="co">## 10 54 to 89     &lt;NA&gt; 51 to 88     &lt;NA&gt;    51 to 89        &lt;NA&gt;</span></span>
+<span><span class="co">## 4         0    (0.0)        1    (0.9)           1       (0.4)</span></span>
+<span><span class="co">## 5        17   (11.9)        6    (5.4)          23       (9.1)</span></span>
+<span><span class="co">## 12      126   (88.1)      104   (93.7)         230      (90.6)</span></span></code></pre>
 </details>
 </div>
 <div class="section level3">
@@ -592,7 +596,7 @@ Click to show the output
 <span>    path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>    path_outtable <span class="op">=</span> <span class="st">"outtable/base0charsubgroup.rtf"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpX6Zmgj/file1de9ea5b3f4.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmprDqMdE/file1ef13e7a6136.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0charsubgroup.rtf</span></span></code></pre>
 <embed src="pdf/base0charsubgroup.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
