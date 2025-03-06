@@ -55,3 +55,62 @@ rtf_output <- function(
 
   invisible(outdata)
 }
+
+#' Obtain a list of category ranges from a character label for exposure duration analysis
+#'
+#' @param labels A character vector of a category label
+#'
+#' @noRd
+extract_duration_category_ranges <- function(labels) {
+  times <- labels |>
+    stringr::str_extract_all(pattern = "\\d+") |>
+    lapply(function(x) {
+      if (length(x) == 0) {
+        stop("A real number for duration category is not recognized. Please rename the category label in the input data, or use `duration_category_list` and `duration_category_labels`.")
+      }
+      as.numeric(x)
+    })
+
+  factors <- labels |>
+    stringr::str_extract_all(pattern = "\\d+ ?([a-zA-Z]+)") |>
+    lapply(
+      function(x) {
+        unit <- stringr::str_extract(x, pattern = "\\d+ ?([a-zA-Z])", group = 1)
+        factor <- sapply(unit, USE.NAMES = FALSE, function(y) {
+          if (toupper(y) == "D") {
+            1
+          } else if (toupper(y) == "W") {
+            7
+          } else if (toupper(y) == "M") {
+            30.4367
+          } else if (toupper(y) == "Y") {
+            365.24
+          } else {
+            warning("The unit of duration category is not recognized. The unit is handled as day(s).")
+            1
+          }
+        })
+        return(factor)
+      }
+    )
+
+  list <- lapply(
+    seq_along(times),
+    function(x) {
+      if (length(times[[x]]) < 2) {
+        time <- c(times[[x]], rep(NA, 2 - length(times[[x]])))
+      } else {
+        time <- times[[x]]
+      }
+      if (length(factors[[x]]) == 1) {
+        factor <- rep(factors[[x]], 2)
+      } else if (length(factors[[x]]) == 0) {
+        factor <- rep(1, 2)
+      } else {
+        factor <- factors[[x]]
+      }
+      return(time * factor)
+    }
+  )
+  return(list)
+}

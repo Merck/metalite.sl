@@ -24,7 +24,6 @@ Imports:
     glue,
     metalite,
     metalite.ae,
-    forestly,
     r2rtf,
     reactable,
     stringr,

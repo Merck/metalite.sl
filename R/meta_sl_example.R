@@ -34,33 +34,51 @@ meta_sl_example <- function() {
     levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
     labels = c("Placebo", "Low Dose", "High Dose")
   )
-  adsl$SEX <- factor(adsl$SEX,
-    levels = c("F", "M"),
-    labels = c("Female", "Male")
-  )
+
   set.seed(123)
+
   # Create a variable EOSSTT indicating the end of end of study status
-  adsl$EOSSTT <- sample(
-    x = c("Participants Ongoing", "Discontinued"),
-    size = length(adsl$USUBJID),
-    prob = c(0.8, 0.2), replace = TRUE
+  adae <- metalite.ae::meta_ae_example()$data_observation
+
+  # adae$AEACN <- sample(
+  #  x = c("DOSE NOT CHANGED", "DRUG INTERRUPTED", "DRUG WITHDRAWN", "NOT APPLICABLE", "UNKNOWN"),
+  #  size = length(adae$USUBJID),
+  #  prob = c(0.7, 0.1,0.05,0.1,0.05), replace = TRUE
+  # )
+
+  # Treatment Disposition
+  # For discontinued due to AE
+  adaedisc <- subset(adae[which(adae$AEACN == "DRUG WITHDRAWN"), ], select = c(USUBJID, AEACN))
+  adaedisc <- adaedisc[!duplicated(adaedisc), ]
+
+  adsl <- merge(adsl, adaedisc, by = "USUBJID", all.x = TRUE)
+  adsl$EOTSTT <- ifelse(adsl$AEACN == "DRUG WITHDRAWN", "Discontinued", NA)
+  adsl$DCTREAS <- ifelse(adsl$EOTSTT == "Discontinued", "Adverse Event", NA)
+
+  # sample assignment cannot be NA value
+  adsl$EOTSTT[is.na(adsl$EOTSTT)] <- "temp"
+  adsl$DCTREAS[is.na(adsl$DCTREAS)] <- "temp"
+
+
+  adsl[adsl$EOTSTT != "Discontinued", "EOTSTT"] <- sample(
+    x = c("Complete", "Discontinued", "Participants Ongoing"),
+    size = length(adsl[adsl[["EOTSTT"]] != "Discontinued", "USUBJID"]),
+    prob = c(0.6, 0.2, 0.2), replace = TRUE
   )
-  adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(
-    x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
-    size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]),
-    prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE
+
+  adsl[adsl$EOTSTT == "Discontinued" & adsl$DCTREAS != "Adverse Event", "DCTREAS"] <- sample(
+    x = c("Withdrawal By Subject", "Lack of Efficacy", "Lost to Follow-Up"),
+    size = length(adsl[adsl$EOTSTT == "Discontinued" & adsl$DCTREAS != "Adverse Event", "USUBJID"]),
+    prob = c(0.3, 0.4, 0.3), replace = TRUE
   )
-  # Create a variable EOTSTT1 indicating the end of treatment status part 1
-  adsl$EOTSTT1 <- sample(
-    x = c("Completed", "Discontinued"),
-    size = length(adsl$USUBJID),
-    prob = c(0.85, 0.15), replace = TRUE
-  )
-  adsl[adsl[["EOTSTT1"]] == "Discontinued", "DCTREAS"] <- sample(
-    x = c("Adverse Event", "Lack of Efficacy"),
-    size = length(adsl[adsl[["EOTSTT1"]] == "Discontinued", "USUBJID"]),
-    prob = c(0.9, 0.1), replace = TRUE
-  )
+
+  adsl[adsl[["EOTSTT"]] != "Discontinued", "DCTREAS"] <- NA
+
+  # Trial Disposition
+  adsl$EOSSTT <- adsl$EOTSTT
+  adsl$DCSREAS <- adsl$DCTREAS
+
+  adsl$DCSREAS <- ifelse(adsl$DCSREAS == "Adverse Event", "Other", adsl$DCTREAS)
 
   plan <- metalite::plan(
     analysis = "base_char", population = "apat",
@@ -113,7 +131,7 @@ meta_sl_example <- function() {
     ) |>
     metalite::define_parameter(
       name = "medical-disposition",
-      var = "EOTSTT1",
+      var = "EOTSTT",
       label = "Participant Study Medication Disposition",
       var_lower = "DCTREAS"
     ) |>
@@ -180,14 +198,14 @@ meta_sl_exposure_example <- function() {
   adexsum$APERIOD <- 1
 
   adexsum$AVAL <- sample(x = 1:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
-  adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day and <7days"
+  adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day and <7 days"
   adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days and <28 days"
   adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days and <12 weeks"
   adexsum$EXDURGR[adexsum$AVAL >= 12 * 7] <- ">=12 weeks and <24 weeks"
   adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
 
   adexsum$EXDURGR <- factor(adexsum$EXDURGR,
-    levels = c(">=1 day and <7days", ">=7 days and <28 days", ">=28 days and <12 weeks", ">=12 weeks and <24 weeks", ">=24 weeks")
+    levels = c(">=1 day and <7 days", ">=7 days and <28 days", ">=28 days and <12 weeks", ">=12 weeks and <24 weeks", ">=24 weeks")
   )
 
   plan <- metalite::plan(

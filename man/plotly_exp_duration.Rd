@@ -58,7 +58,7 @@ if (interactive()) {
   outdata <- meta |>
     prepare_exp_duration() |>
     extend_exp_duration(
-      duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12*7, NA), c(24*7, NA)),
+      duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12 * 7, NA), c(24 * 7, NA)),
       duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
     )
 

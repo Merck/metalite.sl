@@ -39,8 +39,7 @@
 #'   population = "apat",
 #'   parameter = "age",
 #'   subgroup_var = "TRTA",
-#'   subgroup_header = c("SEX", "TRTA"),
-#'   display_subgroup_total = TRUE
+#'   subgroup_header = c("SEX", "TRTA")
 #' )
 #'
 #' outdata |>
@@ -67,7 +66,12 @@ rtf_base_char_subgroup <- function(
   tbl1 <- tbl[!names(tbl) %in% c("order")]
   tgroup <- outdata$group
   sgroup <- outdata$subgroup
-  if (outdata$display_subgroup_total) tgroup <- c(tgroup, "Total")
+  if (outdata$display_total) {
+    sgroup <- c(sgroup, "Total")
+  }
+  if ("total" %in% outdata$display) {
+    tgroup <- c(tgroup, "Total")
+  }
   n_sgroup <- length(sgroup)
   n_tgroup <- length(tgroup)
   n_row <- nrow(tbl1)
@@ -77,7 +81,7 @@ rtf_base_char_subgroup <- function(
     stop(
       "col_rel_width must have the same length (has ",
       length(col_rel_width),
-      ") as as outdata$tbl has number of columns (has ",
+      ") as outdata$tbl has number of columns (has ",
       n_col, ")."
     )
   }
@@ -178,10 +182,10 @@ rtf_base_char_subgroup <- function(
     rwidth_2 <- c(2, rwidth_2_within)
     rwidth_3 <- c(2, rwidth_3_within)
   } else {
-    rwidth_3 <- col_rel_width
+    rwidth_3 <- col_rel_width[1:(length(col_rel_width) - 1)]
 
     rwidth_2 <- tapply(
-      col_rel_width[2:length(col_rel_width)],
+      rwidth_3[2:length(rwidth_3)],
       c(rep(1:(n_sgroup * n_tgroup), each = length(col_tbl_within))),
       sum
     )
@@ -193,7 +197,7 @@ rtf_base_char_subgroup <- function(
 
 
     rwidth_1 <- tapply(
-      col_rel_width[2:length(col_rel_width)],
+      rwidth_3[2:length(rwidth_3)],
       c(rep(1:n_sgroup, each = length(col_tbl_within) * n_tgroup)),
       sum
     )
@@ -218,7 +222,7 @@ rtf_base_char_subgroup <- function(
 
   # Using order number to customize row format
 
-  text_justification <- c("l", rep("l", n_sgroup * n_tgroup * 2))
+  text_justification <- c("l", rep("l", n_sgroup * n_tgroup * 2), "l")
   # text_format <- c(rep("", 1 + n_sgroup * n_tgroup * 2), "b")
 
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)

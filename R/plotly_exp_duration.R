@@ -354,7 +354,7 @@ plotly_exp_duration <- function(outdata,
     stop("No plot is available. Please check the input data.")
   }
 
-  histograms <- names(p)
+  histograms <- plot_type_label
   histograms_ids <- paste0("histogram_type_", uuid::UUIDgenerate(), "|", histograms)
   plot_divs <- lapply(histograms_ids, function(x) {
     element <- unlist(strsplit(x, "\\|"))[2]
