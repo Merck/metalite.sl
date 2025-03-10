@@ -91,7 +91,11 @@ format_base_char_subgroup <- function(
     } else {
       sapply(names(tbl), function(y) {
         if (grepl("n_", y) & is.na(x[[y]])) {
-          x[[y]] <- "0"
+          if (any(tbl$name %in% c("Mean", "SD", "Median", "Range"))) {
+            x[[y]] <- "0"
+          } else {
+            x[[y]] <- paste0(paste0(rep(" ", (max_nchar[[y]] - 1)), collapse = ""), "0")
+          }
         } else if (grepl("p_", y) & is.na(x[[y]])) {
           x[[y]] <- paste0(paste0(rep(" ", (max_nchar[[y]] - 5)), collapse = ""), "(0.0)")
         } else {
