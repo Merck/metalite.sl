@@ -11,7 +11,7 @@ data_population$SEX <- factor(
   labels = c("Female", "Male")
 )
 meta$data_population <- data_population
-                                 
+
 
 test_that("rtf output: n and prop including subgroup total w/o total", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup1.rtf")
