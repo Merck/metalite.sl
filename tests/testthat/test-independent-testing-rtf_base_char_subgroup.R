@@ -1,4 +1,17 @@
 meta <- meta_sl_example()
+data_population <- meta$data_population
+data_population$AGEGR1 <- factor(
+  data_population$AGEGR1,
+  levels = c("<65", "65-80", ">80"),
+  labels = c("<65", "65-80", ">80")
+)
+data_population$SEX <- factor(
+  data_population$SEX,
+  levels = c("F", "M"),
+  labels = c("Female", "Male")
+)
+meta$data_population <- data_population
+                                 
 
 test_that("rtf output: n and prop including subgroup total w/o total", {
   path_rtf <- file.path(tempdir(), "base0char0subgroup1.rtf")
