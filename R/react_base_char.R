@@ -118,8 +118,10 @@ react_base_char <- function(
     ae_pop_subgrp <- tolower(unique(as.character(ae_pop_subgrp)))
     if (!identical(all.equal(sl_pop_subgrp, ae_pop_subgrp), TRUE)) {
       stop(paste0(
-        "For ", y_subgrp, ", ",
-        "the values or factor levels in `data_population` for sl is not identical to the values in `data_population` for ae."
+        "For ", y_subgrp, " variable in lowcase, ",
+        "the values or factor levels in `data_population` for sl should be identical to the values in `data_population` for ae. ",
+        "sl: ", paste0(sl_pop_subgrp, collapse = ", "), "; ",
+        "ae: ", paste0(ae_pop_subgrp, collapse = ", ")
       ))
     }
     
