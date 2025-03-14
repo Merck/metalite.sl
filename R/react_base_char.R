@@ -124,7 +124,7 @@ react_base_char <- function(
         "ae: ", paste0(ae_pop_subgrp, collapse = ", ")
       ))
     }
-    
+
     tbl_ae_temp <- metalite.ae::prepare_ae_specific_subgroup(
       metadata_ae,
       population = population,
