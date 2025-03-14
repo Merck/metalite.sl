@@ -108,6 +108,23 @@ react_base_char <- function(
   group_ae <- list()
 
   for (y_subgrp in ae_subgrp_var) {
+    sl_pop_subgrp <- metalite::collect_population_record(metadata_sl, population, var = y_subgrp)[[y_subgrp]]
+    ae_pop_subgrp <- metalite::collect_population_record(metadata_ae, population, var = y_subgrp)[[y_subgrp]]
+    if (is.factor(sl_pop_subgrp)) {
+      sl_pop_subgrp <- tolower(unique(levels(sl_pop_subgrp)))
+    } else {
+      sl_pop_subgrp <- tolower(unique(sl_pop_subgrp))
+    }
+    ae_pop_subgrp <- tolower(unique(as.character(ae_pop_subgrp)))
+    if (!identical(all.equal(sl_pop_subgrp, ae_pop_subgrp), TRUE)) {
+      stop(paste0(
+        "For ", y_subgrp, " variable in lowcase, ",
+        "the values or factor levels in `data_population` for sl should be identical to the values in `data_population` for ae. ",
+        "sl: ", paste0(sl_pop_subgrp, collapse = ", "), "; ",
+        "ae: ", paste0(ae_pop_subgrp, collapse = ", ")
+      ))
+    }
+
     tbl_ae_temp <- metalite.ae::prepare_ae_specific_subgroup(
       metadata_ae,
       population = population,
