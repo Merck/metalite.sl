@@ -199,7 +199,7 @@ test_that("Extended exposure duration char_prop_cum ", {
 })
 
 # Test 5 Stat for cumulative category
-test_that("Extended exposure duration char_prop_cum ", {
+test_that("Extended exposure duration char_stat_cum ", {
   # Extend the exposure duration
   extended_data <- outdata |>
     extend_exp_duration(
@@ -275,7 +275,7 @@ test_that("Extended exposure duration char_prop_cum ", {
     col <- setdiff(extended_data$group_label, sub$TRTA)
     for (k in seq_along(col)) {
       trt <- col[k]
-      stat[, trt] <- NA
+      stat[, trt] <- as.character(NA)
     }
 
     reference <- c("name", as.character(levels(extended_data$group_label)), "Total", "var_label")
@@ -286,6 +286,7 @@ test_that("Extended exposure duration char_prop_cum ", {
 
   # Define expected output data for comparison
   expected_extended_data_stat_cum <- extended_data$char_stat_cums
+  expected_extended_data_stat_cum <- lapply(expected_extended_data_stat_cum, function(x) {x[] <- lapply(x, as.character); x})
 
   # Test stat
   expect_equal(
