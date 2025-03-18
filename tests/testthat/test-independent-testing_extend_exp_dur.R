@@ -278,7 +278,7 @@ test_that("Extended exposure duration char_prop_cum ", {
       stat[, trt] <- NA
     }
 
-    reference <- c("name", levels(extended_data$group_label), "Total", "var_label")
+    reference <- c("name", as.character(extended_data$group_label), "Total", "var_label")
     stat_sorted <- stat[, reference]
     test_extended_data_stat_cum[[j]] <- stat_sorted
   }
