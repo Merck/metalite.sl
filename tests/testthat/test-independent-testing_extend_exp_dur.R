@@ -279,7 +279,7 @@ test_that("Extended exposure duration char_stat_cum ", {
     }
 
     reference <- c("name", as.character(levels(extended_data$group_label)), "Total", "var_label")
-    stat_sorted <- stat[,match(reference, names(stat))]
+    stat_sorted <- stat[, match(reference, names(stat))]
     test_extended_data_stat_cum[[j]] <- stat_sorted
   }
   names(test_extended_data_stat_cum) <- unique(adexsum$EXDURGR)
