@@ -286,7 +286,10 @@ test_that("Extended exposure duration char_stat_cum ", {
 
   # Define expected output data for comparison
   expected_extended_data_stat_cum <- extended_data$char_stat_cums
-  expected_extended_data_stat_cum <- lapply(expected_extended_data_stat_cum, function(x) {x[] <- lapply(x, as.character); x})
+  expected_extended_data_stat_cum <- lapply(expected_extended_data_stat_cum, function(x) {
+    x[] <- lapply(x, as.character)
+    x
+  })
 
   # Test stat
   expect_equal(
