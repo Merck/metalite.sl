@@ -184,7 +184,7 @@ test_that("Extended exposure duration char_prop_cum ", {
 
   # Define expected output data for comparison
   expected_extended_data_prop_cum0 <- extended_data$char_prop_cum[[1]]
-  cols_to_convert <- c(levels(extended_data$group_label), "Total")
+  cols_to_convert <- c(as.character(levels(extended_data$group_label)), "Total")
   expected_extended_data_prop_cum0[cols_to_convert] <- lapply(expected_extended_data_prop_cum0[cols_to_convert], as.numeric)
   expected_extended_data_prop_cum0[cols_to_convert] <- round(expected_extended_data_prop_cum0[cols_to_convert], digits = 5)
   expected_extended_data_prop_cum0[cols_to_convert] <- lapply(expected_extended_data_prop_cum0[cols_to_convert], as.character)
