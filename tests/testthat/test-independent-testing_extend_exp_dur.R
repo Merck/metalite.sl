@@ -275,7 +275,7 @@ test_that("Extended exposure duration char_stat_cum ", {
     col <- setdiff(extended_data$group_label, sub$TRTA)
     for (k in seq_along(col)) {
       trt <- col[k]
-      stat[, trt] <- as.character(NA)
+      stat[[trt]] <- as.character(NA)
     }
 
     reference <- c("name", as.character(levels(extended_data$group_label)), "Total", "var_label")
