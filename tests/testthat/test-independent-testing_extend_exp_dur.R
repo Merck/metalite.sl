@@ -274,8 +274,8 @@ test_that("Extended exposure duration char_stat_cum ", {
     # missing TRTA
     col <- setdiff(extended_data$group_label, sub$TRTA)
     for (k in seq_along(col)) {
-      trt <- col[k]
-      stat[[trt]] <- as.character(NA)
+      trt <- as.character(col[k])
+      stat[[trt]] <- NA
     }
 
     reference <- c("name", as.character(levels(extended_data$group_label)), "Total", "var_label")
@@ -286,10 +286,6 @@ test_that("Extended exposure duration char_stat_cum ", {
 
   # Define expected output data for comparison
   expected_extended_data_stat_cum <- extended_data$char_stat_cums
-  expected_extended_data_stat_cum <- lapply(expected_extended_data_stat_cum, function(x) {
-    x[] <- lapply(x, as.character)
-    x
-  })
 
   # Test stat
   expect_equal(
