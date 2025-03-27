@@ -9,7 +9,10 @@ plotly_exp_duration(
   color = NULL,
   display = c("n", "prop"),
   display_total = TRUE,
-  plot_type_label = c("Histogram", "Stacked histogram", "Horizontal histogram"),
+  plot_type_label =
+    c("Comparision of Exposure Duration (> = x days) by Treatment Groups",
+    "Comparision of Exposure Duration (> = x days and < y days) by Treatment Groups",
+    "Comparision by Exposure Duration (> = x days)"),
   plot_group_label = "Treatment group",
   plot_category_label = "Exposure duration",
   hover_summary_var = c("n", "median", "sd", "se", "median", "min", "max", "q1 to q3",
