@@ -187,6 +187,8 @@ meta_sl_example <- function() {
 meta_sl_exposure_example <- function() {
   adsl <- r2rtf::r2rtf_adsl
 
+  set.seed(123)
+
   # Create ADEXSUM dataset
   adexsum <- data.frame(USUBJID = adsl$USUBJID)
   adexsum$TRTA <- factor(adsl$TRT01A,
