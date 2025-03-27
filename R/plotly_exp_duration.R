@@ -75,9 +75,11 @@ plotly_exp_duration <- function(outdata,
 
   if (!length(plot_type_label) == 3) {
     message("Three labels should be provided for `plot_type_label`. The default values are used.")
-    plot_type_label <- c("Comparision of Exposure Duration (> = x days) by Treatment Groups",
-                         "Comparision of Exposure Duration (> = x days and < y days) by Treatment Group",
-                         "Comparision by Exposure Duration (> = x days)")
+    plot_type_label <- c(
+      "Comparision of Exposure Duration (> = x days) by Treatment Groups",
+      "Comparision of Exposure Duration (> = x days and < y days) by Treatment Group",
+      "Comparision by Exposure Duration (> = x days)"
+    )
   }
 
   group_label <- outdata$group_label
