@@ -160,10 +160,10 @@ react_disposition <- function(
   #   making react table                      #
   # ----------------------------------------- #
   trt_grp <- toupper(trtvar)
-  # show participant details when category not in "participants in population", "discontinued", "participants ongoing", "completed"
+  # show participant details when category not in "participants in population", "discontinued", "participants ongoing", "complete"
   details <- function(index) {
     dcsreas <- stringr::str_trim(tolower(tbl_sl$name[index]))
-    if (!is.na(tbl_sl$name[index]) & !(dcsreas %in% c("participants in population", "discontinued", "participants ongoing", "completed"))) {
+    if (!is.na(tbl_sl$name[index]) & !(dcsreas %in% c("participants in population", "discontinued", "participants ongoing", "complete"))) {
       if (stringr::str_trim(tolower(tbl_sl$var_label[index])) == "trial disposition") {
         var <- metadata_sl$parameter[["disposition"]]$var
         var_lower <- metadata_sl$parameter[["disposition"]]$var_lower
