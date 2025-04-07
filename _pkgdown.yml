@@ -48,18 +48,16 @@ reference:
     - prepare_base_char
     - format_base_char
     - rtf_base_char
+    - react_base_char
     - prepare_base_char_subgroup
     - format_base_char_subgroup
     - rtf_base_char_subgroup
-- title: Interactive baseline characteristics
-  contents:
-    - react_base_char
-    - react_disposition   
 - title: Disposition
   contents:
     - prepare_disposition
     - format_disposition
     - rtf_disposition
+    - react_disposition 
 - title: Exposure duration
   contents:
     - prepare_exp_duration
