@@ -1,6 +1,6 @@
 library(metalite)
 
-#Prepare test data
+# Prepare test data
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(
@@ -17,7 +17,7 @@ meta <- meta_sl(
   treatment_group = "TRTA"
 )
 
-#Test
+# Test
 test_that("There is one analysis: base_char", {
   expect_equal(names(meta$analysis), "base_char")
 })
@@ -31,7 +31,7 @@ test_that("There is one population: apat", {
 })
 
 test_that("There are three parameters: age, gender, race", {
-  expect_equal(names(meta$parameter), c("age","gender","race"))
+  expect_equal(names(meta$parameter), c("age", "gender", "race"))
 })
 
 test_that("There is one group parameter for age: agegr1", {
