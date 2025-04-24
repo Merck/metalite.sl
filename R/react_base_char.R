@@ -107,6 +107,9 @@ react_base_char <- function(
   tbl_ae <- list()
   group_ae <- list()
 
+  # define the space character
+  space_char <- "\u2003\u2003"
+
   for (y_subgrp in ae_subgrp_var) {
     sl_pop_subgrp <- metalite::collect_population_record(metadata_sl, population, var = y_subgrp)[[y_subgrp]]
     ae_pop_subgrp <- metalite::collect_population_record(metadata_ae, population, var = y_subgrp)[[y_subgrp]]
@@ -135,6 +138,16 @@ react_base_char <- function(
     ) |>
       metalite.ae::format_ae_specific_subgroup()
 
+    # modify the name elements in tbl_ae_temp$tbl: add spaces in name other than the value of "Participants in population"
+    tbl_ae_temp$tbl$name <- sapply(tbl_ae_temp$tbl$name, function(x) {
+      if (trimws(x) == "Participants in population") {
+        return(x) # return the original value without modification
+      } else {
+        # Pad with spaces to a fixed width (e.g., 10 characters)
+        return(paste0(space_char, x)) # Prepend spaces
+      }
+    })
+
     tbl_ae <- c(tbl_ae, list(tbl_ae_temp$tbl))
     # get group labels for AE analysis
     group_ae <- c(group_ae, list(tbl_ae_temp$group))
@@ -155,6 +168,15 @@ react_base_char <- function(
   ) |>
     metalite.ae::format_ae_specific(display = display_sl)
 
+  # modify the name elements in ae_specific_outdata$tbl$name: add spaces in name other than the value of "Participants in population"
+  ae_specific_outdata$tbl$name <- sapply(ae_specific_outdata$tbl$name, function(x) {
+    if (trimws(x) == "Participants in population" || is.na(x)) {
+      return(x) # return the original value without modification
+    } else {
+      return(paste0(space_char, x)) # Prepend spaces
+    }
+  })
+
   # Define Column and Column Group for AE specific
   col_defs_ae <- list()
   col_group_defs_ae <- list()
@@ -171,6 +193,7 @@ react_base_char <- function(
       ))
     )
   }
+
 
   # ----------------------------------------- #
   #   build interactive baseline char table   #
