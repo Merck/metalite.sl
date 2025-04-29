@@ -85,19 +85,6 @@ react_base_char <- function(
     })
   }
 
-  # # 1) in data_population: extract the RACE values as a character vector
-  # race_values_pop <- as.vector(metadata_sl[["data_population"]]["RACE"])
-  # 
-  # # capitalize the race values
-  # metadata_sl[["data_population"]]["RACE"] <- capitalize_words(race_values_pop)
-  # 
-  # # 2) in data_observation: extract the RACE values as a character vector
-  # race_values_obs <- as.vector(metadata_sl[["data_observation"]]["RACE"])
-  # 
-  # # capitalize the race values
-  # metadata_sl[["data_observation"]]["RACE"] <- capitalize_words(race_values_obs)
-  
-  
   # 1) In data_population: extract the RACE values as a character vector
   race_values_pop <- metadata_sl[["data_population"]]$RACE  # Use $ to get a vector
   
@@ -110,11 +97,6 @@ react_base_char <- function(
   # Capitalize the race values
   metadata_sl[["data_observation"]]$RACE <- capitalize_words(race_values_obs)  # Assign back as a vector
   
-  
-  
-  
-  
-
   # ----------------------------------------- #
   #   prepare the baseline char table numbers #
   # ----------------------------------------- #
