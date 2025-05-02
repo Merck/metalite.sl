@@ -4,7 +4,7 @@ library(htmltools)
 # Test 1 Overall testing for react_disposition function
 test_that("Testing react_disposition function", {
   set.seed(123)
-  
+
   table <- react_disposition(
     metadata_sl = meta_sl_example(),
     metadata_ae = metalite.ae::meta_ae_example(),
@@ -25,7 +25,7 @@ test_that("Testing react_disposition function", {
 # Test 2 Testing AE selected column
 test_that("Testing react_disposition function AE selection column", {
   set.seed(123)
-  
+
   table <- react_disposition(
     metadata_sl = meta_sl_example(),
     metadata_ae = metalite.ae::meta_ae_example(),
@@ -48,7 +48,7 @@ test_that("Testing react_disposition function AE selection column", {
 # Test 3 Testing Disposition selected column
 test_that("Testing react_disposition function Disposition selection column", {
   set.seed(123)
-  
+
   table <- react_disposition(
     metadata_sl = meta_sl_example(),
     metadata_ae = metalite.ae::meta_ae_example(),

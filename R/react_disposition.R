@@ -131,8 +131,10 @@ react_disposition <- function(
   }
   if (!("USUBJID" %in% sl_col_selected)) u_sl_col_selected <- c("USUBJID", sl_col_selected)
   if (!length(sl_col_names) == length(sl_col_selected)) {
-    message(paste("`sl_col_names` and `sl_col_selected` should have the same length.",
-                  "`sl_col_selected`will be used as column names."))
+    message(paste(
+      "`sl_col_names` and `sl_col_selected` should have the same length.",
+      "`sl_col_selected`will be used as column names."
+    ))
     sl_col_names <- sl_col_selected
   }
   sl_col_def <- list()
@@ -145,8 +147,10 @@ react_disposition <- function(
 
   # Define columns for AE list
   if (!length(ae_col_names) == length(ae_col_selected)) {
-    message(paste("`ae_col_names` and `ae_col_selected` should have the same length.",
-                  "`ae_col_selected`will be used as column names."))
+    message(paste(
+      "`ae_col_names` and `ae_col_selected` should have the same length.",
+      "`ae_col_selected`will be used as column names."
+    ))
     ae_col_names <- ae_col_selected
   }
   ae_col_def <- list()
@@ -170,13 +174,13 @@ react_disposition <- function(
       }
       # get discontinued subject list
       data_sl <- metalite::collect_population_record(metadata_sl, population, var = names(metadata_sl$data_population))
-      usubjids <- data_sl$USUBJID |> 
+      usubjids <- data_sl$USUBJID |>
         subset(tolower(data_sl[[var_lower]]) == dcsreas & tolower(data_sl[[var]]) == "discontinued")
       subj_list <- data_sl |> subset(
         subset = data_sl$USUBJID %in% usubjids,
         select = u_sl_col_selected
       )
-      
+
       # usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population[[var_lower]]) == dcsreas & tolower(x_sl$meta$data_population[[var]]) == "discontinued")
       # subj_list <- metadata_sl$data_population |> subset(
       #   subset = metadata_sl$data_population$USUBJID %in% usubjids,
