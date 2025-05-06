@@ -129,11 +129,11 @@ react_disposition <- function(
     sl_col_selected <- c(toupper(trtvar), sl_col_selected)
     sl_col_names <- c("Treatment", sl_col_names)
   }
-  if (!("USUBJID" %in% sl_col_selected)) u_sl_col_selected <- c("USUBJID", sl_col_selected)
+  u_sl_col_selected <- unique(c("USUBJID", sl_col_selected))
   if (!length(sl_col_names) == length(sl_col_selected)) {
     message(paste(
       "`sl_col_names` and `sl_col_selected` should have the same length.",
-      "`sl_col_selected`will be used as column names."
+      "`sl_col_selected` will be used as column names."
     ))
     sl_col_names <- sl_col_selected
   }
@@ -149,7 +149,7 @@ react_disposition <- function(
   if (!length(ae_col_names) == length(ae_col_selected)) {
     message(paste(
       "`ae_col_names` and `ae_col_selected` should have the same length.",
-      "`ae_col_selected`will be used as column names."
+      "`ae_col_selected` will be used as column names."
     ))
     ae_col_names <- ae_col_selected
   }
@@ -181,11 +181,6 @@ react_disposition <- function(
         select = u_sl_col_selected
       )
 
-      # usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population[[var_lower]]) == dcsreas & tolower(x_sl$meta$data_population[[var]]) == "discontinued")
-      # subj_list <- metadata_sl$data_population |> subset(
-      #   subset = metadata_sl$data_population$USUBJID %in% usubjids,
-      #   select = u_sl_col_selected
-      # )
       subj_list[, sl_col_selected] |>
         reactable::reactable(
           filterable = TRUE, defaultExpanded = FALSE, striped = TRUE, groupBy = trt_grp,
