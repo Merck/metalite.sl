@@ -35,8 +35,6 @@ meta_sl_example <- function() {
     labels = c("Placebo", "Low Dose", "High Dose")
   )
 
-  set.seed(123)
-
   # Create a variable EOSSTT indicating the end of end of study status
   adae <- metalite.ae::meta_ae_example()$data_observation
 

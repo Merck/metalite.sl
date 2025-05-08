@@ -2,6 +2,8 @@ library(metalite)
 
 adsl <- r2rtf::r2rtf_adsl
 
+set.seed(123)
+
 meta <- meta_sl_example()
 outdata <- prepare_disposition(meta,
   analysis = "disp",

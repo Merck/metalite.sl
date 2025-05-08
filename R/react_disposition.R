@@ -54,30 +54,17 @@ react_disposition <- function(
     metadata_sl,
     metadata_ae,
     analysis = "disp",
-    trtvar = "trt01a",
+    trtvar = metalite::collect_adam_mapping(metadata_sl, population)$group,
     population = metadata_sl$plan$population[metadata_sl$plan$analysis == analysis],
     sl_parameter = paste(metadata_sl$plan$parameter[metadata_sl$plan$analysis == analysis], collapse = ";"),
-    sl_col_selected = NULL,
-    sl_col_names = NULL,
-    ae_observation = "wk24",
+    sl_col_selected = c("siteid", "subjid", "sex", "age", "weightbl"),
+    sl_col_names = c("Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),
+    ae_observation = "wk12",
     ae_population = population,
-    ae_col_selected = NULL,
-    ae_col_names = NULL,
+    ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT"),
+    ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome"),
     display_total = TRUE,
     width = 1200) {
-  # ----------------------------------------- #
-  #   default columns                         #
-  # ----------------------------------------- #
-  if (is.null(sl_col_selected)) {
-    sl_col_selected <- c("trt01a", "siteid", "subjid", "sex", "age", "weightbl")
-    sl_col_names <- c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)")
-  }
-
-  if (is.null(ae_col_selected)) {
-    ae_col_selected <- c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT")
-    ae_col_names <- c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome")
-  }
-
   # ----------------------------------------- #
   #   total setting                           #
   # ----------------------------------------- #
@@ -138,23 +125,36 @@ react_disposition <- function(
 
   # Define columns for subject list
   sl_col_selected <- toupper(sl_col_selected)
-  if (!("USUBJID" %in% sl_col_selected)) u_sl_col_selected <- c("USUBJID", sl_col_selected)
-  if (is.null(sl_col_names)) sl_col_names <- sl_col_selected
+  if (!(toupper(trtvar) %in% sl_col_selected)) {
+    sl_col_selected <- c(toupper(trtvar), sl_col_selected)
+    sl_col_names <- c("Treatment", sl_col_names)
+  }
+  u_sl_col_selected <- unique(c("USUBJID", sl_col_selected))
+  if (!length(sl_col_names) == length(sl_col_selected)) {
+    message(paste(
+      "`sl_col_names` and `sl_col_selected` should have the same length.",
+      "`sl_col_selected` will be used as column names."
+    ))
+    sl_col_names <- sl_col_selected
+  }
   sl_col_def <- list()
   for (i in 1:length(sl_col_selected)) sl_col_def[[sl_col_selected[i]]] <- reactable::colDef(sl_col_names[i])
 
   # ----------------------------------------- #
   #   get AE listing                          #
   # ----------------------------------------- #
-  ae_listing_outdata <-
-    metalite.ae::prepare_ae_listing(meta = metadata_ae, population = ae_population, analysis = "ae_specific", observation = ae_observation, parameter = "any")
-  ae_list <- ae_listing_outdata$meta$data_observation
+  ae_list <- metalite::collect_observation_record(metadata_ae, ae_population, ae_observation, parameter = "any", var = names(metadata_ae$data_observation))
 
   # Define columns for AE list
-  if (is.null(ae_col_names)) ae_col_names <- ae_col_selected
+  if (!length(ae_col_names) == length(ae_col_selected)) {
+    message(paste(
+      "`ae_col_names` and `ae_col_selected` should have the same length.",
+      "`ae_col_selected` will be used as column names."
+    ))
+    ae_col_names <- ae_col_selected
+  }
   ae_col_def <- list()
   for (i in 1:length(ae_col_selected)) ae_col_def[[ae_col_selected[i]]] <- reactable::colDef(ae_col_names[i])
-
 
   # ----------------------------------------- #
   #   making react table                      #
@@ -173,11 +173,14 @@ react_disposition <- function(
         var_lower <- metadata_sl$parameter[["medical-disposition"]]$var_lower
       }
       # get discontinued subject list
-      usubjids <- x_sl$meta$data_population$USUBJID |> subset(tolower(x_sl$meta$data_population[[var_lower]]) == dcsreas & tolower(x_sl$meta$data_population[[var]]) == "discontinued")
-      subj_list <- metadata_sl$data_population |> subset(
-        subset = metadata_sl$data_population$USUBJID %in% usubjids,
+      data_sl <- metalite::collect_population_record(metadata_sl, population, var = names(metadata_sl$data_population))
+      usubjids <- data_sl$USUBJID |>
+        subset(tolower(data_sl[[var_lower]]) == dcsreas & tolower(data_sl[[var]]) == "discontinued")
+      subj_list <- data_sl |> subset(
+        subset = data_sl$USUBJID %in% usubjids,
         select = u_sl_col_selected
       )
+
       subj_list[, sl_col_selected] |>
         reactable::reactable(
           filterable = TRUE, defaultExpanded = FALSE, striped = TRUE, groupBy = trt_grp,
