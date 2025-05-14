@@ -67,36 +67,13 @@ react_base_char <- function(
   # ----------------------------------------- #
   #   total setting                           #
   # ----------------------------------------- #
-
+  
   if (display_total == TRUE) {
     display_sl <- c("n", "prop", "total")
   } else {
     display_sl <- c("n", "prop")
   }
-
-  # ---------------------------------------------- #
-  #   ensure capitalizing the first letter of RACE #
-  # ---------------------------------------------- #
-
-  # function to capitalize the first letter of each word
-  capitalize_words <- function(x) {
-    sapply(x, function(word) {
-      paste0(toupper(substr(word, 1, 1)), tolower(substr(word, 2, nchar(word))))
-    })
-  }
-
-  # 1) In data_population: extract the RACE values as a character vector
-  race_values_pop <- metadata_sl[["data_population"]]$RACE # Use $ to get a vector
-
-  # Capitalize the race values
-  metadata_sl[["data_population"]]$RACE <- capitalize_words(race_values_pop) # Assign back as a vector
-
-  # 2) In data_observation: extract the RACE values as a character vector
-  race_values_obs <- metadata_sl[["data_observation"]]$RACE # Use $ to get a vector
-
-  # Capitalize the race values
-  metadata_sl[["data_observation"]]$RACE <- capitalize_words(race_values_obs) # Assign back as a vector
-
+  
   # ----------------------------------------- #
   #   prepare the baseline char table numbers #
   # ----------------------------------------- #
@@ -107,10 +84,10 @@ react_base_char <- function(
       parameter = sl_parameter
     ) |>
     format_base_char(display_col = display_sl, digits_prop = 2)
-
+  
   tbl_sl <- x_sl$tbl
   tbl_sl$var_label[tbl_sl$name == "Participants in population"] <- "Participants in population"
-
+  
   # ----------------------------------------- #
   #   prepare the AE subgroup table numbers   #
   # ----------------------------------------- #
@@ -125,14 +102,14 @@ react_base_char <- function(
     }
     ae_subgrp_label <- c(ae_subgrp_label, metalite::collect_adam_mapping(metadata_sl, x_subgrp)$label)
   }
-
+  
   # get the AE subgroup tables
   tbl_ae <- list()
   group_ae <- list()
-
+  
   # define the space character
   space_char <- "\u2003\u2003"
-
+  
   for (y_subgrp in ae_subgrp_var) {
     sl_pop_subgrp <- metalite::collect_population_record(metadata_sl, population, var = y_subgrp)[[y_subgrp]]
     ae_pop_subgrp <- metalite::collect_population_record(metadata_ae, population, var = y_subgrp)[[y_subgrp]]
@@ -150,7 +127,7 @@ react_base_char <- function(
         "ae: ", paste0(ae_pop_subgrp, collapse = ", ")
       ))
     }
-
+    
     tbl_ae_temp <- metalite.ae::prepare_ae_specific_subgroup(
       metadata_ae,
       population = population,
@@ -160,7 +137,7 @@ react_base_char <- function(
       display_subgroup_total = FALSE # total display for subgroup is not needed
     ) |>
       metalite.ae::format_ae_specific_subgroup()
-
+    
     # modify the name elements in tbl_ae_temp$tbl: add spaces in name other than the value of "Participants in population"
     tbl_ae_temp$tbl$name <- sapply(tbl_ae_temp$tbl$name, function(x) {
       if (trimws(x) == "Participants in population") {
@@ -170,7 +147,7 @@ react_base_char <- function(
         return(paste0(space_char, x)) # Prepend spaces
       }
     })
-
+    
     tbl_ae <- c(tbl_ae, list(tbl_ae_temp$tbl))
     # get group labels for AE analysis
     group_ae <- c(group_ae, list(tbl_ae_temp$group))
@@ -181,7 +158,7 @@ react_base_char <- function(
     #   group_ae <- c(group_ae, list(tbl_ae_temp$group[!(tbl_ae_temp$group %in% "total")]))
     # }
   }
-
+  
   # get the AE specific
   ae_specific_outdata <- metalite.ae::prepare_ae_specific(
     metadata_ae,
@@ -190,7 +167,7 @@ react_base_char <- function(
     parameter = ae_specific
   ) |>
     metalite.ae::format_ae_specific(display = display_sl)
-
+  
   # modify the name elements in ae_specific_outdata$tbl$name: add spaces in name other than the value of "Participants in population"
   ae_specific_outdata$tbl$name <- sapply(ae_specific_outdata$tbl$name, function(x) {
     if (trimws(x) == "Participants in population" || is.na(x)) {
@@ -199,7 +176,7 @@ react_base_char <- function(
       return(paste0(space_char, x)) # Prepend spaces
     }
   })
-
+  
   # Define Column and Column Group for AE specific
   col_defs_ae <- list()
   col_group_defs_ae <- list()
@@ -207,7 +184,7 @@ react_base_char <- function(
   for (i in 1:length(ae_specific_outdata$group)) {
     col_defs_ae[[paste0("n_", i)]] <- reactable::colDef(name = "n")
     col_defs_ae[[paste0("prop_", i)]] <- reactable::colDef(name = "(%)")
-
+    
     col_group_defs_ae <- append(
       col_group_defs_ae,
       list(reactable::colGroup(
@@ -216,8 +193,8 @@ react_base_char <- function(
       ))
     )
   }
-
-
+  
+  
   # ----------------------------------------- #
   #   build interactive baseline char table   #
   # ----------------------------------------- #
@@ -232,7 +209,7 @@ react_base_char <- function(
       col_defs[[sl_name]] <- reactable::colDef(name = " ")
     }
   }
-
+  
   # Define Column Group
   col_group_defs <- list()
   for (i in 1:length(x_sl$group_label)) {
@@ -254,7 +231,7 @@ react_base_char <- function(
       ))
     )
   }
-
+  
   reactable::reactable(
     tbl_sl,
     groupBy = "var_label",
@@ -263,12 +240,12 @@ react_base_char <- function(
     columnGroups = col_group_defs,
     details = function(index) {
       if (index > 1 &
-        !(tolower(tbl_sl$name[index]) %in% c("mean", "sd", "median", "min", "max", "se", "q1", "q3", "q1 to q3", "range")) &
-        tbl_sl$var_label[index] %in% ae_subgrp_label & !is.na(tbl_sl$name[index])
+          !(tolower(tbl_sl$name[index]) %in% c("mean", "sd", "median", "min", "max", "se", "q1", "q3", "q1 to q3", "range")) &
+          tbl_sl$var_label[index] %in% ae_subgrp_label & !is.na(tbl_sl$name[index])
       ) {
         # get the index of the AE subgroup variable by the index in the baseline char table
         idx_ae_subgroup <- which(tbl_sl$var_label[index] == ae_subgrp_label)
-
+        
         # get the table for this AE subgroup variable
         tbl_ae[[idx_ae_subgroup]] |>
           react_subgroup_table(
