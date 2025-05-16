@@ -33,7 +33,7 @@ adsl$TRTA <- factor(adsl$TRTA,
   labels = c("Placebo", "Low Dose", "High Dose")
 )
 
-meta <- meta_adam(
+meta_sl <- meta_adam(
   population = adsl,
   observation = adsl
 ) |>
@@ -85,13 +85,42 @@ In this vignette, we will directly use the metadata built by `meta_ae_example()`
 meta_ae <- meta_ae_example()
 ```
 
+## Customization (Optional)
+
+If you want to capitalize only the first letter of "RACE" (e.g., Black or african american) or any other character variable, 
+you can customize the `react_base_char` function at the beginning of the code.
+
+
+```{r}
+# function to capitalize the first letter of a string that has multiple words
+capitalize_words <- function(x) {
+  sapply(x, function(word) {
+    paste0(toupper(substr(word, 1, 1)), tolower(substr(word, 2, nchar(word))))
+  })
+}
+```
+
+```{r}
+# 1) In "data_population": extract the RACE values as a character vector
+race_values_pop <- meta_sl[["data_population"]]$RACE # Use $ to get a vector
+
+# Capitalize the race values
+meta_sl[["data_population"]]$RACE <- capitalize_words(race_values_pop) # Assign back as a vector
+
+# 2) In "data_observation": extract the RACE values as a character vector
+race_values_obs <- meta_sl[["data_observation"]]$RACE # Use $ to get a vector
+
+# Capitalize the race values
+meta_sl[["data_observation"]]$RACE <- capitalize_words(race_values_obs) # Assign back as a vector
+```
+
 # Build a reactable {.tabset}
 
 ## Baseline characteristic table + Participants With Drug-Related AE
 
 ```{r, eval = TRUE}
 react_base_char(
-  metadata_sl = meta,
+  metadata_sl = meta_sl,
   metadata_ae = meta_ae,
   ae_subgroup = c("age", "race", "gender"),
   ae_specific = "rel",
@@ -103,75 +132,10 @@ react_base_char(
 
 ```{r, eval=TRUE}
 react_base_char(
-  metadata_sl = meta,
+  metadata_sl = meta_sl,
   metadata_ae = meta_ae,
   ae_subgroup = c("age", "race", "gender"),
   ae_specific = "ser",
   width = 1200
 )
-```
-
-## Customization
-
-If you want to capitalize the first letter of each word in the "RACE" (Black or African American) or any other character variable, 
-you can customize the `react_base_char` function at the beginning of the code.
-
-```{r, eval = FALSE}
-# function to capitalize the first letter of each word (proper case)
-capitalize_words <- function(x) {
-  # Define a vector of words to be lower-cased for minor words like articles, conjunctions, and propositions
-  lowercase_exceptions <- c(
-    "a", "an", "the", "and", "or", "but", "for", "nor", "on", "so",
-    "yet", "at", "to", "by", "with", "in", "of", "as", "up", "with"
-  )
-
-  sapply(x, function(sentence) {
-    # Split the sentence into words
-    words <- strsplit(sentence, " ")[[1]]
-
-    # Capitalize the first letter of each word, except for exceptions
-    capitalized_words <- sapply(seq_along(words), function(i) {
-      word <- words[i]
-      if (i == 1 || !(tolower(word) %in% lowercase_exceptions)) {
-        # Capitalize the first letter if it's the first word or not an exception
-        paste0(toupper(substr(word, 1, 1)), tolower(substr(word, 2, nchar(word))))
-      } else {
-        # Return the word in lowercase if it's an exception
-        tolower(word)
-      }
-    })
-
-    # Combine the capitalized words back into a single string
-    paste(capitalized_words, collapse = " ")
-  })
-}
-```
-If you want to capitalize only the first letter of "RACE" (e.g., Black or african american) or any other character variable, 
-you can customize the `react_base_char` function at the beginning of the code.
-
-
-```{r, eval = FALSE}
-# function to capitalize the first letter of a string that has multiple words
-capitalize_words <- function(x) {
-  sapply(x, function(word) {
-    paste0(toupper(substr(word, 1, 1)), tolower(substr(word, 2, nchar(word))))
-  })
-}
-```
-The first function capitalizes the first letter of each word, while the second function capitalizes only the first letter of a string that contains multiple words.
-
-Use either of the “capitalize_words” functions above to meet your needs.  Example below is the implementation of the first function.
-
-```{r, eval = FALSE}
-# 1) In "data_population": extract the RACE values as a character vector
-race_values_pop <- metadata_sl[["data_population"]]$RACE # Use $ to get a vector
-
-# Capitalize the race values
-metadata_sl[["data_population"]]$RACE <- capitalize_words(race_values_pop) # Assign back as a vector
-
-# 2) In "data_observation": extract the RACE values as a character vector
-race_values_obs <- metadata_sl[["data_observation"]]$RACE # Use $ to get a vector
-
-# Capitalize the race values
-metadata_sl[["data_observation"]]$RACE <- capitalize_words(race_values_obs) # Assign back as a vector
 ```
