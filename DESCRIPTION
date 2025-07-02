@@ -21,6 +21,7 @@ Description: Analyzes subject-level data in clinical trials using the 'metalite'
 Depends: R (>= 4.1.0)
 License: GPL (>= 3)
 Imports:
+    crosstalk,
     glue,
     metalite,
     metalite.ae,
