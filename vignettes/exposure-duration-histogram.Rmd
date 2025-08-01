@@ -14,9 +14,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE, warning=FALSE}
 library(metalite.sl)
 library(dplyr)
+library(kableExtra)
 ```
 
 # Create Exposure Duration Histogram
@@ -174,7 +175,8 @@ outdata
 
 ```{r}
 all_stats <- bind_rows(outdata$char_stat_groups, .id = "duration_category")
-all_stats
+
+knitr::kable(all_stats, caption = "all_stats")                                       
 ```
 
 
@@ -189,6 +191,16 @@ It also uses the summary statistics (char_stat_groups) to create hover text that
 The interactive dropdown lets you switch between different views (e.g., cumulative exposure duration, exclusive categories, horizontal bars).
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("pdf/exposure0histogram.pdf")
+outdata |>
+  plotly_exp_duration(
+    color = NULL,
+    display = "n",
+    display_total = TRUE,
+    plot_group_label = "Treatment Group",
+    plot_category_label = "Exposure Duration",
+    hover_summary_var = c("mean", "min", "max"),
+    width = 800,
+    height = 400
+  )
 ```
 
