@@ -176,7 +176,7 @@ outdata
 ```{r}
 all_stats <- bind_rows(outdata$char_stat_groups, .id = "duration_category")
 
-knitr::kable(all_stats, caption = "all_stats")                                       
+knitr::kable(all_stats, caption = "all_stats")
 ```
 
 
