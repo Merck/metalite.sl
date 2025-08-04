@@ -1,0 +1,205 @@
+---
+title: "exposure-duration-histogram"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{exposure-duration-histogram}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE, warning=FALSE}
+library(metalite.sl)
+library(dplyr)
+```
+
+# Create Exposure Duration Histogram
+
+The plotly_exp_duration() function provides an interactive visualization of subject-level exposure duration in clinical trials. This histogram helps assess how long participants remained on treatment, with configurable duration categories such as "≥1 day", "≥7 days", "≥28 days", and so on.
+
+Using pre-processed output from prepare_exp_duration() (and optionally extend_exp_duration()), plotly_exp_duration() generates an intuitive, browser-based plot built with Plotly. Users can customize the display type (e.g., counts or proportions), color, tooltip summary statistics, and axis labels.
+
+-  `meta_sl_exposure_example`: create example exposure metadata (`meta` object) for demonstration or testing purposes.
+
+-  `prepare_exp_duration`: process subject-level exposure data to calculate treatment duration and prepare it for further analysis.
+
+-  `extend_exp_duration`: categorize duration into user-defined time windows (e.g., ≥7 days, ≥12 weeks) and add group-level summaries.
+
+-  `plotly_exp_duration`: generate an interactive histogram plot to visualize exposure duration distribution across subjects or treatment arms.
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("pdf/exposure0histogram.pdf")
+```
+
+## 1. Build a metadata
+## meta_sl_exposure_example()
+There are two steps in `meta_sl_exposure_example` function in order to build the metadata (`meta` object): processing the ADaM dataset and save meta information for A&R reporting.
+
+Step1: ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data, is utilized to:
+
+- Sum up duration by STUDYID SITENUM USUBJID SUBJID APERIOD EXTRT ADOSEFRM PARAMCD.
+- Subset the exposure data by `upcase(trim(left(paramcd))) = "TRTDUR"`.
+- Get the exposure duration `adexsum$AVAL` for all participants.
+- Assign duration category `adexsum$EXDURGR` i.e.">=1 day", ">=7 days",">=28 days", ">=12 weeks" and ">=24 weeks".
+```{r}
+adsl <- r2rtf::r2rtf_adsl
+adexsum <- data.frame(USUBJID = adsl$USUBJID)
+adexsum$TRTA <- factor(adsl$TRT01A,
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
+)
+
+adexsum$APERIODC <- "Base"
+adexsum$APERIOD <- 1
+
+set.seed(123) # Set a seed for reproducibility
+adexsum$AVAL <- sample(x = 0:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
+adexsum$EXDURGR <- "not treated"
+adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day"
+adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days"
+adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days"
+adexsum$EXDURGR[adexsum$AVAL >= 12 * 7] <- ">=12 weeks"
+adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
+
+adexsum$EXDURGR <- factor(adexsum$EXDURGR,
+  levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
+)
+unique(adexsum$EXDURGR)
+```
+Step2: Save analysis plan and metadata(parameter and analysis) information, then build meta object.
+
+```{r}
+plan <- metalite::plan(
+  analysis = "exp_dur", population = "apat",
+  observation = "apat", parameter = "expdur"
+)
+
+meta <- metalite::meta_adam(
+  population = adexsum,
+  observation = adexsum
+) |>
+  metalite::define_plan(plan) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = quote(APERIOD == 1 & AVAL > 0)
+  ) |>
+  metalite::define_parameter(
+    name = "expdur",
+    var = "AVAL",
+    label = "Exposure Duration (Days)",
+    vargroup = "EXDURGR"
+  ) |>
+  metalite::define_analysis(
+    name = "exp_dur",
+    title = "Summary of Exposure Duration",
+    label = "exposure duration table"
+  ) |>
+  metalite::meta_build()
+```
+
+
+## 2. Analysis preparation
+## prepare_exp_duration()
+
+The input of the function `prepare_exp_duration()` is a `meta` object created by the metalite package. The resulting output comprises a collection of raw datasets for analysis and reporting.
+
+This function takes raw data (e.g., participant-level data with exposure durations and treatment groups).
+It calculates summary statistics (counts, proportions, medians, etc.) grouped by treatment group.
+It also creates exposure duration categories (e.g., >=1 day, >=7 days, etc.) by binning or categorizing the raw exposure duration variable.
+The output is a structured dataset (outdata) that contains:
+Counts and proportions of participants in each treatment group.
+Summary statistics for the exposure duration variable within each treatment group.
+However, at this stage, the statistics are grouped only by treatment group, not yet broken down by exposure duration categories.
+
+```{r}
+outdata <- prepare_exp_duration(meta)
+outdata
+```
+
+Number of participants in population
+
+```{r}
+outdata$n[, 1:5]
+```
+
+Number of participants in each duration category
+
+```{r}
+charn <- data.frame(outdata$char_n[1])
+head(charn[, 1:5], 6)
+```
+
+Proportion of participants in each duration category
+
+```{r}
+charp <- data.frame(outdata$char_prop[1])
+head(charp[, 1:5], 6)
+```
+
+Statistical summary of exposure duration for each treatment
+
+```{r}
+chars <- data.frame(outdata$char_n[1])
+tail(chars[, 1:5], 8)
+```
+## extend_exp_duration()
+This function takes the output of prepare_exp_duration() and further processes the data to create exposure duration categories explicitly.
+It applies the specified duration category cutoffs (e.g., >=1 day, >=7 days, etc.) to the exposure duration variable.
+It calculates counts, proportions, and summary statistics for each exposure duration category within each treatment group.
+This means now we have a two-dimensional grouping:
+By treatment group (e.g., Placebo, Low Dose and High Dose).
+By exposure duration category (e.g., >=1 day, >=7 days).
+The output outdata now contains tables like:
+char_n: counts by exposure duration category and treatment group.
+char_prop: proportions by exposure duration category and treatment group.
+char_stat_groups: summary statistics by exposure duration category and treatment group.
+
+
+```{r}
+outdata <- meta |>
+  prepare_exp_duration() |>
+  extend_exp_duration(
+    duration_category_list = list(c(1, NA), c(7, NA), c(28, NA), c(12 * 7, NA), c(24 * 7, NA)),
+    duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
+  )
+outdata
+```
+
+```{r}
+all_stats <- bind_rows(outdata$char_stat_groups, .id = "duration_category")
+
+all_stats
+```
+
+
+## plotly_exp_duration()
+The function takes the fully prepared outdata from the above steps to simply visualizes these pre-calculated statistics in an interactive way.
+It reshapes the counts and proportions tables from wide to long format, so each row corresponds to a specific combination of:
+Exposure duration category (e.g., >=7 days).
+Treatment group (e.g., Placebo).
+It uses these reshaped tables to create stacked bar charts or grouped bar charts that show:
+The number or proportion of participants in each exposure duration category for each treatment group.
+It also uses the summary statistics (char_stat_groups) to create hover text that shows detailed statistics for each bar (i.e., for each treatment group × exposure duration category).
+The interactive dropdown lets you switch between different views (e.g., cumulative exposure duration, exclusive categories, horizontal bars).
+
+```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+outdata |>
+  plotly_exp_duration(
+    color = NULL,
+    display = "n",
+    display_total = TRUE,
+    plot_group_label = "Treatment Group",
+    plot_category_label = "Exposure Duration",
+    hover_summary_var = c("mean", "min", "max"),
+    width = 800,
+    height = 400
+  )
+```
+
