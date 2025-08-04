@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 ```{r setup, message=FALSE, warning=FALSE}
 library(metalite.sl)
 library(dplyr)
-library(kableExtra)
 ```
 
 # Create Exposure Duration Histogram
@@ -176,7 +175,7 @@ outdata
 ```{r}
 all_stats <- bind_rows(outdata$char_stat_groups, .id = "duration_category")
 
-knitr::kable(all_stats, caption = "all_stats")
+all_stats
 ```
 
 
