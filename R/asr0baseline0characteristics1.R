@@ -1,4 +1,4 @@
-#' Generate Baseline Characteristics Table 
+#' Generate Baseline Characteristics Table
 #'
 #' This function creates a baseline characteristics table based on the provided metadata and population definitions.
 #' It supports customization of variables, display options, formatting, and output paths.
@@ -36,7 +36,7 @@
 #' asr0baseline0characteristics(meta = meta, population = "apat", parameter = "age;gender;race")
 #' }
 asr0baseline0characteristics <- function(meta = meta,
-                                         # analysis = "base0char" specifies the analysis term defined in meta. Used for generating title. 
+                                         # analysis = "base0char" specifies the analysis term defined in meta. Used for generating title.
                                          analysis = "base0char",
                                          # population = "apat" specifies the analysis population of the baseline characteristics table.
                                          # In this example, "apat" population is defined as, in ADSL, filtered by SAFFL is "Y' and TRT01A is not missing, group by TRT01A and "apat" is labeling as "(All Participants as Treated)" in the TLF
@@ -45,7 +45,7 @@ asr0baseline0characteristics <- function(meta = meta,
                                          parameter = "age;gender;race",
                                          # TODO: implement a new argument frame as the input dataframe to control the order section and category. More details are illustrated in the code of Part 1.
                                          # frame,
-                                         # display_col controls whether the counts, proportion and total column is displayed. 
+                                         # display_col controls whether the counts, proportion and total column is displayed.
                                          # This arguments replaced the parameter display_totals from SAS macro %asr0baseline0characteristics.
                                          display_col = c("n", "prop", "total"),
                                          # TODO: implement a new argument display_totals_select_grps which has the same logic in SAS macro %asr0baseline0characteristics.
@@ -73,10 +73,9 @@ asr0baseline0characteristics <- function(meta = meta,
                                          # By default, it collects title from metadata. User can also define a character vector for each line of table titles.
                                          title = NULL,
                                          path_outdata = paste0(path$outdata, "/asr0baseline0characteristics.Rdata"),
-                                         path_outtable =   paste0(path$outtable, "/asr0baseline0characteristics.rtf")
-) {
+                                         path_outtable = paste0(path$outtable, "/asr0baseline0characteristics.rtf")) {
   ## PART 1: manipulate the input data to make the variables displayed in a desired way
-  # These variables include section variable(i.e., AGE, SEX, RACE) category variable (i.e., AGEGRP1) and treatment group variable (i.e., TRT01P) 
+  # These variables include section variable(i.e., AGE, SEX, RACE) category variable (i.e., AGEGRP1) and treatment group variable (i.e., TRT01P)
   # Section variable is defined by the parameter term in metadata. ; is used to concatenate different parameter term.
   parameters <- unlist(strsplit(parameter, ";"))
   # Get the variable name for each section variable (i.e., AGE, SEX, RACE)
@@ -93,38 +92,40 @@ asr0baseline0characteristics <- function(meta = meta,
   }))
   # No observation since only ADSL is used
   observation <- population
-  
-  # Get the treatment variable (i.e., TRT01P) defined in population 
+
+  # Get the treatment variable (i.e., TRT01P) defined in population
   pop_group <- metalite::collect_adam_mapping(meta, population)$group
-  
+
   # TODO: Make the section variable displayed in desired order by converting into factor.
   # The order is getting from a dataframe same as the FRAME dataset (always called lptmt.asr0fram) when using SAS Macro
   # Convert the section variable into factor with all the possible value shown in the data frame, even it is not existed in the variable
   # If the value is blank, "Missing" will be used.
-  
+
   # TODO: Make the category variable displayed in desired order by converting into factor.
   # The order is getting from a dataframe same as the FRAME dataset (always called lptmt.asr0fram) when using SAS Macro
   # Convert the category variable into factor with all the possible value shown in the section_frame dataframe. even it is not existed in the variable
-  
+
   # TODO: Make the treatment variable displayed in desired order by converting into factor.
   # The order is getting from the numeric value corresponding to the treatment arm variable. For example, if "TRT01P" is the variable then "TRT01PN" is used for ordering.
-  
+
   ## PART 2: calculate the counts and proportion for column displaying in baseline characteristics table
   # The code below is wrapped into metalite.sl::prepare_sl_summary() which might not be able to use for other tables.
   pop_id <- metalite::collect_adam_mapping(meta, population)$id
-  pop <- metalite::collect_population_record(meta, population, 
-                                             var = c(par_var, par_var_group, par_var_lower))
+  pop <- metalite::collect_population_record(meta, population,
+    var = c(par_var, par_var_group, par_var_lower)
+  )
   group <- unique(pop[[pop_group]])
   # Get the population counts for each treatment group
   n_pop <- metalite::n_subject(id = pop[[pop_id]], group = pop[[pop_group]])
-  names(n_pop) <- do.call(c, lapply(as.numeric(factor(names(n_pop), 
-                                                      levels = levels(pop[[pop_group]]))), function(x) {
-                                                        paste0("n_", x)
-                                                      }))
+  names(n_pop) <- do.call(c, lapply(as.numeric(factor(names(n_pop),
+    levels = levels(pop[[pop_group]])
+  )), function(x) {
+    paste0("n_", x)
+  }))
   n_pop$n_9999 <- sum(n_pop[1, ])
   n_pop$name <- "Participants in population"
-  n_pop <- n_pop[, c(length(group) + 2, 1:(length(group) + 
-                                             1))]
+  n_pop <- n_pop[, c(length(group) + 2, 1:(length(group) +
+    1))]
   n_pop$var_label <- "-----"
   char_var <- par_var
   # Get the counts for each section variable by treatment group
@@ -142,11 +143,12 @@ asr0baseline0characteristics <- function(meta = meta,
     collect_baseline(meta, population, x)[[4]]
   })
   # TODO: If implement CDISC ARS, table level metadata such as AnlysisGrouping, AnalysisProgrammingCode should be generated in this part.
-  outdata <- metalite::outdata(meta, population, observation, parameter, 
-                               n = n_pop, order = NULL, group = pop_group, reference_group = NULL, 
-                               char_n = char_n, char_var = char_var, char_prop = char_prop, 
-                               var_type = var_type, group_label = unique(pop[[pop_group]]), 
-                               analysis = analysis)
+  outdata <- metalite::outdata(meta, population, observation, parameter,
+    n = n_pop, order = NULL, group = pop_group, reference_group = NULL,
+    char_n = char_n, char_var = char_var, char_prop = char_prop,
+    var_type = var_type, group_label = unique(pop[[pop_group]]),
+    analysis = analysis
+  )
   ## PART 3: format the analysis results displaying in baseline characteristics table
   # The code below is wrapped into metalite.sl::format_sl_summary() which might not be able to use for other tables.
   n_group <- length(outdata$group_label)
@@ -155,18 +157,20 @@ asr0baseline0characteristics <- function(meta = meta,
   }
   # select the descriptive statistics displayed on the output table
   for (i in 1:length(outdata$var_type)) {
-    if (("integer" %in% outdata$var_type[[i]]) || ("numeric" %in% 
-                                                   outdata$var_type[[i]])) {
+    if (("integer" %in% outdata$var_type[[i]]) || ("numeric" %in%
+      outdata$var_type[[i]])) {
       n_num <- outdata$char_n[[i]]
-      n_num_group <- n_num[which(!tolower(n_num$name) %in% 
-                                   c("mean", "sd", "se", "median", "q1 to q3", "range", 
-                                     "q1", "q3", "min", "max")), ]
-      n_num_stat <- n_num[which(tolower(n_num$name) %in% 
-                                  tolower(display_stat)), ]  # Fixed: added tolower() for consistent comparison
+      n_num_group <- n_num[which(!tolower(n_num$name) %in%
+        c(
+          "mean", "sd", "se", "median", "q1 to q3", "range",
+          "q1", "q3", "min", "max"
+        )), ]
+      n_num_stat <- n_num[which(tolower(n_num$name) %in%
+        tolower(display_stat)), ] # Fixed: added tolower() for consistent comparison
       n_num <- rbind(n_num_group, n_num_stat)
       outdata$char_n[[i]] <- n_num
-      outdata$char_prop[[i]] <- outdata$char_prop[[i]][which(outdata$char_prop[[i]]$name %in% 
-                                                               n_num$name), ]
+      outdata$char_prop[[i]] <- outdata$char_prop[[i]][which(outdata$char_prop[[i]]$name %in%
+        n_num$name), ]
     }
   }
   # TODO: logic for display_totals_select_grps should be implemented from here
@@ -175,42 +179,55 @@ asr0baseline0characteristics <- function(meta = meta,
   if ("n" %in% display_col) {
     n <- do.call(rbind, outdata$char_n)
     if ("total" %in% display_col) {
-      names(n) <- c("name", paste0("n_", seq(1, n_group)), 
-                    "n_9999", "var_label")
-    }
-    else {
+      names(n) <- c(
+        "name", paste0("n_", seq(1, n_group)),
+        "n_9999", "var_label"
+      )
+    } else {
       n <- n[, -(2 + n_group)]
-      names(n) <- c("name", paste0("n_", seq(1, n_group)), 
-                    "var_label")
+      names(n) <- c(
+        "name", paste0("n_", seq(1, n_group)),
+        "var_label"
+      )
     }
     tbl[["n"]] <- n
   }
-  tbl$n <- rbind(outdata$n[, names(outdata$n) %in% names(tbl$n)], 
-                 tbl$n)
+  tbl$n <- rbind(
+    outdata$n[, names(outdata$n) %in% names(tbl$n)],
+    tbl$n
+  )
   if ("prop" %in% display_col) {
     prop <- do.call(rbind, outdata$char_prop)
     name <- prop$name
     label <- prop$var_label
-    value <- data.frame(apply(prop[2:(ncol(prop) - 1)], 2, 
-                              function(x) as.numeric(as.character(x))))
-    prop <- as.data.frame(apply(value, 2, metalite.ae::fmt_pct, 
-                                digits = decimal_places_percent, pre = "(", post = ")"))
+    value <- data.frame(apply(
+      prop[2:(ncol(prop) - 1)], 2,
+      function(x) as.numeric(as.character(x))
+    ))
+    prop <- as.data.frame(apply(value, 2, metalite.ae::fmt_pct,
+      digits = decimal_places_percent, pre = "(", post = ")"
+    ))
     prop <- data.frame(name = name, prop, var_label = label)
     if ("total" %in% display_col) {
-      names(prop) <- c("name", paste0("p_", seq(1, n_group)), 
-                       "p_9999", "var_label")
-    }
-    else {
+      names(prop) <- c(
+        "name", paste0("p_", seq(1, n_group)),
+        "p_9999", "var_label"
+      )
+    } else {
       prop <- prop[, -(2 + n_group)]
-      names(prop) <- c("name", paste0("p_", seq(1, n_group)), 
-                       "var_label")
+      names(prop) <- c(
+        "name", paste0("p_", seq(1, n_group)),
+        "var_label"
+      )
     }
     tbl[["prop"]] <- prop
   }
   # Ordering the columns
-  tbl$prop <- rbind(c(tbl$n[1, 1], rep(NA, ifelse("total" %in% 
-                                                    display_col, n_group + 1, n_group)), tbl$n[1, ncol(tbl$n)]), 
-                    tbl$prop)
+  tbl$prop <- rbind(
+    c(tbl$n[1, 1], rep(NA, ifelse("total" %in%
+      display_col, n_group + 1, n_group)), tbl$n[1, ncol(tbl$n)]),
+    tbl$prop
+  )
   within_var <- names(tbl)[names(tbl) %in% c("n", "prop")]
   within_tbl <- tbl[within_var]
   names(within_tbl) <- NULL
@@ -218,18 +235,19 @@ asr0baseline0characteristics <- function(meta = meta,
   n_row <- ncol(tbl[["n"]])
   within_tbl <- do.call(cbind, within_tbl)
   within_tbl <- within_tbl[, !duplicated(names(within_tbl))]
-  within_tbl <- within_tbl[, c(1, do.call(c, lapply(2:(1 + 
-                                                         n_group + ifelse("total" %in% display_col, 1, 0)), function(x) {
-                                                           c(x, x + n_group + ifelse("total" %in% display_col, 1, 
-                                                                                     0) + 1)
-                                                         })), (1 + n_group + ifelse("total" %in% display_col, 1, 0) + 
-                                                                 1))]
+  within_tbl <- within_tbl[, c(1, do.call(c, lapply(2:(1 +
+    n_group + ifelse("total" %in% display_col, 1, 0)), function(x) {
+    c(x, x + n_group + ifelse("total" %in% display_col, 1,
+      0
+    ) + 1)
+  })), (1 + n_group + ifelse("total" %in% display_col, 1, 0) +
+    1))]
   rownames(within_tbl) <- NULL
   outdata$tbl <- within_tbl
   outdata$display_col <- display_col
   outdata$display_stat <- display_stat
   # TODO: If implement CDISC ARS, table level metadata such as AnlysisResults, AnalysisMethods should be generated in this part.
-  
+
   ## PART 4: generate the RTF output
   # The code below is wrapped into metalite.sl::rtf_sl_summary() which might not be able to use for other tables.
   tbl <- outdata$tbl
@@ -238,8 +256,7 @@ asr0baseline0characteristics <- function(meta = meta,
   if (display_total == TRUE) {
     group <- c(levels(outdata$group_label), "Total")
     n_group <- length(outdata$group_label) + 1
-  }
-  else {
+  } else {
     group <- levels(outdata$group_label)
     n_group <- length(outdata$group_label)
   }
@@ -247,14 +264,18 @@ asr0baseline0characteristics <- function(meta = meta,
   n_col <- ncol(tbl)
   # Fixed: changed col_rel_width to rel_col_widths to match the function parameter
   if (!is.null(rel_col_widths) && !(n_col == length(rel_col_widths))) {
-    stop("rel_col_widths must have the same length (has ", 
-         length(rel_col_widths), ") as `outdata$tbl` has number of columns (has ", 
-         n_col, ").", call. = FALSE)
+    stop("rel_col_widths must have the same length (has ",
+      length(rel_col_widths), ") as `outdata$tbl` has number of columns (has ",
+      n_col, ").",
+      call. = FALSE
+    )
   }
   # Collect the title automatically from metadata if eligible
   if (is.null(title)) {
-    title <- metalite::collect_title(outdata$meta, outdata$population, 
-                                     "", outdata$parameter, analysis = outdata$analysis)
+    title <- metalite::collect_title(outdata$meta, outdata$population,
+      "", outdata$parameter,
+      analysis = outdata$analysis
+    )
   }
   # Collect the footnote automatically from metadata if eligible
   # TODO: "a Not included in summary statistics for age." will not be displayed when "Unknown" is displayed in the Age Category Row
@@ -275,26 +296,26 @@ asr0baseline0characteristics <- function(meta = meta,
     if (nchar(footnotes_stat) > 0) {
       if (!is.null(end_notes)) {
         end_notes <- c(paste0(footnotes_stat, "."), end_notes)
-      }
-      else {
+      } else {
         end_notes <- paste0(footnotes_stat, ".")
       }
     }
   }
-  colheader <- c(paste0(" | ", paste(group, collapse = " | ")), 
-                 paste0(" | ", paste(rep("n | (%)", n_group), collapse = " | ")))
-  
+  colheader <- c(
+    paste0(" | ", paste(group, collapse = " | ")),
+    paste0(" | ", paste(rep("n | (%)", n_group), collapse = " | "))
+  )
+
   # prepare the parameter for controlling the layout of RTF table
   if (is.null(rel_col_widths)) {
     rel_width_body <- c(3, rep(1, 2 * n_group), 1)
-  }
-  else {
+  } else {
     rel_width_body <- rel_col_widths
   }
-  rel_width_head2 <- rel_width_body[1:(length(rel_width_body) - 
-                                         1)]
-  rel_width_head1 <- c(rel_width_head2[1], tapply(rel_width_head2[2:(n_group * 
-                                                                       2 + 1)], c(rep(1:n_group, each = 2)), sum), rel_width_head2[-(1:(n_group *                                                                                                                                           2 + 1))])
+  rel_width_head2 <- rel_width_body[1:(length(rel_width_body) -
+    1)]
+  rel_width_head1 <- c(rel_width_head2[1], tapply(rel_width_head2[2:(n_group *
+    2 + 1)], c(rep(1:n_group, each = 2)), sum), rel_width_head2[-(1:(n_group * 2 + 1))])
   border_top <- c("", rep("single", n_group * 2))
   border_top_body <- c(rep("", n_col - 1), "single")
   border_bottom <- c(rep("", n_col - 1), "single")
@@ -305,27 +326,37 @@ asr0baseline0characteristics <- function(meta = meta,
   text_indent <- matrix(0, nrow = n_row, ncol = n_col)
   text_indent[, 1] <- ifelse(FALSE, 0, 100)
   text_indent[1, 1] <- 0
-  
+
   # Use functions from r2rtf to generate the RTF output
   # Fixed: changed text_font_size to font_size in the first occurrence
-  outdata$rtf <- r2rtf::rtf_body(r2rtf::rtf_colheader(r2rtf::rtf_colheader(r2rtf::rtf_title(r2rtf::rtf_page(tbl, 
-                                                                                                            orientation = page_orientation), title), colheader = colheader[1], 
-                                                                           col_rel_width = rel_width_head1, text_font_size = font_size), 
-                                                      colheader = colheader[2], border_top = border_top, border_left = border_left, 
-                                                      col_rel_width = rel_width_head2, text_font_size = font_size), 
-                                 page_by = "var_label", col_rel_width = rel_width_body, 
-                                 border_left = border_left_body, border_top = border_top_body, 
-                                 border_bottom = border_bottom, text_justification = text_justification, 
-                                 text_indent_first = text_indent, text_indent_left = text_indent, 
-                                 text_format = text_format, text_font_size = font_size)
+  outdata$rtf <- r2rtf::rtf_body(
+    r2rtf::rtf_colheader(
+      r2rtf::rtf_colheader(
+        r2rtf::rtf_title(r2rtf::rtf_page(tbl,
+          orientation = page_orientation
+        ), title),
+        colheader = colheader[1],
+        col_rel_width = rel_width_head1, text_font_size = font_size
+      ),
+      colheader = colheader[2], border_top = border_top, border_left = border_left,
+      col_rel_width = rel_width_head2, text_font_size = font_size
+    ),
+    page_by = "var_label", col_rel_width = rel_width_body,
+    border_left = border_left_body, border_top = border_top_body,
+    border_bottom = border_bottom, text_justification = text_justification,
+    text_indent_first = text_indent, text_indent_left = text_indent,
+    text_format = text_format, text_font_size = font_size
+  )
   if (!is.null(end_notes)) {
-    outdata$rtf <- r2rtf::rtf_footnote(outdata$rtf, end_notes, 
-                                       text_font_size = font_size)
+    outdata$rtf <- r2rtf::rtf_footnote(outdata$rtf, end_notes,
+      text_font_size = font_size
+    )
   }
-  
-  if (!is.null( data_source_txt )) {
-    outdata$rtf <- r2rtf::rtf_source(outdata$rtf,  data_source_txt , 
-                                     text_font_size = font_size)
+
+  if (!is.null(data_source_txt)) {
+    outdata$rtf <- r2rtf::rtf_source(outdata$rtf, data_source_txt,
+      text_font_size = font_size
+    )
   }
   rtf_output(outdata, path_outdata, path_outtable)
 }
