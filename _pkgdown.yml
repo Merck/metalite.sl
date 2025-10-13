@@ -92,7 +92,7 @@ articles:
     - exp_duration
     - trt_compliance
 - title: Generate interactive tables
-  content:
+  contents:
     - interactive-baseline
     - interactive-disposition
     - exposure-duration-histogram
