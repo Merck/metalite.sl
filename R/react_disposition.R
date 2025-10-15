@@ -193,7 +193,7 @@ react_disposition <- function(
                 subset = ae_list$USUBJID %in% usubjid,
                 select = ae_col_selected
               )
-              sub_ae_listing |> reactable::reactable(striped = FALSE, columns = ae_col_def, defaultExpanded = FALSE)
+              sub_ae_listing |> reactable::reactable(striped = FALSE, columns = ae_col_def, defaultExpanded = FALSE, filterable = TRUE)
             }
           }
         )
