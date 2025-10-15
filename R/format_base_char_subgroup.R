@@ -44,10 +44,11 @@
 #'
 #' outdata |> format_base_char_subgroup()
 format_base_char_subgroup <- function(
-    outdata,
-    display = c("n", "prop", "total"),
-    display_stat = c("mean", "sd", "median", "range"),
-    display_total = TRUE) {
+  outdata,
+  display = c("n", "prop", "total"),
+  display_stat = c("mean", "sd", "median", "range"),
+  display_total = TRUE
+) {
   out_all <- outdata$out_all
 
   outlst <- list()

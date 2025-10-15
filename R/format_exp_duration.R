@@ -17,10 +17,11 @@
 #'   prepare_exp_duration(population = "apat", parameter = "expdur") |>
 #'   format_exp_duration(display_col = c("n", "prop", "total"))
 format_exp_duration <- function(
-    outdata,
-    display_col = c("n", "prop", "n_cum", "prop_cum", "total"),
-    digits_prop = 1,
-    display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")) {
+  outdata,
+  display_col = c("n", "prop", "n_cum", "prop_cum", "total"),
+  digits_prop = 1,
+  display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")
+) {
   n_group <- length(outdata$group_label)
 
   display_col <- match.arg(

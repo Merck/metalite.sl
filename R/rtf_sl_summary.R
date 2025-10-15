@@ -47,17 +47,17 @@
 #'     path_outtable = tempfile(fileext = ".rtf")
 #'   )
 rtf_sl_summary <- function(
-    outdata,
-    source,
-    col_rel_width = NULL,
-    text_font_size = 9,
-    orientation = "portrait",
-    footnotes = NULL,
-    title = NULL,
-    path_outdata = NULL,
-    path_outtable = NULL) {
+  outdata,
+  source,
+  col_rel_width = NULL,
+  text_font_size = 9,
+  orientation = "portrait",
+  footnotes = NULL,
+  title = NULL,
+  path_outdata = NULL,
+  path_outtable = NULL
+) {
   # Set default column width
-
 
 
   tbl <- outdata$tbl

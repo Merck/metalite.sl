@@ -55,15 +55,16 @@
 #'   )
 #' }
 react_base_char <- function(
-    metadata_sl,
-    metadata_ae,
-    population = "apat",
-    observation = "wk12",
-    display_total = TRUE,
-    sl_parameter = "age;gender;race",
-    ae_subgroup = c("gender", "race"),
-    ae_specific = "rel",
-    width = 1200) {
+  metadata_sl,
+  metadata_ae,
+  population = "apat",
+  observation = "wk12",
+  display_total = TRUE,
+  sl_parameter = "age;gender;race",
+  ae_subgroup = c("gender", "race"),
+  ae_specific = "rel",
+  width = 1200
+) {
   # ----------------------------------------- #
   #   total setting                           #
   # ----------------------------------------- #

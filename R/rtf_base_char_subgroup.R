@@ -51,15 +51,16 @@
 #'   )
 #' }
 rtf_base_char_subgroup <- function(
-    outdata,
-    source,
-    col_rel_width = NULL,
-    text_font_size = 8,
-    orientation = "landscape",
-    footnotes = NULL,
-    title = NULL,
-    path_outdata = NULL,
-    path_outtable = NULL) {
+  outdata,
+  source,
+  col_rel_width = NULL,
+  text_font_size = 8,
+  orientation = "landscape",
+  footnotes = NULL,
+  title = NULL,
+  path_outdata = NULL,
+  path_outtable = NULL
+) {
   out_all <- outdata$out_all
   tbl <- outdata$tbl
 
