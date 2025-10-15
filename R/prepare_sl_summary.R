@@ -34,10 +34,11 @@
 #' meta <- meta_sl_example()
 #' meta |> prepare_sl_summary(population = "apat", analysis = "base_char")
 prepare_sl_summary <- function(
-    meta,
-    population,
-    analysis,
-    parameter = paste(names(meta$parameter), collapse = ";")) {
+  meta,
+  population,
+  analysis,
+  parameter = paste(names(meta$parameter), collapse = ";")
+) {
   parameters <- unlist(strsplit(parameter, ";"))
   observation <- population
   # obtain variables

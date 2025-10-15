@@ -168,7 +168,6 @@ test_that("Participants in population", {
 })
 
 
-
 # 3
 test_that("Character variables count", {
   char_var <- c("EXDURGR")
@@ -283,8 +282,6 @@ test_that("Character variables count", {
 })
 
 
-
-
 # 4
 test_that("Numeric variables summary", {
   char_var <- c("AVAL")
@@ -359,7 +356,6 @@ test_that("Numeric variables summary", {
   for (col in (names(res_stat_n))) {
     names(res_stat_n[[col]]) <- NULL
   }
-
 
 
   test_meta_n_num1 <- test_meta_n_char[(test_meta_n_char$name %in% c("Mean", "SD", "SE", "Median", "Min", "Max", "Q1 to Q3", "Range")), ]

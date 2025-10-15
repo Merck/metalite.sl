@@ -38,12 +38,13 @@
 #'   parameter = "age"
 #' )
 collect_baseline <- function(
-    meta,
-    population,
-    parameter,
-    type = "Subjects",
-    use_na = c("ifany", "no", "always"),
-    display_total = TRUE) {
+  meta,
+  population,
+  parameter,
+  type = "Subjects",
+  use_na = c("ifany", "no", "always"),
+  display_total = TRUE
+) {
   use_na <- match.arg(use_na)
 
   title <- c(

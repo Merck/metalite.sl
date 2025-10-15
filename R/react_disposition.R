@@ -51,20 +51,21 @@
 #'   )
 #' }
 react_disposition <- function(
-    metadata_sl,
-    metadata_ae,
-    analysis = "disp",
-    trtvar = metalite::collect_adam_mapping(metadata_sl, population)$group,
-    population = metadata_sl$plan$population[metadata_sl$plan$analysis == analysis],
-    sl_parameter = paste(metadata_sl$plan$parameter[metadata_sl$plan$analysis == analysis], collapse = ";"),
-    sl_col_selected = c("siteid", "subjid", "sex", "age", "weightbl"),
-    sl_col_names = c("Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),
-    ae_observation = "wk12",
-    ae_population = population,
-    ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT"),
-    ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome"),
-    display_total = TRUE,
-    width = 1200) {
+  metadata_sl,
+  metadata_ae,
+  analysis = "disp",
+  trtvar = metalite::collect_adam_mapping(metadata_sl, population)$group,
+  population = metadata_sl$plan$population[metadata_sl$plan$analysis == analysis],
+  sl_parameter = paste(metadata_sl$plan$parameter[metadata_sl$plan$analysis == analysis], collapse = ";"),
+  sl_col_selected = c("siteid", "subjid", "sex", "age", "weightbl"),
+  sl_col_names = c("Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),
+  ae_observation = "wk12",
+  ae_population = population,
+  ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT"),
+  ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome"),
+  display_total = TRUE,
+  width = 1200
+) {
   # ----------------------------------------- #
   #   total setting                           #
   # ----------------------------------------- #

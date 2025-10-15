@@ -27,9 +27,10 @@
 #' @return A reactable combining both baseline characteristic table
 #'   and AE subgroup specific tables for a subgroup.
 react_subgroup_table <- function(
-    tbl,
-    group,
-    subgroup_name) {
+  tbl,
+  group,
+  subgroup_name
+) {
   names(tbl) <- tolower(names(tbl))
   subgroup_name <- tolower(subgroup_name)
   race_columns <- grep(tolower(subgroup_name), tolower(names(tbl)), value = TRUE)
