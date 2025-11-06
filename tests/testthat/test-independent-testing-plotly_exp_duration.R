@@ -12,7 +12,7 @@ outdata_plot <- outdata |>
 
 # Testing the plotly_exp_duration function - run multiple plots
 test_that("Interactive plot is created successfully", {
-  interactive_plot <- outdata_plot |> 
+  interactive_plot <- outdata_plot |>
     plotly_exp_duration(
       standard_histogram_label = "Histogram",
       stacked_histogram_label = "Stacked histogram",

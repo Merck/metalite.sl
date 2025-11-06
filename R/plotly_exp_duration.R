@@ -24,17 +24,17 @@
 #' @param display A character vector of display type.
 #'   `n` or `prop` can be selected.
 #' @param display_total A logical value to display total.
-#' @param display_standard_histogram A logical value if the standard histogram 
+#' @param display_standard_histogram A logical value if the standard histogram
 #'   is displayed.
-#' @param standard_histogram_label A character value of label for 
+#' @param standard_histogram_label A character value of label for
 #'   the standard histogram.
-#' @param display_stacked_histogram A logical value if the stacked histogram 
+#' @param display_stacked_histogram A logical value if the stacked histogram
 #'   is displayed.
-#' @param stacked_histogram_label  A character value of label for 
+#' @param stacked_histogram_label  A character value of label for
 #'   the stacked histogram.
-#' @param display_horizontal_histogram A logical value if the horizontal histogram 
+#' @param display_horizontal_histogram A logical value if the horizontal histogram
 #'   is displayed.
-#' @param horizontal_histogram_label  A character value of label for 
+#' @param horizontal_histogram_label  A character value of label for
 #' @param plot_group_label A label for grouping.
 #' @param plot_category_label A label for category.
 #' @param hover_summary_var A character vector of statistics to be displayed
