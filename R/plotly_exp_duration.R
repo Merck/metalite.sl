@@ -22,12 +22,19 @@
 #'   `extend_exp_duration()` can also be applied.
 #' @param color Color for a histogram.
 #' @param display A character vector of display type.
-#'  `n` or `prop` can be selected.
+#'   `n` or `prop` can be selected.
 #' @param display_total A logical value to display total.
-#' @param plot_type_label A character vector of histogram type.
-#'  The first element is for the standard histogram.
-#'  The second element is for the stacked histogram.
-#'  The third element is for the horizontal histogram.
+#' @param display_standard_histogram A logical value if the standard histogram 
+#'   is displayed.
+#' @param standard_histogram_label A character value of label for 
+#'   the standard histogram.
+#' @param display_stacked_histogram A logical value if the stacked histogram 
+#'   is displayed.
+#' @param stacked_histogram_label  A character value of label for 
+#'   the stacked histogram.
+#' @param display_horizontal_histogram A logical value if the horizontal histogram 
+#'   is displayed.
+#' @param horizontal_histogram_label  A character value of label for 
 #' @param plot_group_label A label for grouping.
 #' @param plot_category_label A label for category.
 #' @param hover_summary_var A character vector of statistics to be displayed
@@ -59,7 +66,12 @@ plotly_exp_duration <- function(outdata,
                                 color = NULL,
                                 display = c("n", "prop"),
                                 display_total = TRUE,
-                                plot_type_label = c("Comparision of Exposure Duration (> = x days) by Treatment Groups", "Comparision of Exposure Duration (> = x days and < y days) by Treatment Groups", "Comparision by Exposure Duration (> = x days)"),
+                                display_standard_histogram = TRUE,
+                                standard_histogram_label = "Comparison of Exposure Duration (> = x days) by Treatment Groups",
+                                display_stacked_histogram = TRUE,
+                                stacked_histogram_label = "Comparison of Exposure Duration (> = x days and < y days) by Treatment Groups",
+                                display_horizontal_histogram = TRUE,
+                                horizontal_histogram_label = "Comparison by Exposure Duration (> = x days)",
                                 plot_group_label = "Treatment group",
                                 plot_category_label = "Exposure duration",
                                 hover_summary_var = c("n", "median", "sd", "se", "median", "min", "max", "q1 to q3", "range"),
@@ -72,15 +84,6 @@ plotly_exp_duration <- function(outdata,
     c("n", "prop")
   )
   hover_summary_var <- tolower(hover_summary_var)
-
-  if (!length(plot_type_label) == 3) {
-    message("Three labels should be provided for `plot_type_label`. The default values are used.")
-    plot_type_label <- c(
-      "Comparision of Exposure Duration (> = x days) by Treatment Groups",
-      "Comparision of Exposure Duration (> = x days and < y days) by Treatment Group",
-      "Comparision by Exposure Duration (> = x days)"
-    )
-  }
 
   group_label <- outdata$group_label
   n_group <- length(outdata$group_label)
@@ -206,7 +209,9 @@ plotly_exp_duration <- function(outdata,
         barmode = "stack",
         autosize = FALSE
       )
-    p[[plot_type_label[2]]] <- plot_type2
+    if (display_stacked_histogram) {
+      p[[stacked_histogram_label]] <- plot_type2
+    }
   }
   if (!is.null(outdata$char_n_cum)) {
     tbl_cum <- outdata$char_n_cum[[1]]
@@ -349,8 +354,12 @@ plotly_exp_duration <- function(outdata,
         autosize = FALSE
       )
 
-    p[[plot_type_label[1]]] <- plot_type1
-    p[[plot_type_label[3]]] <- plot_type3
+    if (display_standard_histogram) {
+      p[[standard_histogram_label]] <- plot_type1
+    }
+    if (display_horizontal_histogram) {
+      p[[horizontal_histogram_label]] <- plot_type3
+    }
   }
 
   # Stop if there is no plot
@@ -358,7 +367,8 @@ plotly_exp_duration <- function(outdata,
     stop("No plot is available. Please check the input data.")
   }
 
-  histograms <- plot_type_label
+  histograms <- c(standard_histogram_label, stacked_histogram_label, horizontal_histogram_label)
+  histograms <- histograms[c(display_standard_histogram, display_stacked_histogram, display_horizontal_histogram)]
   histograms_ids <- paste0("histogram_type_", uuid::UUIDgenerate(), "|", histograms)
   plot_divs <- lapply(histograms_ids, function(x) {
     element <- unlist(strsplit(x, "\\|"))[2]

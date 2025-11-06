@@ -9,10 +9,14 @@ plotly_exp_duration(
   color = NULL,
   display = c("n", "prop"),
   display_total = TRUE,
-  plot_type_label =
-    c("Comparision of Exposure Duration (> = x days) by Treatment Groups",
-    "Comparision of Exposure Duration (> = x days and < y days) by Treatment Groups",
-    "Comparision by Exposure Duration (> = x days)"),
+  display_standard_histogram = TRUE,
+  standard_histogram_label =
+    "Comparison of Exposure Duration (> = x days) by Treatment Groups",
+  display_stacked_histogram = TRUE,
+  stacked_histogram_label =
+    "Comparison of Exposure Duration (> = x days and < y days) by Treatment Groups",
+  display_horizontal_histogram = TRUE,
+  horizontal_histogram_label = "Comparison by Exposure Duration (> = x days)",
   plot_group_label = "Treatment group",
   plot_category_label = "Exposure duration",
   hover_summary_var = c("n", "median", "sd", "se", "median", "min", "max", "q1 to q3",
@@ -32,10 +36,22 @@ plotly_exp_duration(
 
 \item{display_total}{A logical value to display total.}
 
-\item{plot_type_label}{A character vector of histogram type.
-The first element is for the standard histogram.
-The second element is for the stacked histogram.
-The third element is for the horizontal histogram.}
+\item{display_standard_histogram}{A logical value if the standard histogram
+is displayed.}
+
+\item{standard_histogram_label}{A character value of label for
+the standard histogram.}
+
+\item{display_stacked_histogram}{A logical value if the stacked histogram
+is displayed.}
+
+\item{stacked_histogram_label}{A character value of label for
+the stacked histogram.}
+
+\item{display_horizontal_histogram}{A logical value if the horizontal histogram
+is displayed.}
+
+\item{horizontal_histogram_label}{A character value of label for}
 
 \item{plot_group_label}{A label for grouping.}
 
