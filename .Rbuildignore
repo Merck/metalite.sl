@@ -10,3 +10,4 @@
 ^codecov\.yml$
 ^tests/testthat/_snaps$
 ^cran-comments\.md$
+^data-raw$
