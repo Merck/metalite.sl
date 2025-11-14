@@ -4,8 +4,8 @@ adsl <- r2rtf::r2rtf_adsl
 # Factorize treatment
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(adsl$TRTA,
-                    levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-                    labels = c("Placebo", "Low Dose", "High Dose")
+  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
+  labels = c("Placebo", "Low Dose", "High Dose")
 )
 
 # Load adae
