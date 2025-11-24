@@ -51,7 +51,7 @@ The term name is used as key to link information.}
 
 \item{ae_population}{The meta parameter of the population in adverse event listing.}
 
-\item{ae_parameter}{The meta parameter of the parameter in adverse event listing.}
+\item{ae_parameter}{A character value of the parameter in adverse event listing.}
 
 \item{ae_col_selected}{A character vector of variable which will be shown in the AE detail.}
 

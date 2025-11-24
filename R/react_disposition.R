@@ -34,7 +34,7 @@
 #' @param sl_col_names A character vector for the columns names of the participant detail. Same length as sl_col_selected.
 #' @param ae_observation The meta parameter of the observation in adverse event listing.
 #' @param ae_population The meta parameter of the population in adverse event listing.
-#' @param ae_parameter The meta parameter of the parameter in adverse event listing.
+#' @param ae_parameter A character value of the parameter in adverse event listing.
 #' @param ae_col_selected A character vector of variable which will be shown in the AE detail.
 #' @param ae_col_names A character vector for the columns names of the AE detail. Same length as ae_col_selected.
 #' @param width A numeric value of width of the table in pixels.
