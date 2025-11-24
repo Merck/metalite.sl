@@ -16,6 +16,7 @@ react_disposition(
   sl_col_names = c("Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),
   ae_observation = "wk12",
   ae_population = population,
+  ae_parameter = "any",
   ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER",
     "related", "AEACN", "AEOUT"),
   ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity",
@@ -49,6 +50,8 @@ The term name is used as key to link information.}
 \item{ae_observation}{The meta parameter of the observation in adverse event listing.}
 
 \item{ae_population}{The meta parameter of the population in adverse event listing.}
+
+\item{ae_parameter}{The meta parameter of the parameter in adverse event listing.}
 
 \item{ae_col_selected}{A character vector of variable which will be shown in the AE detail.}
 
