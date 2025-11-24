@@ -34,6 +34,7 @@
 #' @param sl_col_names A character vector for the columns names of the participant detail. Same length as sl_col_selected.
 #' @param ae_observation The meta parameter of the observation in adverse event listing.
 #' @param ae_population The meta parameter of the population in adverse event listing.
+#' @param ae_parameter The meta parameter of the parameter in adverse event listing.
 #' @param ae_col_selected A character vector of variable which will be shown in the AE detail.
 #' @param ae_col_names A character vector for the columns names of the AE detail. Same length as ae_col_selected.
 #' @param width A numeric value of width of the table in pixels.
@@ -61,6 +62,7 @@ react_disposition <- function(
   sl_col_names = c("Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),
   ae_observation = "wk12",
   ae_population = population,
+  ae_parameter = "any",
   ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT"),
   ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome"),
   display_total = TRUE,
@@ -144,7 +146,7 @@ react_disposition <- function(
   # ----------------------------------------- #
   #   get AE listing                          #
   # ----------------------------------------- #
-  ae_list <- metalite::collect_observation_record(metadata_ae, ae_population, ae_observation, parameter = "any", var = names(metadata_ae$data_observation))
+  ae_list <- metalite::collect_observation_record(metadata_ae, ae_population, ae_observation, parameter = ae_parameter, var = names(metadata_ae$data_observation))
 
   # Define columns for AE list
   if (!length(ae_col_names) == length(ae_col_selected)) {
