@@ -88,12 +88,14 @@ articles:
 - title: Get started
   contents:
     - metalite.sl
-- title: Tutorial
+- title: Generate static tables
   contents:
     - baseline-character
     - disposition
     - exp_duration
     - trt_compliance
+- title: Generate interactive tables
+  contents:
     - interactive-baseline
     - interactive-disposition
     - exposure-duration-histogram
