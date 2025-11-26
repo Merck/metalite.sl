@@ -17,6 +17,7 @@ react_disposition(
   sl_col_names = c("Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),
   ae_observation = "wk12",
   ae_population = population,
+  ae_parameter = "any",
   ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER",
     "related", "AEACN", "AEOUT"),
   ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity",
@@ -74,6 +75,10 @@ react_disposition(
 - ae_population:
 
   The meta parameter of the population in adverse event listing.
+
+- ae_parameter:
+
+  A character value of the parameter in adverse event listing.
 
 - ae_col_selected:
 
