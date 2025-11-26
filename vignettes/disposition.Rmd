@@ -57,28 +57,7 @@ Additional information can be accessed on the
 
 
 ```{r}
-adsl <- r2rtf::r2rtf_adsl
-adsl$TRTA <- adsl$TRT01A
-adsl$TRTA <- factor(adsl$TRTA,
-  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-  labels = c("Placebo", "Low Dose", "High Dose")
-)
-
-# Create a variable EOSSTT indicating the end of end of study status
-adsl$EOSSTT <- sample(
-  x = c("Participants Ongoing", "Discontinued"),
-  size = length(adsl$USUBJID),
-  prob = c(0.8, 0.2), replace = TRUE
-)
-adsl[adsl[["EOSSTT"]] == "Discontinued", "DCSREAS"] <- sample(
-  x = c("Adverse Event", "I/E Not Met", "Withdrew Consent", "Lack of Efficacy"),
-  size = length(adsl[adsl[["EOSSTT"]] == "Discontinued", "USUBJID"]),
-  prob = c(0.7, 0.1, 0.1, 0.1), replace = TRUE
-)
-
-# Create a variable EOTSTT1 indicating the end of treatment status part 1
-adsl$EOTSTT1 <- ifelse(adsl$DISCONFL == "Y", "Discontinued", "Completed")
-adsl$DCTREAS <- ifelse(adsl$EOTSTT1 == "Discontinued", adsl$DCREASCD, NA)
+adsl <- metalite_sl_adsl
 head(adsl)
 ```
 
@@ -109,7 +88,7 @@ meta <- meta_adam(
   ) |>
   define_parameter(
     name = "medical-disposition",
-    var = "EOTSTT1",
+    var = "EOTSTT",
     label = "Participant Study Medication Disposition",
     var_lower = "DCTREAS"
   ) |>

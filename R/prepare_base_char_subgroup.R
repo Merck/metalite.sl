@@ -44,12 +44,13 @@
 #'   subgroup_header = c("SEX", "TRTA")
 #' )
 prepare_base_char_subgroup <- function(
-    meta,
-    population,
-    analysis = "base_char_subgroup",
-    parameter,
-    subgroup_var,
-    subgroup_header = c(meta$population[[population]]$group, subgroup_var)) {
+  meta,
+  population,
+  analysis = "base_char_subgroup",
+  parameter,
+  subgroup_var,
+  subgroup_header = c(meta$population[[population]]$group, subgroup_var)
+) {
   meta_original <- meta
 
   observation <- meta$plan[meta$plan$analysis == analysis, ]$observation

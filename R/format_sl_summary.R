@@ -37,12 +37,12 @@
 #'   prepare_sl_summary(population = "apat", analysis = "base_char", parameter = "age;gender") |>
 #'   format_sl_summary()
 format_sl_summary <- function(
-    outdata,
-    display_col = c("n", "prop", "total"),
-    digits_prop = 1,
-    display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")) {
+  outdata,
+  display_col = c("n", "prop", "total"),
+  digits_prop = 1,
+  display_stat = c("mean", "sd", "se", "median", "q1 to q3", "range")
+) {
   n_group <- length(outdata$group_label)
-
 
 
   # Check if the "tbl" element exists in the "outdata" object

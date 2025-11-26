@@ -80,7 +80,10 @@ reference:
 - title: Deformat
   contents:
     - defmt_pct
-    
+- title: Example data
+  contents:
+  - "metalite_sl_adsl"
+  - "metalite_sl_adae"
 articles:
 - title: Get started
   contents:

@@ -10,10 +10,14 @@ outdata_plot <- outdata |>
     duration_category_labels = c(">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
   )
 
-
 # Testing the plotly_exp_duration function - run multiple plots
 test_that("Interactive plot is created successfully", {
-  interactive_plot <- outdata_plot |> plotly_exp_duration(plot_type_label = c("Histogram", "Stacked histogram", "Horizontal histogram"))
+  interactive_plot <- outdata_plot |>
+    plotly_exp_duration(
+      standard_histogram_label = "Histogram",
+      stacked_histogram_label = "Stacked histogram",
+      horizontal_histogram_label = "Horizontal histogram"
+    )
 
   html <- gsub(
     "id=\"htmlwidget-[A-Za-z0-9]+\"",

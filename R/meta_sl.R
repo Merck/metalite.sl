@@ -52,19 +52,20 @@
 #'   parameter_var = "AGE^AGEGR1;RACE"
 #' )
 meta_sl <- function(
-    dataset_population,
-    dataset_observation = NULL,
-    population_term,
-    observation_term = NULL,
-    parameter_term = "age;race;gender",
-    parameter_var = "AGE^AGEGR1;RACE;SEX",
-    parameter_labels = NULL,
-    analysis_term = "base_char",
-    analysis_title = "Participant Baseline Characteristics by Treatment Group",
-    population_subset = SAFFL == "Y",
-    observation_subset = NULL,
-    population_label = "All Participants as Treated",
-    treatment_group = "TRT01A") {
+  dataset_population,
+  dataset_observation = NULL,
+  population_term,
+  observation_term = NULL,
+  parameter_term = "age;race;gender",
+  parameter_var = "AGE^AGEGR1;RACE;SEX",
+  parameter_labels = NULL,
+  analysis_term = "base_char",
+  analysis_title = "Participant Baseline Characteristics by Treatment Group",
+  population_subset = SAFFL == "Y",
+  observation_subset = NULL,
+  population_label = "All Participants as Treated",
+  treatment_group = "TRT01A"
+) {
   # Check input
   if (is.null(dataset_observation)) {
     dataset_observation <- dataset_population
