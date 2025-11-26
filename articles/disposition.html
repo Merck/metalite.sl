@@ -101,36 +101,15 @@ package website</a>.</p>
 <h3 id="build-a-metadata">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">r2rtf</span><span class="fu">::</span><span class="va"><a href="https://merck.github.io/r2rtf/reference/r2rtf_adsl.html" class="external-link">r2rtf_adsl</a></span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="va">adsl</span><span class="op">$</span><span class="va">TRT01A</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span>,</span>
-<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Xanomeline Low Dose"</span>, <span class="st">"Xanomeline High Dose"</span><span class="op">)</span>,</span>
-<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Placebo"</span>, <span class="st">"Low Dose"</span>, <span class="st">"High Dose"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create a variable EOSSTT indicating the end of end of study status</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">EOSSTT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Participants Ongoing"</span>, <span class="st">"Discontinued"</span><span class="op">)</span>,</span>
-<span>  size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">USUBJID</span><span class="op">)</span>,</span>
-<span>  prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.2</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">adsl</span><span class="op">[</span><span class="va">adsl</span><span class="op">[[</span><span class="st">"EOSSTT"</span><span class="op">]</span><span class="op">]</span> <span class="op">==</span> <span class="st">"Discontinued"</span>, <span class="st">"DCSREAS"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Adverse Event"</span>, <span class="st">"I/E Not Met"</span>, <span class="st">"Withdrew Consent"</span>, <span class="st">"Lack of Efficacy"</span><span class="op">)</span>,</span>
-<span>  size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">[</span><span class="va">adsl</span><span class="op">[[</span><span class="st">"EOSSTT"</span><span class="op">]</span><span class="op">]</span> <span class="op">==</span> <span class="st">"Discontinued"</span>, <span class="st">"USUBJID"</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>  prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create a variable EOTSTT1 indicating the end of treatment status part 1</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">EOTSTT1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">DISCONFL</span> <span class="op">==</span> <span class="st">"Y"</span>, <span class="st">"Discontinued"</span>, <span class="st">"Completed"</span><span class="op">)</span></span>
-<span><span class="va">adsl</span><span class="op">$</span><span class="va">DCTREAS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">$</span><span class="va">EOTSTT1</span> <span class="op">==</span> <span class="st">"Discontinued"</span>, <span class="va">adsl</span><span class="op">$</span><span class="va">DCREASCD</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="va">metalite_sl_adsl</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">adsl</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        STUDYID     USUBJID SUBJID SITEID SITEGR1                  ARM</span></span>
-<span><span class="co">#&gt; 1 CDISCPILOT01 01-701-1015   1015    701     701              Placebo</span></span>
-<span><span class="co">#&gt; 2 CDISCPILOT01 01-701-1023   1023    701     701              Placebo</span></span>
-<span><span class="co">#&gt; 3 CDISCPILOT01 01-701-1028   1028    701     701 Xanomeline High Dose</span></span>
-<span><span class="co">#&gt; 4 CDISCPILOT01 01-701-1033   1033    701     701  Xanomeline Low Dose</span></span>
-<span><span class="co">#&gt; 5 CDISCPILOT01 01-701-1034   1034    701     701 Xanomeline High Dose</span></span>
-<span><span class="co">#&gt; 6 CDISCPILOT01 01-701-1047   1047    701     701              Placebo</span></span>
+<span><span class="co">#&gt;       USUBJID      STUDYID SUBJID SITEID SITEGR1                  ARM</span></span>
+<span><span class="co">#&gt; 1 01-701-1015 CDISCPILOT01   1015    701     701              Placebo</span></span>
+<span><span class="co">#&gt; 2 01-701-1023 CDISCPILOT01   1023    701     701              Placebo</span></span>
+<span><span class="co">#&gt; 3 01-701-1028 CDISCPILOT01   1028    701     701 Xanomeline High Dose</span></span>
+<span><span class="co">#&gt; 4 01-701-1033 CDISCPILOT01   1033    701     701  Xanomeline Low Dose</span></span>
+<span><span class="co">#&gt; 5 01-701-1034 CDISCPILOT01   1034    701     701 Xanomeline High Dose</span></span>
+<span><span class="co">#&gt; 6 01-701-1047 CDISCPILOT01   1047    701     701              Placebo</span></span>
 <span><span class="co">#&gt;                 TRT01P TRT01PN               TRT01A TRT01AN     TRTSDT</span></span>
 <span><span class="co">#&gt; 1              Placebo       0              Placebo       0 2014-01-02</span></span>
 <span><span class="co">#&gt; 2              Placebo       0              Placebo       0 2012-08-05</span></span>
@@ -166,20 +145,20 @@ package website</a>.</p>
 <span><span class="co">#&gt; 4     &gt;=12 2014-03-10 2014-03-18 2014-04-14        5 2014-04-14</span></span>
 <span><span class="co">#&gt; 5     &gt;=12 2014-06-24 2014-07-01 2014-12-30       12 2014-12-30</span></span>
 <span><span class="co">#&gt; 6     &gt;=12 2013-01-22 2013-02-12 2013-03-29        6 2013-03-29</span></span>
-<span><span class="co">#&gt;                       DCDECOD         DCREASCD MMSETOT      TRTA</span></span>
-<span><span class="co">#&gt; 1                   COMPLETED        Completed      23   Placebo</span></span>
-<span><span class="co">#&gt; 2               ADVERSE EVENT    Adverse Event      23   Placebo</span></span>
-<span><span class="co">#&gt; 3                   COMPLETED        Completed      23 High Dose</span></span>
-<span><span class="co">#&gt; 4 STUDY TERMINATED BY SPONSOR Sponsor Decision      23  Low Dose</span></span>
-<span><span class="co">#&gt; 5                   COMPLETED        Completed      21 High Dose</span></span>
-<span><span class="co">#&gt; 6               ADVERSE EVENT    Adverse Event      23   Placebo</span></span>
-<span><span class="co">#&gt;                 EOSSTT       DCSREAS      EOTSTT1          DCTREAS</span></span>
-<span><span class="co">#&gt; 1 Participants Ongoing          &lt;NA&gt;    Completed             &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2         Discontinued Adverse Event Discontinued    Adverse Event</span></span>
-<span><span class="co">#&gt; 3 Participants Ongoing          &lt;NA&gt;    Completed             &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 4 Participants Ongoing          &lt;NA&gt; Discontinued Sponsor Decision</span></span>
-<span><span class="co">#&gt; 5 Participants Ongoing          &lt;NA&gt;    Completed             &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 6 Participants Ongoing          &lt;NA&gt; Discontinued    Adverse Event</span></span></code></pre></div>
+<span><span class="co">#&gt;                       DCDECOD         DCREASCD MMSETOT      TRTA          AEACN</span></span>
+<span><span class="co">#&gt; 1                   COMPLETED        Completed      23   Placebo           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2               ADVERSE EVENT    Adverse Event      23   Placebo           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3                   COMPLETED        Completed      23 High Dose DRUG WITHDRAWN</span></span>
+<span><span class="co">#&gt; 4 STUDY TERMINATED BY SPONSOR Sponsor Decision      23  Low Dose           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5                   COMPLETED        Completed      21 High Dose           &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6               ADVERSE EVENT    Adverse Event      23   Placebo DRUG WITHDRAWN</span></span>
+<span><span class="co">#&gt;         EOTSTT           DCTREAS       EOSSTT           DCSREAS</span></span>
+<span><span class="co">#&gt; 1     Complete              &lt;NA&gt;     Complete              &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2     Complete              &lt;NA&gt;     Complete              &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3 Discontinued     Adverse Event Discontinued             Other</span></span>
+<span><span class="co">#&gt; 4     Complete              &lt;NA&gt;     Complete              &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5 Discontinued Lost to Follow-Up Discontinued Lost to Follow-Up</span></span>
+<span><span class="co">#&gt; 6 Discontinued     Adverse Event Discontinued             Other</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
 <span>  analysis <span class="op">=</span> <span class="st">"disp"</span>, population <span class="op">=</span> <span class="st">"apat"</span>,</span>
@@ -204,7 +183,7 @@ package website</a>.</p>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
 <span>    name <span class="op">=</span> <span class="st">"medical-disposition"</span>,</span>
-<span>    var <span class="op">=</span> <span class="st">"EOTSTT1"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"EOTSTT"</span>,</span>
 <span>    label <span class="op">=</span> <span class="st">"Participant Study Medication Disposition"</span>,</span>
 <span>    var_lower <span class="op">=</span> <span class="st">"DCTREAS"</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -290,7 +269,7 @@ Click to show the output
 <span><span class="co">#&gt;  $ group          : chr "TRTA"</span></span>
 <span><span class="co">#&gt;  $ reference_group: NULL</span></span>
 <span><span class="co">#&gt;  $ char_n         :List of 2</span></span>
-<span><span class="co">#&gt;  $ char_var       : chr [1:2] "EOSSTT" "EOTSTT1"</span></span>
+<span><span class="co">#&gt;  $ char_var       : chr [1:2] "EOSSTT" "EOTSTT"</span></span>
 <span><span class="co">#&gt;  $ char_prop      :List of 2</span></span>
 <span><span class="co">#&gt;  $ var_type       :List of 2</span></span>
 <span><span class="co">#&gt;  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2</span></span>
@@ -324,46 +303,39 @@ completed in each parameter</li>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">char_n</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;                   name Placebo Low Dose High Dose Total         var_label</span></span>
-<span><span class="co">#&gt; 1         Discontinued      24       12        20    56 Trial Disposition</span></span>
-<span><span class="co">#&gt; 2        Adverse Event      18        9        13    40 Trial Disposition</span></span>
-<span><span class="co">#&gt; 3          I/E Not Met       3        0         4     7 Trial Disposition</span></span>
-<span><span class="co">#&gt; 4     Lack of Efficacy       2        2         2     6 Trial Disposition</span></span>
-<span><span class="co">#&gt; 5     Withdrew Consent       1        1         1     3 Trial Disposition</span></span>
-<span><span class="co">#&gt; 6 Participants Ongoing      62       72        64   198 Trial Disposition</span></span>
+<span><span class="co">#&gt;                        name Placebo Low Dose High Dose Total         var_label</span></span>
+<span><span class="co">#&gt; 1                  Complete      47       34        38   119 Trial Disposition</span></span>
+<span><span class="co">#&gt; 2              Discontinued      26       37        38   101 Trial Disposition</span></span>
+<span><span class="co">#&gt; 3          Lack of Efficacy       2        3         9    14 Trial Disposition</span></span>
+<span><span class="co">#&gt; 4         Lost to Follow-Up       2        7         8    17 Trial Disposition</span></span>
+<span><span class="co">#&gt; 5                     Other      15       18        18    51 Trial Disposition</span></span>
+<span><span class="co">#&gt; 6     Withdrawal By Subject       7        9         3    19 Trial Disposition</span></span>
+<span><span class="co">#&gt; 7      Participants Ongoing      13       13         8    34 Trial Disposition</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;                      name Placebo Low Dose High Dose Total</span></span>
-<span><span class="co">#&gt; 1               Completed      58       25        27   110</span></span>
-<span><span class="co">#&gt; 2            Discontinued      28       59        57   144</span></span>
-<span><span class="co">#&gt; 3           Adverse Event       8       44        40    92</span></span>
-<span><span class="co">#&gt; 4                   Death       2        1         0     3</span></span>
-<span><span class="co">#&gt; 5             I/E Not Met       1        0         2     3</span></span>
-<span><span class="co">#&gt; 6        Lack of Efficacy       3        0         1     4</span></span>
-<span><span class="co">#&gt; 7       Lost to Follow-up       1        1         0     2</span></span>
-<span><span class="co">#&gt; 8      Physician Decision       1        0         2     3</span></span>
-<span><span class="co">#&gt; 9      Protocol Violation       1        1         1     3</span></span>
-<span><span class="co">#&gt; 10       Sponsor Decision       2        2         3     7</span></span>
-<span><span class="co">#&gt; 11       Withdrew Consent       9       10         8    27</span></span>
-<span><span class="co">#&gt;                                   var_label</span></span>
-<span><span class="co">#&gt; 1  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 2  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 3  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 4  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 5  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 6  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 7  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 8  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 9  Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 10 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 11 Participant Study Medication Disposition</span></span></code></pre></div>
+<span><span class="co">#&gt;                        name Placebo Low Dose High Dose Total</span></span>
+<span><span class="co">#&gt; 1                  Complete      47       34        38   119</span></span>
+<span><span class="co">#&gt; 2              Discontinued      26       37        38   101</span></span>
+<span><span class="co">#&gt; 3             Adverse Event      15       18        18    51</span></span>
+<span><span class="co">#&gt; 4          Lack of Efficacy       2        3         9    14</span></span>
+<span><span class="co">#&gt; 5         Lost to Follow-Up       2        7         8    17</span></span>
+<span><span class="co">#&gt; 6     Withdrawal By Subject       7        9         3    19</span></span>
+<span><span class="co">#&gt; 7      Participants Ongoing      13       13         8    34</span></span>
+<span><span class="co">#&gt;                                  var_label</span></span>
+<span><span class="co">#&gt; 1 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 2 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 3 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 4 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 5 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 6 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 7 Participant Study Medication Disposition</span></span></code></pre></div>
 <ul>
 <li>
 <code>char_var</code> : name of parameter</li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">char_var</span></span>
-<span><span class="co">#&gt; [1] "EOSSTT"  "EOTSTT1"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "EOSSTT" "EOTSTT"</span></span></code></pre></div>
 <ul>
 <li>
 <code>char_prop</code> : proportion of subject with disposition</li>
@@ -371,46 +343,40 @@ completed in each parameter</li>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">char_prop</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;                   name          Placebo         Low Dose        High Dose</span></span>
-<span><span class="co">#&gt; 1         Discontinued         27.90698         14.28571         23.80952</span></span>
-<span><span class="co">#&gt; 2        Adverse Event 20.9302325581395 10.7142857142857 15.4761904761905</span></span>
-<span><span class="co">#&gt; 3          I/E Not Met 3.48837209302326                0 4.76190476190476</span></span>
-<span><span class="co">#&gt; 4     Lack of Efficacy 2.32558139534884 2.38095238095238 2.38095238095238</span></span>
-<span><span class="co">#&gt; 5     Withdrew Consent 1.16279069767442 1.19047619047619 1.19047619047619</span></span>
-<span><span class="co">#&gt; 6 Participants Ongoing         72.09302         85.71429         76.19048</span></span>
+<span><span class="co">#&gt;                        name          Placebo         Low Dose        High Dose</span></span>
+<span><span class="co">#&gt; 1                  Complete         54.65116         40.47619         45.23810</span></span>
+<span><span class="co">#&gt; 2              Discontinued         30.23256         44.04762         45.23810</span></span>
+<span><span class="co">#&gt; 3          Lack of Efficacy 2.32558139534884 3.57142857142857 10.7142857142857</span></span>
+<span><span class="co">#&gt; 4         Lost to Follow-Up 2.32558139534884 8.33333333333333 9.52380952380952</span></span>
+<span><span class="co">#&gt; 5                     Other 17.4418604651163 21.4285714285714 21.4285714285714</span></span>
+<span><span class="co">#&gt; 6     Withdrawal By Subject 8.13953488372093 10.7142857142857 3.57142857142857</span></span>
+<span><span class="co">#&gt; 7      Participants Ongoing         15.11628         15.47619          9.52381</span></span>
 <span><span class="co">#&gt;              Total         var_label</span></span>
-<span><span class="co">#&gt; 1         22.04724 Trial Disposition</span></span>
-<span><span class="co">#&gt; 2  15.748031496063 Trial Disposition</span></span>
-<span><span class="co">#&gt; 3 2.75590551181102 Trial Disposition</span></span>
-<span><span class="co">#&gt; 4 2.36220472440945 Trial Disposition</span></span>
-<span><span class="co">#&gt; 5 1.18110236220472 Trial Disposition</span></span>
-<span><span class="co">#&gt; 6         77.95276 Trial Disposition</span></span>
+<span><span class="co">#&gt; 1         46.85039 Trial Disposition</span></span>
+<span><span class="co">#&gt; 2         39.76378 Trial Disposition</span></span>
+<span><span class="co">#&gt; 3 5.51181102362205 Trial Disposition</span></span>
+<span><span class="co">#&gt; 4 6.69291338582677 Trial Disposition</span></span>
+<span><span class="co">#&gt; 5 20.0787401574803 Trial Disposition</span></span>
+<span><span class="co">#&gt; 6 7.48031496062992 Trial Disposition</span></span>
+<span><span class="co">#&gt; 7         13.38583 Trial Disposition</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;                      name          Placebo         Low Dose        High Dose</span></span>
-<span><span class="co">#&gt; 1               Completed         67.44186          29.7619         32.14286</span></span>
-<span><span class="co">#&gt; 2            Discontinued         32.55814          70.2381         67.85714</span></span>
-<span><span class="co">#&gt; 3           Adverse Event 9.30232558139535 52.3809523809524 47.6190476190476</span></span>
-<span><span class="co">#&gt; 4                   Death 2.32558139534884 1.19047619047619                0</span></span>
-<span><span class="co">#&gt; 5             I/E Not Met 1.16279069767442                0 2.38095238095238</span></span>
-<span><span class="co">#&gt; 6        Lack of Efficacy 3.48837209302326                0 1.19047619047619</span></span>
-<span><span class="co">#&gt; 7       Lost to Follow-up 1.16279069767442 1.19047619047619                0</span></span>
-<span><span class="co">#&gt; 8      Physician Decision 1.16279069767442                0 2.38095238095238</span></span>
-<span><span class="co">#&gt; 9      Protocol Violation 1.16279069767442 1.19047619047619 1.19047619047619</span></span>
-<span><span class="co">#&gt; 10       Sponsor Decision 2.32558139534884 2.38095238095238 3.57142857142857</span></span>
-<span><span class="co">#&gt; 11       Withdrew Consent 10.4651162790698 11.9047619047619 9.52380952380952</span></span>
-<span><span class="co">#&gt;               Total                                var_label</span></span>
-<span><span class="co">#&gt; 1          43.30709 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 2          56.69291 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 3  36.2204724409449 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 4  1.18110236220472 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 5  1.18110236220472 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 6   1.5748031496063 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 7  0.78740157480315 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 8  1.18110236220472 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 9  1.18110236220472 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 10 2.75590551181102 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 11 10.6299212598425 Participant Study Medication Disposition</span></span></code></pre></div>
+<span><span class="co">#&gt;                        name          Placebo         Low Dose        High Dose</span></span>
+<span><span class="co">#&gt; 1                  Complete         54.65116         40.47619         45.23810</span></span>
+<span><span class="co">#&gt; 2              Discontinued         30.23256         44.04762         45.23810</span></span>
+<span><span class="co">#&gt; 3             Adverse Event 17.4418604651163 21.4285714285714 21.4285714285714</span></span>
+<span><span class="co">#&gt; 4          Lack of Efficacy 2.32558139534884 3.57142857142857 10.7142857142857</span></span>
+<span><span class="co">#&gt; 5         Lost to Follow-Up 2.32558139534884 8.33333333333333 9.52380952380952</span></span>
+<span><span class="co">#&gt; 6     Withdrawal By Subject 8.13953488372093 10.7142857142857 3.57142857142857</span></span>
+<span><span class="co">#&gt; 7      Participants Ongoing         15.11628         15.47619          9.52381</span></span>
+<span><span class="co">#&gt;              Total                                var_label</span></span>
+<span><span class="co">#&gt; 1         46.85039 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 2         39.76378 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 3 20.0787401574803 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 4 5.51181102362205 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 5 6.69291338582677 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 6 7.48031496062992 Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 7         13.38583 Participant Study Medication Disposition</span></span></code></pre></div>
 </details>
 </div>
 <div class="section level3">
@@ -428,23 +394,20 @@ Click to show the output
 <code class="sourceCode R"><span><span class="va">outdata</span><span class="op">$</span><span class="va">tbl</span></span>
 <span><span class="co">#&gt;                          name n_1    p_1 n_2    p_2 n_3    p_3 n_9999 p_9999</span></span>
 <span><span class="co">#&gt; 1  Participants in population  86   &lt;NA&gt;  84   &lt;NA&gt;  84   &lt;NA&gt;    254   &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2                Discontinued  24 (27.9)  12 (14.3)  20 (23.8)     56 (22.0)</span></span>
-<span><span class="co">#&gt; 3               Adverse Event  18 (20.9)   9 (10.7)  13 (15.5)     40 (15.7)</span></span>
-<span><span class="co">#&gt; 4                 I/E Not Met   3  (3.5)   0  (0.0)   4  (4.8)      7  (2.8)</span></span>
-<span><span class="co">#&gt; 5            Lack of Efficacy   2  (2.3)   2  (2.4)   2  (2.4)      6  (2.4)</span></span>
-<span><span class="co">#&gt; 6            Withdrew Consent   1  (1.2)   1  (1.2)   1  (1.2)      3  (1.2)</span></span>
-<span><span class="co">#&gt; 7        Participants Ongoing  62 (72.1)  72 (85.7)  64 (76.2)    198 (78.0)</span></span>
-<span><span class="co">#&gt; 8                   Completed  58 (67.4)  25 (29.8)  27 (32.1)    110 (43.3)</span></span>
-<span><span class="co">#&gt; 9                Discontinued  28 (32.6)  59 (70.2)  57 (67.9)    144 (56.7)</span></span>
-<span><span class="co">#&gt; 10              Adverse Event   8  (9.3)  44 (52.4)  40 (47.6)     92 (36.2)</span></span>
-<span><span class="co">#&gt; 11                      Death   2  (2.3)   1  (1.2)   0  (0.0)      3  (1.2)</span></span>
-<span><span class="co">#&gt; 12                I/E Not Met   1  (1.2)   0  (0.0)   2  (2.4)      3  (1.2)</span></span>
-<span><span class="co">#&gt; 13           Lack of Efficacy   3  (3.5)   0  (0.0)   1  (1.2)      4  (1.6)</span></span>
-<span><span class="co">#&gt; 14          Lost to Follow-up   1  (1.2)   1  (1.2)   0  (0.0)      2  (0.8)</span></span>
-<span><span class="co">#&gt; 15         Physician Decision   1  (1.2)   0  (0.0)   2  (2.4)      3  (1.2)</span></span>
-<span><span class="co">#&gt; 16         Protocol Violation   1  (1.2)   1  (1.2)   1  (1.2)      3  (1.2)</span></span>
-<span><span class="co">#&gt; 17           Sponsor Decision   2  (2.3)   2  (2.4)   3  (3.6)      7  (2.8)</span></span>
-<span><span class="co">#&gt; 18           Withdrew Consent   9 (10.5)  10 (11.9)   8  (9.5)     27 (10.6)</span></span>
+<span><span class="co">#&gt; 2                    Complete  47 (54.7)  34 (40.5)  38 (45.2)    119 (46.9)</span></span>
+<span><span class="co">#&gt; 3                Discontinued  26 (30.2)  37 (44.0)  38 (45.2)    101 (39.8)</span></span>
+<span><span class="co">#&gt; 4            Lack of Efficacy   2  (2.3)   3  (3.6)   9 (10.7)     14  (5.5)</span></span>
+<span><span class="co">#&gt; 5           Lost to Follow-Up   2  (2.3)   7  (8.3)   8  (9.5)     17  (6.7)</span></span>
+<span><span class="co">#&gt; 6                       Other  15 (17.4)  18 (21.4)  18 (21.4)     51 (20.1)</span></span>
+<span><span class="co">#&gt; 7       Withdrawal By Subject   7  (8.1)   9 (10.7)   3  (3.6)     19  (7.5)</span></span>
+<span><span class="co">#&gt; 8        Participants Ongoing  13 (15.1)  13 (15.5)   8  (9.5)     34 (13.4)</span></span>
+<span><span class="co">#&gt; 9                    Complete  47 (54.7)  34 (40.5)  38 (45.2)    119 (46.9)</span></span>
+<span><span class="co">#&gt; 10               Discontinued  26 (30.2)  37 (44.0)  38 (45.2)    101 (39.8)</span></span>
+<span><span class="co">#&gt; 11              Adverse Event  15 (17.4)  18 (21.4)  18 (21.4)     51 (20.1)</span></span>
+<span><span class="co">#&gt; 12           Lack of Efficacy   2  (2.3)   3  (3.6)   9 (10.7)     14  (5.5)</span></span>
+<span><span class="co">#&gt; 13          Lost to Follow-Up   2  (2.3)   7  (8.3)   8  (9.5)     17  (6.7)</span></span>
+<span><span class="co">#&gt; 14      Withdrawal By Subject   7  (8.1)   9 (10.7)   3  (3.6)     19  (7.5)</span></span>
+<span><span class="co">#&gt; 15       Participants Ongoing  13 (15.1)  13 (15.5)   8  (9.5)     34 (13.4)</span></span>
 <span><span class="co">#&gt;                                   var_label</span></span>
 <span><span class="co">#&gt; 1                                     -----</span></span>
 <span><span class="co">#&gt; 2                         Trial Disposition</span></span>
@@ -453,17 +416,14 @@ Click to show the output
 <span><span class="co">#&gt; 5                         Trial Disposition</span></span>
 <span><span class="co">#&gt; 6                         Trial Disposition</span></span>
 <span><span class="co">#&gt; 7                         Trial Disposition</span></span>
-<span><span class="co">#&gt; 8  Participant Study Medication Disposition</span></span>
+<span><span class="co">#&gt; 8                         Trial Disposition</span></span>
 <span><span class="co">#&gt; 9  Participant Study Medication Disposition</span></span>
 <span><span class="co">#&gt; 10 Participant Study Medication Disposition</span></span>
 <span><span class="co">#&gt; 11 Participant Study Medication Disposition</span></span>
 <span><span class="co">#&gt; 12 Participant Study Medication Disposition</span></span>
 <span><span class="co">#&gt; 13 Participant Study Medication Disposition</span></span>
 <span><span class="co">#&gt; 14 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 15 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 16 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 17 Participant Study Medication Disposition</span></span>
-<span><span class="co">#&gt; 18 Participant Study Medication Disposition</span></span></code></pre></div>
+<span><span class="co">#&gt; 15 Participant Study Medication Disposition</span></span></code></pre></div>
 </details>
 </div>
 <div class="section level3">
@@ -481,7 +441,7 @@ Click to show the output
 <span>    path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>    path_outtable <span class="op">=</span> <span class="st">"outtable/disposition.rtf"</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; The outdata is saved in/tmp/RtmpPhdYUL/file20504236f97b.Rdata</span></span>
+<span><span class="co">#&gt; The outdata is saved in/tmp/Rtmp0AMWEr/file1b06466e762c.Rdata</span></span>
 <span><span class="co">#&gt; The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/disposition.rtf</span></span></code></pre></div>
 <embed src="pdf/disposition.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
@@ -493,7 +453,7 @@ Click to show the output
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Benjamin Wang, Yujie Zhao, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Benjamin Wang, Yujie Zhao, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">
