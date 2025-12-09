@@ -159,7 +159,6 @@ all_stats <- bind_rows(outdata$char_stat_groups, .id = "duration_category")
 all_stats
 ```
 
-
 ## plotly_exp_duration()
 The function takes the fully prepared outdata from the above steps to simply visualizes these pre-calculated statistics in an interactive way.
 It reshapes the counts and proportions tables from wide to long format, so each row corresponds to a specific combination of:
