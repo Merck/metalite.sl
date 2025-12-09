@@ -48,9 +48,14 @@ Step1: Load up existing ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data
 - The exposure duration `adexsum$AVAL` for all participants.
 - Duration category assigned with `adexsum$EXDURGR` i.e.">=1 day", ">=7 days",">=28 days", ">=12 weeks" and ">=24 weeks".
 ```{r}
+<<<<<<< HEAD
 # library(metalite.ae)
 devtools::load_all("/home/mali8/baamr_project/metalite.ae")
 data("metalite_ae_adexsum", package = "metalite.ae")
+=======
+library(metalite.ae)
+data("metalite_ae_adexsum", package = "metalite.ae") 
+>>>>>>> fb80667 (Check-in 2nd time - issue 121 add subset to define parameter in interactive exposure dur histogram)
 adexsum <- metalite_ae_adexsum
 ```
 Step2: Save analysis plan and metadata(parameter and analysis) information, then build meta object.
