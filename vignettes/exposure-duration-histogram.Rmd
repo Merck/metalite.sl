@@ -50,10 +50,8 @@ Step1: Load up existing ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data
 ```{r}
 # library(metalite.ae)
 devtools::load_all("/home/mali8/baamr_project/metalite.ae")
-data("metalite_ae_adexsum", package = "metalite.ae") 
+data("metalite_ae_adexsum", package = "metalite.ae")
 adexsum <- metalite_ae_adexsum
-
-
 ```
 Step2: Save analysis plan and metadata(parameter and analysis) information, then build meta object.
 
@@ -72,12 +70,13 @@ meta <- metalite::meta_adam(
     name = "apat",
     group = "TRTA",
     subset = quote(APERIOD == 1 & AVAL > 0)
-  ) |>metalite::define_parameter(
+  ) |>
+  metalite::define_parameter(
     name = "expdur",
     subset = PARAMCD == "TRTDURD",
     var = "AVAL",
     label = "Exposure Duration (Days)",
-    vargroup = "EXDURGR" 
+    vargroup = "EXDURGR"
   ) |>
   metalite::define_analysis(
     name = "exp_dur",
