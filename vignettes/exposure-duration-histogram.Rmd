@@ -37,40 +37,23 @@ Using pre-processed output from prepare_exp_duration() (and optionally extend_ex
 knitr::include_graphics("pdf/exposure0histogram.pdf")
 ```
 
-## 1. Build a metadata
+## 1. Load up a metadata
 ## meta_sl_exposure_example()
 There are two steps in `meta_sl_exposure_example` function in order to build the metadata (`meta` object): processing the ADaM dataset and save meta information for A&R reporting.
 
-Step1: ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data, is utilized to:
+Step1: Load up existing ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data, that contains:
 
-- Sum up duration by STUDYID SITENUM USUBJID SUBJID APERIOD EXTRT ADOSEFRM PARAMCD.
-- Subset the exposure data by `upcase(trim(left(paramcd))) = "TRTDUR"`.
-- Get the exposure duration `adexsum$AVAL` for all participants.
-- Assign duration category `adexsum$EXDURGR` i.e.">=1 day", ">=7 days",">=28 days", ">=12 weeks" and ">=24 weeks".
+- Duration summed up by STUDYID SITENUM USUBJID SUBJID APERIOD EXTRT ADOSEFRM PARAMCD.
+- The exposure data subset by `upcase(trim(left(paramcd))) = "TRTDURD"`.
+- The exposure duration `adexsum$AVAL` for all participants.
+- Duration category assigned with `adexsum$EXDURGR` i.e.">=1 day", ">=7 days",">=28 days", ">=12 weeks" and ">=24 weeks".
 ```{r}
-adsl <- r2rtf::r2rtf_adsl
-adexsum <- data.frame(USUBJID = adsl$USUBJID)
-adexsum$TRTA <- factor(adsl$TRT01A,
-  levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
-  labels = c("Placebo", "Low Dose", "High Dose")
-)
+# library(metalite.ae)
+devtools::load_all("/home/mali8/baamr_project/metalite.ae")
+data("metalite_ae_adexsum", package = "metalite.ae") 
+adexsum <- metalite_ae_adexsum
 
-adexsum$APERIODC <- "Base"
-adexsum$APERIOD <- 1
 
-set.seed(123) # Set a seed for reproducibility
-adexsum$AVAL <- sample(x = 0:(24 * 7), size = length(adexsum$USUBJID), replace = TRUE)
-adexsum$EXDURGR <- "not treated"
-adexsum$EXDURGR[adexsum$AVAL >= 1] <- ">=1 day"
-adexsum$EXDURGR[adexsum$AVAL >= 7] <- ">=7 days"
-adexsum$EXDURGR[adexsum$AVAL >= 28] <- ">=28 days"
-adexsum$EXDURGR[adexsum$AVAL >= 12 * 7] <- ">=12 weeks"
-adexsum$EXDURGR[adexsum$AVAL >= 24 * 7] <- ">=24 weeks"
-
-adexsum$EXDURGR <- factor(adexsum$EXDURGR,
-  levels = c("not treated", ">=1 day", ">=7 days", ">=28 days", ">=12 weeks", ">=24 weeks")
-)
-unique(adexsum$EXDURGR)
 ```
 Step2: Save analysis plan and metadata(parameter and analysis) information, then build meta object.
 
@@ -89,12 +72,12 @@ meta <- metalite::meta_adam(
     name = "apat",
     group = "TRTA",
     subset = quote(APERIOD == 1 & AVAL > 0)
-  ) |>
-  metalite::define_parameter(
+  ) |>metalite::define_parameter(
     name = "expdur",
+    subset = PARAMCD == "TRTDURD",
     var = "AVAL",
     label = "Exposure Duration (Days)",
-    vargroup = "EXDURGR"
+    vargroup = "EXDURGR" 
   ) |>
   metalite::define_analysis(
     name = "exp_dur",
