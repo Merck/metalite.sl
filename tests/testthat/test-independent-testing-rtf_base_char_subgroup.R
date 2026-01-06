@@ -147,7 +147,6 @@ test_that("rtf output: group/subgroup total when a subgroup has no subject", {
 })
 
 test_that("relative width 'works' with display_subgroup_total = FALSE", {
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -191,7 +190,6 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
 })
 
 test_that("relative width 'works' display_subgroup_total = TRUE", {
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
