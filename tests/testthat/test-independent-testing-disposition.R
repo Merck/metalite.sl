@@ -13,10 +13,6 @@ outdata <- prepare_disposition(meta,
 
 #### Test 1 ######
 test_that("rtf output: n, prop, total", {
-  path_rtf <- file.path(tempdir(), "disposition1.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
-
   tbl <- outdata |>
     format_disposition(
       display_stat = c("mean", "sd", "median", "range"),
@@ -26,20 +22,15 @@ test_that("rtf output: n, prop, total", {
       orientation = "landscape",
       col_rel_width = c(4, rep(1, 9)),
       "Source: [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "disposition1.rtf")
     )
 
-
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "disposition1")
 })
 
 #### Test 2 ######
 test_that("rtf output: n, prop, total", {
-  path_rtf <- file.path(tempdir(), "disposition2.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
-
   tbl <- outdata |>
     format_disposition(
       display_stat = c(),
@@ -49,10 +40,9 @@ test_that("rtf output: n, prop, total", {
       orientation = "landscape",
       col_rel_width = c(4, rep(1, 9)),
       "Source: [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "disposition2.rtf")
     )
 
-
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "disposition2")
 })

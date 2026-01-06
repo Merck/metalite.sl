@@ -14,9 +14,6 @@ meta$data_population <- data_population
 
 
 test_that("rtf output: n and prop including subgroup total w/o total", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup1.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -31,17 +28,14 @@ test_that("rtf output: n and prop including subgroup total w/o total", {
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "base0char0subgroup1.rtf")
     )
 
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "base0char0subgroup1")
 })
 
 test_that("rtf output: n and prop including subgroup total w/ total", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup2.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -56,17 +50,14 @@ test_that("rtf output: n and prop including subgroup total w/ total", {
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "base0char0subgroup2.rtf")
     )
 
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "base0char0subgroup2")
 })
 
 test_that("rtf output: n and prop not including subgroup total w/o total", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup3.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -81,17 +72,14 @@ test_that("rtf output: n and prop not including subgroup total w/o total", {
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "base0char0subgroup3.rtf")
     )
 
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "base0char0subgroup3")
 })
 
 test_that("rtf output: n and prop not including subgroup total w/ total", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup4.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -106,18 +94,15 @@ test_that("rtf output: n and prop not including subgroup total w/ total", {
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "base0char0subgroup4.rtf")
     )
 
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "base0char0subgroup4")
 })
 
 
 test_that("rtf output: no group/subgroup total when a subgroup has no subject", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup5.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -132,17 +117,14 @@ test_that("rtf output: no group/subgroup total when a subgroup has no subject", 
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "base0char0subgroup5.rtf")
     )
 
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "base0char0subgroup5")
 })
 
 test_that("rtf output: group/subgroup total when a subgroup has no subject", {
-  path_rtf <- file.path(tempdir(), "base0char0subgroup6.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
-
   outdata <- prepare_base_char_subgroup(
     meta,
     population = "apat",
@@ -157,16 +139,14 @@ test_that("rtf output: group/subgroup total when a subgroup has no subject", {
     ) |>
     rtf_base_char_subgroup(
       source = "Source:  [CDISCpilot: adam-adsl]",
-      path_outdata = path_rdata,
-      path_outtable = path_rtf
+      path_outdata = tempfile(fileext = ".Rdata"),
+      path_outtable = file.path(tempdir(), "base0char0subgroup6.rtf")
     )
 
-  testthat::expect_snapshot_file(path_rtf)
+  expect_rtf_snapshot(tbl, "base0char0subgroup6")
 })
 
 test_that("relative width 'works' with display_subgroup_total = FALSE", {
-  path_rtf <- file.path(tempdir(), "rwnt_base0char0subgroup.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
 
   outdata <- prepare_base_char_subgroup(
     meta,
@@ -186,8 +166,8 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
           col_rel_width = c(3, rep(2, 2 * 2 * 3)),
-          path_outdata = path_rdata,
-          path_outtable = path_rtf
+          path_outdata = tempfile(fileext = ".Rdata"),
+          path_outtable = file.path(tempdir(), "rwnt_base0char0subgroup.rtf")
         )
     },
     regexp = "col_rel_width must have the same length"
@@ -202,8 +182,8 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
           col_rel_width = c(3, rep(2, 2 * 2 * 3), 2),
-          path_outdata = path_rdata,
-          path_outtable = path_rtf
+          path_outdata = tempfile(fileext = ".Rdata"),
+          path_outtable = file.path(tempdir(), "rwnt_base0char0subgroup2.rtf")
         )
     },
     regexp = "The outdata is saved"
@@ -211,8 +191,6 @@ test_that("relative width 'works' with display_subgroup_total = FALSE", {
 })
 
 test_that("relative width 'works' display_subgroup_total = TRUE", {
-  path_rtf <- file.path(tempdir(), "rwt_base0char0subgroup.rtf")
-  path_rdata <- tempfile(fileext = ".Rdata")
 
   outdata <- prepare_base_char_subgroup(
     meta,
@@ -232,8 +210,8 @@ test_that("relative width 'works' display_subgroup_total = TRUE", {
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
           col_rel_width = c(3, rep(2, 2 * 2 * 4)),
-          path_outdata = path_rdata,
-          path_outtable = path_rtf
+          path_outdata = tempfile(fileext = ".Rdata"),
+          path_outtable = file.path(tempdir(), "rwt_base0char0subgroup.rtf")
         )
     },
     regexp = "col_rel_width must have the same length"
@@ -248,8 +226,8 @@ test_that("relative width 'works' display_subgroup_total = TRUE", {
         rtf_base_char_subgroup(
           source = "Source:  [CDISCpilot: adam-adsl]",
           col_rel_width = c(3, rep(2, 2 * 2 * 4), 2),
-          path_outdata = path_rdata,
-          path_outtable = path_rtf
+          path_outdata = tempfile(fileext = ".Rdata"),
+          path_outtable = file.path(tempdir(), "rwt_base0char0subgroup2.rtf")
         )
     },
     regexp = "The outdata is saved"
