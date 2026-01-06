@@ -28,7 +28,7 @@ test_that("rtf output: n, prop, total", {
 })
 
 #### Test 2 ######
-test_that("rtf output: n, prop, total", {
+test_that("rtf output: n, prop, total (no display_stat)", {
   tbl <- outdata |>
     format_trt_compliance(
       display_stat = c(),

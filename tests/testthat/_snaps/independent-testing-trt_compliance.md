@@ -214,7 +214,7 @@
       
       }
 
----
+# rtf output: n, prop, total (no display_stat)
 
     Code
       writeLines(rtf_content)
