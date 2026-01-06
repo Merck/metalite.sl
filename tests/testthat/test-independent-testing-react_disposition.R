@@ -14,8 +14,8 @@ test_that("Testing react_disposition function", {
 
   html <- gsub("id=\"htmlwidget-[A-Za-z0-9]+\"", "id=\"htmlwidget-123456\"", table)
   html <- gsub(
-    "\"dataKey\":\"[a-f0-9]{32}\"", # Regex pattern to match the dataKey
-    "\"dataKey\":\"fixed_data_key\"", # New fixed dataKey value
+    "dataKey = \"[a-f0-9]{32}\"",
+    "dataKey = \"fixed_data_key\"",
     html
   )
 
@@ -37,8 +37,8 @@ test_that("Testing react_disposition function AE selection column", {
 
   html <- gsub("id=\"htmlwidget-[A-Za-z0-9]+\"", "id=\"htmlwidget-123456\"", table)
   html <- gsub(
-    "\"dataKey\":\"[a-f0-9]{32}\"", # Regex pattern to match the dataKey
-    "\"dataKey\":\"fixed_data_key\"", # New fixed dataKey value
+    "dataKey = \"[a-f0-9]{32}\"",
+    "dataKey = \"fixed_data_key\"",
     html
   )
 
@@ -60,8 +60,8 @@ test_that("Testing react_disposition function Disposition selection column", {
 
   html <- gsub("id=\"htmlwidget-[A-Za-z0-9]+\"", "id=\"htmlwidget-123456\"", table)
   html <- gsub(
-    "\"dataKey\":\"[a-f0-9]{32}\"", # Regex pattern to match the dataKey
-    "\"dataKey\":\"fixed_data_key\"", # New fixed dataKey value
+    "dataKey = \"[a-f0-9]{32}\"",
+    "dataKey = \"fixed_data_key\"",
     html
   )
 

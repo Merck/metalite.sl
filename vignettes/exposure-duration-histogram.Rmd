@@ -1,5 +1,5 @@
 ---
-title: "exposure-duration-histogram"
+title: "Interactive exposure duration histogram"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{exposure-duration-histogram}

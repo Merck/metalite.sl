@@ -20,6 +20,7 @@ Description: Analyzes subject-level data in clinical trials using the 'metalite'
     by Zhang et al. (2022) <https://r4csr.org/>.
 Depends: R (>= 4.1.0)
 License: GPL (>= 3)
+URL: https://merck.github.io/metalite.sl/, https://github.com/Merck/metalite.sl
 Imports:
     glue,
     metalite,
