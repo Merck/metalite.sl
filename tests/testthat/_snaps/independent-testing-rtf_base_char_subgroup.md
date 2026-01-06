@@ -1,7 +1,7 @@
 # rtf output: n and prop including subgroup total w/o total
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -432,7 +432,7 @@
 # rtf output: n and prop including subgroup total w/ total
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -1031,7 +1031,7 @@
 # rtf output: n and prop not including subgroup total w/o total
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -1376,7 +1376,7 @@
 # rtf output: n and prop not including subgroup total w/ total
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -1847,7 +1847,7 @@
 # rtf output: no group/subgroup total when a subgroup has no subject
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -2052,7 +2052,7 @@
 # rtf output: group/subgroup total when a subgroup has no subject
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033

@@ -1,7 +1,7 @@
 # rtf output: n, and prop, NO total. With 2 decimal places.
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -274,7 +274,7 @@
 # rtf output: n, prop and total, with Landscape
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -651,7 +651,7 @@
 # rtf output: n, prop and total, with no value of col_rel_width
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033

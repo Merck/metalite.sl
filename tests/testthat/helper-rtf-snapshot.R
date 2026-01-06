@@ -12,12 +12,12 @@ expect_rtf_snapshot <- function(rtf_obj, name) {
   if (file.exists(path_rtf)) {
     rtf_content <- readLines(path_rtf, warn = FALSE)
 
-    rtf_snapshot_dir <- file.path("tests", "testthat", "rtf")
+    rtf_snapshot_dir <- file.path("rtf")
     dir.create(rtf_snapshot_dir, showWarnings = FALSE, recursive = TRUE)
     file.copy(path_rtf, file.path(rtf_snapshot_dir, paste0(name, ".rtf")), overwrite = TRUE)
 
     testthat::expect_snapshot(
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     )
   } else {
     stop("RTF file was not generated at: ", path_rtf)

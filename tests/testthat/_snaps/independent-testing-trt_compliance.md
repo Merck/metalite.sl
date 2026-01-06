@@ -1,7 +1,7 @@
 # rtf output: n, prop, total
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
@@ -217,7 +217,7 @@
 ---
 
     Code
-      cat(rtf_content, sep = "\n")
+      writeLines(rtf_content)
     Output
       {\rtf1\ansi
       \deff0\deflang1033
