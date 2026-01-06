@@ -22,6 +22,7 @@
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Merck/metalite.sl/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -30,7 +31,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-
+      <small>Source: <a href="https://github.com/Merck/metalite.sl/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
@@ -38,25 +39,25 @@
 <div class="section level3">
 <h3 id="new-features-0-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-1-1"></a></h3>
 <ul><li>
-<code><a href="../reference/react_disposition.html">react_disposition()</a></code> now has new arguments <code>trtvar</code>, <code>sl_col_selected</code>, <code>sl_col_names</code>, <code>ae_observation</code>. <code>ae_population</code>, <code>ae_col_selected</code>, and <code>ae_col_names</code> to customize subject lists in an interactive disposition table (#72, #100).</li>
-<li>Add a vignette for an interactive disposition table (#77).</li>
-<li>Add new utility function <code>extract_duration_category_ranges()</code> to extract category labels from fixed-format strings (#76).</li>
+<code><a href="../reference/react_disposition.html">react_disposition()</a></code> now has new arguments <code>trtvar</code>, <code>sl_col_selected</code>, <code>sl_col_names</code>, <code>ae_observation</code>. <code>ae_population</code>, <code>ae_col_selected</code>, and <code>ae_col_names</code> to customize subject lists in an interactive disposition table (<a href="https://github.com/Merck/metalite.sl/issues/72" class="external-link">#72</a>, <a href="https://github.com/Merck/metalite.sl/issues/100" class="external-link">#100</a>).</li>
+<li>Add a vignette for an interactive disposition table (<a href="https://github.com/Merck/metalite.sl/issues/77" class="external-link">#77</a>).</li>
+<li>Add new utility function <code>extract_duration_category_ranges()</code> to extract category labels from fixed-format strings (<a href="https://github.com/Merck/metalite.sl/issues/76" class="external-link">#76</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-1"></a></h3>
-<ul><li>Fix a bug to correctly extract subjects for a list of each disposition event in <code><a href="../reference/react_disposition.html">react_disposition()</a></code> (#74, #100).</li>
-<li>Fix a bug to correct the order of the first-level header of a table and to correctly merge data when the row dimention differs between groups in <code>base_char_subgroup()</code> (#80).</li>
+<ul><li>Fix a bug to correctly extract subjects for a list of each disposition event in <code><a href="../reference/react_disposition.html">react_disposition()</a></code> (<a href="https://github.com/Merck/metalite.sl/issues/74" class="external-link">#74</a>, <a href="https://github.com/Merck/metalite.sl/issues/100" class="external-link">#100</a>).</li>
+<li>Fix a bug to correct the order of the first-level header of a table and to correctly merge data when the row dimention differs between groups in <code>base_char_subgroup()</code> (<a href="https://github.com/Merck/metalite.sl/issues/80" class="external-link">#80</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="improvements-0-1-1">Improvements<a class="anchor" aria-label="anchor" href="#improvements-0-1-1"></a></h3>
-<ul><li>Remove the <code>forestly</code> dependency (#72, #75, #100).</li>
-<li>Update <code><a href="../reference/plotly_exp_duration.html">plotly_exp_duration()</a></code> to change the example, the default value of <code>duration_category_list</code> and <code>duration_category_labels</code>, and the labels of a drop down for histograms (#73, #92).</li>
-<li>Update <code><a href="../reference/react_disposition.html">react_disposition()</a></code> to change the default value of <code>population</code> and <code>sl_parameter</code> according to the new metadata structure, and to modify the condition under which a drill-down list is available for a disposition (#74, #77, #93).</li>
-<li>Update <code><a href="../reference/extend_exp_duration.html">extend_exp_duration()</a></code> to set the default value of <code>category_section_label</code>, <code>duration_category_list</code>, and <code>duration_category_labels</code> (#76).</li>
-<li>Update <code><a href="../reference/meta_sl_example.html">meta_sl_example()</a></code> to add AE data example for disposition analysis, remove factorization of SEX, and change the variable name of medication disposition (#77, #78).</li>
-<li>The argument controlling the display total for the second-level header is moved from <code><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup()</a></code> to <code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code>, and it is renamed to <code>display_total</code>(#80).</li>
-<li>Update <code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code> to adjust alignment of count values when a subgroup has no subject for a parameter value (#83).</li>
-<li>Update <code><a href="../reference/react_base_char.html">react_base_char()</a></code> to display an error message when there is a mismatch between display values in sl summary table and AE table column names of a subgroup, and to add space before rows labeled “with one or more adverse events,” “with no adverse events,” and the AE terms in a drill-down table (#84, #97).</li>
+<ul><li>Remove the <code>forestly</code> dependency (<a href="https://github.com/Merck/metalite.sl/issues/72" class="external-link">#72</a>, <a href="https://github.com/Merck/metalite.sl/issues/75" class="external-link">#75</a>, <a href="https://github.com/Merck/metalite.sl/issues/100" class="external-link">#100</a>).</li>
+<li>Update <code><a href="../reference/plotly_exp_duration.html">plotly_exp_duration()</a></code> to change the example, the default value of <code>duration_category_list</code> and <code>duration_category_labels</code>, and the labels of a drop down for histograms (<a href="https://github.com/Merck/metalite.sl/issues/73" class="external-link">#73</a>, <a href="https://github.com/Merck/metalite.sl/issues/92" class="external-link">#92</a>).</li>
+<li>Update <code><a href="../reference/react_disposition.html">react_disposition()</a></code> to change the default value of <code>population</code> and <code>sl_parameter</code> according to the new metadata structure, and to modify the condition under which a drill-down list is available for a disposition (<a href="https://github.com/Merck/metalite.sl/issues/74" class="external-link">#74</a>, <a href="https://github.com/Merck/metalite.sl/issues/77" class="external-link">#77</a>, <a href="https://github.com/Merck/metalite.sl/issues/93" class="external-link">#93</a>).</li>
+<li>Update <code><a href="../reference/extend_exp_duration.html">extend_exp_duration()</a></code> to set the default value of <code>category_section_label</code>, <code>duration_category_list</code>, and <code>duration_category_labels</code> (<a href="https://github.com/Merck/metalite.sl/issues/76" class="external-link">#76</a>).</li>
+<li>Update <code><a href="../reference/meta_sl_example.html">meta_sl_example()</a></code> to add AE data example for disposition analysis, remove factorization of SEX, and change the variable name of medication disposition (<a href="https://github.com/Merck/metalite.sl/issues/77" class="external-link">#77</a>, <a href="https://github.com/Merck/metalite.sl/issues/78" class="external-link">#78</a>).</li>
+<li>The argument controlling the display total for the second-level header is moved from <code><a href="../reference/prepare_base_char_subgroup.html">prepare_base_char_subgroup()</a></code> to <code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code>, and it is renamed to <code>display_total</code>(<a href="https://github.com/Merck/metalite.sl/issues/80" class="external-link">#80</a>).</li>
+<li>Update <code><a href="../reference/format_base_char_subgroup.html">format_base_char_subgroup()</a></code> to adjust alignment of count values when a subgroup has no subject for a parameter value (<a href="https://github.com/Merck/metalite.sl/issues/83" class="external-link">#83</a>).</li>
+<li>Update <code><a href="../reference/react_base_char.html">react_base_char()</a></code> to display an error message when there is a mismatch between display values in sl summary table and AE table column names of a subgroup, and to add space before rows labeled “with one or more adverse events,” “with no adverse events,” and the AE terms in a drill-down table (<a href="https://github.com/Merck/metalite.sl/issues/84" class="external-link">#84</a>, <a href="https://github.com/Merck/metalite.sl/issues/97" class="external-link">#97</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">

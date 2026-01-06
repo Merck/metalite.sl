@@ -1,4 +1,4 @@
-# exposure-duration-histogram
+# Interactive exposure duration histogram
 
 ``` r
 library(metalite.sl)
