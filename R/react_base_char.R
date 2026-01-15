@@ -210,6 +210,18 @@ react_base_char <- function(
       col_defs[[sl_name]] <- reactable::colDef(name = " ")
     }
   }
+  col_defs[["var_label"]] <-
+    reactable::colDef(
+      name = " ",
+      grouped = htmlwidgets::JS("
+          function(cellInfo) {
+            if (cellInfo.value === 'Participants in population') {
+              return cellInfo.value;
+            }
+            return cellInfo.value + ' (' + cellInfo.subRows.length + ')';
+          }
+        ")
+    )
 
   # Define Column Group
   col_group_defs <- list()
@@ -239,6 +251,64 @@ react_base_char <- function(
     width = width,
     columns = col_defs,
     columnGroups = col_group_defs,
+    defaultColDef = reactable::colDef(
+      aggregated = htmlwidgets::JS("
+        function (cellInfo, state) {
+          var sub = cellInfo && cellInfo.subRows ? cellInfo.subRows : [];
+          if (!Array.isArray(sub) || sub.length === 0) return null;
+
+          var first = sub[0];
+          var var_label =
+            (first && first.values && first.values.var_label != null)
+              ? first.values.var_label
+              : (first && first.var_label != null)
+                ? first.var_label
+                : null;
+
+          if (var_label !== 'Participants in population') return null;
+
+          var colId = (cellInfo && cellInfo.column && cellInfo.column.id) || null;
+          if (!colId || colId === 'name') return null;
+
+          var vals = [];
+          for (var i = 0; i < sub.length; i++) {
+            var r = sub[i];
+            var v =
+              (r && r[colId] != null) ? r[colId]
+                : (r && r.values && r.values[colId] != null) ? r.values[colId]
+                : null;
+            if (v != null) vals.push(v);
+          }
+          return vals;
+        }
+      ")
+    ),
+    rowStyle = htmlwidgets::JS("
+      function(rowInfo) {
+        if (
+          rowInfo &&
+          rowInfo.level === 1 &&
+          rowInfo.values && rowInfo.values.name === 'Participants in population' &&
+          !rowInfo.expanded &&
+          typeof rowInfo.toggleRowExpanded === 'function'
+        ) {
+          rowInfo.toggleRowExpanded();
+        }
+
+        var isChild = !!(rowInfo && typeof rowInfo.depth === 'number' && rowInfo.depth > 0);
+
+        var name =
+          (rowInfo && rowInfo.values && rowInfo.values.name != null) ? rowInfo.values.name
+            : (rowInfo && rowInfo.row && rowInfo.row.name != null) ? rowInfo.row.name
+            : (rowInfo && rowInfo.original && rowInfo.original.name != null) ? rowInfo.original.name
+            : null;
+
+        if (isChild && name === 'Participants in population') {
+          return { display: 'none' };
+        }
+        return {};
+      }
+    "),
     details = function(index) {
       if (index > 1 &
         !(tolower(tbl_sl$name[index]) %in% c("mean", "sd", "median", "min", "max", "se", "q1", "q3", "q1 to q3", "range")) &
