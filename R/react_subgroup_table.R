@@ -21,6 +21,7 @@
 #' @param tbl A tibble to create reactable.
 #' @param group Treatment group label.
 #' @param subgroup_name Subgroup label.
+#' @param col_title Column title for the reactable.
 #'
 #' @noRd
 #'
@@ -29,7 +30,8 @@
 react_subgroup_table <- function(
   tbl,
   group,
-  subgroup_name
+  subgroup_name,
+  col_title = NULL
 ) {
   names(tbl) <- tolower(names(tbl))
   subgroup_name <- tolower(subgroup_name)
@@ -72,7 +74,7 @@ react_subgroup_table <- function(
 
     all_columns <- append(all_columns, c(n_name, prop_name, prop_num_name))
 
-    col_defs[["name"]] <- reactable::colDef(show = TRUE, searchable = TRUE, minWidth = 500)
+    col_defs[["name"]] <- reactable::colDef(name = col_title, show = TRUE, searchable = TRUE, minWidth = 500)
     col_defs[[n_name]] <- reactable::colDef(name = "n", show = TRUE, na = "", searchable = FALSE)
     col_defs[[prop_name]] <- reactable::colDef(show = FALSE)
     col_defs[[prop_num_name]] <- reactable::colDef(name = "%", filterMethod = reactable::JS(js_filterminvalue), filterInput = reactable::JS(js_rangeFilter))

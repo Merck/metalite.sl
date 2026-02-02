@@ -33,6 +33,9 @@
 #' @param ae_subgroup A vector of strubf to specify the subgroups
 #'   in the AE subgroup specific table.
 #' @param ae_specific A string specifying the AE specific category.
+#' @param ae_analysis A character value of analysis term name for 
+#'   the AE specific table.
+#' @param col_title A character value of column title for the AE specific table.
 #' @param width A numeric value of width of the table in pixels.
 #'
 #' @return An reactable combing both baseline characteristic table
@@ -63,6 +66,13 @@ react_base_char <- function(
   sl_parameter = "age;gender;race",
   ae_subgroup = c("gender", "race"),
   ae_specific = "rel",
+  ae_analysis = "ae_specific",
+  col_title = metalite::collect_title(metadata_ae,
+                                      population,
+                                      observation,
+                                      ae_specific,
+                                      ae_analysis,
+                                      "analysis"),
   width = 1200
 ) {
   # ----------------------------------------- #
@@ -169,6 +179,16 @@ react_base_char <- function(
   ) |>
     metalite.ae::format_ae_specific(display = display_sl)
 
+  # if (is.null(col_title)) {
+  #   col_title <- metalite::collect_title(ae_specific_outdata$meta,
+  #                                        ae_specific_outdata$population,
+  #                                        ae_specific_outdata$observation,
+  #                                        ae_specific_outdata$parameter,
+  #                                        analysis = ae_analysis,
+  #                                        title_order = "analysis"
+  #   )
+  # }
+
   # modify the name elements in ae_specific_outdata$tbl$name: add spaces in name other than the value of "Participants in population"
   ae_specific_outdata$tbl$name <- sapply(ae_specific_outdata$tbl$name, function(x) {
     if (trimws(x) == "Participants in population" || is.na(x)) {
@@ -181,7 +201,7 @@ react_base_char <- function(
   # Define Column and Column Group for AE specific
   col_defs_ae <- list()
   col_group_defs_ae <- list()
-  col_defs_ae[["name"]] <- reactable::colDef(name = " ")
+  col_defs_ae[["name"]] <- reactable::colDef(name = col_title)
   for (i in 1:length(ae_specific_outdata$group)) {
     col_defs_ae[[paste0("n_", i)]] <- reactable::colDef(name = "n")
     col_defs_ae[[paste0("prop_", i)]] <- reactable::colDef(name = "(%)")
@@ -321,7 +341,8 @@ react_base_char <- function(
         tbl_ae[[idx_ae_subgroup]] |>
           react_subgroup_table(
             group = group_ae[[idx_ae_subgroup]],
-            subgroup_name = tbl_sl$name[index]
+            subgroup_name = tbl_sl$name[index],
+            col_title = col_title
           )
       } else if (index == 1) {
         ae_specific_outdata$tbl |>
