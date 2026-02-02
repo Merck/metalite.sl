@@ -33,7 +33,7 @@
 #' @param ae_subgroup A vector of strubf to specify the subgroups
 #'   in the AE subgroup specific table.
 #' @param ae_specific A string specifying the AE specific category.
-#' @param ae_analysis A character value of analysis term name for 
+#' @param ae_analysis A character value of analysis term name for
 #'   the AE specific table.
 #' @param col_title A character value of column title for the AE specific table.
 #' @param width A numeric value of width of the table in pixels.
@@ -67,12 +67,14 @@ react_base_char <- function(
   ae_subgroup = c("gender", "race"),
   ae_specific = "rel",
   ae_analysis = "ae_specific",
-  col_title = metalite::collect_title(metadata_ae,
-                                      population,
-                                      observation,
-                                      ae_specific,
-                                      ae_analysis,
-                                      "analysis"),
+  col_title = metalite::collect_title(
+    metadata_ae,
+    population,
+    observation,
+    ae_specific,
+    ae_analysis,
+    "analysis"
+  ),
   width = 1200
 ) {
   # ----------------------------------------- #
