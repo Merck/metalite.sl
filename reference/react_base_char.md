@@ -15,6 +15,9 @@ react_base_char(
   sl_parameter = "age;gender;race",
   ae_subgroup = c("gender", "race"),
   ae_specific = "rel",
+  ae_analysis = "ae_specific",
+  col_title = metalite::collect_title(metadata_ae, population, observation, ae_specific,
+    ae_analysis, "analysis"),
   width = 1200
 )
 ```
@@ -59,6 +62,14 @@ react_base_char(
 - ae_specific:
 
   A string specifying the AE specific category.
+
+- ae_analysis:
+
+  A character value of analysis term name for the AE specific table.
+
+- col_title:
+
+  A character value of column title for the AE specific table.
 
 - width:
 
