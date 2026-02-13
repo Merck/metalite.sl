@@ -189,7 +189,7 @@ The number or proportion of participants in each exposure duration category for 
 It also uses the summary statistics (char_stat_groups) to create hover text that shows detailed statistics for each bar (i.e., for each treatment group × exposure duration category).
 The interactive dropdown lets you switch between different views (e.g., cumulative exposure duration, exclusive categories, horizontal bars).
 
-```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
+```{r, out.width = "100%", out.height = "400px", echo = TRUE, fig.align = "center"}
 outdata |>
   plotly_exp_duration(
     color = NULL,
