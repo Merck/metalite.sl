@@ -217,6 +217,6 @@ outdata <- format_exp_duration(outdata, display_col = c("n", "prop", "total")) |
   )
 ```
 
-    ## The outdata is saved in/tmp/RtmpxXRjmz/file1ed16c704703.Rdata
+    ## The outdata is saved in/tmp/RtmpZiWSkK/file1bfa60908720.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/exp0duration.rtf

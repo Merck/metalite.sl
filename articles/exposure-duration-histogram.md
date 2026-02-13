@@ -352,6 +352,20 @@ duration category). The interactive dropdown lets you switch between
 different views (e.g., cumulative exposure duration, exclusive
 categories, horizontal bars).
 
+``` r
+outdata |>
+  plotly_exp_duration(
+    color = NULL,
+    display = "n",
+    display_total = TRUE,
+    plot_group_label = "Treatment Group",
+    plot_category_label = "Exposure Duration",
+    hover_summary_var = c("mean", "min", "max"),
+    width = 800,
+    height = 400
+  )
+```
+
 Histogram type
 
 Comparison of Exposure Duration (\> = x days) by Treatment Groups
