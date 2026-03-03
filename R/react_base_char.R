@@ -269,7 +269,7 @@ react_base_char <- function(
 
   reactable::reactable(
     tbl_sl,
-    resizable = TRUE,     # allow users adjust table column width
+    resizable = TRUE, # allow users adjust table column width
     groupBy = "var_label",
     width = width,
     columns = col_defs,
