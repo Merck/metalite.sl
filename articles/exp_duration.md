@@ -1,6 +1,7 @@
 # Exposure Duration Table
 
 ``` r
+
 library(metalite)
 library(metalite.sl)
 ```
@@ -34,6 +35,7 @@ utilized to:
   days”,“\>=28 days”, “\>=12 weeks” and “\>=24 weeks”.
 
 ``` r
+
 adsl <- r2rtf::r2rtf_adsl
 adexsum <- data.frame(USUBJID = adsl$USUBJID)
 adexsum$TRTA <- factor(adsl$TRT01A,
@@ -66,6 +68,7 @@ Step2: Save analysis plan and metadata(parameter and analysis)
 information, then build meta object.
 
 ``` r
+
 plan <- metalite::plan(
   analysis = "exp_dur", population = "apat",
   observation = "apat", parameter = "expdur"
@@ -103,6 +106,7 @@ is a `meta` object created by the metalite package. The resulting output
 comprises a collection of raw datasets for analysis and reporting.
 
 ``` r
+
 outdata <- prepare_exp_duration(meta)
 outdata
 ```
@@ -126,6 +130,7 @@ outdata
 Number of participants in population
 
 ``` r
+
 outdata$n[, 1:5]
 ```
 
@@ -135,6 +140,7 @@ outdata$n[, 1:5]
 Number of participants in each duration category
 
 ``` r
+
 charn <- data.frame(outdata$char_n[1])
 head(charn[, 1:5], 6)
 ```
@@ -150,6 +156,7 @@ head(charn[, 1:5], 6)
 Proportion of participants in each duration category
 
 ``` r
+
 charp <- data.frame(outdata$char_prop[1])
 head(charp[, 1:5], 6)
 ```
@@ -165,6 +172,7 @@ head(charp[, 1:5], 6)
 Statistical summary of exposure duration for each treatment
 
 ``` r
+
 chars <- data.frame(outdata$char_n[1])
 tail(chars[, 1:5], 8)
 ```
@@ -185,6 +193,7 @@ tail(chars[, 1:5], 8)
 output
 
 ``` r
+
 tbl <- format_exp_duration(outdata, display_col = c("n", "prop", "total"))
 head(tbl$tbl)
 ```
@@ -209,6 +218,7 @@ head(tbl$tbl)
 `rtf_exp_duration` to generate RTF output
 
 ``` r
+
 outdata <- format_exp_duration(outdata, display_col = c("n", "prop", "total")) |>
   rtf_exp_duration(
     source = "Source:  [CDISCpilot: adam-adexsum]",
@@ -217,6 +227,6 @@ outdata <- format_exp_duration(outdata, display_col = c("n", "prop", "total")) |
   )
 ```
 
-    ## The outdata is saved in/tmp/RtmpZiWSkK/file1bfa60908720.Rdata
+    ## The outdata is saved in/tmp/RtmpUtZS9L/file1e12ee24a48.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/exp0duration.rtf

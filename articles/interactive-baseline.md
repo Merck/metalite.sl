@@ -1,6 +1,7 @@
 # Build an Interactive Baseline Characteristic Table
 
 ``` r
+
 library(r2rtf)
 library(metalite)
 library(metalite.ae)
@@ -20,6 +21,7 @@ The code below is the same as
 [`meta_sl_example()`](https://merck.github.io/metalite.sl/reference/meta_sl_example.md).
 
 ``` r
+
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(adsl$TRTA,
@@ -77,6 +79,7 @@ In this vignette, we will directly use the metadata built by
 [`meta_ae_example()`](https://merck.github.io/metalite.ae/reference/meta_ae_example.html).
 
 ``` r
+
 meta_ae <- meta_ae_example()
 ```
 
@@ -87,6 +90,7 @@ or african american) or any other character variable, you can customize
 the `react_base_char` function at the beginning of the code.
 
 ``` r
+
 # function to capitalize the first letter of a string that has multiple words
 capitalize_words <- function(x) {
   sapply(x, function(word) {
@@ -96,6 +100,7 @@ capitalize_words <- function(x) {
 ```
 
 ``` r
+
 # 1) In "data_population": extract the RACE values as a character vector
 race_values_pop <- meta_sl[["data_population"]]$RACE # Use $ to get a vector
 
@@ -114,6 +119,7 @@ meta_sl[["data_observation"]]$RACE <- capitalize_words(race_values_obs) # Assign
 ### Baseline characteristic table + Participants With Drug-Related AE
 
 ``` r
+
 react_base_char(
   metadata_sl = meta_sl,
   metadata_ae = meta_ae,
@@ -126,6 +132,7 @@ react_base_char(
 ### Baseline characteristic table + Participants With Serious AE
 
 ``` r
+
 react_base_char(
   metadata_sl = meta_sl,
   metadata_ae = meta_ae,

@@ -1,6 +1,7 @@
 # Treatment Compliance Table
 
 ``` r
+
 library(metalite)
 library(metalite.sl)
 library(dplyr)
@@ -43,6 +44,7 @@ website](https://merck.github.io/metalite/articles/metalite.html).
 ### Build a metadata
 
 ``` r
+
 adsl <- r2rtf::r2rtf_adsl
 
 adex <- metalite.ae::metalite_ae_adex
@@ -141,6 +143,7 @@ head(adsl)
 ```
 
 ``` r
+
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(adsl$TRTA,
   levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
@@ -149,6 +152,7 @@ adsl$TRTA <- factor(adsl$TRTA,
 ```
 
 ``` r
+
 plan <- plan(
   analysis = "trt_compliance", population = "apat",
   observation = "apat", parameter = "CMPLRNG;CMPLPCT"
@@ -156,6 +160,7 @@ plan <- plan(
 ```
 
 ``` r
+
 meta <- meta_adam(
   population = adsl,
   observation = adsl
@@ -188,6 +193,7 @@ meta <- meta_adam(
 Click to show the output
 
 ``` r
+
 meta
 #> ADaM metadata: 
 #>    .$data_population     Population data with 252 subjects 
@@ -253,12 +259,14 @@ The resulting output of the function
 comprises a collection of raw datasets for analysis and reporting.
 
 ``` r
+
 outdata <- prepare_trt_compliance(meta)
 ```
 
 Click to show the output
 
 ``` r
+
 outdata
 #> List of 14
 #>  $ meta           :List of 7
@@ -280,6 +288,7 @@ outdata
 - `parameter`: parameter name
 
 ``` r
+
 outdata$parameter
 #> [1] "CMPLRNG;CMPLPCT"
 ```
@@ -287,6 +296,7 @@ outdata$parameter
 - `n`: number of participants in population
 
 ``` r
+
 outdata$n
 #>                         name n_1 n_2 n_3 n_9999 var_label
 #> 1 Participants in population  85  84  83    252     -----
@@ -296,6 +306,7 @@ The resulting dataset contains frequently used statistics, with
 variables indexed according to the order specified in `outdata$group`.
 
 ``` r
+
 outdata$group
 #> [1] "TRTA"
 ```
@@ -304,6 +315,7 @@ outdata$group
   parameter
 
 ``` r
+
 outdata$char_n
 #> [[1]]
 #>            name Placebo Low Dose High Dose Total                  var_label
@@ -335,6 +347,7 @@ outdata$char_n
 - `char_var` : name of parameter
 
 ``` r
+
 outdata$char_var
 #> [1] "CMPLRNG" "CMPLPCT"
 ```
@@ -342,6 +355,7 @@ outdata$char_var
 - `char_prop` : proportion of subject with treatment compliance
 
 ``` r
+
 outdata$char_prop
 #> [[1]]
 #>            name   Placebo  Low Dose High Dose      Total
@@ -373,12 +387,14 @@ function can be employed to prepare the outdata,ensuring its
 compatibility with production-ready RTF tables.
 
 ``` r
+
 outdata <- outdata |> format_trt_compliance()
 ```
 
 Click to show the output
 
 ``` r
+
 outdata$tbl
 #>                          name          n_1    p_1          n_2    p_2
 #> 1  Participants in population           85   <NA>           84   <NA>
@@ -410,12 +426,14 @@ By using the `display` argument, we can choose specific statistics to
 include.
 
 ``` r
+
 tbl <- outdata |> format_trt_compliance(display_stat = c("mean", "sd", "median", "range"), display_col = c("n", "prop", "total"))
 ```
 
 Click to show the output
 
 ``` r
+
 tbl$tbl
 #>                         name          n_1    p_1          n_2    p_2
 #> 1 Participants in population           85   <NA>           84   <NA>
@@ -442,6 +460,7 @@ tbl$tbl
 The last step is to prepare the RTF table using `rtf_trt_compliance`.
 
 ``` r
+
 outdata |>
   format_trt_compliance() |>
   rtf_trt_compliance(

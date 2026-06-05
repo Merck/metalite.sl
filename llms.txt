@@ -22,6 +22,7 @@ The general workflow is:
 Here is a quick example
 
 ``` r
+
 library("metalite.sl")
 
 meta_sl_example() |>

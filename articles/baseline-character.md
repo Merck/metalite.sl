@@ -1,6 +1,7 @@
 # Baseline Characteristics Table
 
 ``` r
+
 library(metalite)
 library(metalite.sl)
 ```
@@ -18,6 +19,7 @@ analysis involves functions:
 ### Build a metadata
 
 ``` r
+
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(
@@ -28,6 +30,7 @@ adsl$TRTA <- factor(
 ```
 
 ``` r
+
 meta <- meta_sl(
   dataset_population = adsl,
   population_term = "apat",
@@ -40,6 +43,7 @@ meta <- meta_sl(
 Click to show the output
 
 ``` r
+
 meta
 ```
 
@@ -85,6 +89,7 @@ The input of the function
 is a `meta` object created by the metalite package.
 
 ``` r
+
 outdata <- meta |>
   prepare_base_char(parameter = "age;gender;race")
 
@@ -110,6 +115,7 @@ outdata
 Click to show the output
 
 ``` r
+
 outdata$n
 ```
 
@@ -117,6 +123,7 @@ outdata$n
     ## 1 Participants in population  86  84  84    254     -----
 
 ``` r
+
 outdata$char_n
 ```
 
@@ -147,12 +154,14 @@ outdata$char_n
     ## 3                            WHITE      78       78        74   230      Race
 
 ``` r
+
 outdata$char_var
 ```
 
     ## [1] "AGE"  "SEX"  "RACE"
 
 ``` r
+
 outdata$char_prop
 ```
 
@@ -192,6 +201,7 @@ outdata$char_prop
 output
 
 ``` r
+
 outdata <-
   outdata |> format_base_char(
     display_col = c("n", "prop", "total"),
@@ -202,6 +212,7 @@ outdata <-
 Click to show the output
 
 ``` r
+
 outdata$tbl
 ```
 
@@ -245,6 +256,7 @@ outdata$tbl
 `rtf_base_char` to generate RTF output
 
 ``` r
+
 outdata |> rtf_base_char(
   source = "Source: [CDISCpilot: adam-adsl]",
   path_outdata = tempfile(fileext = ".Rdata"),
@@ -252,7 +264,7 @@ outdata |> rtf_base_char(
 )
 ```
 
-    ## The outdata is saved in/tmp/RtmpH7VthL/file1b87780a733.Rdata
+    ## The outdata is saved in/tmp/Rtmp76vJFd/file1d9f67e96a91.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0char.rtf
 
@@ -272,6 +284,7 @@ baseline characteristic subgroup analysis involves functions:
 ### Build a metadata
 
 ``` r
+
 adsl <- r2rtf::r2rtf_adsl
 adsl$TRTA <- adsl$TRT01A
 adsl$TRTA <- factor(
@@ -282,6 +295,7 @@ adsl$TRTA <- factor(
 ```
 
 ``` r
+
 plan <- plan(
   analysis = "base_char_subgroup",
   population = "apat",
@@ -291,6 +305,7 @@ plan <- plan(
 ```
 
 ``` r
+
 meta <- meta_adam(
   population = adsl,
   observation = adsl
@@ -326,6 +341,7 @@ meta <- meta_adam(
 Click to show the output
 
 ``` r
+
 meta
 ```
 
@@ -374,6 +390,7 @@ analysis raw datasets. Key arguments are:
   will be second level header.
 
 ``` r
+
 outdata <- prepare_base_char_subgroup(
   meta,
   population = "apat",
@@ -389,6 +406,7 @@ The output dataset contains commonly used statistics within each
 `subgroup_var`.
 
 ``` r
+
 outdata$out_all$`Placebo`
 ```
 
@@ -409,6 +427,7 @@ outdata$out_all$`Placebo`
     ##  $ analysis       : chr "base_char_subgroup"
 
 ``` r
+
 outdata$out_all$`High Dose`
 ```
 
@@ -429,6 +448,7 @@ outdata$out_all$`High Dose`
     ##  $ analysis       : chr "base_char_subgroup"
 
 ``` r
+
 outdata$out_all$`Low Dose`
 ```
 
@@ -452,12 +472,14 @@ The information about subgroup saved with `outdata$group` and
 `outdata$subgroup`.
 
 ``` r
+
 outdata$group
 ```
 
     ## [1] "F" "M"
 
 ``` r
+
 outdata$subgroup
 ```
 
@@ -466,6 +488,7 @@ outdata$subgroup
 `n_pop`: participants in population within each `subgroup_var`.
 
 ``` r
+
 outdata$out_all$`Placebo`$n
 ```
 
@@ -473,6 +496,7 @@ outdata$out_all$`Placebo`$n
     ## 1 Participants in population  53  33     86     -----
 
 ``` r
+
 outdata$out_all$`High Dose`$n
 ```
 
@@ -480,6 +504,7 @@ outdata$out_all$`High Dose`$n
     ## 1 Participants in population  40  44     84     -----
 
 ``` r
+
 outdata$out_all$`Low Dose`$n
 ```
 
@@ -492,12 +517,14 @@ outdata$out_all$`Low Dose`$n
 RTF output
 
 ``` r
+
 outdata <- format_base_char_subgroup(outdata)
 ```
 
 Click to show the output
 
 ``` r
+
 outdata$tbl
 ```
 
@@ -572,6 +599,7 @@ outdata$tbl
 `rtf_base_char_subgroup` to generate RTF output
 
 ``` r
+
 outdata |>
   rtf_base_char_subgroup(
     source = "Source:  [CDISCpilot: adam-adsl]",
@@ -580,6 +608,6 @@ outdata |>
   )
 ```
 
-    ## The outdata is saved in/tmp/RtmpH7VthL/file1b8764c68744.Rdata
+    ## The outdata is saved in/tmp/Rtmp76vJFd/file1d9f6f047334.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0charsubgroup.rtf

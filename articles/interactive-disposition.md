@@ -1,6 +1,7 @@
 # Interactive Disposition Table
 
 ``` r
+
 library(metalite.sl)
 library(metalite.ae)
 library(metalite)
@@ -10,6 +11,7 @@ library(dplyr)
 ## Build a metadata
 
 ``` r
+
 adsl <- metalite_sl_adsl
 metadata_ae <- metalite.ae::meta_ae_example()
 metadata_ae$data_observation <- metalite_sl_adae
@@ -73,6 +75,7 @@ head(adsl)
 ```
 
 ``` r
+
 plan <- plan(
   analysis = "disp", population = "apat",
   observation = "apat", parameter = "disposition;medical-disposition"
@@ -80,6 +83,7 @@ plan <- plan(
 ```
 
 ``` r
+
 meta <- meta_adam(
   population = adsl,
   observation = adsl
@@ -113,6 +117,7 @@ meta <- meta_adam(
 ## Interactive Disposition
 
 ``` r
+
 react_disposition(
   metadata_sl = meta,
   metadata_ae = metadata_ae,

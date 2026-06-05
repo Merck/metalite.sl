@@ -1,6 +1,7 @@
 # Interactive exposure duration histogram
 
 ``` r
+
 library(metalite.sl)
 library(dplyr)
 ```
@@ -51,6 +52,7 @@ utilized to:
   days”,“\>=28 days”, “\>=12 weeks” and “\>=24 weeks”.
 
 ``` r
+
 adsl <- r2rtf::r2rtf_adsl
 adexsum <- data.frame(USUBJID = adsl$USUBJID)
 adexsum$TRTA <- factor(adsl$TRT01A,
@@ -82,6 +84,7 @@ Step2: Save analysis plan and metadata(parameter and analysis)
 information, then build meta object.
 
 ``` r
+
 plan <- metalite::plan(
   analysis = "exp_dur", population = "apat",
   observation = "apat", parameter = "expdur"
@@ -132,6 +135,7 @@ at this stage, the statistics are grouped only by treatment group, not
 yet broken down by exposure duration categories.
 
 ``` r
+
 outdata <- prepare_exp_duration(meta)
 outdata
 #> List of 14
@@ -154,6 +158,7 @@ outdata
 Number of participants in population
 
 ``` r
+
 outdata$n[, 1:5]
 #>                         name n_1 n_2 n_3 n_9999
 #> 1 Participants in population  86  83  84    253
@@ -162,6 +167,7 @@ outdata$n[, 1:5]
 Number of participants in each duration category
 
 ``` r
+
 charn <- data.frame(outdata$char_n[1])
 head(charn[, 1:5], 6)
 #>          name Placebo Low.Dose High.Dose Total
@@ -176,6 +182,7 @@ head(charn[, 1:5], 6)
 Proportion of participants in each duration category
 
 ``` r
+
 charp <- data.frame(outdata$char_prop[1])
 head(charp[, 1:5], 6)
 #>          name   Placebo  Low.Dose High.Dose      Total
@@ -190,6 +197,7 @@ head(charp[, 1:5], 6)
 Statistical summary of exposure duration for each treatment
 
 ``` r
+
 chars <- data.frame(outdata$char_n[1])
 tail(chars[, 1:5], 8)
 #>        name         Placebo    Low.Dose       High.Dose     Total
@@ -219,6 +227,7 @@ duration category and treatment group. char_stat_groups: summary
 statistics by exposure duration category and treatment group.
 
 ``` r
+
 outdata <- meta |>
   prepare_exp_duration() |>
   extend_exp_duration(
@@ -249,6 +258,7 @@ outdata
 ```
 
 ``` r
+
 all_stats <- bind_rows(outdata$char_stat_groups, .id = "duration_category")
 
 all_stats
@@ -353,6 +363,7 @@ different views (e.g., cumulative exposure duration, exclusive
 categories, horizontal bars).
 
 ``` r
+
 outdata |>
   plotly_exp_duration(
     color = NULL,

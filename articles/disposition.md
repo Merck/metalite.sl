@@ -1,6 +1,7 @@
 # Disposition Table
 
 ``` r
+
 library(metalite.sl)
 library(metalite)
 library(dplyr)
@@ -38,6 +39,7 @@ website](https://merck.github.io/metalite/articles/metalite.html).
 ### Build a metadata
 
 ``` r
+
 adsl <- metalite_sl_adsl
 head(adsl)
 #>       USUBJID      STUDYID SUBJID SITEID SITEGR1                  ARM
@@ -99,6 +101,7 @@ head(adsl)
 ```
 
 ``` r
+
 plan <- plan(
   analysis = "disp", population = "apat",
   observation = "apat", parameter = "disposition;medical-disposition"
@@ -106,6 +109,7 @@ plan <- plan(
 ```
 
 ``` r
+
 meta <- meta_adam(
   population = adsl,
   observation = adsl
@@ -139,6 +143,7 @@ meta <- meta_adam(
 Click to show the output
 
 ``` r
+
 meta
 #> ADaM metadata: 
 #>    .$data_population     Population data with 254 subjects 
@@ -203,12 +208,14 @@ The resulting output of the function
 comprises a collection of raw datasets for analysis and reporting.
 
 ``` r
+
 outdata <- prepare_disposition(meta)
 ```
 
 Click to show the output
 
 ``` r
+
 outdata
 #> List of 14
 #>  $ meta           :List of 7
@@ -230,6 +237,7 @@ outdata
 - `parameter`: parameter name
 
 ``` r
+
 outdata$parameter
 #> [1] "disposition;medical-disposition"
 ```
@@ -237,6 +245,7 @@ outdata$parameter
 - `n`: number of participants in population
 
 ``` r
+
 outdata$n
 #>                         name n_1 n_2 n_3 n_9999 var_label
 #> 1 Participants in population  86  84  84    254     -----
@@ -246,6 +255,7 @@ The resulting dataset contains frequently used statistics, with
 variables indexed according to the order specified in `outdata$group`.
 
 ``` r
+
 outdata$group
 #> [1] "TRTA"
 ```
@@ -254,6 +264,7 @@ outdata$group
   parameter
 
 ``` r
+
 outdata$char_n
 #> [[1]]
 #>                        name Placebo Low Dose High Dose Total         var_label
@@ -287,6 +298,7 @@ outdata$char_n
 - `char_var` : name of parameter
 
 ``` r
+
 outdata$char_var
 #> [1] "EOSSTT" "EOTSTT"
 ```
@@ -294,6 +306,7 @@ outdata$char_var
 - `char_prop` : proportion of subject with disposition
 
 ``` r
+
 outdata$char_prop
 #> [[1]]
 #>                        name          Placebo         Low Dose        High Dose
@@ -340,12 +353,14 @@ function can be employed to prepare the outdata,ensuring its
 compatibility with production-ready RTF tables.
 
 ``` r
+
 outdata <- outdata |> format_disposition()
 ```
 
 Click to show the output
 
 ``` r
+
 outdata$tbl
 #>                          name n_1    p_1 n_2    p_2 n_3    p_3 n_9999 p_9999
 #> 1  Participants in population  86   <NA>  84   <NA>  84   <NA>    254   <NA>
@@ -386,6 +401,7 @@ outdata$tbl
 The last step is to prepare the RTF table using `rtf_trt_compliance`.
 
 ``` r
+
 outdata$tbl <- outdata$tbl %>%
   mutate(name = ifelse(trimws(name) == "Status Not Recorded", "    Status Not Recorded", name))
 
@@ -395,6 +411,6 @@ outdata |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = "outtable/disposition.rtf"
   )
-#> The outdata is saved in/tmp/RtmpGy0OnV/file1bc06844fad1.Rdata
+#> The outdata is saved in/tmp/Rtmp0zhuDl/file1dd82994d511.Rdata
 #> The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/disposition.rtf
 ```

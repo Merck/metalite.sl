@@ -1,6 +1,7 @@
 # Introduction to metalite.sl
 
 ``` r
+
 library(metalite)
 library(metalite.sl)
 ```
@@ -43,6 +44,7 @@ For instance, we can illustrate the creation of a straightforward
 Baseline characteristic table as shown below.
 
 ``` r
+
 meta_sl_example() |>
   prepare_base_char(
     population = "apat",
@@ -60,6 +62,7 @@ meta_sl_example() |>
 An example for interactive baseline characteristic table:
 
 ``` r
+
 react_base_char(
   metadata_sl = meta_sl_example(),
   metadata_ae = metalite.ae::meta_ae_example(),
