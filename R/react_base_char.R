@@ -269,6 +269,7 @@ react_base_char <- function(
 
   reactable::reactable(
     tbl_sl,
+    resizable = TRUE, # allow users adjust table column width
     groupBy = "var_label",
     width = width,
     columns = col_defs,
@@ -349,6 +350,8 @@ react_base_char <- function(
       } else if (index == 1) {
         ae_specific_outdata$tbl |>
           reactable::reactable(
+            # allow users adjust table column width
+            resizable = TRUE,
             width = width,
             columns = col_defs_ae,
             columnGroups = col_group_defs_ae,
