@@ -1,9 +1,9 @@
 Package: metalite.sl
 Title: Subject-Level Analysis Using 'metalite'
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
-    person("Benjamin", "Wang", email = "benjamin.wang@merck.com", role = c("aut", "cre")),
-    person("Yujie", "Zhao", role = "aut"),
+    person("Yujie", "Zhao", email = "yujie.zhao@merck.com", role = c("aut", "cre")),
+    person("Benjamin", "Wang", email = "benjamin.wang@merck.com", role = "aut"),
     person("Hiroaki", "Fukuda", role = "aut"),
     person("PoYao", "Niu", role = "aut"),
     person("Nan", "Xiao", role = "aut"),
