@@ -5,16 +5,16 @@
     Output
       {\rtf1\ansi
       \deff0\deflang1033
-      {\fonttbl{\f0\froman\fcharset161\fprq2 Times New Roman;}
+      {\fonttbl{\f0\froman\fcharset1\fprq2 Times New Roman;}
       {\f1\froman\fcharset161\fprq2 Times New Roman Greek;}
       {\f2\fswiss\fcharset161\fprq2 Arial Greek;}
-      {\f3\fswiss\fcharset161\fprq2 Arial;}
-      {\f4\fswiss\fcharset161\fprq2 Helvetica;}
-      {\f5\fswiss\fcharset161\fprq2 Calibri;}
-      {\f6\froman\fcharset161\fprq2 Georgia;}
-      {\f7\ffroman\fcharset161\fprq2 Cambria;}
-      {\f8\fmodern\fcharset161\fprq2 Courier New;}
-      {\f9\ftech\fcharset161\fprq2 Symbol;}
+      {\f3\fswiss\fcharset0\fprq2 Arial;}
+      {\f4\fswiss\fcharset1\fprq2 Helvetica;}
+      {\f5\fswiss\fcharset1\fprq2 Calibri;}
+      {\f6\froman\fcharset1\fprq2 Georgia;}
+      {\f7\ffroman\fcharset1\fprq2 Cambria;}
+      {\f8\fmodern\fcharset0\fprq2 Courier New;}
+      {\f9\ftech\fcharset2\fprq2 Symbol;}
       }
       
       
@@ -436,16 +436,16 @@
     Output
       {\rtf1\ansi
       \deff0\deflang1033
-      {\fonttbl{\f0\froman\fcharset161\fprq2 Times New Roman;}
+      {\fonttbl{\f0\froman\fcharset1\fprq2 Times New Roman;}
       {\f1\froman\fcharset161\fprq2 Times New Roman Greek;}
       {\f2\fswiss\fcharset161\fprq2 Arial Greek;}
-      {\f3\fswiss\fcharset161\fprq2 Arial;}
-      {\f4\fswiss\fcharset161\fprq2 Helvetica;}
-      {\f5\fswiss\fcharset161\fprq2 Calibri;}
-      {\f6\froman\fcharset161\fprq2 Georgia;}
-      {\f7\ffroman\fcharset161\fprq2 Cambria;}
-      {\f8\fmodern\fcharset161\fprq2 Courier New;}
-      {\f9\ftech\fcharset161\fprq2 Symbol;}
+      {\f3\fswiss\fcharset0\fprq2 Arial;}
+      {\f4\fswiss\fcharset1\fprq2 Helvetica;}
+      {\f5\fswiss\fcharset1\fprq2 Calibri;}
+      {\f6\froman\fcharset1\fprq2 Georgia;}
+      {\f7\ffroman\fcharset1\fprq2 Cambria;}
+      {\f8\fmodern\fcharset0\fprq2 Courier New;}
+      {\f9\ftech\fcharset2\fprq2 Symbol;}
       }
       
       
@@ -1035,16 +1035,16 @@
     Output
       {\rtf1\ansi
       \deff0\deflang1033
-      {\fonttbl{\f0\froman\fcharset161\fprq2 Times New Roman;}
+      {\fonttbl{\f0\froman\fcharset1\fprq2 Times New Roman;}
       {\f1\froman\fcharset161\fprq2 Times New Roman Greek;}
       {\f2\fswiss\fcharset161\fprq2 Arial Greek;}
-      {\f3\fswiss\fcharset161\fprq2 Arial;}
-      {\f4\fswiss\fcharset161\fprq2 Helvetica;}
-      {\f5\fswiss\fcharset161\fprq2 Calibri;}
-      {\f6\froman\fcharset161\fprq2 Georgia;}
-      {\f7\ffroman\fcharset161\fprq2 Cambria;}
-      {\f8\fmodern\fcharset161\fprq2 Courier New;}
-      {\f9\ftech\fcharset161\fprq2 Symbol;}
+      {\f3\fswiss\fcharset0\fprq2 Arial;}
+      {\f4\fswiss\fcharset1\fprq2 Helvetica;}
+      {\f5\fswiss\fcharset1\fprq2 Calibri;}
+      {\f6\froman\fcharset1\fprq2 Georgia;}
+      {\f7\ffroman\fcharset1\fprq2 Cambria;}
+      {\f8\fmodern\fcharset0\fprq2 Courier New;}
+      {\f9\ftech\fcharset2\fprq2 Symbol;}
       }
       
       
@@ -1380,16 +1380,16 @@
     Output
       {\rtf1\ansi
       \deff0\deflang1033
-      {\fonttbl{\f0\froman\fcharset161\fprq2 Times New Roman;}
+      {\fonttbl{\f0\froman\fcharset1\fprq2 Times New Roman;}
       {\f1\froman\fcharset161\fprq2 Times New Roman Greek;}
       {\f2\fswiss\fcharset161\fprq2 Arial Greek;}
-      {\f3\fswiss\fcharset161\fprq2 Arial;}
-      {\f4\fswiss\fcharset161\fprq2 Helvetica;}
-      {\f5\fswiss\fcharset161\fprq2 Calibri;}
-      {\f6\froman\fcharset161\fprq2 Georgia;}
-      {\f7\ffroman\fcharset161\fprq2 Cambria;}
-      {\f8\fmodern\fcharset161\fprq2 Courier New;}
-      {\f9\ftech\fcharset161\fprq2 Symbol;}
+      {\f3\fswiss\fcharset0\fprq2 Arial;}
+      {\f4\fswiss\fcharset1\fprq2 Helvetica;}
+      {\f5\fswiss\fcharset1\fprq2 Calibri;}
+      {\f6\froman\fcharset1\fprq2 Georgia;}
+      {\f7\ffroman\fcharset1\fprq2 Cambria;}
+      {\f8\fmodern\fcharset0\fprq2 Courier New;}
+      {\f9\ftech\fcharset2\fprq2 Symbol;}
       }
       
       
@@ -1851,16 +1851,16 @@
     Output
       {\rtf1\ansi
       \deff0\deflang1033
-      {\fonttbl{\f0\froman\fcharset161\fprq2 Times New Roman;}
+      {\fonttbl{\f0\froman\fcharset1\fprq2 Times New Roman;}
       {\f1\froman\fcharset161\fprq2 Times New Roman Greek;}
       {\f2\fswiss\fcharset161\fprq2 Arial Greek;}
-      {\f3\fswiss\fcharset161\fprq2 Arial;}
-      {\f4\fswiss\fcharset161\fprq2 Helvetica;}
-      {\f5\fswiss\fcharset161\fprq2 Calibri;}
-      {\f6\froman\fcharset161\fprq2 Georgia;}
-      {\f7\ffroman\fcharset161\fprq2 Cambria;}
-      {\f8\fmodern\fcharset161\fprq2 Courier New;}
-      {\f9\ftech\fcharset161\fprq2 Symbol;}
+      {\f3\fswiss\fcharset0\fprq2 Arial;}
+      {\f4\fswiss\fcharset1\fprq2 Helvetica;}
+      {\f5\fswiss\fcharset1\fprq2 Calibri;}
+      {\f6\froman\fcharset1\fprq2 Georgia;}
+      {\f7\ffroman\fcharset1\fprq2 Cambria;}
+      {\f8\fmodern\fcharset0\fprq2 Courier New;}
+      {\f9\ftech\fcharset2\fprq2 Symbol;}
       }
       
       
@@ -2056,16 +2056,16 @@
     Output
       {\rtf1\ansi
       \deff0\deflang1033
-      {\fonttbl{\f0\froman\fcharset161\fprq2 Times New Roman;}
+      {\fonttbl{\f0\froman\fcharset1\fprq2 Times New Roman;}
       {\f1\froman\fcharset161\fprq2 Times New Roman Greek;}
       {\f2\fswiss\fcharset161\fprq2 Arial Greek;}
-      {\f3\fswiss\fcharset161\fprq2 Arial;}
-      {\f4\fswiss\fcharset161\fprq2 Helvetica;}
-      {\f5\fswiss\fcharset161\fprq2 Calibri;}
-      {\f6\froman\fcharset161\fprq2 Georgia;}
-      {\f7\ffroman\fcharset161\fprq2 Cambria;}
-      {\f8\fmodern\fcharset161\fprq2 Courier New;}
-      {\f9\ftech\fcharset161\fprq2 Symbol;}
+      {\f3\fswiss\fcharset0\fprq2 Arial;}
+      {\f4\fswiss\fcharset1\fprq2 Helvetica;}
+      {\f5\fswiss\fcharset1\fprq2 Calibri;}
+      {\f6\froman\fcharset1\fprq2 Georgia;}
+      {\f7\ffroman\fcharset1\fprq2 Cambria;}
+      {\f8\fmodern\fcharset0\fprq2 Courier New;}
+      {\f9\ftech\fcharset2\fprq2 Symbol;}
       }
       
       
