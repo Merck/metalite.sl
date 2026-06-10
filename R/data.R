@@ -41,3 +41,14 @@
 #'
 #' @source <https://github.com/phuse-org/phuse-scripts/tree/master/data/adam/cdisc>
 "metalite_sl_adae"
+
+#' ADEXSUM dataset
+#'
+#' A dataset containing exposure details in Basic Data Structure (BDS).
+#'
+#' @format A data frame with 508 rows and 50 variables.
+#'
+#' @return An analysis data frame.
+#'
+#' @source \url{https://github.com/phuse-org/phuse-scripts/tree/master/data/sdtm/cdiscpilot01}
+"metalite_sl_adexsum"
