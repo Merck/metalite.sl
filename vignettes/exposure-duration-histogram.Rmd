@@ -48,9 +48,8 @@ Step1: Load up existing ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data
 - The exposure duration `adexsum$AVAL` for all participants.
 - Duration category assigned with `adexsum$EXDURGR` i.e.">=1 day", ">=7 days",">=28 days", ">=12 weeks" and ">=24 weeks".
 ```{r}
-library(metalite.ae)
-data("metalite_ae_adexsum", package = "metalite.ae")
-adexsum <- metalite_ae_adexsum
+data("metalite_sl_adexsum")
+adexsum <- metalite_sl_adexsum
 ```
 Step2: Save analysis plan and metadata(parameter and analysis) information, then build meta object.
 
