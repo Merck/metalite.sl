@@ -1,5 +1,17 @@
 # Changelog
 
+## metalite.sl 0.1.2
+
+### New features
+
+- Improved interactive baseline characteristics tables, including race
+  formatting, participant filtering, column naming, and layout
+  adjustments.
+- Added options to better control plot display behavior.
+- Updated react disposition table functionality and related dataset
+  handling.
+- Updated test coverage configuration and change maintainer.
+
 ## metalite.sl 0.1.1
 
 CRAN release: 2025-05-09

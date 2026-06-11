@@ -411,6 +411,6 @@ outdata |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = "outtable/disposition.rtf"
   )
-#> The outdata is saved in/tmp/Rtmp0zhuDl/file1dd82994d511.Rdata
+#> The outdata is saved in/tmp/RtmpE2bli5/file1caa92948dc.Rdata
 #> The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/disposition.rtf
 ```

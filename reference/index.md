@@ -91,3 +91,5 @@
   : A subject level demographic dataset
 - [`metalite_sl_adae`](https://merck.github.io/metalite.sl/reference/metalite_sl_adae.md)
   : An adverse event dataset
+- [`metalite_sl_adexsum`](https://merck.github.io/metalite.sl/reference/metalite_sl_adexsum.md)
+  : ADEXSUM dataset
