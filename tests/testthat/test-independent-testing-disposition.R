@@ -4,7 +4,7 @@ adsl <- r2rtf::r2rtf_adsl
 
 set.seed(123)
 
-meta <- meta_sl_example()
+meta <- meta_sl_test()
 outdata <- prepare_disposition(meta,
   analysis = "disp",
   population = "apat",

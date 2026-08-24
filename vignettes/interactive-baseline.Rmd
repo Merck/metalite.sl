@@ -23,7 +23,7 @@ There are 2 key metadata types:
 
 ## Metadata for baseline characteristic table
 
-The code below is the same as `meta_sl_example()`.
+The code below builds the subject-level metadata directly from the example dataset.
 
 ```{r}
 adsl <- r2rtf::r2rtf_adsl

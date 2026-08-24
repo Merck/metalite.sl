@@ -1,6 +1,5 @@
 # library(metalite)
 #
-# meta <- meta_sl_example()
 # outdata <- prepare_base_char(meta,
 #   population = "apat",
 #   parameter = "age;gender"

@@ -61,8 +61,41 @@ The overall workflow includes the following steps:
 For instance, we can illustrate the creation of a straightforward
 Baseline characteristic table as shown below.
 
+```{r}
+sl_plan <- plan(
+  analysis = "base_char",
+  population = "apat",
+  observation = "apat",
+  parameter = "age;gender;race"
+)
+
+metadata_sl <- meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  define_plan(sl_plan) |>
+  define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y"
+  ) |>
+  define_parameter(
+    name = "age",
+    var = "AGE",
+    label = "Age (years)",
+    vargroup = "AGEGR1"
+  ) |>
+  define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+  define_parameter(name = "race", var = "RACE", label = "Race") |>
+  define_analysis(
+    name = "base_char",
+    title = "Participant Baseline Characteristics by Treatment Group"
+  ) |>
+  meta_build()
+```
+
 ```{r, eval = FALSE}
-meta_sl_example() |>
+metadata_sl |>
   prepare_base_char(
     population = "apat",
     analysis = "base_char",
@@ -123,7 +156,7 @@ metadata_ae <- meta_adam(
   meta_build()
 
 react_base_char(
-  metadata_sl = meta_sl_example(),
+  metadata_sl = metadata_sl,
   metadata_ae = metadata_ae,
   population = "apat",
   observation = "wk12",
@@ -144,6 +177,4 @@ offering further guidance and illustrations.
 To implement the workflow in metalite.sl, it is necessary to establish
 a metadata structure using the metalite R package.
 For detailed instructions, please consult the
-[metalite tutorial](https://merck.github.io/metalite/articles/metalite.html)
-and refer to the source code of the function
-[`meta_sl_example()`](https://github.com/Merck/metalite.sl/blob/main/R/meta_sl_example.R).
+[metalite tutorial](https://merck.github.io/metalite/articles/metalite.html).

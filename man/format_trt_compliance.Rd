@@ -41,12 +41,52 @@ Format Treatment Compliance Analysis
 Format Treatment Compliance Analysis
 }
 \examples{
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "trt_compliance", population = "apat",
+    observation = "apat", parameter = "comp8;comp16"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "comp8", var = "COMP8FL", label = "Compliance (Week 8)"
+  ) |>
+  metalite::define_parameter(
+    name = "comp16", var = "COMP16FL", label = "Compliance (Week 16)"
+  ) |>
+  metalite::define_analysis(
+    name = "trt_compliance", title = "Summary of Treatment Compliance"
+  ) |>
+  metalite::meta_build()
 
 meta |>
   prepare_trt_compliance(parameter = "comp8;comp16") |>
   format_trt_compliance()
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "trt_compliance", population = "apat",
+    observation = "apat", parameter = "comp8;comp16"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "comp8", var = "COMP8FL", label = "Compliance (Week 8)"
+  ) |>
+  metalite::define_parameter(
+    name = "comp16", var = "COMP16FL", label = "Compliance (Week 16)"
+  ) |>
+  metalite::define_analysis(
+    name = "trt_compliance", title = "Summary of Treatment Compliance"
+  ) |>
+  metalite::meta_build()
 
 meta |>
   prepare_trt_compliance(population = "apat", parameter = "comp8;comp16") |>

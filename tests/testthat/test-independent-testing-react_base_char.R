@@ -5,7 +5,7 @@ test_that("Testing react_base_char function", {
   # the "react_subgroup_table()" function is called inside the "react_base_char()" function
 
   table <- react_base_char(
-    metadata_sl = meta_sl_example(),
+    metadata_sl = meta_sl_test(),
     metadata_ae = meta_ae_sl_example(),
     population = "apat",
     observation = "wk12",

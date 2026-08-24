@@ -6,7 +6,7 @@ test_that("Testing react_disposition function", {
   set.seed(123)
 
   table <- react_disposition(
-    metadata_sl = meta_sl_example(),
+    metadata_sl = meta_sl_test(),
     metadata_ae = meta_ae_sl_example(),
     trtvar = "trt01a",
     width = 1200
@@ -27,7 +27,7 @@ test_that("Testing react_disposition function AE selection column", {
   set.seed(123)
 
   table <- react_disposition(
-    metadata_sl = meta_sl_example(),
+    metadata_sl = meta_sl_test(),
     metadata_ae = meta_ae_sl_example(),
     trtvar = "trt01a",
     ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT"),
@@ -50,7 +50,7 @@ test_that("Testing react_disposition function Disposition selection column", {
   set.seed(123)
 
   table <- react_disposition(
-    metadata_sl = meta_sl_example(),
+    metadata_sl = meta_sl_test(),
     metadata_ae = meta_ae_sl_example(),
     trtvar = "trt01a",
     sl_col_selected = c("trt01a", "siteid", "subjid", "sex", "age", "weightbl"),

@@ -45,6 +45,37 @@
 #'
 #' @examples
 #' if (interactive()) {
+#'   sl_plan <- metalite::plan(
+#'     analysis = "base_char",
+#'     population = "apat",
+#'     observation = "apat",
+#'     parameter = "age;gender;race"
+#'   )
+#'
+#'   metadata_sl <- metalite::meta_adam(
+#'     observation = metalite_sl_adsl,
+#'     population = metalite_sl_adsl
+#'   ) |>
+#'     metalite::define_plan(sl_plan) |>
+#'     metalite::define_population(
+#'       name = "apat",
+#'       group = "TRTA",
+#'       subset = SAFFL == "Y"
+#'     ) |>
+#'     metalite::define_parameter(
+#'       name = "age",
+#'       var = "AGE",
+#'       label = "Age (years)",
+#'       vargroup = "AGEGR1"
+#'     ) |>
+#'     metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+#'     metalite::define_parameter(name = "race", var = "RACE", label = "Race") |>
+#'     metalite::define_analysis(
+#'       name = "base_char",
+#'       title = "Participant Baseline Characteristics by Treatment Group"
+#'     ) |>
+#'     metalite::meta_build()
+#'
 #'   analysis_plan <- metalite::plan(
 #'     analysis = "ae_specific",
 #'     population = "apat",
@@ -85,7 +116,7 @@
 #'     metalite::meta_build()
 #'
 #'   react_base_char(
-#'     metadata_sl = meta_sl_example(),
+#'     metadata_sl = metadata_sl,
 #'     metadata_ae = metadata_ae,
 #'     population = "apat",
 #'     observation = "wk12",

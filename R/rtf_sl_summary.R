@@ -32,7 +32,26 @@
 #' @export
 #'
 #' @examples
-#' meta <- meta_sl_example()
+#' meta <- metalite::meta_adam(
+#'   population = metalite_sl_adsl,
+#'   observation = metalite_sl_adsl
+#' ) |>
+#'   metalite::define_plan(metalite::plan(
+#'     analysis = "base_char", population = "apat",
+#'     observation = "apat", parameter = "age;gender"
+#'   )) |>
+#'   metalite::define_population(
+#'     name = "apat", group = "TRTA", subset = SAFFL == "Y"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "age", var = "AGE", label = "Age (years)", vargroup = "AGEGR1"
+#'   ) |>
+#'   metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+#'   metalite::define_analysis(
+#'     name = "base_char",
+#'     title = "Participant Baseline Characteristics by Treatment Group"
+#'   ) |>
+#'   metalite::meta_build()
 #'
 #' meta |>
 #'   prepare_sl_summary(
@@ -208,7 +227,26 @@ rtf_sl_summary <- function(
 #' @export
 #'
 #' @examples
-#' meta <- meta_sl_example()
+#' meta <- metalite::meta_adam(
+#'   population = metalite_sl_adsl,
+#'   observation = metalite_sl_adsl
+#' ) |>
+#'   metalite::define_plan(metalite::plan(
+#'     analysis = "base_char", population = "apat",
+#'     observation = "apat", parameter = "age;gender"
+#'   )) |>
+#'   metalite::define_population(
+#'     name = "apat", group = "TRTA", subset = SAFFL == "Y"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "age", var = "AGE", label = "Age (years)", vargroup = "AGEGR1"
+#'   ) |>
+#'   metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+#'   metalite::define_analysis(
+#'     name = "base_char",
+#'     title = "Participant Baseline Characteristics by Treatment Group"
+#'   ) |>
+#'   metalite::meta_build()
 #'
 #' meta |>
 #'   prepare_base_char(
@@ -233,7 +271,27 @@ rtf_base_char <- rtf_sl_summary
 #' @export
 #'
 #' @examples
-#' meta <- meta_sl_example()
+#' meta <- metalite::meta_adam(
+#'   population = metalite_sl_adsl,
+#'   observation = metalite_sl_adsl
+#' ) |>
+#'   metalite::define_plan(metalite::plan(
+#'     analysis = "trt_compliance", population = "apat",
+#'     observation = "apat", parameter = "comp8;comp16"
+#'   )) |>
+#'   metalite::define_population(
+#'     name = "apat", group = "TRTA", subset = SAFFL == "Y"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "comp8", var = "COMP8FL", label = "Compliance (Week 8)"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "comp16", var = "COMP16FL", label = "Compliance (Week 16)"
+#'   ) |>
+#'   metalite::define_analysis(
+#'     name = "trt_compliance", title = "Summary of Treatment Compliance"
+#'   ) |>
+#'   metalite::meta_build()
 #'
 #' meta |>
 #'   prepare_trt_compliance(population = "apat", parameter = "comp8;comp16") |>
@@ -255,7 +313,29 @@ rtf_trt_compliance <- rtf_sl_summary
 #' @export
 #'
 #' @examples
-#' meta <- meta_sl_example()
+#' meta <- metalite::meta_adam(
+#'   population = metalite_sl_adsl,
+#'   observation = metalite_sl_adsl
+#' ) |>
+#'   metalite::define_plan(metalite::plan(
+#'     analysis = "disp", population = "apat",
+#'     observation = "apat", parameter = "disposition;medical-disposition"
+#'   )) |>
+#'   metalite::define_population(
+#'     name = "apat", group = "TRTA", subset = SAFFL == "Y"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "disposition", var = "EOSSTT", label = "Trial Disposition",
+#'     var_lower = "DCSREAS"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "medical-disposition", var = "EOTSTT",
+#'     label = "Participant Study Medication Disposition", var_lower = "DCTREAS"
+#'   ) |>
+#'   metalite::define_analysis(
+#'     name = "disp", title = "Disposition of Participant"
+#'   ) |>
+#'   metalite::meta_build()
 #'
 #' meta |>
 #'   prepare_disposition(population = "apat", parameter = "disposition;medical-disposition") |>

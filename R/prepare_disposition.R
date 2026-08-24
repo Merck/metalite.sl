@@ -31,8 +31,40 @@
 #' @export
 #'
 #' @examples
-#' meta <- meta_sl_example()
-#' meta |> prepare_base_char()
+#' meta <- metalite::meta_adam(
+#'   population = metalite_sl_adsl,
+#'   observation = metalite_sl_adsl
+#' ) |>
+#'   metalite::define_plan(metalite::plan(
+#'     analysis = "disp",
+#'     population = "apat",
+#'     observation = "apat",
+#'     parameter = "disposition;medical-disposition"
+#'   )) |>
+#'   metalite::define_population(
+#'     name = "apat",
+#'     group = "TRTA",
+#'     subset = SAFFL == "Y"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "disposition",
+#'     var = "EOSSTT",
+#'     label = "Trial Disposition",
+#'     var_lower = "DCSREAS"
+#'   ) |>
+#'   metalite::define_parameter(
+#'     name = "medical-disposition",
+#'     var = "EOTSTT",
+#'     label = "Participant Study Medication Disposition",
+#'     var_lower = "DCTREAS"
+#'   ) |>
+#'   metalite::define_analysis(
+#'     name = "disp",
+#'     title = "Disposition of Participant"
+#'   ) |>
+#'   metalite::meta_build()
+#'
+#' meta |> prepare_disposition()
 prepare_disposition <- function(meta,
                                 analysis = "disp",
                                 population = meta$plan[meta$plan$analysis == analysis, ]$population,
