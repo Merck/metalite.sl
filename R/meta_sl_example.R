@@ -36,13 +36,7 @@ meta_sl_example <- function() {
   )
 
   # Create a variable EOSSTT indicating the end of end of study status
-  adae <- metalite.ae::meta_ae_example()$data_observation
-
-  # adae$AEACN <- sample(
-  #  x = c("DOSE NOT CHANGED", "DRUG INTERRUPTED", "DRUG WITHDRAWN", "NOT APPLICABLE", "UNKNOWN"),
-  #  size = length(adae$USUBJID),
-  #  prob = c(0.7, 0.1,0.05,0.1,0.05), replace = TRUE
-  # )
+  adae <- r2rtf::r2rtf_adae
 
   # Treatment Disposition
   # For discontinued due to AE

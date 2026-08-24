@@ -7,7 +7,7 @@ test_that("Testing react_disposition function", {
 
   table <- react_disposition(
     metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
+    metadata_ae = meta_ae_sl_example(),
     trtvar = "trt01a",
     width = 1200
   )
@@ -28,7 +28,7 @@ test_that("Testing react_disposition function AE selection column", {
 
   table <- react_disposition(
     metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
+    metadata_ae = meta_ae_sl_example(),
     trtvar = "trt01a",
     ae_col_selected = c("AESOC", "ASTDT", "AENDT", "AETERM", "duration", "AESEV", "AESER", "related", "AEACN", "AEOUT"),
     ae_col_names = c("SOC", "Onset Date", "End Date", "AE", "Duraion", "Intensity", "Serious", "Related", "Action Taken", "Outcome"),
@@ -51,7 +51,7 @@ test_that("Testing react_disposition function Disposition selection column", {
 
   table <- react_disposition(
     metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
+    metadata_ae = meta_ae_sl_example(),
     trtvar = "trt01a",
     sl_col_selected = c("trt01a", "siteid", "subjid", "sex", "age", "weightbl"),
     sl_col_names = c("Treatment", "Site", "Subject ID", "Sex", "Age (Year)", "Weight (kg)"),

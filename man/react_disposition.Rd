@@ -70,9 +70,47 @@ Display interactive disposition tables with AE subgroup analysis
 }
 \examples{
 if (interactive()) {
+  analysis_plan <- metalite::plan(
+    analysis = "ae_specific",
+    population = "apat",
+    observation = "wk12",
+    parameter = "any"
+  )
+
+  metadata_ae <- metalite::meta_adam(
+    observation = metalite_sl_adae,
+    population = metalite_sl_adsl
+  ) |>
+    metalite::define_plan(analysis_plan) |>
+    metalite::define_population(
+      name = "apat",
+      group = "TRTA",
+      subset = SAFFL == "Y",
+      label = "All Participants as Treated"
+    ) |>
+    metalite::define_observation(
+      name = "wk12",
+      group = "TRTA",
+      subset = SAFFL == "Y",
+      label = "Weeks 0 to 12"
+    ) |>
+    metalite::define_parameter(
+      name = "any",
+      term1 = "",
+      term2 = "",
+      var = "AEDECOD",
+      soc = "AEBODSYS",
+      label = "All AEs"
+    ) |>
+    metalite::define_analysis(
+      name = "ae_specific",
+      title = "Participants With Adverse Events"
+    ) |>
+    metalite::meta_build()
+
   react_disposition(
     metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example()
+    metadata_ae = metadata_ae
   )
 }
 }

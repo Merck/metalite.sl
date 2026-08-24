@@ -59,9 +59,48 @@ Display interactive baseline characteristic tables with AE subgroup analysis
 }
 \examples{
 if (interactive()) {
+  analysis_plan <- metalite::plan(
+    analysis = "ae_specific",
+    population = "apat",
+    observation = "wk12",
+    parameter = "rel"
+  )
+
+  metadata_ae <- metalite::meta_adam(
+    observation = metalite_sl_adae,
+    population = metalite_sl_adsl
+  ) |>
+    metalite::define_plan(analysis_plan) |>
+    metalite::define_population(
+      name = "apat",
+      group = "TRTA",
+      subset = SAFFL == "Y",
+      label = "All Participants as Treated"
+    ) |>
+    metalite::define_observation(
+      name = "wk12",
+      group = "TRTA",
+      subset = SAFFL == "Y",
+      label = "Weeks 0 to 12"
+    ) |>
+    metalite::define_parameter(
+      name = "rel",
+      term1 = "Drug-Related",
+      term2 = "",
+      subset = AEREL \%in\% c("POSSIBLE", "PROBABLE"),
+      var = "AEDECOD",
+      soc = "AEBODSYS",
+      label = "Drug-related AEs"
+    ) |>
+    metalite::define_analysis(
+      name = "ae_specific",
+      title = "Participants With Drug-Related Adverse Events"
+    ) |>
+    metalite::meta_build()
+
   react_base_char(
     metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
+    metadata_ae = metadata_ae,
     population = "apat",
     observation = "wk12",
     display_total = TRUE,
