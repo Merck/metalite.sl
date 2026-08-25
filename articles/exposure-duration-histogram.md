@@ -20,9 +20,6 @@ browser-based plot built with Plotly. Users can customize the display
 type (e.g., counts or proportions), color, tooltip summary statistics,
 and axis labels.
 
-- `meta_sl_exposure_example`: create example exposure metadata (`meta`
-  object) for demonstration or testing purposes.
-
 - `prepare_exp_duration`: process subject-level exposure data to
   calculate treatment duration and prepare it for further analysis.
 
@@ -33,13 +30,10 @@ and axis labels.
   visualize exposure duration distribution across subjects or treatment
   arms.
 
-### 1. Load up a metadata
+### 1. Build metadata
 
-### meta_sl_exposure_example()
-
-There are two steps in `meta_sl_exposure_example` function in order to
-build the metadata (`meta` object): processing the ADaM dataset and save
-meta information for A&R reporting.
+There are two steps to build the metadata (`meta` object): load the ADaM
+dataset and save metadata for analysis and reporting.
 
 Step1: Load up existing ADEXSUM, the ADaM dataset for Drug Exposrue
 Summary Data, that contains:

@@ -2,6 +2,8 @@
 
 ## metalite.sl 0.1.2
 
+CRAN release: 2026-06-12
+
 ### New features
 
 - Improved interactive baseline characteristics tables, including race
@@ -68,10 +70,9 @@ CRAN release: 2025-05-09
   to set the default value of `category_section_label`,
   `duration_category_list`, and `duration_category_labels`
   ([\#76](https://github.com/Merck/metalite.sl/issues/76)).
-- Update
-  [`meta_sl_example()`](https://merck.github.io/metalite.sl/reference/meta_sl_example.md)
-  to add AE data example for disposition analysis, remove factorization
-  of SEX, and change the variable name of medication disposition
+- Update `meta_sl_example()` to add AE data example for disposition
+  analysis, remove factorization of SEX, and change the variable name of
+  medication disposition
   ([\#77](https://github.com/Merck/metalite.sl/issues/77),
   [\#78](https://github.com/Merck/metalite.sl/issues/78)).
 - The argument controlling the display total for the second-level header

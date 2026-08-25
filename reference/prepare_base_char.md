@@ -42,21 +42,49 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char",
+    population = "apat",
+    observation = "apat",
+    parameter = "age;gender"
+  )) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age",
+    var = "AGE",
+    label = "Age (years)",
+    vargroup = "AGEGR1"
+  ) |>
+  metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+  metalite::define_analysis(
+    name = "base_char",
+    title = "Participant Baseline Characteristics by Treatment Group"
+  ) |>
+  metalite::meta_build()
+#> Warning: base_char: has missing label
+
 meta |> prepare_base_char()
 #> List of 14
 #>  $ meta           :List of 7
 #>  $ population     : chr "apat"
 #>  $ observation    : chr "apat"
-#>  $ parameter      : chr "age;gender;race"
+#>  $ parameter      : chr "age;gender"
 #>  $ n              :'data.frame': 1 obs. of  6 variables:
 #>  $ order          : NULL
 #>  $ group          : chr "TRTA"
 #>  $ reference_group: NULL
-#>  $ char_n         :List of 3
-#>  $ char_var       : chr [1:3] "AGE" "SEX" "RACE"
-#>  $ char_prop      :List of 3
-#>  $ var_type       :List of 3
+#>  $ char_n         :List of 2
+#>  $ char_var       : chr [1:2] "AGE" "SEX"
+#>  $ char_prop      :List of 2
+#>  $ var_type       :List of 2
 #>  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2
 #>  $ analysis       : chr "base_char"
 ```

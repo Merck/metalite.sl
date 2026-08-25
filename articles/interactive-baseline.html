@@ -83,7 +83,8 @@
 <div class="section level3">
 <h3 id="metadata-for-baseline-characteristic-table">Metadata for baseline characteristic table<a class="anchor" aria-label="anchor" href="#metadata-for-baseline-characteristic-table"></a>
 </h3>
-<p>The code below is the same as <code><a href="../reference/meta_sl_example.html">meta_sl_example()</a></code>.</p>
+<p>The code below builds the subject-level metadata directly from the
+example dataset.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">adsl</span> <span class="op">&lt;-</span> <span class="fu">r2rtf</span><span class="fu">::</span><span class="va"><a href="https://merck.github.io/r2rtf/reference/r2rtf_adsl.html" class="external-link">r2rtf_adsl</a></span></span>
 <span><span class="va">adsl</span><span class="op">$</span><span class="va">TRTA</span> <span class="op">&lt;-</span> <span class="va">adsl</span><span class="op">$</span><span class="va">TRT01A</span></span>
@@ -138,10 +139,65 @@
 <div class="section level3">
 <h3 id="a-metadata-of-the-ae-subgroup-specific-analysis">A metadata of the AE subgroup specific analysis<a class="anchor" aria-label="anchor" href="#a-metadata-of-the-ae-subgroup-specific-analysis"></a>
 </h3>
-<p>In this vignette, we will directly use the metadata built by
-<code><a href="https://merck.github.io/metalite.ae/reference/meta_ae_example.html" class="external-link">meta_ae_example()</a></code>.</p>
+<p>The AE metadata is built directly from the example subject-level and
+adverse event datasets.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">meta_ae</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite.ae/reference/meta_ae_example.html" class="external-link">meta_ae_example</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">adsl_ae</span> <span class="op">&lt;-</span> <span class="va">metalite_sl_adsl</span></span>
+<span><span class="va">adsl_ae</span><span class="op">$</span><span class="va">RACE</span> <span class="op">&lt;-</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/toTitleCase.html" class="external-link">toTitleCase</a></span><span class="op">(</span><span class="va">adsl_ae</span><span class="op">$</span><span class="va">RACE</span><span class="op">)</span></span>
+<span><span class="va">adae</span> <span class="op">&lt;-</span> <span class="va">metalite_sl_adae</span></span>
+<span></span>
+<span><span class="va">analysis_plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
+<span>  analysis <span class="op">=</span> <span class="st">"ae_specific"</span>,</span>
+<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  observation <span class="op">=</span> <span class="st">"wk12"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"rel;ser"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">meta_ae</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span>observation <span class="op">=</span> <span class="va">adae</span>, population <span class="op">=</span> <span class="va">adsl_ae</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span><span class="va">analysis_plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">"USUBJID"</span>, <span class="st">"SAFFL"</span>, <span class="st">"TRTA"</span>, <span class="st">"TRTDUR"</span>,</span>
+<span>      <span class="st">"SITEID"</span>, <span class="st">"SEX"</span>, <span class="st">"RACE"</span>, <span class="st">"AGE"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"All Participants as Treated"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_observation.html" class="external-link">define_observation</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"wk12"</span>,</span>
+<span>    var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>      <span class="st">"USUBJID"</span>, <span class="st">"SAFFL"</span>, <span class="st">"TRTA"</span>, <span class="st">"SEX"</span>, <span class="st">"AEDECOD"</span>, <span class="st">"AEBODSYS"</span>, <span class="st">"AEREL"</span>,</span>
+<span>      <span class="st">"AESER"</span>, <span class="st">"AEOUT"</span>, <span class="st">"AEACN"</span>, <span class="st">"AESDTH"</span>, <span class="st">"ASTDT"</span>, <span class="st">"AENDT"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Weeks 0 to 12"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"rel"</span>,</span>
+<span>    term1 <span class="op">=</span> <span class="st">"Drug-Related"</span>,</span>
+<span>    term2 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">AEREL</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POSSIBLE"</span>, <span class="st">"PROBABLE"</span><span class="op">)</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"AEDECOD"</span>,</span>
+<span>    soc <span class="op">=</span> <span class="st">"AEBODSYS"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Drug-related AEs"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"ser"</span>,</span>
+<span>    term1 <span class="op">=</span> <span class="st">"Serious"</span>,</span>
+<span>    term2 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">AESER</span> <span class="op">==</span> <span class="st">"Y"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"AEDECOD"</span>,</span>
+<span>    soc <span class="op">=</span> <span class="st">"AEBODSYS"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Serious AEs"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"ae_specific"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Participants With Drug-Related Adverse Events"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="customization-optional">Customization (Optional)<a class="anchor" aria-label="anchor" href="#customization-optional"></a>
@@ -198,6 +254,7 @@ AE<a class="anchor" aria-label="anchor" href="#baseline-characteristic-table-par
 <span>  metadata_ae <span class="op">=</span> <span class="va">meta_ae</span>,</span>
 <span>  ae_subgroup <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"race"</span>, <span class="st">"gender"</span><span class="op">)</span>,</span>
 <span>  ae_specific <span class="op">=</span> <span class="st">"ser"</span>,</span>
+<span>  col_title <span class="op">=</span> <span class="st">"Participants With Serious Adverse Events"</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">1200</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-e5c8c404fe174e4c81bd" class="reactable html-widget" style="width:1200px;height:auto;"></div>
@@ -211,7 +268,7 @@ AE<a class="anchor" aria-label="anchor" href="#baseline-characteristic-table-par
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

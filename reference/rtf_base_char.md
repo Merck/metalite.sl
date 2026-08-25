@@ -68,7 +68,27 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char", population = "apat",
+    observation = "apat", parameter = "age;gender"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age", var = "AGE", label = "Age (years)", vargroup = "AGEGR1"
+  ) |>
+  metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+  metalite::define_analysis(
+    name = "base_char",
+    title = "Participant Baseline Characteristics by Treatment Group"
+  ) |>
+  metalite::meta_build()
+#> Warning: base_char: has missing label
 
 meta |>
   prepare_base_char(
@@ -82,6 +102,6 @@ meta |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = tempfile(fileext = ".rtf")
   )
-#> The outdata is saved in/tmp/RtmpolHkWL/file19df5b34c16.Rdata
-#> The output is saved in/tmp/RtmpolHkWL/file19df57d9a646.rtf
+#> The outdata is saved in/tmp/RtmpbEVefW/file1a8ce6a1e95.Rdata
+#> The output is saved in/tmp/RtmpbEVefW/file1a8c3cb887ec.rtf
 ```

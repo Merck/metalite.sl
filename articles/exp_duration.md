@@ -12,17 +12,16 @@ The exposure duration analysis aims to provide table to summarize by
 each identified duration category. The development of exposure duration
 analysis involves functions:
 
-- `meta_sl_exposure_example`: build the metadata (`meta` object) for
-  analysis.
+- [`metalite::meta_adam`](https://merck.github.io/metalite/reference/meta_adam.html):
+  build the metadata (`meta` object) for analysis.
 - `prepare_exp_duration`: prepare analysis raw datasets.
 - `format_exp_duration`: prepare analysis outdata with proper format.
 - `rtf_exp_duration`: transfer (mock) output dataset to RTF table.
 
 ### Build a metadata
 
-There are two steps in `meta_sl_exposure_example` function in order to
-build the metadata (`meta` object): processing the ADaM dataset and save
-meta information for A&R reporting.
+There are two steps to build the metadata (`meta` object): process the
+ADaM dataset and save metadata for analysis and reporting.
 
 Step1: ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data, is
 utilized to:
@@ -227,6 +226,6 @@ outdata <- format_exp_duration(outdata, display_col = c("n", "prop", "total")) |
   )
 ```
 
-    ## The outdata is saved in/tmp/RtmpGdJbAj/file1ce64698ff80.Rdata
+    ## The outdata is saved in/tmp/Rtmp0LbSf9/file1d685fd3e79.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/exp0duration.rtf

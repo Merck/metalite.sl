@@ -17,8 +17,8 @@ There are 2 key metadata types:
 
 ### Metadata for baseline characteristic table
 
-The code below is the same as
-[`meta_sl_example()`](https://merck.github.io/metalite.sl/reference/meta_sl_example.md).
+The code below builds the subject-level metadata directly from the
+example dataset.
 
 ``` r
 
@@ -75,12 +75,67 @@ meta_sl <- meta_adam(
 
 ### A metadata of the AE subgroup specific analysis
 
-In this vignette, we will directly use the metadata built by
-[`meta_ae_example()`](https://merck.github.io/metalite.ae/reference/meta_ae_example.html).
+The AE metadata is built directly from the example subject-level and
+adverse event datasets.
 
 ``` r
 
-meta_ae <- meta_ae_example()
+adsl_ae <- metalite_sl_adsl
+adsl_ae$RACE <- tools::toTitleCase(adsl_ae$RACE)
+adae <- metalite_sl_adae
+
+analysis_plan <- plan(
+  analysis = "ae_specific",
+  population = "apat",
+  observation = "wk12",
+  parameter = "rel;ser"
+)
+
+meta_ae <- meta_adam(observation = adae, population = adsl_ae) |>
+  define_plan(analysis_plan) |>
+  define_population(
+    name = "apat",
+    var = c(
+      "USUBJID", "SAFFL", "TRTA", "TRTDUR",
+      "SITEID", "SEX", "RACE", "AGE"
+    ),
+    group = "TRTA",
+    subset = SAFFL == "Y",
+    label = "All Participants as Treated"
+  ) |>
+  define_observation(
+    name = "wk12",
+    var = c(
+      "USUBJID", "SAFFL", "TRTA", "SEX", "AEDECOD", "AEBODSYS", "AEREL",
+      "AESER", "AEOUT", "AEACN", "AESDTH", "ASTDT", "AENDT"
+    ),
+    group = "TRTA",
+    subset = SAFFL == "Y",
+    label = "Weeks 0 to 12"
+  ) |>
+  define_parameter(
+    name = "rel",
+    term1 = "Drug-Related",
+    term2 = "",
+    subset = AEREL %in% c("POSSIBLE", "PROBABLE"),
+    var = "AEDECOD",
+    soc = "AEBODSYS",
+    label = "Drug-related AEs"
+  ) |>
+  define_parameter(
+    name = "ser",
+    term1 = "Serious",
+    term2 = "",
+    subset = AESER == "Y",
+    var = "AEDECOD",
+    soc = "AEBODSYS",
+    label = "Serious AEs"
+  ) |>
+  define_analysis(
+    name = "ae_specific",
+    title = "Participants With Drug-Related Adverse Events"
+  ) |>
+  meta_build()
 ```
 
 ### Customization (Optional)
@@ -138,6 +193,7 @@ react_base_char(
   metadata_ae = meta_ae,
   ae_subgroup = c("age", "race", "gender"),
   ae_specific = "ser",
+  col_title = "Participants With Serious Adverse Events",
   width = 1200
 )
 ```

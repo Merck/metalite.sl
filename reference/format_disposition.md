@@ -41,7 +41,30 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "disp", population = "apat",
+    observation = "apat", parameter = "disposition;medical-disposition"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "disposition", var = "EOSSTT", label = "Trial Disposition",
+    var_lower = "DCSREAS"
+  ) |>
+  metalite::define_parameter(
+    name = "medical-disposition", var = "EOTSTT",
+    label = "Participant Study Medication Disposition", var_lower = "DCTREAS"
+  ) |>
+  metalite::define_analysis(
+    name = "disp", title = "Disposition of Participant"
+  ) |>
+  metalite::meta_build()
+#> Warning: disp: has missing label
 
 meta |>
   prepare_disposition(population = "apat", parameter = "disposition;medical-disposition") |>
@@ -61,7 +84,7 @@ meta |>
 #>  $ var_type       :List of 2
 #>  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2
 #>  $ analysis       : chr "disp"
-#>  $ tbl            :'data.frame': 13 obs. of  10 variables:
+#>  $ tbl            :'data.frame': 15 obs. of  10 variables:
 #>  $ display_col    : chr [1:3] "n" "prop" "total"
 #>  $ display_stat   : chr [1:6] "mean" "sd" "se" "median" ...
 ```

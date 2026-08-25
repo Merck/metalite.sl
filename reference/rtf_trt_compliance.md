@@ -68,7 +68,28 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "trt_compliance", population = "apat",
+    observation = "apat", parameter = "comp8;comp16"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "comp8", var = "COMP8FL", label = "Compliance (Week 8)"
+  ) |>
+  metalite::define_parameter(
+    name = "comp16", var = "COMP16FL", label = "Compliance (Week 16)"
+  ) |>
+  metalite::define_analysis(
+    name = "trt_compliance", title = "Summary of Treatment Compliance"
+  ) |>
+  metalite::meta_build()
+#> Warning: trt_compliance: has missing label
 
 meta |>
   prepare_trt_compliance(population = "apat", parameter = "comp8;comp16") |>
@@ -78,6 +99,6 @@ meta |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = tempfile(fileext = ".rtf")
   )
-#> The outdata is saved in/tmp/RtmpolHkWL/file19df177c10ab.Rdata
-#> The output is saved in/tmp/RtmpolHkWL/file19df3b0a3285.rtf
+#> The outdata is saved in/tmp/RtmpbEVefW/file1a8c27941102.Rdata
+#> The output is saved in/tmp/RtmpbEVefW/file1a8c70ebb97.rtf
 ```

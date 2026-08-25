@@ -81,7 +81,33 @@ for the second level header.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="meta_sl_example.html">meta_sl_example</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  population <span class="op">=</span> <span class="va">metalite_sl_adsl</span>,</span></span>
+<span class="r-in"><span>  observation <span class="op">=</span> <span class="va">metalite_sl_adsl</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span><span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    analysis <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span></span>
+<span class="r-in"><span>    population <span class="op">=</span> <span class="st">"apat"</span>,</span></span>
+<span class="r-in"><span>    observation <span class="op">=</span> <span class="st">"apat"</span>,</span></span>
+<span class="r-in"><span>    parameter <span class="op">=</span> <span class="st">"age"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span></span>
+<span class="r-in"><span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span></span>
+<span class="r-in"><span>    subset <span class="op">=</span> <span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="st">"age"</span>,</span></span>
+<span class="r-in"><span>    var <span class="op">=</span> <span class="st">"AGE"</span>,</span></span>
+<span class="r-in"><span>    label <span class="op">=</span> <span class="st">"Age (years)"</span>,</span></span>
+<span class="r-in"><span>    vargroup <span class="op">=</span> <span class="st">"AGEGR1"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    name <span class="op">=</span> <span class="st">"base_char_subgroup"</span>,</span></span>
+<span class="r-in"><span>    title <span class="op">=</span> <span class="st">"Participant by Age Category and Sex"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">metalite</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>base_char_subgroup: has missing label</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">outdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_base_char_subgroup.html">prepare_base_char_subgroup</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">meta</span>,</span></span>
@@ -102,7 +128,7 @@ for the second level header.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ADaM metadata: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .$data_population 	Population data with 254 subjects </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    .$data_observation 	Observation data with 254 records </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    .$plan 	Analysis plan with 4 plans </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .$plan 	Analysis plan with 1 plans </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis population type:</span>
@@ -116,23 +142,13 @@ for the second level header.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis parameter type:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    name                                      label subset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 'age'                              'Age (years)'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              'gender'                                   'Gender'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                'race'                                     'Race'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         'disposition'                        'Trial Disposition'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 'medical-disposition' 'Participant Study Medication Disposition'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6               'comp8'                      'Compliance (Week 8)'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7              'comp16'                     'Compliance (Week 16)'       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8              'comp24'                     'Compliance (Week 24)'       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    name         label subset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 'age' 'Age (years)'       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Analysis function:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   name                                     label</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          'base_char'           'baseline characteristic table'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     'trt_compliance'              'treatment compliance table'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3               'disp'                       'disposition table'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 'base_char_subgroup' 'baseline characteristic sub group table'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   name label</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 'base_char_subgroup'      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $population</span>
@@ -282,7 +298,7 @@ for the second level header.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

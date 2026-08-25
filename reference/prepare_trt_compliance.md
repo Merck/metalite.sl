@@ -42,7 +42,43 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "trt_compliance",
+    population = "apat",
+    observation = "apat",
+    parameter = "comp8;comp16;comp24"
+  )) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "comp8",
+    var = "COMP8FL",
+    label = "Compliance (Week 8)"
+  ) |>
+  metalite::define_parameter(
+    name = "comp16",
+    var = "COMP16FL",
+    label = "Compliance (Week 16)"
+  ) |>
+  metalite::define_parameter(
+    name = "comp24",
+    var = "COMP24FL",
+    label = "Compliance (Week 24)"
+  ) |>
+  metalite::define_analysis(
+    name = "trt_compliance",
+    title = "Summary of Treatment Compliance"
+  ) |>
+  metalite::meta_build()
+#> Warning: trt_compliance: has missing label
+
 meta |> prepare_trt_compliance()
 #> List of 14
 #>  $ meta           :List of 7

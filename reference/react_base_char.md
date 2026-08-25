@@ -84,9 +84,79 @@ specific tables.
 
 ``` r
 if (interactive()) {
+  sl_plan <- metalite::plan(
+    analysis = "base_char",
+    population = "apat",
+    observation = "apat",
+    parameter = "age;gender;race"
+  )
+
+  metadata_sl <- metalite::meta_adam(
+    observation = metalite_sl_adsl,
+    population = metalite_sl_adsl
+  ) |>
+    metalite::define_plan(sl_plan) |>
+    metalite::define_population(
+      name = "apat",
+      group = "TRTA",
+      subset = SAFFL == "Y"
+    ) |>
+    metalite::define_parameter(
+      name = "age",
+      var = "AGE",
+      label = "Age (years)",
+      vargroup = "AGEGR1"
+    ) |>
+    metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+    metalite::define_parameter(name = "race", var = "RACE", label = "Race") |>
+    metalite::define_analysis(
+      name = "base_char",
+      title = "Participant Baseline Characteristics by Treatment Group"
+    ) |>
+    metalite::meta_build()
+
+  analysis_plan <- metalite::plan(
+    analysis = "ae_specific",
+    population = "apat",
+    observation = "wk12",
+    parameter = "rel"
+  )
+
+  metadata_ae <- metalite::meta_adam(
+    observation = metalite_sl_adae,
+    population = metalite_sl_adsl
+  ) |>
+    metalite::define_plan(analysis_plan) |>
+    metalite::define_population(
+      name = "apat",
+      group = "TRTA",
+      subset = SAFFL == "Y",
+      label = "All Participants as Treated"
+    ) |>
+    metalite::define_observation(
+      name = "wk12",
+      group = "TRTA",
+      subset = SAFFL == "Y",
+      label = "Weeks 0 to 12"
+    ) |>
+    metalite::define_parameter(
+      name = "rel",
+      term1 = "Drug-Related",
+      term2 = "",
+      subset = AEREL %in% c("POSSIBLE", "PROBABLE"),
+      var = "AEDECOD",
+      soc = "AEBODSYS",
+      label = "Drug-related AEs"
+    ) |>
+    metalite::define_analysis(
+      name = "ae_specific",
+      title = "Participants With Drug-Related Adverse Events"
+    ) |>
+    metalite::meta_build()
+
   react_base_char(
-    metadata_sl = meta_sl_example(),
-    metadata_ae = metalite.ae::meta_ae_example(),
+    metadata_sl = metadata_sl,
+    metadata_ae = metadata_ae,
     population = "apat",
     observation = "wk12",
     display_total = TRUE,

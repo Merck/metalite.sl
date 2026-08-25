@@ -69,7 +69,25 @@ RTF file and source dataset for baseline characteristic table.
 
 ``` r
 # \donttest{
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char_subgroup", population = "apat",
+    observation = "apat", parameter = "age"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age", var = "AGE", label = "Age (years)", vargroup = "AGEGR1"
+  ) |>
+  metalite::define_analysis(
+    name = "base_char_subgroup", title = "Participant by Age Category and Sex"
+  ) |>
+  metalite::meta_build()
+#> Warning: base_char_subgroup: has missing label
 
 outdata <- prepare_base_char_subgroup(
   meta,
@@ -86,7 +104,7 @@ outdata |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = tempfile(fileext = ".rtf")
   )
-#> The outdata is saved in/tmp/RtmpolHkWL/file19df292ef84b.Rdata
-#> The output is saved in/tmp/RtmpolHkWL/file19df6927af54.rtf
+#> The outdata is saved in/tmp/RtmpbEVefW/file1a8c5be5d9b3.Rdata
+#> The output is saved in/tmp/RtmpbEVefW/file1a8c6ca5e968.rtf
 # }
 ```

@@ -78,7 +78,7 @@ each identified duration category. The development of exposure duration
 analysis involves functions:</p>
 <ul>
 <li>
-<code>meta_sl_exposure_example</code>: build the metadata
+<code><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">metalite::meta_adam</a></code>: build the metadata
 (<code>meta</code> object) for analysis.</li>
 <li>
 <code>prepare_exp_duration</code>: prepare analysis raw
@@ -93,9 +93,9 @@ table.</li>
 <embed src="pdf/exp0duration.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed><div class="section level3">
 <h3 id="build-a-metadata">Build a metadata<a class="anchor" aria-label="anchor" href="#build-a-metadata"></a>
 </h3>
-<p>There are two steps in <code>meta_sl_exposure_example</code> function
-in order to build the metadata (<code>meta</code> object): processing
-the ADaM dataset and save meta information for A&amp;R reporting.</p>
+<p>There are two steps to build the metadata (<code>meta</code> object):
+process the ADaM dataset and save metadata for analysis and
+reporting.</p>
 <p>Step1: ADEXSUM, the ADaM dataset for Drug Exposrue Summary Data, is
 utilized to:</p>
 <ul>
@@ -266,7 +266,7 @@ generate RTF output</p>
 <span>    path_outdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".Rdata"</span><span class="op">)</span>,</span>
 <span>    path_outtable <span class="op">=</span> <span class="st">"outtable/exp0duration.rtf"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The outdata is saved in/tmp/RtmpGdJbAj/file1ce64698ff80.Rdata</span></span></code></pre>
+<pre><code><span><span class="co">## The outdata is saved in/tmp/Rtmp0LbSf9/file1d685fd3e79.Rdata</span></span></code></pre>
 <pre><code><span><span class="co">## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/exp0duration.rtf</span></span></code></pre>
 <embed src="pdf/exp0duration.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed>
 </div>
@@ -278,7 +278,7 @@ generate RTF output</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

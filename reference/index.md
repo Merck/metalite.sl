@@ -68,18 +68,6 @@
 - [`collect_baseline()`](https://merck.github.io/metalite.sl/reference/collect_baseline.md)
   : Count number of subjects
 
-## Example data
-
-- [`meta_sl_example()`](https://merck.github.io/metalite.sl/reference/meta_sl_example.md)
-  :
-
-  Create an example `meta_sl_example` object
-
-- [`meta_sl_exposure_example()`](https://merck.github.io/metalite.sl/reference/meta_sl_exposure_example.md)
-  :
-
-  Create an example `meta_sl_exposure_example` object
-
 ## Deformat
 
 - [`defmt_pct()`](https://merck.github.io/metalite.sl/reference/defmt_pct.md)

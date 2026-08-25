@@ -113,7 +113,39 @@ analysis table.</li>
 <p>For instance, we can illustrate the creation of a straightforward
 Baseline characteristic table as shown below.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/meta_sl_example.html">meta_sl_example</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">sl_plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
+<span>  analysis <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  observation <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"age;gender;race"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">metadata_sl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span></span>
+<span>  population <span class="op">=</span> <span class="va">metalite_sl_adsl</span>,</span>
+<span>  observation <span class="op">=</span> <span class="va">metalite_sl_adsl</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span><span class="va">sl_plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"age"</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"AGE"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Age (years)"</span>,</span>
+<span>    vargroup <span class="op">=</span> <span class="st">"AGEGR1"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"gender"</span>, var <span class="op">=</span> <span class="st">"SEX"</span>, label <span class="op">=</span> <span class="st">"Gender"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"race"</span>, var <span class="op">=</span> <span class="st">"RACE"</span>, label <span class="op">=</span> <span class="st">"Race"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"base_char"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Participant Baseline Characteristics by Treatment Group"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in FUN(X[[i]], ...): base_char: has missing label</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">metadata_sl</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/prepare_base_char.html">prepare_base_char</a></span><span class="op">(</span></span>
 <span>    population <span class="op">=</span> <span class="st">"apat"</span>,</span>
 <span>    analysis <span class="op">=</span> <span class="st">"base_char"</span>,</span>
@@ -126,10 +158,49 @@ Baseline characteristic table as shown below.</p>
 <span>    path_outtable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rtf"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <embed src="pdf/base0char.pdf" width="100%" height="400px" style="display: block; margin: auto;" type="application/pdf"></embed><p>An example for interactive baseline characteristic table:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/react_base_char.html">react_base_char</a></span><span class="op">(</span></span>
-<span>  metadata_sl <span class="op">=</span> <span class="fu"><a href="../reference/meta_sl_example.html">meta_sl_example</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  metadata_ae <span class="op">=</span> <span class="fu">metalite.ae</span><span class="fu">::</span><span class="fu"><a href="https://merck.github.io/metalite.ae/reference/meta_ae_example.html" class="external-link">meta_ae_example</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">analysis_plan</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/plan.html" class="external-link">plan</a></span><span class="op">(</span></span>
+<span>  analysis <span class="op">=</span> <span class="st">"ae_specific"</span>,</span>
+<span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>  observation <span class="op">=</span> <span class="st">"wk12"</span>,</span>
+<span>  parameter <span class="op">=</span> <span class="st">"rel"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">metadata_ae</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_adam.html" class="external-link">meta_adam</a></span><span class="op">(</span></span>
+<span>  observation <span class="op">=</span> <span class="va">metalite_sl_adae</span>,</span>
+<span>  population <span class="op">=</span> <span class="va">metalite_sl_adsl</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_plan.html" class="external-link">define_plan</a></span><span class="op">(</span><span class="va">analysis_plan</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_population.html" class="external-link">define_population</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"apat"</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"All Participants as Treated"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_observation.html" class="external-link">define_observation</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"wk12"</span>,</span>
+<span>    group <span class="op">=</span> <span class="st">"TRTA"</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">SAFFL</span> <span class="op">==</span> <span class="st">"Y"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Weeks 0 to 12"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_parameter.html" class="external-link">define_parameter</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"rel"</span>,</span>
+<span>    term1 <span class="op">=</span> <span class="st">"Drug-Related"</span>,</span>
+<span>    term2 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>    subset <span class="op">=</span> <span class="va">AEREL</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"POSSIBLE"</span>, <span class="st">"PROBABLE"</span><span class="op">)</span>,</span>
+<span>    var <span class="op">=</span> <span class="st">"AEDECOD"</span>,</span>
+<span>    soc <span class="op">=</span> <span class="st">"AEBODSYS"</span>,</span>
+<span>    label <span class="op">=</span> <span class="st">"Drug-related AEs"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/define_analysis.html" class="external-link">define_analysis</a></span><span class="op">(</span></span>
+<span>    name <span class="op">=</span> <span class="st">"ae_specific"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Participants With Drug-Related Adverse Events"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://merck.github.io/metalite/reference/meta_build.html" class="external-link">meta_build</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/react_base_char.html">react_base_char</a></span><span class="op">(</span></span>
+<span>  metadata_sl <span class="op">=</span> <span class="va">metadata_sl</span>,</span>
+<span>  metadata_ae <span class="op">=</span> <span class="va">metadata_ae</span>,</span>
 <span>  population <span class="op">=</span> <span class="st">"apat"</span>,</span>
 <span>  observation <span class="op">=</span> <span class="st">"wk12"</span>,</span>
 <span>  display_total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -147,7 +218,7 @@ website</a>, offering further guidance and illustrations.</p>
 <p>To implement the workflow in metalite.sl, it is necessary to
 establish a metadata structure using the metalite R package. For
 detailed instructions, please consult the <a href="https://merck.github.io/metalite/articles/metalite.html" class="external-link">metalite
-tutorial</a> and refer to the source code of the function <a href="https://github.com/Merck/metalite.sl/blob/main/R/meta_sl_example.R" class="external-link"><code>meta_sl_example()</code></a>.</p>
+tutorial</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -157,7 +228,7 @@ tutorial</a> and refer to the source code of the function <a href="https://githu
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
+  <p>Developed by Yujie Zhao, Benjamin Wang, Hiroaki Fukuda, PoYao Niu, Nan Xiao. Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <br>Copyright © 2024 Merck &amp; Co., Inc., Rahway, NJ, USA and its affiliates. All rights reserved.</p>
 </div>
 
 <div class="pkgdown-footer-right">

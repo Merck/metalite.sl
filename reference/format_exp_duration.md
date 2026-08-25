@@ -47,7 +47,26 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_exposure_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adexsum,
+  observation = metalite_sl_adexsum
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "exp_dur", population = "apat",
+    observation = "apat", parameter = "expdur"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = APERIOD == 1 & AVAL > 0
+  ) |>
+  metalite::define_parameter(
+    name = "expdur", subset = PARAMCD == "TRTDURD", var = "AVAL",
+    label = "Exposure Duration (Days)", vargroup = "EXDURGR"
+  ) |>
+  metalite::define_analysis(
+    name = "exp_dur", title = "Summary of Exposure Duration",
+    label = "exposure duration table"
+  ) |>
+  metalite::meta_build()
 
 meta |>
   prepare_exp_duration(population = "apat", parameter = "expdur") |>
@@ -67,7 +86,7 @@ meta |>
 #>  $ var_type       :List of 1
 #>  $ group_label    : Factor w/ 3 levels "Placebo","Low Dose",..: 1 3 2
 #>  $ analysis       : chr "exp_dur"
-#>  $ tbl            :'data.frame': 13 obs. of  10 variables:
+#>  $ tbl            :'data.frame': 14 obs. of  10 variables:
 #>  $ display_col    : chr [1:3] "n" "prop" "total"
 #>  $ display_stat   : chr [1:6] "mean" "sd" "se" "median" ...
 #>  $ extend_call    :List of 1

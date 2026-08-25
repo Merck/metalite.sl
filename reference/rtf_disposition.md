@@ -68,7 +68,30 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "disp", population = "apat",
+    observation = "apat", parameter = "disposition;medical-disposition"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "disposition", var = "EOSSTT", label = "Trial Disposition",
+    var_lower = "DCSREAS"
+  ) |>
+  metalite::define_parameter(
+    name = "medical-disposition", var = "EOTSTT",
+    label = "Participant Study Medication Disposition", var_lower = "DCTREAS"
+  ) |>
+  metalite::define_analysis(
+    name = "disp", title = "Disposition of Participant"
+  ) |>
+  metalite::meta_build()
+#> Warning: disp: has missing label
 
 meta |>
   prepare_disposition(population = "apat", parameter = "disposition;medical-disposition") |>
@@ -78,6 +101,6 @@ meta |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = tempfile(fileext = ".rtf")
   )
-#> The outdata is saved in/tmp/RtmpolHkWL/file19df62e19861.Rdata
-#> The output is saved in/tmp/RtmpolHkWL/file19df5cbb7494.rtf
+#> The outdata is saved in/tmp/RtmpbEVefW/file1a8c34faad40.Rdata
+#> The output is saved in/tmp/RtmpbEVefW/file1a8c575918ee.rtf
 ```

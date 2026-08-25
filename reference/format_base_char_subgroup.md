@@ -43,7 +43,33 @@ A list of analysis raw datasets.
 ## Examples
 
 ``` r
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char_subgroup",
+    population = "apat",
+    observation = "apat",
+    parameter = "age"
+  )) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age",
+    var = "AGE",
+    label = "Age (years)",
+    vargroup = "AGEGR1"
+  ) |>
+  metalite::define_analysis(
+    name = "base_char_subgroup",
+    title = "Participant by Age Category and Sex"
+  ) |>
+  metalite::meta_build()
+#> Warning: base_char_subgroup: has missing label
 
 outdata <- prepare_base_char_subgroup(
   meta,
@@ -64,7 +90,7 @@ outdata |> format_base_char_subgroup()
 #> ADaM metadata: 
 #>    .$data_population     Population data with 254 subjects 
 #>    .$data_observation    Observation data with 254 records 
-#>    .$plan    Analysis plan with 4 plans 
+#>    .$plan    Analysis plan with 1 plans 
 #> 
 #> 
 #>   Analysis population type:
@@ -78,23 +104,13 @@ outdata |> format_base_char_subgroup()
 #> 
 #> 
 #>   Analysis parameter type:
-#>                    name                                      label subset
-#> 1                 'age'                              'Age (years)'       
-#> 2              'gender'                                   'Gender'       
-#> 3                'race'                                     'Race'       
-#> 4         'disposition'                        'Trial Disposition'       
-#> 5 'medical-disposition' 'Participant Study Medication Disposition'       
-#> 6               'comp8'                      'Compliance (Week 8)'       
-#> 7              'comp16'                     'Compliance (Week 16)'       
-#> 8              'comp24'                     'Compliance (Week 24)'       
+#>    name         label subset
+#> 1 'age' 'Age (years)'       
 #> 
 #> 
 #>   Analysis function:
-#>                   name                                     label
-#> 1          'base_char'           'baseline characteristic table'
-#> 2     'trt_compliance'              'treatment compliance table'
-#> 3               'disp'                       'disposition table'
-#> 4 'base_char_subgroup' 'baseline characteristic sub group table'
+#>                   name label
+#> 1 'base_char_subgroup'      
 #> 
 #> 
 #> $population

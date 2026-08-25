@@ -70,7 +70,26 @@ RTF file and source dataset for baseline characteristic table.
 ## Examples
 
 ``` r
-meta <- meta_sl_exposure_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adexsum,
+  observation = metalite_sl_adexsum
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "exp_dur", population = "apat",
+    observation = "apat", parameter = "expdur"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = APERIOD == 1 & AVAL > 0
+  ) |>
+  metalite::define_parameter(
+    name = "expdur", subset = PARAMCD == "TRTDURD", var = "AVAL",
+    label = "Exposure Duration (Days)", vargroup = "EXDURGR"
+  ) |>
+  metalite::define_analysis(
+    name = "exp_dur", title = "Summary of Exposure Duration",
+    label = "exposure duration table"
+  ) |>
+  metalite::meta_build()
 
 meta |>
   prepare_exp_duration(population = "apat", parameter = "expdur") |>
@@ -80,6 +99,6 @@ meta |>
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = tempfile(fileext = ".rtf")
   )
-#> The outdata is saved in/tmp/RtmpolHkWL/file19df525ec221.Rdata
-#> The output is saved in/tmp/RtmpolHkWL/file19df5ae63a4d.rtf
+#> The outdata is saved in/tmp/RtmpbEVefW/file1a8c3a7c42e7.Rdata
+#> The output is saved in/tmp/RtmpbEVefW/file1a8c8c275be.rtf
 ```

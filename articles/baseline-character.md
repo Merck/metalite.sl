@@ -264,7 +264,7 @@ outdata |> rtf_base_char(
 )
 ```
 
-    ## The outdata is saved in/tmp/RtmpmdTuuH/file1c7225d29d25.Rdata
+    ## The outdata is saved in/tmp/RtmpwKMxiu/file1cf62f3d3f4a.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0char.rtf
 
@@ -608,6 +608,6 @@ outdata |>
   )
 ```
 
-    ## The outdata is saved in/tmp/RtmpmdTuuH/file1c7246f2e541.Rdata
+    ## The outdata is saved in/tmp/RtmpwKMxiu/file1cf6218d4bf0.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0charsubgroup.rtf
