@@ -30,7 +30,26 @@ A list of analysis raw datasets.
 Prepare data for baseline characteristic table
 }
 \examples{
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char", population = "apat",
+    observation = "apat", parameter = "age;gender"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age", var = "AGE", label = "Age (years)", vargroup = "AGEGR1"
+  ) |>
+  metalite::define_parameter(name = "gender", var = "SEX", label = "Gender") |>
+  metalite::define_analysis(
+    name = "base_char",
+    title = "Participant Baseline Characteristics by Treatment Group"
+  ) |>
+  metalite::meta_build()
 
 meta |>
   prepare_sl_summary(population = "apat", analysis = "base_char", parameter = "age;gender") |>

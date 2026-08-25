@@ -4,7 +4,7 @@ library(htmltools)
 test_that("Testing react_subgroup_table function", {
   # the "react_subgroup_table()" function is called inside the "react_base_char()" function
   outdata <- metalite.ae::prepare_ae_specific_subgroup(
-    metalite.ae::meta_ae_example(),
+    meta_ae_sl_example(),
     population = "apat",
     observation = "wk12",
     parameter = "rel",

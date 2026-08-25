@@ -1,4 +1,4 @@
-meta <- meta_sl_example()
+meta <- meta_sl_test()
 data_population <- meta$data_population
 data_population$AGEGR1 <- factor(
   data_population$AGEGR1,

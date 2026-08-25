@@ -1,5 +1,5 @@
 # Load  metadata example for exposure
-meta <- meta_sl_exposure_example()
+meta <- meta_sl_exposure_test()
 
 # Prepare the exposure duration data
 outdata <- prepare_exp_duration(meta,

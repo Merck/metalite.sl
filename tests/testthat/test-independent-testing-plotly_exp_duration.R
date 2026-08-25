@@ -1,5 +1,5 @@
 # Prepare data
-meta <- meta_sl_exposure_example()
+meta <- meta_sl_exposure_test()
 
 outdata <- meta |> prepare_exp_duration()
 

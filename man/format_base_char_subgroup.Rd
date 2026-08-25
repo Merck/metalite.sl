@@ -32,7 +32,32 @@ A list of analysis raw datasets.
 Prepare data for Subgroup Analysis for Baseline Characteristic
 }
 \examples{
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char_subgroup",
+    population = "apat",
+    observation = "apat",
+    parameter = "age"
+  )) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age",
+    var = "AGE",
+    label = "Age (years)",
+    vargroup = "AGEGR1"
+  ) |>
+  metalite::define_analysis(
+    name = "base_char_subgroup",
+    title = "Participant by Age Category and Sex"
+  ) |>
+  metalite::meta_build()
 
 outdata <- prepare_base_char_subgroup(
   meta,

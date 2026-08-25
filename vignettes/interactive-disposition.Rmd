@@ -29,8 +29,43 @@ library(dplyr)
 
 ```{r}
 adsl <- metalite_sl_adsl
-metadata_ae <- metalite.ae::meta_ae_example()
-metadata_ae$data_observation <- metalite_sl_adae
+adae <- metalite_sl_adae
+
+ae_plan <- plan(
+  analysis = "ae_specific",
+  population = "apat",
+  observation = "wk12",
+  parameter = "any"
+)
+
+metadata_ae <- meta_adam(observation = adae, population = adsl) |>
+  define_plan(ae_plan) |>
+  define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y",
+    label = "All Participants as Treated"
+  ) |>
+  define_observation(
+    name = "wk12",
+    group = "TRTA",
+    subset = SAFFL == "Y",
+    label = "Weeks 0 to 12"
+  ) |>
+  define_parameter(
+    name = "any",
+    term1 = "",
+    term2 = "",
+    var = "AEDECOD",
+    soc = "AEBODSYS",
+    label = "All AEs"
+  ) |>
+  define_analysis(
+    name = "ae_specific",
+    title = "Participants With Adverse Events"
+  ) |>
+  meta_build()
+
 head(adsl)
 ```
 

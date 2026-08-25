@@ -73,10 +73,6 @@ reference:
 - title: Collect components
   contents:
     - collect_baseline
-- title: Example data
-  contents:
-    - meta_sl_example
-    - meta_sl_exposure_example
 - title: Deformat
   contents:
     - defmt_pct

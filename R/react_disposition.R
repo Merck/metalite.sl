@@ -46,9 +46,82 @@
 #'
 #' @examples
 #' if (interactive()) {
+#'   sl_plan <- metalite::plan(
+#'     analysis = "disp",
+#'     population = "apat",
+#'     observation = "apat",
+#'     parameter = "disposition;medical-disposition"
+#'   )
+#'
+#'   metadata_sl <- metalite::meta_adam(
+#'     observation = metalite_sl_adsl,
+#'     population = metalite_sl_adsl
+#'   ) |>
+#'     metalite::define_plan(sl_plan) |>
+#'     metalite::define_population(
+#'       name = "apat",
+#'       group = "TRTA",
+#'       subset = SAFFL == "Y"
+#'     ) |>
+#'     metalite::define_parameter(
+#'       name = "disposition",
+#'       var = "EOSSTT",
+#'       label = "Trial Disposition",
+#'       var_lower = "DCSREAS"
+#'     ) |>
+#'     metalite::define_parameter(
+#'       name = "medical-disposition",
+#'       var = "EOTSTT",
+#'       label = "Participant Study Medication Disposition",
+#'       var_lower = "DCTREAS"
+#'     ) |>
+#'     metalite::define_analysis(
+#'       name = "disp",
+#'       title = "Disposition of Participant"
+#'     ) |>
+#'     metalite::meta_build()
+#'
+#'   analysis_plan <- metalite::plan(
+#'     analysis = "ae_specific",
+#'     population = "apat",
+#'     observation = "wk12",
+#'     parameter = "any"
+#'   )
+#'
+#'   metadata_ae <- metalite::meta_adam(
+#'     observation = metalite_sl_adae,
+#'     population = metalite_sl_adsl
+#'   ) |>
+#'     metalite::define_plan(analysis_plan) |>
+#'     metalite::define_population(
+#'       name = "apat",
+#'       group = "TRTA",
+#'       subset = SAFFL == "Y",
+#'       label = "All Participants as Treated"
+#'     ) |>
+#'     metalite::define_observation(
+#'       name = "wk12",
+#'       group = "TRTA",
+#'       subset = SAFFL == "Y",
+#'       label = "Weeks 0 to 12"
+#'     ) |>
+#'     metalite::define_parameter(
+#'       name = "any",
+#'       term1 = "",
+#'       term2 = "",
+#'       var = "AEDECOD",
+#'       soc = "AEBODSYS",
+#'       label = "All AEs"
+#'     ) |>
+#'     metalite::define_analysis(
+#'       name = "ae_specific",
+#'       title = "Participants With Adverse Events"
+#'     ) |>
+#'     metalite::meta_build()
+#'
 #'   react_disposition(
-#'     metadata_sl = meta_sl_example(),
-#'     metadata_ae = metalite.ae::meta_ae_example()
+#'     metadata_sl = metadata_sl,
+#'     metadata_ae = metadata_ae
 #'   )
 #' }
 react_disposition <- function(

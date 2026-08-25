@@ -34,7 +34,26 @@ A list of analysis raw datasets.
 Format Exposure Duration Analysis
 }
 \examples{
-meta <- meta_sl_exposure_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adexsum,
+  observation = metalite_sl_adexsum
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "exp_dur", population = "apat",
+    observation = "apat", parameter = "expdur"
+  )) |>
+  metalite::define_population(
+    name = "apat", group = "TRTA", subset = APERIOD == 1 & AVAL > 0
+  ) |>
+  metalite::define_parameter(
+    name = "expdur", subset = PARAMCD == "TRTDURD", var = "AVAL",
+    label = "Exposure Duration (Days)", vargroup = "EXDURGR"
+  ) |>
+  metalite::define_analysis(
+    name = "exp_dur", title = "Summary of Exposure Duration",
+    label = "exposure duration table"
+  ) |>
+  metalite::meta_build()
 
 meta |>
   prepare_exp_duration(population = "apat", parameter = "expdur") |>

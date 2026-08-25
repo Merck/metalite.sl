@@ -2,7 +2,7 @@ library(metalite)
 
 adsl <- r2rtf::r2rtf_adsl
 
-meta <- meta_sl_example()
+meta <- meta_sl_test()
 outdata <- prepare_trt_compliance(meta,
   analysis = "trt_compliance",
   population = "apat",

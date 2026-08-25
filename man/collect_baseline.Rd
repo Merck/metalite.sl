@@ -37,7 +37,33 @@ A list containing number of subjects
 Count number of subjects
 }
 \examples{
-meta <- meta_sl_example()
+meta <- metalite::meta_adam(
+  population = metalite_sl_adsl,
+  observation = metalite_sl_adsl
+) |>
+  metalite::define_plan(metalite::plan(
+    analysis = "base_char",
+    population = "apat",
+    observation = "apat",
+    parameter = "age"
+  )) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y"
+  ) |>
+  metalite::define_parameter(
+    name = "age",
+    var = "AGE",
+    label = "Age (years)",
+    vargroup = "AGEGR1"
+  ) |>
+  metalite::define_analysis(
+    name = "base_char",
+    title = "Participant Baseline Characteristics by Treatment Group"
+  ) |>
+  metalite::meta_build()
+
 meta |> collect_baseline(
   population = "apat",
   parameter = "age"

@@ -1,4 +1,4 @@
-meta <- meta_sl_example()
+meta <- meta_sl_test()
 # Standard example
 outdata <- prepare_base_char_subgroup(
   meta,

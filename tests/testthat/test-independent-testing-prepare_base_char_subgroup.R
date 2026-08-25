@@ -1,7 +1,7 @@
 library(dplyr)
 library(tidyr)
 
-meta <- meta_sl_example()
+meta <- meta_sl_test()
 data_population <- meta$data_population
 data_population$SEX <- factor(
   data_population$SEX,
