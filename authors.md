@@ -23,7 +23,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Merck/metalite.sl/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Merck/metalite.sl/blob/v0.1.3/DESCRIPTION)
 
 Zhao Y, Wang B, Fukuda H, Niu P, Xiao N (2026). *metalite.sl:
 Subject-Level Analysis Using 'metalite'*. R package version 0.1.3,

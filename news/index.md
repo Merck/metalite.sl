@@ -2,10 +2,11 @@
 
 ## metalite.sl 0.1.3
 
+CRAN release: 2026-08-26
+
 ### Improvements
 
-- Removed reliance on
-  [`metalite.ae::meta_ae_example()`](https://merck.github.io/metalite.ae/reference/meta_ae_example.html),
+- Removed reliance on `metalite.ae::meta_ae_example()`,
   `meta_sl_example()`, and `meta_sl_exposure_example()` by constructing
   metadata directly with `metalite` (thanks to
   [@LittleBeannie](https://github.com/LittleBeannie)).
