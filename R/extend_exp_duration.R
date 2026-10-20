@@ -197,7 +197,7 @@ extend_exp_duration <- function(outdata,
           label = "",
           title = metalite::collect_adam_mapping(meta, analysis)$title
         ) |>
-        metalite::meta_build()      
+        metalite::meta_build()
 
       if (nrow(metalite::collect_population_record(meta_group, population)) > 0) {
         char_stat_group <- collect_baseline(meta_group, population, paste0(names(meta$parameter), "_group"))[[2]]
@@ -266,9 +266,9 @@ extend_exp_duration <- function(outdata,
           label = "",
           title = metalite::collect_adam_mapping(meta, analysis)$title
         ) |>
-        metalite::meta_build()      
-      
-      
+        metalite::meta_build()
+
+
       if (nrow(metalite::collect_population_record(meta_cum, population)) > 0) {
         char_stat_cum <- collect_baseline(meta_cum, population, paste0(names(meta$parameter), "_cum"))[[2]]
 

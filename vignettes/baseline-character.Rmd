@@ -35,9 +35,9 @@ adsl$TRTA <- factor(
 
 ```{r}
 meta <- metalite::meta_adam(
-    population = adsl,
-    observation = adsl
-  ) |>
+  population = adsl,
+  observation = adsl
+) |>
   metalite::define_plan(plan = metalite::plan(
     analysis = "base_char",
     population = "apat",
