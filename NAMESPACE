@@ -9,7 +9,6 @@ export(format_disposition)
 export(format_exp_duration)
 export(format_sl_summary)
 export(format_trt_compliance)
-export(meta_sl)
 export(plotly_exp_duration)
 export(prepare_base_char)
 export(prepare_base_char_subgroup)
@@ -25,6 +24,8 @@ export(rtf_disposition)
 export(rtf_exp_duration)
 export(rtf_sl_summary)
 export(rtf_trt_compliance)
-importFrom(plotly,layout)
-importFrom(plotly,plot_ly)
+importFrom(plotly,
+  layout,
+  plot_ly
+)
 importFrom(stats,reshape)
