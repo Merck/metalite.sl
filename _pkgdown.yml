@@ -39,7 +39,6 @@ navbar:
 reference:
 - title: Subject-level analysis
   contents:
-    - meta_sl
     - prepare_sl_summary
     - format_sl_summary
     - rtf_sl_summary

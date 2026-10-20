@@ -163,21 +163,41 @@ extend_exp_duration <- function(outdata,
       pop_subset <- metalite::collect_adam_mapping(meta, population)$subset
       pop_subset <- rlang::quo(TRTDURGR == !!label & !!pop_subset)
 
-      meta_group <- meta_sl(
-        data_population,
-        dataset_observation = NULL,
-        population_term = population,
-        observation_term = NULL,
-        parameter_term = paste0(parameter, "_group"),
-        parameter_var = par_var,
-        parameter_labels = metalite::collect_adam_mapping(meta, parameter)$label,
-        analysis_term = paste0(analysis, "_group"),
-        analysis_title = metalite::collect_adam_mapping(meta, analysis)$title,
-        population_subset = !!rlang::enquo(pop_subset),
-        observation_subset = NULL,
-        population_label = metalite::collect_adam_mapping(meta, population)$label,
-        treatment_group = metalite::collect_adam_mapping(meta, population)$group
-      )
+      meta_group <- metalite::meta_adam(
+        population = data_population,
+        observation = data_population
+      ) |>
+        metalite::define_plan(plan = metalite::plan(
+          analysis = paste0(analysis, "_group"),
+          population = population,
+          observation = population,
+          parameter = paste0(parameter, "_group")
+        )) |>
+        metalite::define_population(
+          name = population,
+          group = metalite::collect_adam_mapping(meta, population)$group,
+          subset = !!rlang::enquo(pop_subset),
+          var = names(data_population),
+          label = metalite::collect_adam_mapping(meta, population)$label
+        ) |>
+        metalite::define_observation(
+          name = population,
+          group = metalite::collect_adam_mapping(meta, population)$group,
+          subset = !!rlang::enquo(pop_subset),
+          var = names(data_population),
+          label = ""
+        ) |>
+        metalite::define_parameter(
+          name = paste0(parameter, "_group"),
+          var = par_var,
+          label = metalite::collect_adam_mapping(meta, parameter)$label
+        ) |>
+        metalite::define_analysis(
+          name = paste0(analysis, "_group"),
+          label = "",
+          title = metalite::collect_adam_mapping(meta, analysis)$title
+        ) |>
+        metalite::meta_build()
 
       if (nrow(metalite::collect_population_record(meta_group, population)) > 0) {
         char_stat_group <- collect_baseline(meta_group, population, paste0(names(meta$parameter), "_group"))[[2]]
@@ -211,21 +231,44 @@ extend_exp_duration <- function(outdata,
       pop_subset <- metalite::collect_adam_mapping(meta, population)$subset
       pop_subset <- rlang::quo(TRTDURGR == !!label & !!pop_subset)
 
-      meta_cum <- meta_sl(
-        data_population,
-        dataset_observation = NULL,
-        population_term = population,
-        observation_term = NULL,
-        parameter_term = paste0(parameter, "_cum"),
-        parameter_var = paste0(par_var, "^TRTDURGR"),
-        parameter_labels = category_section_label,
-        analysis_term = paste0(analysis, "_cum"),
-        analysis_title = metalite::collect_adam_mapping(meta, analysis)$title,
-        population_subset = !!rlang::enquo(pop_subset),
-        observation_subset = NULL,
-        population_label = metalite::collect_adam_mapping(meta, population)$label,
-        treatment_group = metalite::collect_adam_mapping(meta, population)$group
-      )
+      meta_cum <- metalite::meta_adam(
+        population = data_population,
+        observation = data_population
+      ) |>
+        metalite::define_plan(plan = metalite::plan(
+          analysis = paste0(analysis, "_cum"),
+          population = population,
+          observation = population,
+          parameter = paste0(parameter, "_cum")
+        )) |>
+        metalite::define_population(
+          name = population,
+          group = metalite::collect_adam_mapping(meta, population)$group,
+          subset = !!rlang::enquo(pop_subset),
+          var = names(data_population),
+          label = metalite::collect_adam_mapping(meta, population)$label
+        ) |>
+        metalite::define_observation(
+          name = population,
+          group = metalite::collect_adam_mapping(meta, population)$group,
+          subset = !!rlang::enquo(pop_subset),
+          var = names(data_population),
+          label = ""
+        ) |>
+        metalite::define_parameter(
+          name = paste0(parameter, "_cum"),
+          var = par_var,
+          vargroup = "TRTDURGR",
+          label = category_section_label
+        ) |>
+        metalite::define_analysis(
+          name = paste0(analysis, "_cum"),
+          label = "",
+          title = metalite::collect_adam_mapping(meta, analysis)$title
+        ) |>
+        metalite::meta_build()
+
+
       if (nrow(metalite::collect_population_record(meta_cum, population)) > 0) {
         char_stat_cum <- collect_baseline(meta_cum, population, paste0(names(meta$parameter), "_cum"))[[2]]
 
