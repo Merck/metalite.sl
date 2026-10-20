@@ -31,13 +31,52 @@ adsl$TRTA <- factor(
 
 ``` r
 
-meta <- meta_sl(
-  dataset_population = adsl,
-  population_term = "apat",
-  parameter_term = "age;gender;race",
-  parameter_var = "AGE^AGEGR1;SEX;RACE",
-  treatment_group = "TRTA"
-)
+meta <- metalite::meta_adam(
+  population = adsl,
+  observation = adsl
+) |>
+  metalite::define_plan(plan = metalite::plan(
+    analysis = "base_char",
+    population = "apat",
+    observation = "apat",
+    parameter = "age;gender;race"
+  )) |>
+  metalite::define_population(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y",
+    var = names(adsl),
+    label = "All Participants as Treated"
+  ) |>
+  metalite::define_observation(
+    name = "apat",
+    group = "TRTA",
+    subset = SAFFL == "Y",
+    var = names(adsl),
+    label = ""
+  ) |>
+  metalite::define_parameter(
+    name = "age",
+    var = "AGE",
+    vargroup = "AGEGR1",
+    label = attr(adsl$AGE, "label")
+  ) |>
+  metalite::define_parameter(
+    name = "gender",
+    var = "SEX",
+    label = attr(adsl$SEX, "label")
+  ) |>
+  metalite::define_parameter(
+    name = "race",
+    var = "RACE",
+    label = attr(adsl$RACE, "label")
+  ) |>
+  metalite::define_analysis(
+    name = "base_char",
+    label = "",
+    title = "Participant Baseline Characteristics by Treatment Group"
+  ) |>
+  metalite::meta_build()
 ```
 
 Click to show the output
@@ -264,7 +303,7 @@ outdata |> rtf_base_char(
 )
 ```
 
-    ## The outdata is saved in/tmp/RtmpczgChK/file1f51687217fa.Rdata
+    ## The outdata is saved in/tmp/RtmppAdM7x/file1c9413a90b1d.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0char.rtf
 
@@ -608,6 +647,6 @@ outdata |>
   )
 ```
 
-    ## The outdata is saved in/tmp/RtmpczgChK/file1f5126419109.Rdata
+    ## The outdata is saved in/tmp/RtmppAdM7x/file1c945d2578a6.Rdata
 
     ## The output is saved in/home/runner/work/metalite.sl/metalite.sl/vignettes/outtable/base0charsubgroup.rtf

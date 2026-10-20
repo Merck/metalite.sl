@@ -2,8 +2,6 @@
 
 ## Subject-level analysis
 
-- [`meta_sl()`](https://merck.github.io/metalite.sl/reference/meta_sl.md)
-  : Create metadata for subject-level analysis table
 - [`prepare_sl_summary()`](https://merck.github.io/metalite.sl/reference/prepare_sl_summary.md)
   : Prepare data for baseline characteristic table
 - [`format_sl_summary()`](https://merck.github.io/metalite.sl/reference/format_sl_summary.md)
