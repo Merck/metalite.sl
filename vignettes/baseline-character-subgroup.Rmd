@@ -31,18 +31,14 @@ adsl$TRTA <- factor(
   levels = c("Placebo", "Xanomeline Low Dose", "Xanomeline High Dose"),
   labels = c("Placebo", "Low Dose", "High Dose")
 )
-```
 
-```{r}
 plan <- plan(
   analysis = "base_char_subgroup",
   population = "apat",
   observation = "apat",
   parameter = "age;gender;race"
 )
-```
 
-```{r}
 meta <- meta_adam(
   population = adsl,
   observation = adsl
@@ -54,16 +50,21 @@ meta <- meta_adam(
     subset = quote(SAFFL == "Y"),
     var = c("USUBJID", "TRTA", "SAFFL", "AGEGR1", "SEX", "RACE")
   ) |>
-  define_parameter(
+  metalite::define_parameter(
     name = "age",
     var = "AGE",
-    label = "Age (years)",
-    vargroup = "AGEGR1"
+    vargroup = "AGEGR1",
+    label = attr(adsl$AGE, "label")
   ) |>
-  define_parameter(
+  metalite::define_parameter(
+    name = "gender",
+    var = "SEX",
+    label = attr(adsl$SEX, "label")
+  ) |>
+  metalite::define_parameter(
     name = "race",
     var = "RACE",
-    label = "Race"
+    label = attr(adsl$RACE, "label")
   ) |>
   define_analysis(
     name = "base_char_subgroup",
@@ -73,22 +74,11 @@ meta <- meta_adam(
   meta_build()
 ```
 
-<details>
-<summary>Click to show the output</summary>
-```{r}
-meta
-```
-</details>
+## Generate the static baseline characteristic table for subgroup analysis
 
-## Analysis preparation
-
-The input of the function `prepare_base_char_subgroup()` is a `meta` object created by the metalite package.
-
-The output of the function is an `outdata` object containing a list of analysis
-raw datasets. Key arguments are:
-
-- `subgroup_var`: a character value of subgroup variable name in observation data saved in meta$data_observation.
-- `subgroup_header`: a character vector for column header hierarchy. The first element will be the first level header and the second element will be second level header.
+`prepare_base_char_subgroup()` uses the definitions in `meta` to calculate the summary
+results. `format_base_char_subgroup()` formats those results, and `rtf_base_char_subgroup()`
+creates the RTF table.
 
 ```{r}
 outdata <- prepare_base_char_subgroup(
@@ -97,63 +87,14 @@ outdata <- prepare_base_char_subgroup(
   parameter = "age;race",
   subgroup_var = "TRTA",
   subgroup_header = c("SEX", "TRTA")
-)
-```
-
-<details>
-<summary>Click to show the output</summary>
-The output dataset contains commonly used statistics within each `subgroup_var`.
-
-```{r}
-outdata$out_all$`Placebo`
-outdata$out_all$`High Dose`
-outdata$out_all$`Low Dose`
-```
-
-The information about subgroup saved with `outdata$group` and `outdata$subgroup`.
-
-```{r}
-outdata$group
-outdata$subgroup
-```
-
-`n_pop`: participants in population within each `subgroup_var`.
-
-```{r}
-outdata$out_all$`Placebo`$n
-outdata$out_all$`High Dose`$n
-outdata$out_all$`Low Dose`$n
-```
-</details>
-
-## Format output
-
-`format_base_char_subgroup` to prepare analysis dataset before generate RTF output
-
-```{r}
-outdata <- format_base_char_subgroup(outdata)
-```
-
-<details>
-<summary>Click to show the output</summary>
-```{r}
-outdata$tbl
-```
-</details>
-
-## Output as RTF
-
-`rtf_base_char_subgroup` to generate RTF output
-
-```{r, warning=FALSE}
-outdata |>
+) |> 
+  format_base_char_subgroup() |>
   rtf_base_char_subgroup(
     source = "Source:  [CDISCpilot: adam-adsl]",
     path_outdata = tempfile(fileext = ".Rdata"),
     path_outtable = "outtable/base0charsubgroup.rtf"
   )
 ```
-
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
 knitr::include_graphics("pdf/base0charsubgroup.pdf")
