@@ -87,7 +87,7 @@ outdata <- prepare_base_char_subgroup(
   parameter = "age;race",
   subgroup_var = "TRTA",
   subgroup_header = c("SEX", "TRTA")
-) |> 
+) |>
   format_base_char_subgroup() |>
   rtf_base_char_subgroup(
     source = "Source:  [CDISCpilot: adam-adsl]",
