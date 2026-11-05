@@ -9,6 +9,8 @@
 
 - [Baseline Characteristics
   Table](https://merck.github.io/metalite.sl/articles/baseline-character.md):
+- [Baseline Characteristic Table for Subgroup
+  Analysis](https://merck.github.io/metalite.sl/articles/baseline-character-subgroup.md):
 - [Disposition
   Table](https://merck.github.io/metalite.sl/articles/disposition.md):
 - [Exposure Duration
