@@ -87,6 +87,7 @@ articles:
 - title: Generate static tables
   contents:
     - baseline-character
+    - baseline-character-subgroup
     - disposition
     - exp_duration
     - trt_compliance
